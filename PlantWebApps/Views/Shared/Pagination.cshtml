@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    @model DataTable
+
+    bool filterApplied = ViewBag.Filter;
+    int page = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int totalPages = ViewBag.TotalPages;
+    int totalRecords = ViewBag.TotalRecords;
+    DataTable data = ViewBag.data;
+}
+
+<style>
+    .pagination {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+        .pagination button,
+        .pagination span {
+            display: inline-block;
+            padding: 6px 16px; /* Ubah ukuran padding untuk membuat margin lebih luas */
+            margin-right: -1px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+            .pagination button:hover {
+                background-color: #038edc;
+                color: white;
+            }
+
+        .pagination .active {
+            background-color: #038edc;
+            color: white;
+        }
+</style>
+<div class="pagination">
+    @if (totalPages > 1)
+    {
+        if (page > 1)
+        {
+            @if (filterApplied)
+            {
+                <button type="submit" formaction="@Url.Action("Filter", new { page = 1, pageSize })">First</button>
+                <button type="submit" formaction="@Url.Action("Filter", new { page = page - 1, pageSize })">Previous</button>
+            }
+            else
+            {
+                <button type="submit" formaction="@Url.Action("Index", new { page = 1, pageSize })">First</button>
+                <button type="submit" formaction="@Url.Action("Index", new { page = page - 1, pageSize })">Previous</button>
+            }
+        }
+
+        int startPage = ((page - 1) / 10) * 10 + 1;
+        int endPage = Math.Min(startPage + 9, totalPages);
+
+        if (startPage > 1)
+        {
+            @if (filterApplied)
+            {
+                <button type="submit" formaction="@Url.Action("Filter", new { page = startPage - 1, pageSize })">...</button>
+            }
+            else
+            {
+                <button type="submit" formaction="@Url.Action("Index", new { page = startPage - 1, pageSize })">...</button>
+            }
+        }
+
+        for (int i = startPage; i <= endPage; i++)
+        {
+            if (i == page)
+            {
+                <span class="active">@i</span>
+            }
+            else
+            {
+                @if (filterApplied)
+                {
+                    <button type="submit" formaction="@Url.Action("Filter", new { page = i, pageSize })">@i</button>
+                }
+                else
+                {
+                    <button type="submit" formaction="@Url.Action("Index", new { page = i, pageSize })">@i</button>
+                }
+            }
+        }
+
+        if (endPage < totalPages)
+        {
+            @if (filterApplied)
+            {
+                <button type="submit" formaction="@Url.Action("Filter", new { page = endPage + 1, pageSize })">...</button>
+            }
+            else
+            {
+                <button type="submit" formaction="@Url.Action("Index", new { page = endPage + 1, pageSize })">...</button>
+            }
+        }
+
+        if (page < totalPages)
+        {
+            int nextPage = endPage + 1;
+            @if (filterApplied)
+            {
+                <button type="submit" formaction="@Url.Action("Filter", new { page = nextPage, pageSize })">Next</button>
+            }
+            else
+            {
+                <button type="submit" formaction="@Url.Action("Index", new { page = nextPage, pageSize })">Next</button>
+            }
+        }
+
+        if (endPage < totalPages)
+        {
+            int lastPage = totalPages;
+            @if (filterApplied)
+            {
+                <button type="submit" formaction="@Url.Action("Filter", new { page = lastPage, pageSize })">Last</button>
+            }
+            else
+            {
+                <button type="submit" formaction="@Url.Action("Index", new { page = lastPage, pageSize })">Last</button>
+            }
+        }
+    }
+</div>

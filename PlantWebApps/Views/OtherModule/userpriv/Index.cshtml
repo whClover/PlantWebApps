@@ -1,0 +1,101 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    ViewData["Title"] = "User Privillege";
+}
+
+<form method="post" enctype="multipart/form-data" asp-controller="UserPriv">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">User Privillege</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
+                            <small>Total Records: @ViewBag.TotalRecords Rows</small>
+                        </blockquote>
+                    </div>
+                    <div class="mb-2">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="fa fa-filter me-2"></i> FILTER
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus me-2"></i> ADD
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-download me-2"></i> EXPORT
+                        </button>
+                    </div>
+
+                    <!-- right offcanvas -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <span id="offcanvasRightLabel" class="form-label">
+                                <i class="fa fa-filter"></i> Filter
+                            </span>
+                            <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="mb-2">
+                                <label class="form-label">UserID</label>
+                                <input type="Text" class="form-control form-control-sm" name="userid" value="@ViewBag.userid" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Username</label>
+                                <input type="Text" class="form-control form-control-sm" name="username" value="@ViewBag.username" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Fullname</label>
+                                <input type="Text" class="form-control form-control-sm" name="fullname" value="@ViewBag.fullname" />
+                            </div>
+                            <hr />
+                            <div class="mb-2">
+                                <div>
+                                    <button type="submit" class="btn btn-sm btn-primary" formaction="/UserPriv/Filter">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table mb-0 table-sm table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>UserID</th>
+                                    <th>Username</th>
+                                    <th>Fullname</th>
+                                    <th>Email Address</th>
+                                    <th>Job Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in ViewBag.data.Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-link btn-sm">
+                                                @row["UserID"]
+                                            </a>
+                                        </td>
+                                        <td>@row["Username"]</td>
+                                        <td>@row["FullName"]</td>
+                                        <td>@row["Email"]</td>
+                                        <td>@row["JobCost"]</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @Html.Partial("Pagination")
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

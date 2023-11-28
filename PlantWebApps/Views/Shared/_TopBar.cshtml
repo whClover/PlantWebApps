@@ -1,0 +1,143 @@
+﻿@{
+    string username = PlantWebApps.Helper.Utility.eusername();
+    string edb = PlantWebApps.Helper.GlobalString.dbname();
+}
+
+<header id="page-topbar">
+    <div class="navbar-header">
+        <div class="d-flex">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <a href="#" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="~/images/thiess_white.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="~/images/thiess_white.png" alt="" height="22">
+                    </span>
+                </a>
+                <a href="index.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="~/images/thiess_white.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="~/images/thiess_white.png" alt="" height="22" />
+                    </span>
+                </a>
+            </div>
+            <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+
+        </div>
+        <div class="d-flex">
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item user text-start d-flex align-items-center" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="~/images/users/avatar-1.jpg"
+                         alt="Header Avatar">
+                    <span class="ms-2 d-none d-sm-block user-item-desc">
+                        <span class="user-name">@username </span>
+                        <span class="user-sub-title">Database : @edb</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="topnav">
+        <div class="">
+            <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+                <div class="collapse navbar-collapse" id="topnav-menu-content">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link arrow-none" href="/">
+                                <i class="uil-dashboard"></i>
+                                <span data-key="t-horizontal">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-per" role="button">
+                                <i class="uil-building"></i>
+                                <span data-key="t-apps">Plant External Repair</span> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-per">
+                                <a class="dropdown-item" href="#">External Repair Job</a>
+                                <a class="dropdown-item" href="#">Job Status History</a>
+                                <a class="dropdown-item" href="#">Oustanding Internal WO</a>
+                                <a class="dropdown-item" href="#">Planning Oustanding Job</a>
+                                <a class="dropdown-item" href="#">Planning Job History</a>
+                                <a class="dropdown-item" href="#">Repair Advice History</a>
+                                <a class="dropdown-item" href="#">Component Evaluation</a>
+                                <a class="dropdown-item" href="#">W/H Outstanding Job</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-tcrc" role="button">
+                                <i class="uil-building"></i>
+                                <span data-key="t-apps">TCRC</span> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-xl" aria-labelledby="topnav-tcrc">
+                                <div class="ps-2 p-lg-0">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="menu-title">Office</div>
+                                            <a class="dropdown-item" href="#">Job Details</a>
+                                            <a class="dropdown-item" href="#">Part Order</a>
+                                            <a class="dropdown-item" href="#">OR Detail</a>
+                                            <a class="dropdown-item" href="#">OP Detail</a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="menu-title">Workshop</div>
+                                            <a class="dropdown-item" href="#">Work Order Activity</a>
+                                            <a class="dropdown-item" href="#">Teardown</a>
+                                            <a class="dropdown-item" href="#">Inspection/MPI</a>
+                                            <a class="dropdown-item" href="#">Assembly</a>
+                                            <a class="dropdown-item" href="#">Component Final Inspect</a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="menu-title">Quality Control</div>
+                                            <a class="dropdown-item" href="#">Failure Mode</a>
+                                            <a class="dropdown-item" href="#">Part Repair</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-per" role="button">
+                                <i class="uil-building"></i>
+                                <span data-key="t-apps">TMRP</span> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-per">
+                                <a class="dropdown-item" href="#">Job Details</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-per" role="button">
+                                <i class="uil-building"></i>
+                                <span data-key="t-apps">Fabrication Shop</span> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-per">
+                                <a class="dropdown-item" href="#">Job Details</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-other" role="button">
+                                <i class="uil-apps"></i>
+                                <span data-key="t-apps">Other Module</span> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-other">
+                                <a class="dropdown-item" href="/UserPriv">User Privillege</a>
+                                <a class="dropdown-item" href="#">Job Dispatch</a>
+                                <a class="dropdown-item" href="#">WO Details</a>
+                                <a class="dropdown-item" href="#">Email Group</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
