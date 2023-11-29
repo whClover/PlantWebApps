@@ -1,0 +1,132 @@
+﻿@*
+    
+*@
+@{
+    @using System.Data;
+    ViewData["Title"] = "Repair Advice History";
+}
+
+<form method="post" enctype="multipart/form-data" asp-controller="RprAdviceHistory">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Repair Advice Change History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
+                            <small>Total Records: 12.000</small>
+                        </blockquote>
+                    </div>
+                    <div class="mb-2">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="fa fa-filter me-2"></i> FILTER
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus me-2"></i> ADD
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-download me-2"></i> EXPORT
+                        </button>
+                    </div>
+
+                    <!-- right offcanvas -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <span id="offcanvasRightLabel" class="form-label">
+                                <i class="fa fa-filter"></i> Filter
+                            </span>
+                            <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="mb-2">
+                                <label class="form-label">ID</label>
+                                <input type="Text" class="form-control form-control-sm" name="id" value="@ViewBag.id"/>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Job ID</label>
+                                <input type="Text" class="form-control form-control-sm" name="jobid" value="@ViewBag.jobid" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Parent WO</label>
+                                <input type="Text" class="form-control form-control-sm" name="parentwo" value="@ViewBag.parentwo" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Child WO</label>
+                                <input type="Text" class="form-control form-control-sm" name="childwo" value="@ViewBag.childwo" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Item Change</label>
+                                <input type="Text" class="form-control form-control-sm" name="itemchange" value="@ViewBag.itemchange" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Desc Change</label>
+                                <input type="Text" class="form-control form-control-sm" name="descchange" value="@ViewBag.descchange" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Job Status</label>
+                                <input type="Text" class="form-control form-control-sm" name="jobstatus" value="@ViewBag.jobstatus" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Mod Date</label>
+                                <input type="Text" class="form-control form-control-sm" name="moddate" value="@ViewBag.moddate" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Mod By</label>
+                                <input type="Text" class="form-control form-control-sm" name="modby" value="@ViewBag.modby" />
+                            </div>
+                            <hr />
+                            <div class="mb-2">
+                                <div>
+                                    <button type="submit" class="btn btn-sm btn-primary" formaction="/RprAdviceHistory/Filter">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table mb-0 table-sm table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>JobID</th>
+                                    <th>ParentWO</th>
+                                    <th>ChildWO</th>
+                                    <th>ItemChange</th>
+                                    <th>DescChange</th>
+                                    <th>JobStatus</th>
+                                    <th>ModDate</th>
+                                    <th>ModBy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in ViewBag.data.Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-link btn-sm">
+                                                @row["ID"]
+                                            </a>
+                                        </td>
+                                        <td>@row["JobID"]</td>
+                                        <td>@row["ParentWO"]</td>
+                                        <td>@row["ChildWO"]</td>
+                                        <td>@row["ItemChange"]</td>
+                                        <td>@row["DescChange"]</td>
+                                        <td>@row["JobStatus"]</td>
+                                        <td>@row["ModDate"]</td>
+                                        <td>@row["ModBy"]</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @Html.Partial("Pagination")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
