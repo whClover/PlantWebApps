@@ -1,0 +1,133 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    @model PlantWebApps.Models.UserViewModel;
+    ViewData["Title"] = "User Privillege (AJAX)";
+}
+
+<form method="post" enctype="multipart/form-data" asp-controller="UserPriv">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">User Privillege</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="fa fa-filter me-2"></i> FILTER
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus me-2"></i> ADD
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-download me-2"></i> EXPORT
+                        </button>
+                    </div>
+
+                    <!-- right offcanvas -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <span id="offcanvasRightLabel" class="form-label">
+                                <i class="fa fa-filter"></i> Filter
+                            </span>
+                            <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="mb-2">
+                                <label class="form-label">UserID</label>
+                                <input type="Text" class="form-control form-control-sm" id="userid" name="userid" value="@ViewBag.userid" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Username</label>
+                                <input type="Text" class="form-control form-control-sm" id="username" name="username" value="@ViewBag.username" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Fullname</label>
+                                <input type="Text" class="form-control form-control-sm" id="fullname" name="fullname" value="@ViewBag.fullname" />
+                            </div>
+                            <hr />
+                            <div class="mb-2">
+                                <div>
+                                    <button class="btn btn-sm btn-primary" id="filterButton" type="submit">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tableContainer" class="table-responsive">
+                        <table id="myTable" class="table datatable mb-0 table-sm table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th></th>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>Fullname</th>
+                                    <th>Email Address</th>
+                                    <th>Job Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    $(document).ready(function () {
+        loadData();
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
+            loadData();
+        });
+
+        function loadData() {
+            var userID = $('#userid').val();
+            var username = $('#username').val();
+            var fullname = $('#fullname').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadData", "Ajax")',
+                type: 'GET',
+                dataType: 'json',
+                data: { userID: userID, username: username, fullname: fullname },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "edit" },
+                            { "data": "userID" },
+                            { "data": "username" },
+                            { "data": "fullname" },
+                            { "data": "email" },
+                            { "data": "jobcost" }
+                        ]
+                    });
+
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $('#loadingOverlay').hide();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>
