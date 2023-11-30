@@ -58,8 +58,6 @@
     <Folder Include="Controllers\Fabshop\" />
     <Folder Include="Controllers\TMRP\" />
     <Folder Include="Controllers\TCRC\" />
-    <Folder Include="Controllers\PER\" />
-    <Folder Include="Views\PER\" />
   </ItemGroup>
 
 </Project>
