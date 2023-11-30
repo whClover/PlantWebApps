@@ -2,9 +2,6 @@
 using PlantWebApps.Helper;
 using OfficeOpenXml;
 using System.Data;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Drawing.Printing;
-
 
 namespace PlantWebApps.Controllers.PER.RprAdviceHistory
 {
@@ -35,25 +32,7 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
         private string _tempfilter;
         public IActionResult Index(int page = 1, int pageSize = 20)
         {
-            int totalRecords;
-            int totalPages;
-
-            string countQuery = "SELECT COUNT(*) FROM v_ExrJobChangeHistory";
-            int.TryParse(SQLFunction.ExecuteScalar(countQuery).ToString(), out totalRecords);
-
-            totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-            int offset = (page - 1) * pageSize;
-            int limit = pageSize;
-
-            string query = $"SELECT * FROM v_ExrJobChangeHistory order by id desc OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
-            ViewBag.data = SQLFunction.execQuery(query);
-
-            ViewBag.Page = page;
-            ViewBag.PageSize = pageSize;
-            ViewBag.TotalPages = totalPages;
-            ViewBag.TotalRecords = totalRecords;
-            ViewBag.Filter = false;
-
+            LoadData(page, pageSize);
             return View("~/Views/PER/RprAdviceHistory/Index.cshtml");
         }
         public IActionResult Filter(int page = 1, int pageSize = 20)
@@ -80,7 +59,19 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
 
             return View("~/Views/PER/RprAdviceHistory/Index.cshtml");
         }
-        public IActionResult Exports(int page = 1, int pageSize = 20)
+        public IActionResult Export()
+        {
+            BuildTempFilter();
+            string dataQuery = $"SELECT *,convert(varchar,ModDate,103) as FormModDate " +
+                  $"FROM v_ExrJobChangeHistory {_tempfilter}";
+
+            DataTable data = SQLFunction.execQuery(dataQuery);
+            string fileName = "Job Change History.xlsx";
+
+            return Utility.ExportDataTableToExcel(data, fileName);
+        }
+
+        private void LoadData(int page, int pageSize)
         {
             int totalRecords;
             int totalPages;
@@ -100,19 +91,7 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
             ViewBag.TotalPages = totalPages;
             ViewBag.TotalRecords = totalRecords;
             ViewBag.Filter = false;
-
-            string sqlQuery = "SELECT * FROM v_ExrJobChangeHistory";
-            DataTable data = SQLFunction.execQuery(sqlQuery);
-
-            string csvFilePath = "C:/Users/trahayu/source/repos/PlantWebApps/PlantWebApps/export/exported_data.csv";
-            Export.ToCsv(data, csvFilePath);
-
-            string excelFilePath = "C:/Users/trahayu/source/repos/PlantWebApps/PlantWebApps/export/exported_data.xlsx";
-            Export.ToExcel(data, excelFilePath);
-
-            return View("~/Views/PER/RprAdviceHistory/Index.cshtml");
         }
-
 
         private void BuildTempFilter()
         {
@@ -178,7 +157,7 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
             {
                 tempfilter = " and modby like" + Utility.Evar(Request.Form["modby"], 11) + tempfilter;
                 string modby = Request.Form["modby"];
-                ViewBag.moddate = modby;
+                ViewBag.modby = modby;
             }
 
             _tempfilter = Utility.VarFilter(tempfilter);
