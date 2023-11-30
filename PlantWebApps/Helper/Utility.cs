@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
 using System.Collections;
 using System.Data;
 using System.Drawing;
@@ -145,6 +147,39 @@ namespace PlantWebApps.Helper
             else
                 return string.Empty;
         }
+
+        public static IActionResult ExportDataTableToExcel(DataTable dataTable, string fileName)
+        {
+            // Create a new Excel package
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Create a new worksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // Set the header row index
+                int headerRowIndex = 1;
+
+                // Populate the worksheet with data from the DataTable
+                worksheet.Cells["A" + (headerRowIndex + 0)].LoadFromDataTable(dataTable, true);
+
+                // Set the header row style
+                using (ExcelRange headerRow = worksheet.Cells["A" + headerRowIndex + ":" + ConvertToLetter(dataTable.Columns.Count) + headerRowIndex])
+                {
+                    headerRow.Style.Font.Color.SetColor(Color.Black);
+                    headerRow.Style.Font.Bold = true;
+                    headerRow.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    headerRow.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(209, 220, 235));
+                }
+
+                // Convert the Excel package to a byte array
+                byte[] fileBytes = package.GetAsByteArray();
+
+                // Return the Excel file as a byte array for download
+                return new FileContentResult(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                {
+                    FileDownloadName = fileName
+                };
+            }
 
         public static string GetStringOrNull(object value)
         {

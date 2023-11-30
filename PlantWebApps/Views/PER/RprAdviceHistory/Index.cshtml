@@ -6,6 +6,36 @@
     ViewData["Title"] = "Repair Advice History";
 }
 
+<script type="text/javascript">
+    function showOverlay() {
+        var overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        var spinner = document.createElement('div');
+        spinner.className = 'spinner';
+
+        var text = document.createElement('div');
+        text.className = 'text';
+        text.innerHTML = 'Processing Data...';
+
+        overlay.appendChild(spinner);
+        overlay.appendChild(text);
+        document.body.appendChild(overlay);
+
+        setTimeout(function () {
+            hideOverlay();
+        }, 3000);
+
+        return true;
+    }
+    function hideOverlay() {
+        var overlay = document.querySelector('.overlay');
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
+    }
+</script>
+
 <form method="post" enctype="multipart/form-data" asp-controller="RprAdviceHistory">
     <div class="row">
         <div class="col-12">
@@ -26,9 +56,9 @@
                         <button type="button" class="btn btn-sm btn-primary">
                             <i class="fa fa-plus me-2"></i> ADD
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary">
-                            <i class="fa fa-download me-2"></i> EXPORT
-                        </button>
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/RprAdviceHistory/Export" OnClick="return showOverlay();">
+                                <i class="fa fa-download me-2"></i> EXPORT
+                            </button>
                     </div>
 
                     <!-- right offcanvas -->
