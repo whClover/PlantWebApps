@@ -4,6 +4,11 @@ using OfficeOpenXml;
 using System.Collections;
 using System.Data;
 using System.Drawing;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Principal;
 
 namespace PlantWebApps.Helper
 {
@@ -121,7 +126,7 @@ namespace PlantWebApps.Helper
         public static string eusername()
         {
             string username = Environment.UserName;
-
+            //string username = WindowsIdentity.GetCurrent().Name;
             return username;
         }
 
@@ -180,6 +185,7 @@ namespace PlantWebApps.Helper
                     FileDownloadName = fileName
                 };
             }
+        }
 
         public static string GetStringOrNull(object value)
         {
@@ -215,6 +221,11 @@ namespace PlantWebApps.Helper
                 arrayList.Add(dt3);
             }
             return arrayList;
+        }
+
+        public static string CheckNull(object value)
+        {
+            return value != null ? value.ToString() : "";
         }
     }
 }

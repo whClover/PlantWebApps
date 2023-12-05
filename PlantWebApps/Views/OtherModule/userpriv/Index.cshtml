@@ -15,15 +15,10 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-2">
-                        <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
-                            <small>Total Records: @ViewBag.TotalRecords Rows</small>
-                        </blockquote>
-                    </div>
-                    <div class="mb-2">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvasRight">
                             <i class="fa fa-filter me-2"></i> FILTER
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary">
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/UserPriv/Add">
                             <i class="fa fa-plus me-2"></i> ADD
                         </button>
                         <button type="button" class="btn btn-sm btn-primary">
@@ -32,7 +27,7 @@
                     </div>
 
                     <!-- right offcanvas -->
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasRightLabel">
                         <div class="offcanvas-header">
                             <span id="offcanvasRightLabel" class="form-label">
                                 <i class="fa fa-filter"></i> Filter
@@ -40,22 +35,23 @@
                             <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
+
                             <div class="mb-2">
                                 <label class="form-label">UserID</label>
-                                <input type="Text" class="form-control form-control-sm" name="userid" value="@ViewBag.userid" />
+                                <input type="Text" class="form-control form-control-sm" id="userid" name="userid" value="@ViewBag.userid" />
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Username</label>
-                                <input type="Text" class="form-control form-control-sm" name="username" value="@ViewBag.username" />
+                                <input type="Text" class="form-control form-control-sm" id="username" name="username" value="@ViewBag.username" />
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Fullname</label>
-                                <input type="Text" class="form-control form-control-sm" name="fullname" value="@ViewBag.fullname" />
+                                <input type="Text" class="form-control form-control-sm" id="fullname" name="fullname" value="@ViewBag.fullname" />
                             </div>
                             <hr />
                             <div class="mb-2">
                                 <div>
-                                    <button type="submit" class="btn btn-sm btn-primary" formaction="/UserPriv/Filter">
+                                    <button class="btn btn-sm btn-primary" id="filterButton" type="submit">
                                         <i class="fa fa-search"></i> Search
                                     </button>
                                 </div>
@@ -63,35 +59,37 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table mb-0 table-sm table-hover">
+                    @if (TempData.Peek("Msg") != null)
+                    {
+                        @section Scripts
+                        {
+                            <script>
+                                Swal.fire({
+                                    title: '@TempData.Peek("Msg")',
+                                    icon: '@TempData.Peek("Stat")'
+                                });
+                            </script>
+                        }
+                    }
+
+                    <div id="tableContainer" class="table-responsive">
+                        <table id="myTable" class="table datatable mb-0 table-sm table-striped table-bordered">
                             <thead class="table-light">
                                 <tr>
-                                    <th>UserID</th>
-                                    <th>Username</th>
-                                    <th>Fullname</th>
-                                    <th>Email Address</th>
+                                    <th></th>
+                                    <th>Section</th>
                                     <th>Job Cost</th>
+                                    <th>Group</th>
+                                    <th>JDE Number</th>
+                                    <th>Username</th>
+                                    <th>FullName</th>
+                                    <th>Productive Group</th>
+                                    <th>Status</th>
+                                    <th>Job Title</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (DataRow row in ViewBag.data.Rows)
-                                {
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-link btn-sm">
-                                                @row["UserID"]
-                                            </a>
-                                        </td>
-                                        <td>@row["Username"]</td>
-                                        <td>@row["FullName"]</td>
-                                        <td>@row["Email"]</td>
-                                        <td>@row["JobCost"]</td>
-                                    </tr>
-                                }
-                            </tbody>
+                            <tbody></tbody>
                         </table>
-                        @Html.Partial("Pagination")
                     </div>
 
                 </div>
@@ -99,3 +97,61 @@
         </div>
     </div>
 </form>
+
+<script>
+
+    $(document).ready(function () {
+        loadData();
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
+            loadData();
+        });
+
+        function loadData() {
+            var userID = $('#userid').val();
+            var username = $('#username').val();
+            var fullname = $('#fullname').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadData", "UserPriv")',
+                type: 'GET',
+                dataType: 'json',
+                data: { userID: userID, username: username, fullname: fullname },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "edit" },
+                            { "data": "section" },
+                            { "data": "jobcost" },
+                            { "data": "groupname" },
+                            { "data": "userID" },
+                            { "data": "username" },
+                            { "data": "fullname" },
+                            { "data": "productivegp" },
+                            { "data": "status" },
+                            { "data": "jobtitle" }
+                        ]
+                    });
+
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+                    
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>

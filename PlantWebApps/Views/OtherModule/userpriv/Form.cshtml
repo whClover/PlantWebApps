@@ -1,5 +1,308 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    @using System.Data;
+    ViewData["Title"] = "User Privillege Form";
 }
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 ml-1">User Privillege Form</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">User Privillege</a></li>
+                    <li class="breadcrumb-item active">User Privillege Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="post" action="/UserPriv/Save">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-2 row">
+                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                            <h6>User Information</h6>
+                        </blockquote>
+                    </div>
+                    <table class="table table-condensed table-sm">
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">JDE No.<span class="text-danger">*</span></label>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["UserID"]" name="userid" required>
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Username<span class="text-danger">*</span></label>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["Username"]" name="username" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Full Name</label>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["Fullname"]" name="fullname">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Short Name</label>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["ShortName"]" name="shortname">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Supervisor</label>
+                            </td>
+                            <td>
+                                <select class="form-control-sm select2" name="supervisorid" required>
+                                    <option value="">Choose Supervisor</option>
+                                    @foreach (DataRow row in ViewBag.supv.Rows)
+                                    {
+                                        var UserID = row["UserID"].ToString();
+                                        var FullName = row["FullName"].ToString();
+                                        <option value="@UserID" selected="@(UserID == ViewBag.data?.Rows[0]?["SupervisorID"].ToString())">@FullName</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Crew Name</label>
+                            </td>
+                            <td>
+                                <select class="form-control select2" name="groupname" required>
+                                    <option value="">Choose Crew</option>
+                                    <option value="A" selected="@(ViewBag.data?.Rows[0]?["GroupName"] == "A")">A</option>
+                                    <option value="B" selected="@(ViewBag.data?.Rows[0]?["GroupName"] == "B")">B</option>
+                                    <option value="C" selected="@(ViewBag.data?.Rows[0]?["GroupName"] == "C")">C</option>
+                                    <option value="D" selected="@(ViewBag.data?.Rows[0]?["GroupName"] == "D")">D</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Job Cost<span class="text-danger">*</span></label>
+                            </td>
+                            <td>
+                                <select class="form-control-sm select2" name="jobcost" required>
+                                    <option value="">Choose Job Cost</option>
+                                    @foreach (DataRow row in ViewBag.jobcost.Rows)
+                                    {
+                                        var Location = row["Location"].ToString();
+                                        var LocationName = row["LocationName"].ToString();
+                                        <option value="@Location" selected="@(Location == ViewBag.data?.Rows[0]?["JobCost"].ToString())">@Location</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Job Title</label>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["JobTitle"]" name="jobtitle">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Privilege</label>
+                            </td>
+                            <td>
+                                <select class="form-control select2" name="priv" required>
+                                    <option value="">Choose Privilege</option>
+                                    <option value="Administrator" selected="@(ViewBag.data?.Rows[0]?["Previllege"] == "Administrator")">Administrator</option>
+                                    <option value="Supervisor" selected="@(ViewBag.data?.Rows[0]?["Previllege"] == "Supervisor")">Supervisor</option>
+                                    <option value="User" selected="@(ViewBag.data?.Rows[0]?["Previllege"] == "User")">User</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Email</label>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["Email"]" name="email">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label">Component Database</label>
+                            </td>
+                            <td>
+                                <select class="form-control select2" name="compaccess" required>
+                                    <option value="0" selected="@(ViewBag.data?.Rows[0]?["CompAccess"] == false)">No</option>
+                                    <option value="1" selected="@(ViewBag.data?.Rows[0]?["CompAccess"] == true)">Yes</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Timesheet Database</label>
+                            </td>
+                            <td>
+                                <select class="form-control select2" name="timesheetaccess" required>
+                                    <option value="0" selected="@(ViewBag.data?.Rows[0]?["TimeSheetAccess"] == false)">No</option>
+                                    <option value="1" selected="@(ViewBag.data?.Rows[0]?["TimeSheetAccess"] == true)">Yes</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Productive Group</label>
+                            </td>
+                            <td>
+                                <select class="form-control select2" name="prodgp" required>
+                                    <option value="0" selected="@(ViewBag.data?.Rows[0]?["ProductiveGroup"] == false)">No</option>
+                                    <option value="1" selected="@(ViewBag.data?.Rows[0]?["ProductiveGroup"] == true)">Yes</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Status</label>
+                            </td>
+                            <td>
+                                <select class="form-control select2" name="status" required>
+                                    <option value="0" selected="@(ViewBag.data?.Rows[0]?["ActiveStatus"] == 0)">No</option>
+                                    <option value="1" selected="@(ViewBag.data?.Rows[0]?["ActiveStatus"] == -1)">Yes</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save me-2"></i> Save
+                    </button>
+                    <a href="/UserPriv" class="btn btn-primary">
+                        <i class="fas fa-angle-left me-2"></i>Back
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-2 row">
+                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                            <h6>User Access Control</h6>
+                        </blockquote>
+                    </div>
+                    <table class="table table-sm table-striped table-bordered table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th rowspan="2">Module</th>
+                                <th colspan="4" class="text-center">Granted</th>
+                                <th rowspan="2"></th>
+                            </tr>
+                            <tr>
+                                <th>Open</th>
+                                <th>Add</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select class="form-control select2">
+                                        <option value="">Choose Module</option>
+                                        @foreach (DataRow row in ViewBag.module.Rows)
+                                        {
+                                            var GrForm = row["GrForm"].ToString();
+                                            var GrName = row["GrName"].ToString();
+                                            <option value="@GrForm">@GrName</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control select2">
+                                        <option value="0">False</option>
+                                        <option value="1">True</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control select2">
+                                        <option value="0">False</option>
+                                        <option value="1">True</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control select2">
+                                        <option value="0">False</option>
+                                        <option value="1">True</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control select2">
+                                        <option value="0">False</option>
+                                        <option value="1">True</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <a href="/UserPriv/SaveAccess" class="btn btn-link btn-sm">
+                                        <i class="fa fa-save"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @foreach (DataRow row in ViewBag.dataaccess.Rows)
+                            {
+                                <tr>
+                                    <td>@row["GrDesc"]</td>
+                                    <td>@row["GrOpen"]</td>
+                                    <td>@row["grAdd"]</td>
+                                    <td>@row["GrEdit"]</td>
+                                    <td>@row["GrDelete"]</td>
+                                    <td class="text-center" style="width:5%">
+                                        <a href="#" class="btn btn-link btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function() {
+        $('#saveAccessLink').on('click', function(e) {
+            e.preventDefault(); // Menghentikan tindakan default dari tautan
+
+            $.ajax({
+                url: $(this).attr('href'), // Mengambil URL dari atribut href
+                type: 'POST', // Menentukan metode permintaan
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+    $('.select2').select2({
+        width: '100%'
+    });
+</script>
