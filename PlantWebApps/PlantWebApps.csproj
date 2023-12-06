@@ -53,6 +53,7 @@
     <PackageReference Include="EPPlus" Version="7.0.2" />
     <PackageReference Include="HighlightMarker" Version="4.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="4.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
@@ -61,6 +62,7 @@
     <Folder Include="Controllers\Fabshop\" />
     <Folder Include="Controllers\TMRP\" />
     <Folder Include="Controllers\TCRC\" />
+    <Folder Include="Views\Auth\" />
   </ItemGroup>
 
 </Project>

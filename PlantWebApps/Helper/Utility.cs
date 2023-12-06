@@ -14,6 +14,26 @@ namespace PlantWebApps.Helper
 {
     public class Utility
     {
+        public static string eusername()
+        {
+            string username = Environment.UserName;
+            return username;
+        }
+
+        public static string GetCurrentUsername()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            string username = identity.Name;
+
+            // Check if the user is in a Windows group
+            bool isInWindowsGroup = principal.IsInRole(WindowsBuiltInRole.Administrator);
+
+            // Additional checks or processing can be performed here
+
+            return username;
+        }
+
         public static string Evar(object val, int valtype, int vallen = 255)
         {
             string eval;
@@ -121,13 +141,6 @@ namespace PlantWebApps.Helper
         private static string GenTwiDig(string val)
         {
             return val.PadLeft(2, '0');
-        }
-
-        public static string eusername()
-        {
-            string username = Environment.UserName;
-            //string username = WindowsIdentity.GetCurrent().Name;
-            return username;
         }
 
         private static string ConvertToLetter(int columnNumber)
