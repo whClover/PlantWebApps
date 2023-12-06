@@ -16,7 +16,7 @@
         <div class="row">
             <div class="mb-2 col">
                 <label class="form-label">Repair Type</label>
-                <select class="form-control form-control-sm" name="repairtypeid">
+                <select class="form-control form-control-sm" id="repairtypeid" name="repairtypeid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.repairType.Rows)
                     {
@@ -26,10 +26,9 @@
                         <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
                     }
                 </select>
-            </div>
             <div class="mb-2 col">
                 <label class="form-label">Comp. Type</label>
-                <select class="form-control form-control-sm" name="comptype">
+                <select class="form-control form-control-sm" id="comptype" name="comptype">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.comptype.Rows)
                     {
@@ -60,7 +59,7 @@
         <div class="row">
             <div class="mb-2 col">
                 <label class="form-label">Spv Desc</label>
-                <select class="form-control form-control-sm" name="supervisorid">
+                <select class="form-control form-control-sm" id="supervisorid" name="supervisorid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.spvdesc.Rows)
                     {
@@ -72,7 +71,7 @@
             </div>
             <div class="mb-2 col">
                 <label class="form-label">Repair By</label>
-                <select class="form-control form-control-sm" name="supplierid">
+                <select class="form-control form-control-sm" id="supplierid" name="supplierid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.repairby.Rows)
                     {
@@ -88,7 +87,7 @@
             @* select cwo type *@
             <div class="mb-2 col">
                 <div class="d-flex flex-column mb-2">
-                    <select name="cwotype" class="border-0">
+                    <select id="cwotype" name="cwotype" class="border-0">
                         <option value="1">Parent WO</option>
                         <option value="2">WO TO Unit</option>
                         <option value="3">Offsite WO</option>
@@ -98,13 +97,13 @@
                         <option value="7">Previous WO</option>
                         <option value="8">Previous OP</option>
                     </select>
-                    <input type="text" name="cwotypevalue" />
+                    <input type="text" id="cwotypevalue" name="cwotypevalue" />
                 </div>
             </div>
             @* select fdoc type *@
             <div class="mb-2 col">
                 <div class="d-flex flex-column mb-2">
-                    <select name="fdoctype" class="border-0">
+                    <select name="fdoctype" id="fdoctype" class="border-0">
                         <option value="1">OP No</option>
                         <option value="2">OR No</option>
                         <option value="3">DN No</option>
@@ -119,7 +118,7 @@
                         <option value="12">Log AN No</option>
                         <option value="13">WO Allocation</option>
                     </select>
-                    <input type="text" name="fdoctypevalue" />
+                    <input type="text" name="fdoctypevalue" id="fdoctypevalue" />
                 </div>
             </div>
         </div>
@@ -127,7 +126,7 @@
             @* select CCompID type *@
             <div class="mb-2 col">
                 <div class="d-flex flex-column mb-2">
-                    <select name="ccompidtype" class="border-0">
+                    <select name="ccompidtype" id="ccompidtype" class="border-0">
                         <option value="1">Part Number</option>
                         <option value="2">Component ID</option>
                         <option value="3">Job ID</option>
@@ -137,12 +136,12 @@
                         <option value="7">Supplier Serial Number</option>
                         <option value="8">Component Desc</option>
                     </select>
-                    <input type="text" name="ccompidvalue" />
+                    <input type="text" name="ccompidvalue" id="ccompidvalue" />
                 </div>
             </div>
             @* select fdate type *@
             <div class="mb-2 col">
-                <select class="form-label2" name="sdate">
+                <select class="form-label2" name="sdate" id="sdate">
                     <option value="1">Register Date</option>
                     <option value="2">Issued Date</option>
                     <option value="3">Received Date</option>
@@ -165,10 +164,12 @@
                 </select>
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="Text" class="form-control form-control-sm datepicker-basic" name="startdate" value="@ViewBag.startdate" />
+                        <input type="Text" class="form-control form-control-sm datepicker-basic"
+                               name="startdate" value="@ViewBag.startdate" id="startdate" />
                     </div>
                     <div class="col-md-6">
-                        <input type="Text" class="form-control form-control-sm datepicker-basic" name="endate" value="@ViewBag.endate" />
+                        <input type="Text" class="form-control form-control-sm datepicker-basic"
+                               name="endate" value="@ViewBag.endate" id="endate" />
                     </div>
                 </div>
             </div>
@@ -177,7 +178,7 @@
             @* select Imodby *@
             <div class="mb-2 col">
                 <div class="d-flex flex-column mb-2">
-                    <select name="lmodby" class="border-0">
+                    <select name="lmodby" id="lmodby" class="border-0">
                         <option value="1">Closed By</option>
                         <option value="2">Compl Dispute By</option>
                         <option value="3">Dispute By</option>
@@ -192,13 +193,13 @@
                         <option value="12">Registered By</option>
                         <option value="13">Tagging By</option>
                     </select>
-                    <input type="text" name="lmodbyvalue" />
+                    <input type="text" name="lmodbyvalue" id="lmodbyvalue" />
                 </div>
             </div>
             @* select Eq.Class *@
             <div class="mb-2 col">
                 <label class="form-label">Eq.Class</label>
-                <select class="form-control form-control-sm" name="unitnumber">
+                <select class="form-control form-control-sm" id="unitnumber" name="unitnumber">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.feqclass.Rows)
                     {
@@ -213,7 +214,7 @@
             @* select FReason *@
             <div class="mb-2 col">
                 <label class="form-label">Reason</label>
-                <select class="form-control form-control-sm" name="reasontypeid">
+                <select class="form-control form-control-sm" id="reasontypeid" name="reasontypeid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.freason.Rows)
                     {
@@ -227,12 +228,12 @@
             @* select FStore type *@
             <div class="mb-2 col">
                 <div class="d-flex flex-column mb-2">
-                    <select name="freasontype" class="border-0">
+                    <select name="freasontype" id="freasontype" class="border-0">
                         <option value="1">ExStore</option>
                         <option value="2">Store</option>
                         <option value="3">Allocation</option>
                     </select>
-                    <select class="form-control form-control-sm" name="freasonvalue">
+                    <select class="form-control form-control-sm" id="freasonvalue" name="freasonvalue">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.fstore.Rows)
                         {
@@ -248,11 +249,11 @@
             @* select CbDelay type *@
             <div class="mb-2 col">
                 <div class="d-flex flex-column mb-2">
-                    <select name="cbdelay" class="border-0">
+                    <select name="cbdelay" id="cbdelay" class="border-0">
                         <option value="1">Delay Tag</option>
                         <option value="2">Delay Close</option>
                     </select>
-                    <select class="form-control form-control-sm" name="cbdelayvalue">
+                    <select class="form-control form-control-sm" id="cbdelayvalue" name="cbdelayvalue">
                         <option value=""></option>
                         <option value="<>">Yes</option>
                         <option value="=">No</option>
@@ -262,14 +263,15 @@
             @* Repair Advice *@
             <div class="mb-2 col">
                 <label class="form-label">Repair Adv</label>
-                <input type="Text" class="form-control form-control-sm" name="repairadvice" value="@ViewBag.repairadvice" />
+                <input type="Text" class="form-control form-control-sm"
+                       name="repairadvice" value="@ViewBag.repairadvice" id="repairadvice" />
             </div>
         </div>
         <div class="row">
             @* select Turn Over Cat *@
             <div class="mb-2 col">
                 <label class="form-label">TurnOverCat</label>
-                <select class="form-control form-control-sm" name="tocatdesc">
+                <select class="form-control form-control-sm" id="tocatdesc" name="tocatdesc">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.cbtocategory.Rows)
                     {
@@ -282,7 +284,7 @@
             @* select Priority *@
             <div class="mb-2 col">
                 <label class="form-label">Priority</label>
-                <select class="form-control form-control-sm" name="RequestP1">
+                <select class="form-control form-control-sm" id="RequestP1" name="RequestP1">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -294,7 +296,7 @@
             @* select Is Empty *@
             <div class="mb-2 col">
                 <label class="form-label">Is Empty</label>
-                <select class="form-control form-control-sm" name="fissnull">
+                <select class="form-control form-control-sm" id="fissnull" name="fissnull">
                     <option value=""></option>
                     <option value="1">IssuedDate</option>
                     <option value="2">DNNo</option>
@@ -324,7 +326,7 @@
             @* select Is PCAM *@
             <div class="mb-2 col">
                 <label class="form-label">PCAM</label>
-                <select class="form-control form-control-sm" name="pcam">
+                <select class="form-control form-control-sm" id="pcam" name="pcam">
                     <option value=""></option>
                     <option value="NW">NW | Waiting Investigation</option>
                     <option value="IP">IP | In Progress</option>
@@ -336,7 +338,7 @@
             @* select sort by *@
             <div class="mb-2 col">
                 <label class="form-label">Sort By</label>
-                <select class="form-control form-control-sm" name="sortby">
+                <select class="form-control form-control-sm" id="sortby" name="sortby">
                     <option value="2">Register Date</option>
                     <option value="1">ID</option>
                     <option value="3">Delivery Date</option>
@@ -347,7 +349,7 @@
             @* select asc/desc *@
             <div class="mb-2 col">
                 <label class="form-label">Asc/Desc</label>
-                <select class="form-control form-control-sm" name="ascdsc">
+                <select class="form-control form-control-sm" id="ascdsc" name="ascdsc">
                     <option value="desc">Desc</option>
                     <option value="asc">Asc</option>
                 </select>
@@ -356,10 +358,12 @@
         <hr />
         <div class="mb-2">
             <div>
-                <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Filter">
+                <button type="submit" id="filterButton" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Filter">
                     <i class="fa fa-search"></i> Search
                 </button>
             </div>
         </div>
     </div>
 </div>
+</div>
+    

@@ -3,7 +3,7 @@
 *@
 @{
     @using System.Data;
-    ViewData["Title"] = "External Repair job History";
+    // ViewData["Title"] = "External Repair job History";
 }
 
 <script type="text/javascript">
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     <div class="mb-2">
                         <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
-                            <small>Total Records: @ViewBag.TotalRecords Rows</small>
+                            @* <small>Total Records: @ViewBag.TotalRecords Rows</small> *@
                         </blockquote>
                     </div>
                     <div class="d-flex mb-2 align-items-center" style="gap: 5px">
@@ -77,6 +77,9 @@
                         </button>
                         <button type="button" class="btn btn-sm btn-primary">
                             <i class="fa fa-plus me-2"></i> ADD
+                        </button>
+                        <button type="submit" id="filterButton" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/LoadData">
+                            <i class="fa fa-search"></i> Search
                         </button>
                         <div>
                             <select name="creportype" class="form-select" style="width: 160px;">
@@ -100,7 +103,7 @@
                     </div>
 
                     <!-- right offcanvas -->
-                    <partial name="_Filter.cshtml" />
+                    @* <partial name="_filter.cshtml" /> *@
 
                     <!-- Modal -->
                     <div class="modal fade" id="filterstatusmodal" tabindex="-1" aria-labelledby="filterstatusmodal" aria-hidden="true">
@@ -142,8 +145,8 @@
                         }
                     }
 
-                    <div class="table-responsive">
-                        <table class="table mb-0 table-sm table-hover">
+                    <div id="tableContainer" class="table-responsive">
+                        <table id="myTable" class="table datatable mb-0 table-sm table-hover">
                             <thead class="table-light">
                                 <tr>
                                     <th>ID</th>
@@ -180,7 +183,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (DataRow row in ViewBag.data.Rows)
+                                @* @foreach (DataRow row in ViewBag.data.Rows)
                                 {
                                     <tr>
                                         <td>
@@ -217,13 +220,139 @@
                                         <td>@row["OPDate"]</td>
                                         <td>@row["ReceivedDate"]</td>
                                     </tr>
-                                }
+                                } *@
                             </tbody>
                         </table>
-                        @Html.Partial("Pagination")
+                        @* @Html.Partial("Pagination") *@
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+<script>
+    $(document).ready(function () {
+        loadData();
+        // $('#filterButton').click(function (e) {
+        //     e.preventDefault();
+        //     loadData();
+    });
+
+    function loadData() {
+        console.log("ok");
+        var repairType = $('#repairtypeid').val();
+        var compType = $('#comptype').val();
+        var statusInput = $('#statusInput').val();
+        var supervisorId = $('#supervisorid').val();
+        var supplierId = $('#supplierid').val();
+        var cwoType = $('#cwotype').val();
+        var cwoTypeValue = $('#cwotypevalue').val();
+        var fdocType = $('#fdoctype').val();
+        var fdocTypeValue = $('#fdoctypevalue').val();
+        var ccompIdType = $('#ccompidtype').val();
+        var ccompIdValue = $('#ccompidvalue').val();
+        var sDate = $('#sdate').val();
+        var startDate = $('#startdate').val();
+        var endDate = $('#endate').val();
+        var lmodBy = $('#lmodby').val();
+        var lmodByValue = $('#lmodbyvalue').val();
+        var reasonTypeId = $('#reasontypeid').val();
+        var freasonType = $('#freasontype').val();
+        var freasonValue = $('#freasonvalue').val();
+        var cbDelay = $('#cbdelay').val();
+        var cbDelayValue = $('#cbdelayvalue').val();
+        var repairAdvice = $('#repairadvice').val();
+        var toCatDesc = $('#tocatdesc').val();
+        var requestP1 = $('#RequestP1').val();
+        var fissNull = $('#fissnull').val();
+        var pCam = $('#pcam').val();
+        var sortBy = $('#sortby').val();
+        var ascDesc = $('#ascdsc').val();
+
+        // Tampilkan loading overlay
+        $('#loadingOverlay').show();
+
+        $.ajax({
+            url: '@Url.Action("LoadData", "ExrRepairJobHistory")',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                repairType: repairType,
+                compType: compType,
+                statusInput: statusInput,
+                supervisorId: supervisorId,
+                supplierId: supplierId,
+                cwoType: cwoType,
+                cwoTypeValue: cwoTypeValue,
+                fdocType: fdocType,
+                fdocTypeValue: fdocTypeValue,
+                ccompIdType: ccompIdType,
+                sDate: sDate,
+                startDate: startDate,
+                endDate: endDate,
+                lmodBy: lmodBy,
+                lmodByValue: lmodByValue,
+                reasonTypeId: reasonTypeId,
+                freasonType: freasonType,
+                freasonValue: freasonValue,
+                cbDelay: cbDelay,
+                cbDelayValue: cbDelayValue,
+                repairAdvice: repairAdvice,
+                toCatDesc: toCatDesc,
+                requestP1: requestP1,
+                fissNull: fissNull,
+                pCam: pCam,
+                sortBy: sortBy,
+                ascDesc: ascDesc
+            },
+            success: function (test) {
+                //console.log(test);
+                $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                $('.datatable').DataTable({
+                    searching: false,
+                    lengthChange: false,
+                    responsive: true,
+                    pageLength: 20,
+                    data: test, // The data received from the AJAX request
+                    columns: [
+                        { "data": "id" },
+                        { "data": "totalAgeWO" },
+                        { "data": "unitNumber" },
+                        { "data": "offSiteWO" },
+                        { "data": "woAlloc" },
+                        { "data": "siteAllocName" },
+                        { "data": "woJobCost" },
+                        { "data": "logANReceivedDate" },
+                        { "data": "logANReceivedDate" },
+                        { "data": "logANSentDate" },
+                        { "data": "status" },
+                        { "data": "compDesc" },
+                        { "data": "compQty" },
+                        { "data": "compType" },
+                        { "data": "repairAdvice" },
+                        { "data": "pcamStatusID" },
+                        { "data": "tciPartNo" },
+                        { "data": "supervisorAbbr" },
+                        { "data": "supplierName" },
+                        { "data": "intWO" },
+                        { "data": "suppForRepairANNo" },
+                        { "data": "quoteNo" },
+                        { "data": "jobNo" },
+                        { "data": "quoteDate" },
+                        { "data": "orNo" },
+                        { "data": "opDate" },
+                        { "data": "receivedDate" }
+                    ]
+                });
+                // Sembunyikan loading overlay setelah data dimuat
+                $("#offcanvas").offcanvas("hide");
+                $('#loadingOverlay').hide();
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+</script>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantWebApps.Helper;
 using System.Data;
-using System.Web;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 { 
@@ -12,11 +11,16 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public String Msg { get; set; }
         [TempData]
         public String Stat { get; set; }
-        public IActionResult Index(int page = 1, int pageSize = 20)
+        public IActionResult Index()
         {
-            LoadData(page, pageSize);
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
         }
+        // LOAD DATA USING <TD>@ROW</TD>
+        //public IActionResult Index(int page = 1, int pageSize = 20)
+        //{
+        //    LoadData(page, pageSize);
+        //    return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
+        //}
         public IActionResult Filter(int page = 1, int pageSize = 20)
         {
             int totalRecords;
@@ -44,6 +48,50 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             ViewBag.Filter = false;
 
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
+        }
+
+        public IActionResult LoadData()
+        {
+            string dataQuery = $"SELECT TOP 10 * FROM v_ExrJobDetailRev1 order by id desc";
+            var data = SQLFunction.execQuery(dataQuery);
+            var rows = new List<object>();
+            Console.WriteLine(data);
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    totalAgeWO = Utility.CheckNull(row["TotalAgeWO"]),
+                    unitNumber = Utility.CheckNull(row["AgeWaitingQuote"]),
+                    offSiteWO = Utility.CheckNull(row["OffSiteWO"]),
+                    woAlloc = Utility.CheckNull(row["WoAlloc"]),
+                    siteAllocName = Utility.CheckNull(row["SiteAllocName"]),
+                    woJobCost = Utility.CheckNull(row["WOJobCost"]),
+                    logANReceivedDate = Utility.CheckNull(row["LogANReceivedDate"]),
+                    logANSentDate = Utility.CheckNull(row["LogANSentDate"]),
+                    status = Utility.CheckNull(row["Status"]),
+                    compDesc = Utility.CheckNull(row["CompDesc"]),
+                    compQty = Utility.CheckNull(row["CompQty"]),
+                    compType = Utility.CheckNull(row["CompType"]),
+                    repairAdvice = Utility.CheckNull(row["RepairAdvice"]),
+                    pcamStatusID = Utility.CheckNull(row["PCAMStatusID"]),
+                    tciPartNo = Utility.CheckNull(row["TCIPartNo"]),
+                    supervisorAbbr = Utility.CheckNull(row["SupervisorAbbr"]),
+                    supplierName = Utility.CheckNull(row["SupplierName"]),
+                    intWO = Utility.CheckNull(row["IntWO"]),
+                    suppForRepairANNo = Utility.CheckNull(row["SuppForRepairANNo"]),
+                    quoteNo = Utility.CheckNull(row["QuoteNo"]),
+                    jobNo = Utility.CheckNull(row["JobNo"]),
+                    quoteDate = Utility.CheckNull(row["QuoteDate"]),
+                    orNo = Utility.CheckNull(row["ORNo"]),
+                    opDate = Utility.CheckNull(row["OPDate"]),
+                    receivedDate = Utility.CheckNull(row["ReceivedDate"])
+                };
+
+                rows.Add(rowData);
+            }
+            return new JsonResult(rows);
         }
 
         public IActionResult Export()
@@ -86,28 +134,29 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 return Utility.ExportDataTableToExcel(data, fileName);
             }
         }
-        private void LoadData(int page, int pageSize)
-        {
-            loadoption();
-            int totalRecords;
-            int totalPages;
+        
+        //private void LoadData(int page, int pageSize)
+        //{
+        //    loadoption();
+        //    int totalRecords;
+        //    int totalPages;
 
-            string countQuery = "SELECT COUNT(*) FROM v_ExrJobDetailRev1";
-            int.TryParse(SQLFunction.ExecuteScalar(countQuery).ToString(), out totalRecords);
+        //    string countQuery = "SELECT COUNT(*) FROM v_ExrJobDetailRev1";
+        //    int.TryParse(SQLFunction.ExecuteScalar(countQuery).ToString(), out totalRecords);
 
-            totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-            int offset = (page - 1) * pageSize;
-            int limit = pageSize;
+        //    totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+        //    int offset = (page - 1) * pageSize;
+        //    int limit = pageSize;
 
-            string query = $"SELECT * FROM v_ExrJobDetailRev1 order by id desc OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
-            ViewBag.data = SQLFunction.execQuery(query);
+        //    string query = $"SELECT * FROM v_ExrJobDetailRev1 order by id desc OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
+        //    ViewBag.data = SQLFunction.execQuery(query);
 
-            ViewBag.Page = page;
-            ViewBag.PageSize = pageSize;
-            ViewBag.TotalPages = totalPages;
-            ViewBag.TotalRecords = totalRecords;
-            ViewBag.Filter = false;
-        }
+        //    ViewBag.Page = page;
+        //    ViewBag.PageSize = pageSize;
+        //    ViewBag.TotalPages = totalPages;
+        //    ViewBag.TotalRecords = totalRecords;
+        //    ViewBag.Filter = false;
+        //}
         private string ApplyFilterCategory(string category, string value, string currentFilter)
         {
             if (!string.IsNullOrEmpty(value))
