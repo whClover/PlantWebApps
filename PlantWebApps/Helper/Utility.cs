@@ -36,6 +36,16 @@ namespace PlantWebApps.Helper
                             eval = "NULL";
                         }
                         break;
+                    case 1:
+                        if (val.ToString().Split(',').Any())
+                        {
+                            eval = "'" + string.Join("','", val.ToString().Split(',')) + "'";
+                        }
+                        else
+                        {
+                            eval = "NULL";
+                        }
+                        break;
                     case 2:
                         if (DateTime.TryParse(val.ToString(), out DateTime dateVal))
                         {
@@ -103,6 +113,9 @@ namespace PlantWebApps.Helper
                         break;
                     case 18:
                         eval = val.ToString().Replace("'", "");
+                        break;
+                    case 19:
+                        eval = "(" + val.ToString().Substring(0, Math.Min(val.ToString().Length, vallen)) + ")";
                         break;
                     default:
                         eval = "'" + val.ToString().Substring(0, Math.Min(val.ToString().Length, vallen)) + "'";
@@ -180,41 +193,6 @@ namespace PlantWebApps.Helper
                     FileDownloadName = fileName
                 };
             }
-
-        public static string GetStringOrNull(object value)
-        {
-            return value != DBNull.Value ? (string)value : null;
-        }
-
-        public static DataTable getDataTable(String qTxt)
-        {
-            var dataTable = SQLFunction.execQuery(qTxt);
-
-            return dataTable;
-        }
-
-        public static ArrayList genDataTable(DataTable dt, Dictionary<String, String> sCol, String IDKey = "")
-        {
-            DataTable dt2 = new DataTable();
-            ArrayList arrayList = new ArrayList();
-
-            foreach (DataRow rows in dt.Rows)
-            {
-                Dictionary<string, string> dt3 = new Dictionary<string, string>();
-                foreach (var col in sCol)
-                {
-                    if (col.Key == "#")
-                    {
-                        dt3.Add("#", col.Value.Replace("<id>", rows[IDKey].ToString()));
-                    }
-                    else
-                    {
-                        dt3.Add(col.Value, rows[col.Key].ToString());
-                    }
-                }
-                arrayList.Add(dt3);
-            }
-            return arrayList;
         }
     }
 }
