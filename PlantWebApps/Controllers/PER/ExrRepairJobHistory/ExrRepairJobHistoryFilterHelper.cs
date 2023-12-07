@@ -72,7 +72,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return (cReportTypeValue);
         }
-        public static (string, string) SelectCwoTypeFilter(string cwoTypeOption, string cwoTypeValue)
+        public static string SelectCwoTypeFilter(string cwoTypeOption)
         {
             int parsedFilterOption = int.TryParse(cwoTypeOption, out int result) ? result : 0;
             string cwoCategory = "";
@@ -104,9 +104,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     cwoCategory = "OPPrevious";
                     break;
             }
-            return (cwoCategory, cwoTypeValue);
+            return (cwoCategory);
         }
-        public static (string, string) SelectFdocTypeFilter(string fdocTypeOption, string fdocTypeValue)
+        public static string SelectFdocTypeFilter(string fdocTypeOption)
         {
             int parsedFilterOption = int.TryParse(fdocTypeOption, out int result) ? result : 0;
             string fdocTypeCategory = "";
@@ -152,9 +152,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     fdocTypeCategory = "WOAlloc";
                     break;
             }
-            return (fdocTypeCategory, fdocTypeValue);
+            return (fdocTypeCategory);
         }
-        public static (string, string) SelectCCompIdTypeFilter(string ccompIdTypeOption, string ccompIdTypeValue)
+        public static string SelectCCompIdTypeFilter(string ccompIdTypeOption)
         {
             int parsedFilterOption = int.TryParse(ccompIdTypeOption, out int result) ? result : 0;
             string ccompIdTypeCategory = "";
@@ -185,9 +185,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     ccompIdTypeCategory = "CompDesc";
                     break;
             }
-            return (ccompIdTypeCategory, ccompIdTypeValue);
+            return (ccompIdTypeCategory);
         }
-        public static (string, string) SelectImodByFilter(string lmodByOption, string lmodByValue)
+        public static string SelectImodByFilter(string lmodByOption)
         {
             int parsedFilterOption = int.TryParse(lmodByOption, out int result) ? result : 0;
             string lmodByCategory = "";
@@ -233,9 +233,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     lmodByCategory = "TaggingBy";
                     break;
             }
-            return (lmodByCategory, lmodByValue);
+            return (lmodByCategory);
         }
-        public static (string, string) SelectFreasonFilter(string fReasonOption, string fReasonValue)
+        public static string SelectFreasonFilter(string fReasonOption)
         {
             int parsedFilterOption = int.TryParse(fReasonOption, out int result) ? result : 0;
             string fReasonCategory = "";
@@ -251,9 +251,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     fReasonCategory = "StoreID";
                     break;
             }
-            return (fReasonCategory, fReasonValue);
+            return (fReasonCategory);
         }
-        public static (string, string) SelectCbDelay(string cbDelayOption, string cbDelayValue)
+        public static string SelectCbDelay(string cbDelayOption)
         {
             int parsedFilterOption = int.TryParse(cbDelayOption, out int result) ? result : 0;
             string cbDelayCategory = "";
@@ -266,7 +266,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     cbDelayCategory = "DiffClosed";
                     break;
             }
-            return (cbDelayCategory, cbDelayValue);
+            return (cbDelayCategory);
         }
         public static string SelectFisNull (string fissNullOption)
         {

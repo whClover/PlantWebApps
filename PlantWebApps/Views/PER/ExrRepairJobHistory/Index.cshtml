@@ -72,14 +72,11 @@
                         </blockquote>
                     </div>
                     <div class="d-flex mb-2 align-items-center" style="gap: 5px">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas"  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="fa fa-filter me-2"></i> FILTER
                         </button>
                         <button type="button" class="btn btn-sm btn-primary">
                             <i class="fa fa-plus me-2"></i> ADD
-                        </button>
-                        <button type="submit" id="filterButton" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/LoadData">
-                            <i class="fa fa-search"></i> Search
                         </button>
                         <div>
                             <select name="creportype" class="form-select" style="width: 160px;">
@@ -103,7 +100,7 @@
                     </div>
 
                     <!-- right offcanvas -->
-                    @* <partial name="_filter.cshtml" /> *@
+                    <partial name="_filter.cshtml" />
 
                     <!-- Modal -->
                     <div class="modal fade" id="filterstatusmodal" tabindex="-1" aria-labelledby="filterstatusmodal" aria-hidden="true">
@@ -182,48 +179,8 @@
                                     <th>QR No</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @* @foreach (DataRow row in ViewBag.data.Rows)
-                                {
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-link btn-sm">
-                                                @row["ID"]
-                                            </a>
-                                        </td>
-                                        <td>@row["RequestP1"]</td>
-                                        <td>@row["TotalAgeWO"]</td>
-                                        <td>@row["AgeWaitingQuote"]</td>
-                                        <td>@row["UnitNumber"]</td>
-                                        <td>@row["OffSiteWO"]</td>
-                                        <td>@row["WoAlloc"]</td>
-                                        <td>@row["SiteAllocName"]</td>
-                                        <td>@row["WOJobCost"]</td>
-                                        <td>@row["LogANReceivedDate"]</td>
-                                        <td>@row["LogANSentDate"]</td>
-                                        <td>@row["Status"]</td>
-                                        <td>@row["CompDesc"]</td>
-                                        <td>@row["CompQty"]</td>
-                                        <td>@row["CompType"]</td>
-                                        <td>@row["RepairAdvice"]</td>
-                                        <td>@row["PCAMStatusID"]</td>
-                                        <td>@row["TCIPartNo"]</td>
-                                        <td>@row["SupervisorAbbr"]</td>
-                                        <td>@row["SupplierName"]</td>
-                                        <td>@row["IntWO"]</td>
-                                        <td>@row["IntWO"]</td>
-                                        <td>@row["SuppForRepairANNo"]</td>
-                                        <td>@row["QuoteNo"]</td>
-                                        <td>@row["JobNo"]</td>
-                                        <td>@row["QuoteDate"]</td>
-                                        <td>@row["ORNo"]</td>
-                                        <td>@row["OPDate"]</td>
-                                        <td>@row["ReceivedDate"]</td>
-                                    </tr>
-                                } *@
-                            </tbody>
+                            <tbody></tbody>
                         </table>
-                        @* @Html.Partial("Pagination") *@
                     </div>
                 </div>
             </div>
@@ -233,126 +190,125 @@
 
 <script>
     $(document).ready(function () {
-        loadData();
-        // $('#filterButton').click(function (e) {
-        //     e.preventDefault();
-        //     loadData();
-    });
-
-    function loadData() {
-        console.log("ok");
-        var repairType = $('#repairtypeid').val();
-        var compType = $('#comptype').val();
-        var statusInput = $('#statusInput').val();
-        var supervisorId = $('#supervisorid').val();
-        var supplierId = $('#supplierid').val();
-        var cwoType = $('#cwotype').val();
-        var cwoTypeValue = $('#cwotypevalue').val();
-        var fdocType = $('#fdoctype').val();
-        var fdocTypeValue = $('#fdoctypevalue').val();
-        var ccompIdType = $('#ccompidtype').val();
-        var ccompIdValue = $('#ccompidvalue').val();
-        var sDate = $('#sdate').val();
-        var startDate = $('#startdate').val();
-        var endDate = $('#endate').val();
-        var lmodBy = $('#lmodby').val();
-        var lmodByValue = $('#lmodbyvalue').val();
-        var reasonTypeId = $('#reasontypeid').val();
-        var freasonType = $('#freasontype').val();
-        var freasonValue = $('#freasonvalue').val();
-        var cbDelay = $('#cbdelay').val();
-        var cbDelayValue = $('#cbdelayvalue').val();
-        var repairAdvice = $('#repairadvice').val();
-        var toCatDesc = $('#tocatdesc').val();
-        var requestP1 = $('#RequestP1').val();
-        var fissNull = $('#fissnull').val();
-        var pCam = $('#pcam').val();
-        var sortBy = $('#sortby').val();
-        var ascDesc = $('#ascdsc').val();
-
-        // Tampilkan loading overlay
-        $('#loadingOverlay').show();
-
-        $.ajax({
-            url: '@Url.Action("LoadData", "ExrRepairJobHistory")',
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                repairType: repairType,
-                compType: compType,
-                statusInput: statusInput,
-                supervisorId: supervisorId,
-                supplierId: supplierId,
-                cwoType: cwoType,
-                cwoTypeValue: cwoTypeValue,
-                fdocType: fdocType,
-                fdocTypeValue: fdocTypeValue,
-                ccompIdType: ccompIdType,
-                sDate: sDate,
-                startDate: startDate,
-                endDate: endDate,
-                lmodBy: lmodBy,
-                lmodByValue: lmodByValue,
-                reasonTypeId: reasonTypeId,
-                freasonType: freasonType,
-                freasonValue: freasonValue,
-                cbDelay: cbDelay,
-                cbDelayValue: cbDelayValue,
-                repairAdvice: repairAdvice,
-                toCatDesc: toCatDesc,
-                requestP1: requestP1,
-                fissNull: fissNull,
-                pCam: pCam,
-                sortBy: sortBy,
-                ascDesc: ascDesc
-            },
-            success: function (test) {
-                //console.log(test);
-                $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
-                $('.datatable').DataTable({
-                    searching: false,
-                    lengthChange: false,
-                    responsive: true,
-                    pageLength: 20,
-                    data: test, // The data received from the AJAX request
-                    columns: [
-                        { "data": "id" },
-                        { "data": "totalAgeWO" },
-                        { "data": "unitNumber" },
-                        { "data": "offSiteWO" },
-                        { "data": "woAlloc" },
-                        { "data": "siteAllocName" },
-                        { "data": "woJobCost" },
-                        { "data": "logANReceivedDate" },
-                        { "data": "logANReceivedDate" },
-                        { "data": "logANSentDate" },
-                        { "data": "status" },
-                        { "data": "compDesc" },
-                        { "data": "compQty" },
-                        { "data": "compType" },
-                        { "data": "repairAdvice" },
-                        { "data": "pcamStatusID" },
-                        { "data": "tciPartNo" },
-                        { "data": "supervisorAbbr" },
-                        { "data": "supplierName" },
-                        { "data": "intWO" },
-                        { "data": "suppForRepairANNo" },
-                        { "data": "quoteNo" },
-                        { "data": "jobNo" },
-                        { "data": "quoteDate" },
-                        { "data": "orNo" },
-                        { "data": "opDate" },
-                        { "data": "receivedDate" }
-                    ]
-                });
-                // Sembunyikan loading overlay setelah data dimuat
-                $("#offcanvas").offcanvas("hide");
-                $('#loadingOverlay').hide();
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
+        LoadData()
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
+            LoadData();
         });
-    }
 
+        function LoadData() {
+            var repairType = $('#repairtypeid').val();
+            var compType = $('#comptype').val();
+            var statusInput = $('#statusInput').val();
+            var supervisorId = $('#supervisorid').val();
+            var supplierId = $('#supplierid').val();
+            var cwoType = $('#cwotype').val();
+            var cwoTypeValue = $('#cwotypevalue').val();
+            var fdocType = $('#fdoctype').val();
+            var fdocTypeValue = $('#fdoctypevalue').val();
+            var ccompIdType = $('#ccompidtype').val();
+            var ccompIdValue = $('#ccompidvalue').val();
+            var sDate = $('#sdate').val();
+            var startDate = $('#startdate').val();
+            var endDate = $('#endate').val();
+            var lmodBy = $('#lmodby').val();
+            var lmodByValue = $('#lmodbyvalue').val();
+            var reasonTypeId = $('#reasontypeid').val();
+            var freasonType = $('#freasontype').val();
+            var freasonValue = $('#freasonvalue').val();
+            var cbDelay = $('#cbdelay').val();
+            var cbDelayValue = $('#cbdelayvalue').val();
+            var repairAdvice = $('#repairadvice').val();
+            var toCatDesc = $('#tocatdesc').val();
+            var requestP1 = $('#RequestP1').val();
+            var fissNull = $('#fissnull').val();
+            var pCam = $('#pcam').val();
+            var sortBy = $('#sortby').val();
+            var ascDesc = $('#ascdsc').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadData", "ExrRepairJobHistory")',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    repairType: repairType,
+                    compType: compType,
+                    statusInput: statusInput,
+                    supervisorId: supervisorId,
+                    supplierId: supplierId,
+                    cwoType: cwoType,
+                    cwoTypeValue: cwoTypeValue,
+                    fdocType: fdocType,
+                    fdocTypeValue: fdocTypeValue,
+                    ccompIdType: ccompIdType,
+                    sDate: sDate,
+                    startDate: startDate,
+                    endDate: endDate,
+                    lmodBy: lmodBy,
+                    lmodByValue: lmodByValue,
+                    reasonTypeId: reasonTypeId,
+                    freasonType: freasonType,
+                    freasonValue: freasonValue,
+                    cbDelay: cbDelay,
+                    cbDelayValue: cbDelayValue,
+                    repairAdvice: repairAdvice,
+                    toCatDesc: toCatDesc,
+                    requestP1: requestP1,
+                    fissNull: fissNull,
+                    pCam: pCam,
+                    sortBy: sortBy,
+                    ascDesc: ascDesc
+                },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "id" },
+                            { "data": "totalAgeWO" },
+                            { "data": "unitNumber" },
+                            { "data": "offSiteWO" },
+                            { "data": "woAlloc" },
+                            { "data": "siteAllocName" },
+                            { "data": "woJobCost" },
+                            { "data": "logANReceivedDate" },
+                            { "data": "logANReceivedDate" },
+                            { "data": "logANSentDate" },
+                            { "data": "status" },
+                            { "data": "compDesc" },
+                            { "data": "compQty" },
+                            { "data": "compType" },
+                            { "data": "repairAdvice" },
+                            { "data": "pcamStatusID" },
+                            { "data": "tciPartNo" },
+                            { "data": "supervisorAbbr" },
+                            { "data": "supplierName" },
+                            { "data": "intWO" },
+                            { "data": "suppForRepairANNo" },
+                            { "data": "quoteNo" },
+                            { "data": "jobNo" },
+                            { "data": "quoteDate" },
+                            { "data": "orNo" },
+                            { "data": "opDate" },
+                            { "data": "receivedDate" }
+                        ]
+                    });
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
 </script>
