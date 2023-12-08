@@ -165,7 +165,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return new JsonResult(rows);
         }
-
         public IActionResult Export()
         {
             var cReportTypeQuery = "";
@@ -200,6 +199,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
                     return Utility.ExportDataTableToExcel(data, fileName);
             }
+        }
+
+        public IActionResult Add()
+        {
+            return View("~/Views/PER/ExrRepairJobHistory/Add.cshtml");
         }
 
         // load option for dropdown
