@@ -3,6 +3,19 @@
     ViewData["Title"] = "User Privillege Form";
 }
 
+@if (TempData.Peek("Msg") != null)
+{
+    @section Scripts
+    {
+        <script>
+            Swal.fire({
+                title: '@TempData.Peek("Msg")',
+                icon: '@TempData.Peek("Stat")'
+            });
+        </script>
+    }
+}
+
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -16,10 +29,10 @@
         </div>
     </div>
 </div>
-<form method="post" action="/UserPriv/Save">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <form method="post" action="/UserPriv/Save">
                 <div class="card-body">
                     <div class="mb-2 row">
                         <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
@@ -33,7 +46,7 @@
                             </td>
                             <td>
                                 <div class="input-group">
-                                    <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["UserID"]" name="userid" required>
+                                    <input class="form-control form-control-sm" type="text" value="@ViewBag.data?.Rows[0]?["UserID"]" name="userid" id="userid" required>
                                     <div class="input-group-btn">
                                         <button class="btn btn-primary btn-sm">
                                             <i class="fa fa-search"></i>
@@ -176,7 +189,7 @@
                         </tr>
                         <tr>
                             <td class="text-end">
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Status</label>
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Active User</label>
                             </td>
                             <td>
                                 <select class="form-control select2" name="status" required>
@@ -190,13 +203,19 @@
                 <div class="card-footer text-end">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa fa-save me-2"></i> Save
-                    </button>
+                    </button>                    
                     <a href="/UserPriv" class="btn btn-primary">
                         <i class="fas fa-angle-left me-2"></i>Back
                     </a>
                 </div>
+            </form>
+            <div class="card-footer text-end">
+                <button class="btn btn-primary" onclick="showResetPasswordModal()">Reset Password</button>
             </div>
         </div>
+    </div>
+    @if (ViewBag.Stat != "Add")
+    {
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -205,104 +224,244 @@
                             <h6>User Access Control</h6>
                         </blockquote>
                     </div>
-                    <table class="table table-sm table-striped table-bordered table-sm">
-                        <thead class="table-light">
-                            <tr>
-                                <th rowspan="2">Module</th>
-                                <th colspan="4" class="text-center">Granted</th>
-                                <th rowspan="2"></th>
-                            </tr>
-                            <tr>
-                                <th>Open</th>
-                                <th>Add</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <select class="form-control select2">
-                                        <option value="">Choose Module</option>
-                                        @foreach (DataRow row in ViewBag.module.Rows)
-                                        {
-                                            var GrForm = row["GrForm"].ToString();
-                                            var GrName = row["GrName"].ToString();
-                                            <option value="@GrForm">@GrName</option>
-                                        }
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control select2">
-                                        <option value="0">False</option>
-                                        <option value="1">True</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control select2">
-                                        <option value="0">False</option>
-                                        <option value="1">True</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control select2">
-                                        <option value="0">False</option>
-                                        <option value="1">True</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control select2">
-                                        <option value="0">False</option>
-                                        <option value="1">True</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <a href="/UserPriv/SaveAccess" class="btn btn-link btn-sm">
-                                        <i class="fa fa-save"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @foreach (DataRow row in ViewBag.dataaccess.Rows)
-                            {
+                    <div class="mb-2">
+                        <form method="post" asp-controller="UserPriv">
+                            <table class="table table-borderless">
                                 <tr>
-                                    <td>@row["GrDesc"]</td>
-                                    <td>@row["GrOpen"]</td>
-                                    <td>@row["grAdd"]</td>
-                                    <td>@row["GrEdit"]</td>
-                                    <td>@row["GrDelete"]</td>
-                                    <td class="text-center" style="width:5%">
-                                        <a href="#" class="btn btn-link btn-sm">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
+                                    <td width="30%">
+                                        <label class="form-check-label">User Profile</label>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="huserid2" id="huserid2" value="@ViewBag.data?.Rows[0]?["UserID"]" />
+                                        <select class="form-control select2" id="profileid" name="profileid" required>
+                                            <option value="">Choose User Profile</option>
+                                            @foreach (DataRow row in ViewBag.profile.Rows)
+                                            {
+                                                var profileCode = row["profileCode"].ToString();
+                                                var ProfileName = row["ProfileName"].ToString();
+                                                <option value="@profileCode">@ProfileName</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-link btn-sm" formaction="/UserPriv/AddProfile">
+                                            <i class="fa fa-save me-2"></i> Submit Profile
+                                        </button>
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </table>
+                        </form>
+                    </div>
+                    <form method="post" asp-controller="UserPriv">
+                        <input type="hidden" name="huserid" id="huserid" value="@ViewBag.data?.Rows[0]?["UserID"]" />
+                        <table class="table table-sm table-striped table-bordered table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th rowspan="2">Module</th>
+                                    <th colspan="4" class="text-center">Granted</th>
+                                    <th rowspan="2" colspan="2"></th>
+                                </tr>
+                                <tr>
+                                    <th>Open</th>
+                                    <th>Add</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="form-control select2" id="smodule" name="smodule" required>
+                                            <option value="">Choose Module</option>
+                                            @foreach (DataRow row in ViewBag.module.Rows)
+                                            {
+                                                var GrForm = row["GrForm"].ToString();
+                                                var GrName = row["GrName"].ToString();
+                                                <option value="@GrForm">@GrName</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control select2" name="sopen" id="sopen">
+                                            <option value="0">False</option>
+                                            <option value="1">True</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control select2" name="sadd" id="sadd">
+                                            <option value="0">False</option>
+                                            <option value="1">True</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control select2" name="sedit" id="sedit">
+                                            <option value="0">False</option>
+                                            <option value="1">True</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control select2" name="sdelete" id="sdelete">
+                                            <option value="0">False</option>
+                                            <option value="1">True</option>
+                                        </select>
+                                    </td>
+                                    <td colspan="2">
+                                        <button type="submit" class="btn btn-link btn-sm" formaction="/UserPriv/SaveAccess">
+                                            <i class="fa fa-save me-2"></i> Save
+                                        </button>
+                                    </td>
+                                </tr>
+                                @if (ViewBag.dataaccess != null && ViewBag.dataaccess.Rows.Count > 0)
+                                {
+                                    @foreach (DataRow row in ViewBag.dataaccess.Rows)
+                                    {
+                                        <tr>
+                                            <td>@row["GrDesc"]</td>
+                                            <td>@row["GrOpen"]</td>
+                                            <td>@row["grAdd"]</td>
+                                            <td>@row["GrEdit"]</td>
+                                            <td>@row["GrDelete"]</td>
+                                            <td class="text-center" style="width:5%">
+                                                <button type="button" class="btn btn-link btn-sm" onclick="copy(@row["GrId"])">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                            </td>
+                                            <td class="text-center" style="width:5%">
+                                                <button type="button" class="btn btn-link btn-sm" onclick="confirmDelete(@row["GrId"],'@row["GrDesc"]')">
+                                                    <i class="fa fa-trash text-danger"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    }
+    
+</div>
+<style>
+    .swal2-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .swal2-input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+</style>
 <script>
-    $(document).ready(function() {
-        $('#saveAccessLink').on('click', function(e) {
-            e.preventDefault(); // Menghentikan tindakan default dari tautan
-
-            $.ajax({
-                url: $(this).attr('href'), // Mengambil URL dari atribut href
-                type: 'POST', // Menentukan metode permintaan
-                success: function(response) {
-                    console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
+    function copy(id) {
+        $.ajax({
+            method: "POST",
+            url: "/UserPriv/EditAccess",
+            dataType: 'json',
+            data: { id: id }
+        }).done(function (msg) {
+            var data = msg[0];
+            $("#sopen").val(data.gropen).trigger("change");
+            $("#smodule").val(data.grform).trigger("change");
+            $("#sopen").val(data.gropen).trigger("change");
+            $("#sadd").val(data.gradd).trigger("change");
+            $("#sedit").val(data.gredit).trigger("change");
+            $("#sdelete").val(data.grdelete).trigger("change");
         });
-    });
+    };
 
-    $('.select2').select2({
-        width: '100%'
-    });
+    function confirmDelete(id, frmname) {
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `
+                <div style="font-size: 16px; text-align: center;">
+                    <div style="margin-bottom: 10px;">
+                        Are you sure to delete the following access module?
+                    </div>
+                    <div style="font-weight: bold;">
+                        Access Module: ${frmname}
+                    </div>
+                </div>
+            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                performDelete(id);
+            }
+        });
+    }
+
+    function performDelete(id) {
+        $.ajax({
+            method: "POST",
+            url: "/UserPriv/DeleteAccess",
+            dataType: 'json',
+            data: { id: id }
+        }).done(function (response) {
+            location.reload();
+        });
+    }
+
+    function showResetPasswordModal() {
+        var userid = $("#userid").val();
+        Swal.fire({
+            title: 'Reset Password',
+            html:
+                '<div class="swal2-content">' +
+                '<input id="new-password" type="password" class="swal2-input" placeholder="New Password">' +
+                '<input id="confirm-password" type="password" class="swal2-input" placeholder="Confirm Password">' +
+                '</div>',
+            focusConfirm: false,
+            preConfirm: () => {
+                const newPassword = Swal.getPopup().querySelector('#new-password').value;
+                const confirmPassword = Swal.getPopup().querySelector('#confirm-password').value;
+
+                if (newPassword === '' || confirmPassword === '') {
+                    Swal.showValidationMessage('Please enter both passwords');
+                    return false;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    Swal.showValidationMessage('Passwords do not match');
+                    return false;
+                }
+
+                // Eksekusi perintah di controller action resetpassword
+                resetPassword(newPassword, userid); // Gantilah "resetPassword" dengan nama fungsi di controller action
+
+                return { newPassword: newPassword, confirmPassword: confirmPassword };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Password Reset',
+                    html: '<center>Password has been reset successfully</center>',
+                    icon: 'success'
+                });
+            }
+        });
+    }
+
+    function resetPassword(password, userid) {
+        // Kode untuk mengirim permintaan ke controller action resetpassword
+        // Implementasikan logika reset password sesuai dengan kebutuhan aplikasi Anda
+        console.log('Reset Password:', password);
+        $.ajax({
+            method: "POST",
+            url: "/UserPriv/resetPassword",
+            dataType: 'json',
+            data: { newPassword: password, userid: userid }
+        }).done(function (response) {
+            location.reload();
+        });
+    }
+    
 </script>

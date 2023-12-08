@@ -21,7 +21,7 @@
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/UserPriv/Add">
                             <i class="fa fa-plus me-2"></i> ADD
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary">
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/UserPriv/Export">
                             <i class="fa fa-download me-2"></i> EXPORT
                         </button>
                     </div>
@@ -35,18 +35,63 @@
                             <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-
                             <div class="mb-2">
-                                <label class="form-label">UserID</label>
-                                <input type="Text" class="form-control form-control-sm datepicker-basic" id="userid" name="userid" value="@ViewBag.userid" />
+                                <label class="form-label">Section ID</label>
+                                <select class="form-control form-control-sm select2" name="sectionid" id="sectionid">
+                                    <option value=""></option>
+                                    @foreach (DataRow row in ViewBag.sectionid.Rows)
+                                    {
+                                        var JobSource = row["JobSource"].ToString();
+                                        var JobSourceID = row["JobSourceID"].ToString();
+                                        <option value="@JobSourceID">@JobSource</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Job Cost</label>
+                                <input type="Text" class="form-control form-control-sm" id="jobcost" name="jobcost" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Group</label>
+                                <select class="form-control form-control-sm select2" name="group" id="group">
+                                    <option value=""></option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">JDE Number</label>
+                                <input type="Text" class="form-control form-control-sm" id="userid" name="userid" />
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Username</label>
-                                <input type="Text" class="form-control form-control-sm" id="username" name="username" value="@ViewBag.username" />
+                                <input type="Text" class="form-control form-control-sm" id="username" name="username" />
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Fullname</label>
-                                <input type="Text" class="form-control form-control-sm" id="fullname" name="fullname" value="@ViewBag.fullname" />
+                                <input type="Text" class="form-control form-control-sm" id="fullname" name="fullname" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Job Title</label>
+                                <input type="Text" class="form-control form-control-sm" id="jobtitle" name="jobtitle" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Productive Group</label>
+                                <select class="form-control form-control-sm select2" name="prodgp" id="prodgp">
+                                    <option value=""></option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Activated</label>
+                                <select class="form-control form-control-sm select2" name="active" id="active">
+                                    <option value=""></option>
+                                    <option value="0">No</option>
+                                    <option value="-1">Yes</option>
+                                </select>
                             </div>
                             <hr />
                             <div class="mb-2">
@@ -108,9 +153,15 @@
         });
 
         function loadData() {
+            var sectionid = $('#sectionid').val();
+            var jobcost = $('#jobcost').val();
+            var group = $('#group').val();
             var userID = $('#userid').val();
             var username = $('#username').val();
             var fullname = $('#fullname').val();
+            var jobtitle = $('#jobtitle').val();
+            var prodgp = $('#prodgp').val();
+            var active = $('#active').val();
 
             // Tampilkan loading overlay
             $('#loadingOverlay').show();
@@ -119,7 +170,17 @@
                 url: '@Url.Action("LoadData", "UserPriv")',
                 type: 'GET',
                 dataType: 'json',
-                data: { userID: userID, username: username, fullname: fullname },
+                data: { 
+                    sectionid: sectionid, 
+                    jobcost: jobcost,
+                    group: group,
+                    userID: userID, 
+                    username: username, 
+                    fullname: fullname, 
+                    jobtitle: jobtitle, 
+                    prodgp: prodgp,
+                    active: active 
+                },
                 success: function (test) {
                     //console.log(test);
                     $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
