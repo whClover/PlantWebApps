@@ -97,70 +97,36 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
         {
             string tempfilter = string.Empty;
 
-            if (!string.IsNullOrEmpty(Request.Form["id"]))
+            Dictionary<string, string> formFields = new Dictionary<string, string>
             {
-                tempfilter = " and id like" + Utility.Evar(Request.Form["id"], 11) + tempfilter;
-                string id = Request.Form["id"];
-                ViewBag.id = id;
-            }
+                { "id", "ViewBag.id" },
+                { "jobid", "ViewBag.jobid" },
+                { "parentwo", "ViewBag.parentwo" },
+                { "childwo", "ViewBag.childwo" },
+                { "itemchange", "ViewBag.itemchange" },
+                { "descchange", "ViewBag.descchange" },
+                { "jobstatus", "ViewBag.jobstatus" },
+                { "moddate", "ViewBag.moddate" },
+                { "modby", "ViewBag.modby" }
+            };
 
-            if (!string.IsNullOrEmpty(Request.Form["jobid"]))
+            foreach (var field in formFields)
             {
-                tempfilter = " and jobid like" + Utility.Evar(Request.Form["jobid"], 11) + tempfilter;
-                string jobid = Request.Form["jobid"];
-                ViewBag.jobid = jobid;
-            }
+                if (!string.IsNullOrEmpty(Request.Form[field.Key]))
+                {
+                    var viewBagDict = ViewBag as IDictionary<string, object>;
 
-            if (!string.IsNullOrEmpty(Request.Form["parentwo"]))
-            {
-                tempfilter = " and parentwo like" + Utility.Evar(Request.Form["parentwo"], 11) + tempfilter;
-                string parentwo = Request.Form["parentwo"];
-                ViewBag.parentwo = parentwo;
-            }
+                    if (viewBagDict != null)
+                    {
+                        viewBagDict[field.Value] = Request.Form[field.Key];
+                    }
 
-            if (!string.IsNullOrEmpty(Request.Form["childwo"]))
-            {
-                tempfilter = " and childwo like" + Utility.Evar(Request.Form["childwo"], 11) + tempfilter;
-                string childwo = Request.Form["childwo"];
-                ViewBag.childwo = childwo;
-            }
-
-            if (!string.IsNullOrEmpty(Request.Form["itemchange"]))
-            {
-                tempfilter = " and itemchange like" + Utility.Evar(Request.Form["itemchange"], 11) + tempfilter;
-                string itemchange = Request.Form["itemchange"];
-                ViewBag.itemchange = itemchange;
-            }
-
-            if (!string.IsNullOrEmpty(Request.Form["descchange"]))
-            {
-                tempfilter = " and descchange like" + Utility.Evar(Request.Form["descchange"], 11) + tempfilter;
-                string descchange = Request.Form["descchange"];
-                ViewBag.descchange = descchange;
-            }
-
-            if (!string.IsNullOrEmpty(Request.Form["jobstatus"]))
-            {
-                tempfilter = " and jobstatus like" + Utility.Evar(Request.Form["jobstatus"], 11) + tempfilter;
-                string jobstatus = Request.Form["jobstatus"];
-                ViewBag.jobstatus = jobstatus;
-            }
-
-            if (!string.IsNullOrEmpty(Request.Form["moddate"]))
-            {
-                tempfilter = " and moddate like" + Utility.Evar(Request.Form["moddate"], 11) + tempfilter;
-                string moddate = Request.Form["moddate"];
-                ViewBag.moddate = moddate;
-            }
-
-            if (!string.IsNullOrEmpty(Request.Form["modby"]))
-            {
-                tempfilter = " and modby like" + Utility.Evar(Request.Form["modby"], 11) + tempfilter;
-                string modby = Request.Form["modby"];
-                ViewBag.modby = modby;
+                    tempfilter = $" and {field.Key} like {Utility.Evar(Request.Form[field.Key], 11)}" + tempfilter;
+                }
             }
 
             _tempfilter = Utility.VarFilter(tempfilter);
         }
+
     }
 }

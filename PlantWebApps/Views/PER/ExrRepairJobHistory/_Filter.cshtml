@@ -1,0 +1,369 @@
+﻿@*
+
+*@
+@{
+    @using System.Data;
+}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <span id="offcanvasRightLabel" class="form-label">
+            <i class="fa fa-filter"></i> Filter
+        </span>
+        <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="mb-2 col">
+                <label class="form-label">Repair Type</label>
+                <select class="form-control form-control-sm" id="repairtypeid" name="repairtypeid">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.repairType.Rows)
+                    {
+                        var repairtypeid = row["ExrRepairtypeID"].ToString();
+                        var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
+                        var repairtype = row["ExrRepairtype"].ToString();
+                        <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
+                    }
+                </select>
+            <div class="mb-2 col">
+                <label class="form-label">Comp. Type</label>
+                <select class="form-control form-control-sm" id="comptype" name="comptype">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.comptype.Rows)
+                    {
+                        var comptypeid = row["CompTypeID"].ToString();
+                        var comptype = row["CompType"].ToString();
+                        var comptypedesc = row["CompTypeDesc"].ToString();
+                        <option value="@comptype">@comptype | @comptypedesc</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Status</label>
+            <div class="d-flex flex-row" style="gap: 10px;">
+                <input type="Text" class="form-control form-control-sm" id="statusInput" 
+                 value="@ViewBag.statusValue" name="statusValue" style="height: 40px;"/>
+                <div class="d-flex flex-row mb-2" style="gap: 10px;">
+                    <button type="button" class="btn btn-primary" style="min-width: 50px;"
+                        data-bs-toggle="modal" data-bs-target="#filterstatusmodal">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="statusRemove" style="min-width: 50px;">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-2 col">
+                <label class="form-label">Spv Desc</label>
+                <select class="form-control form-control-sm" id="supervisorid" name="supervisorid">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.spvdesc.Rows)
+                    {
+                        var supervisorid = row["SupervisorID"].ToString();
+                        var supervisordesc = row["SupervisorDesc"].ToString();
+                        <option value="@supervisorid">@supervisordesc</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-2 col">
+                <label class="form-label">Repair By</label>
+                <select class="form-control form-control-sm" id="supplierid" name="supplierid">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.repairby.Rows)
+                    {
+                        var supplierid = row["SupplierID"].ToString();
+                        var suppliername = row["SupplierName"].ToString();
+                        var suppliername2 = row["SupplierName2"].ToString();
+                        <option value="@supplierid">@suppliername | @suppliername2 | @supplierid</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            @* select cwo type *@
+            <div class="mb-2 col">
+                <div class="d-flex flex-column mb-2">
+                    <select id="cwotype" name="cwotype" class="border-0">
+                        <option value="1">Parent WO</option>
+                        <option value="2">WO TO Unit</option>
+                        <option value="3">Offsite WO</option>
+                        <option value="4">Internal WO</option>
+                        <option value="5">Supporting WO</option>
+                        <option value="6">External WO</option>
+                        <option value="7">Previous WO</option>
+                        <option value="8">Previous OP</option>
+                    </select>
+                    <input type="text" id="cwotypevalue" name="cwotypevalue" />
+                </div>
+            </div>
+            @* select fdoc type *@
+            <div class="mb-2 col">
+                <div class="d-flex flex-column mb-2">
+                    <select name="fdoctype" id="fdoctype" class="border-0">
+                        <option value="1">OP No</option>
+                        <option value="2">OR No</option>
+                        <option value="3">DN No</option>
+                        <option value="4">ST OT No</option>
+                        <option value="5">Job No</option>
+                        <option value="6">Job No 2nd</option>
+                        <option value="7">Quote No</option>
+                        <option value="8">OR RR No</option>
+                        <option value="9">OP RR No</option>
+                        <option value="10">AN No</option>
+                        <option value="11">WO Job Cost</option>
+                        <option value="12">Log AN No</option>
+                        <option value="13">WO Allocation</option>
+                    </select>
+                    <input type="text" name="fdoctypevalue" id="fdoctypevalue" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @* select CCompID type *@
+            <div class="mb-2 col">
+                <div class="d-flex flex-column mb-2">
+                    <select name="ccompidtype" id="ccompidtype" class="border-0">
+                        <option value="1">Part Number</option>
+                        <option value="2">Component ID</option>
+                        <option value="3">Job ID</option>
+                        <option value="4">Unit Number</option>
+                        <option value="5">Remark</option>
+                        <option value="6">Core Fit To Unit</option>
+                        <option value="7">Supplier Serial Number</option>
+                        <option value="8">Component Desc</option>
+                    </select>
+                    <input type="text" name="ccompidvalue" id="ccompidvalue" />
+                </div>
+            </div>
+            @* select fdate type *@
+            <div class="mb-2 col">
+                <select class="form-label2" name="sdate" id="sdate">
+                    <option value="1">Register Date</option>
+                    <option value="2">Issued Date</option>
+                    <option value="3">Received Date</option>
+                    <option value="4">Doc Date</option>
+                    <option value="5">Quote Rev.Date</option>
+                    <option value="6">Quote Date</option>
+                    <option value="7">OP Date</option>
+                    <option value="8">EG - EI</option>
+                    <option value="9">EI - EK</option>
+                    <option value="10">EK - EP</option>
+                    <option value="11">Closed Date</option>
+                    <option value="12">Dispute Completed Date</option>
+                    <option value="13">Log AN Date</option>
+                    <option value="14">Last Change Date</option>
+                    <option value="15">Old Core Inspection</option>
+                    <option value="16">Final Inspection</option>
+                    <option value="17">PER AN Date</option>
+                    <option value="18">Supp ReceiveAN Date</option>
+                    <option value="19">Last Mod Date</option>
+                </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="Text" class="form-control form-control-sm datepicker-basic"
+                               name="startdate" value="@ViewBag.startdate" id="startdate" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="Text" class="form-control form-control-sm datepicker-basic"
+                               name="endate" value="@ViewBag.endate" id="endate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @* select Imodby *@
+            <div class="mb-2 col">
+                <div class="d-flex flex-column mb-2">
+                    <select name="lmodby" id="lmodby" class="border-0">
+                        <option value="1">Closed By</option>
+                        <option value="2">Compl Dispute By</option>
+                        <option value="3">Dispute By</option>
+                        <option value="4">Issued By</option>
+                        <option value="5">Last Advice By</option>
+                        <option value="6">Mod By</option>
+                        <option value="7">PER AN By</option>
+                        <option value="8">Print Quote By</option>
+                        <option value="9">Process Quote By</option>
+                        <option value="10">Quote App By</option>
+                        <option value="11">Received By</option>
+                        <option value="12">Registered By</option>
+                        <option value="13">Tagging By</option>
+                    </select>
+                    <input type="text" name="lmodbyvalue" id="lmodbyvalue" />
+                </div>
+            </div>
+            @* select Eq.Class *@
+            <div class="mb-2 col">
+                <label class="form-label">Eq.Class</label>
+                <select class="form-control form-control-sm" id="unitnumber" name="unitnumber">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.feqclass.Rows)
+                    {
+                        var unitnumber = row["UnitNumber"].ToString();
+                        var unitdescription = row["UnitDescription"].ToString();
+                        <option value="@unitnumber">@unitdescription</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            @* select FReason *@
+            <div class="mb-2 col">
+                <label class="form-label">Reason</label>
+                <select class="form-control form-control-sm" id="reasontypeid" name="reasontypeid">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.freason.Rows)
+                    {
+                        var reasontypeid = row["ReasonTypeID"].ToString();
+                        var reasontype = row["ReasonType"].ToString();
+                        var reasontypedesc = row["ReasonTypeDesc"].ToString();
+                        <option value="@reasontypeid">@reasontype | @reasontypedesc</option>
+                    }
+                </select>
+            </div>
+            @* select FStore type *@
+            <div class="mb-2 col">
+                <div class="d-flex flex-column mb-2">
+                    <select name="freasontype" id="freasontype" class="border-0">
+                        <option value="1">ExStore</option>
+                        <option value="2">Store</option>
+                        <option value="3">Allocation</option>
+                    </select>
+                    <select class="form-control form-control-sm" id="freasonvalue" name="freasonvalue">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.fstore.Rows)
+                        {
+                            var storeid = row["StoreID"].ToString();
+                            var storename = row["StoreName"].ToString();
+                            <option value="@storeid">@storename</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @* select CbDelay type *@
+            <div class="mb-2 col">
+                <div class="d-flex flex-column mb-2">
+                    <select name="cbdelay" id="cbdelay" class="border-0">
+                        <option value="1">Delay Tag</option>
+                        <option value="2">Delay Close</option>
+                    </select>
+                    <select class="form-control form-control-sm" id="cbdelayvalue" name="cbdelayvalue">
+                        <option value=""></option>
+                        <option value="<>">Yes</option>
+                        <option value="=">No</option>
+                    </select>
+                </div>
+            </div>
+            @* Repair Advice *@
+            <div class="mb-2 col">
+                <label class="form-label">Repair Adv</label>
+                <input type="Text" class="form-control form-control-sm"
+                       name="repairadvice" value="@ViewBag.repairadvice" id="repairadvice" />
+            </div>
+        </div>
+        <div class="row">
+            @* select Turn Over Cat *@
+            <div class="mb-2 col">
+                <label class="form-label">TurnOverCat</label>
+                <select class="form-control form-control-sm" id="tocatdesc" name="tocatdesc">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.cbtocategory.Rows)
+                    {
+                        var tocatid = row["TOCatID"].ToString();
+                        var tocatdesc = row["TOCatDesc"].ToString();
+                        <option value="@tocatdesc">@tocatid | @tocatdesc</option>
+                    }
+                </select>
+            </div>
+            @* select Priority *@
+            <div class="mb-2 col">
+                <label class="form-label">Priority</label>
+                <select class="form-control form-control-sm" id="RequestP1" name="RequestP1">
+                    <option value=""></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            @* select Is Empty *@
+            <div class="mb-2 col">
+                <label class="form-label">Is Empty</label>
+                <select class="form-control form-control-sm" id="fissnull" name="fissnull">
+                    <option value=""></option>
+                    <option value="1">IssuedDate</option>
+                    <option value="2">DNNo</option>
+                    <option value="3">EGEI</option>
+                    <option value="4">EIEK</option>
+                    <option value="5">EKEP</option>
+                    <option value="6">STOTNo</option>
+                    <option value="7">JobNo</option>
+                    <option value="8">RegisterDate</option>
+                    <option value="9">ReceivedDate</option>
+                    <option value="10">DocDate</option>
+                    <option value="11">QuoteRevDate</option>
+                    <option value="12">QuoteDate</option>
+                    <option value="13">OPDate</option>
+                    <option value="14">ORDate</option>
+                    <option value="15">DisputeCompletedDate</option>
+                    <option value="16">PRFID</option>
+                    <option value="17">SuppForRepairANNo</option>
+                    <option value="18">LogANReceivedDate</option>
+                    <option value="19">SitetoLogDate</option>
+                    <option value="20">CEID</option>
+                    <option value="21">Supp Receive AN Date</option>
+                    <option value="22">CEID</option>
+                    <option value="23">IntWO</option>
+                </select>
+            </div>
+            @* select Is PCAM *@
+            <div class="mb-2 col">
+                <label class="form-label">PCAM</label>
+                <select class="form-control form-control-sm" id="pcam" name="pcam">
+                    <option value=""></option>
+                    <option value="NW">NW | Waiting Investigation</option>
+                    <option value="IP">IP | In Progress</option>
+                    <option value="CL">CL | Completed</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            @* select sort by *@
+            <div class="mb-2 col">
+                <label class="form-label">Sort By</label>
+                <select class="form-control form-control-sm" id="sortby" name="sortby">
+                    <option value="2">Register Date</option>
+                    <option value="1">ID</option>
+                    <option value="3">Delivery Date</option>
+                    <option value="4">Received Date</option>
+                    <option value="5">Dispute Completed Date</option>
+                </select>
+            </div>
+            @* select asc/desc *@
+            <div class="mb-2 col">
+                <label class="form-label">Asc/Desc</label>
+                <select class="form-control form-control-sm" id="ascdsc" name="ascdsc">
+                    <option value="desc">Desc</option>
+                    <option value="asc">Asc</option>
+                </select>
+            </div>
+        </div>
+        <hr />
+        <div class="mb-2">
+            <div>
+                    <button type="submit" id="filterButton" class="btn btn-sm btn-primary">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+    
