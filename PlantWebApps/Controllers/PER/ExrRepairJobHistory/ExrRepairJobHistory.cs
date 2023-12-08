@@ -203,6 +203,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
         public IActionResult Add()
         {
+            loadoption();
             return View("~/Views/PER/ExrRepairJobHistory/Add.cshtml");
         }
 
