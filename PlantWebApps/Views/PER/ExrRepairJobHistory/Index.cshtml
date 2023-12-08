@@ -1,0 +1,314 @@
+﻿@*
+
+*@
+@{
+    @using System.Data;
+    // viewdata["title"] = "external repair job history";
+}
+
+<script type="text/javascript">
+    function showOverlay() {
+        var overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        var spinner = document.createElement('div');
+        spinner.className = 'spinner';
+
+        var text = document.createElement('div');
+        text.className = 'text';
+        text.innerHTML = 'Processing Data...';
+
+        overlay.appendChild(spinner);
+        overlay.appendChild(text);
+        document.body.appendChild(overlay);
+
+        setTimeout(function () {
+            hideOverlay();
+        }, 3000);
+
+        return true;
+    }
+    function hideOverlay() {
+        var overlay = document.querySelector('.overlay');
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
+    }
+
+    // status modal
+    document.addEventListener('DOMContentLoaded', function () {
+        var statusInput = document.getElementById('statusInput');
+        var statusSelect = document.getElementById('statusSelect');
+
+        document.getElementById('saveStatusBtn').addEventListener('click', function () {
+            var selectedOptions = Array.from(statusSelect.selectedOptions).map(option => option.value);
+
+            statusInput.value = selectedOptions.join(', ');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var btnDanger = document.getElementById('statusRemove');
+        var statusInput = document.getElementById('statusInput');
+
+        btnDanger.addEventListener('click', function () {
+            statusInput.value = '';
+        });
+    });
+</script>
+
+<form method="post" enctype="multipart/form-data" asp-controller="ExrRepairJobHistory">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">External Repair Job History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
+                            @* <small>Total Records: @ViewBag.TotalRecords Rows</small> *@
+                        </blockquote>
+                    </div>
+                    <div class="d-flex mb-2 align-items-center" style="gap: 5px">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas"  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="fa fa-filter me-2"></i> FILTER
+                        </button>
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add">
+                            <i class="fa fa-plus me-2"></i> ADD
+                        </button>
+                        <div>
+                            <select name="creportype" class="form-select" style="width: 160px;">
+                                <option value="">*Select Export Type*</option>
+                                <option value="1">Job Detail</option>
+                                <option value="2">OR Request TCI</option>
+                                <option value="3">OR Request LCI</option>
+                                <option value="4">Inspection Detail</option>
+                                <option value="5">Core Component</option>
+                                <option value="6">Main Component</option>
+                                <option value="7">Unit Job Detail</option>
+                                <option value="8">Complete Component</option>
+                                <option value="9">Warranty Report</option>
+                                <option value="10">WIP Report</option>
+                                <option value="11">Variance Analysis</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
+                            <i class="fa fa-download me-2"></i> EXPORT
+                        </button>
+                    </div>
+
+                    <!-- right offcanvas -->
+                    <partial name="_filter.cshtml" />
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="filterstatusmodal" tabindex="-1" aria-labelledby="filterstatusmodal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="statusModal">Status</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <select class="form-select" multiple aria-label="status select" style="min-height: 135px;" id="statusSelect">
+                                        <option value="C">C | Closed</option>
+                                        <option value="D">D | Deleted</option>
+                                        <option value="H">H | Hold</option>
+                                        <option value="L">L | In Transit</option>
+                                        <option value="O">O | Outstanding</option>
+                                        <option value="P">P | In Progress</option>
+                                        <option value="X">X | Canceled</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (TempData.Peek("Msg") != null)
+                    {
+                        @section Scripts
+                    {
+                        <script>
+                            Swal.fire({
+                                title: '@TempData.Peek("Msg")',
+                                    icon: '@TempData.Peek("Stat")'
+                                });
+                            </script>
+                        }
+                    }
+
+                    <div id="tableContainer" class="table-responsive">
+                        <table id="myTable" class="table datatable mb-0 table-sm table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Prio</th>
+                                    <th>Total AGE WO</th>
+                                    <th>Age Waiting Qoute</th>
+                                    <th>Unit Number</th>
+                                    <th>Wo Alloc</th>
+                                    <th>Site Alloc</th>
+                                    <th>WOJob Cost</th>
+                                    <th>Log Date</th>
+                                    <th>PER AN</th>
+                                    <th>St</th>
+                                    <th>Comp Desc</th>
+                                    <th>Qty</th>
+                                    <th>Comp Type</th>
+                                    <th>Repair Advice</th>
+                                    <th>PCAM</th>
+                                    <th>TCI Part No</th>
+                                    <th>Supv</th>
+                                    <th>Repair By</th>
+                                    <th>Int WO</th>
+                                    <th>WorkShop Status</th>
+                                    <th>AN For Repair</th>
+                                    <th>Qoute No</th>
+                                    <th>Job No</th>
+                                    <th>Quote Date</th>
+                                    <th>OR No</th>
+                                    <th>OP No</th>
+                                    <th>OP Date</th>
+                                    <th>Received Date</th>
+                                    <th>PRF ID</th>
+                                    <th>QR No</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        LoadData()
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
+            LoadData();
+        });
+
+        function LoadData() {
+            var repairType = $('#repairtypeid').val();
+            var compType = $('#comptype').val();
+            var statusInput = $('#statusInput').val();
+            var supervisorId = $('#supervisorid').val();
+            var supplierId = $('#supplierid').val();
+            var cwoType = $('#cwotype').val();
+            var cwoTypeValue = $('#cwotypevalue').val();
+            var fdocType = $('#fdoctype').val();
+            var fdocTypeValue = $('#fdoctypevalue').val();
+            var ccompIdType = $('#ccompidtype').val();
+            var ccompIdValue = $('#ccompidvalue').val();
+            var sDate = $('#sdate').val();
+            var startDate = $('#startdate').val();
+            var endDate = $('#endate').val();
+            var lmodBy = $('#lmodby').val();
+            var lmodByValue = $('#lmodbyvalue').val();
+            var reasonTypeId = $('#reasontypeid').val();
+            var freasonType = $('#freasontype').val();
+            var freasonValue = $('#freasonvalue').val();
+            var cbDelay = $('#cbdelay').val();
+            var cbDelayValue = $('#cbdelayvalue').val();
+            var repairAdvice = $('#repairadvice').val();
+            var toCatDesc = $('#tocatdesc').val();
+            var requestP1 = $('#RequestP1').val();
+            var fissNull = $('#fissnull').val();
+            var pCam = $('#pcam').val();
+            var sortBy = $('#sortby').val();
+            var ascDesc = $('#ascdsc').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadData", "ExrRepairJobHistory")',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    repairType: repairType,
+                    compType: compType,
+                    statusInput: statusInput,
+                    supervisorId: supervisorId,
+                    supplierId: supplierId,
+                    cwoType: cwoType,
+                    cwoTypeValue: cwoTypeValue,
+                    fdocType: fdocType,
+                    fdocTypeValue: fdocTypeValue,
+                    ccompIdType: ccompIdType,
+                    sDate: sDate,
+                    startDate: startDate,
+                    endDate: endDate,
+                    lmodBy: lmodBy,
+                    lmodByValue: lmodByValue,
+                    reasonTypeId: reasonTypeId,
+                    freasonType: freasonType,
+                    freasonValue: freasonValue,
+                    cbDelay: cbDelay,
+                    cbDelayValue: cbDelayValue,
+                    repairAdvice: repairAdvice,
+                    toCatDesc: toCatDesc,
+                    requestP1: requestP1,
+                    fissNull: fissNull,
+                    pCam: pCam,
+                    sortBy: sortBy,
+                    ascDesc: ascDesc
+                },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "id" },
+                            { "data": "totalAgeWO" },
+                            { "data": "unitNumber" },
+                            { "data": "offSiteWO" },
+                            { "data": "woAlloc" },
+                            { "data": "siteAllocName" },
+                            { "data": "woJobCost" },
+                            { "data": "logANReceivedDate" },
+                            { "data": "logANReceivedDate" },
+                            { "data": "logANSentDate" },
+                            { "data": "status" },
+                            { "data": "compDesc" },
+                            { "data": "compQty" },
+                            { "data": "compType" },
+                            { "data": "repairAdvice" },
+                            { "data": "pcamStatusID" },
+                            { "data": "tciPartNo" },
+                            { "data": "supervisorAbbr" },
+                            { "data": "supplierName" },
+                            { "data": "intWO" },
+                            { "data": "suppForRepairANNo" },
+                            { "data": "quoteNo" },
+                            { "data": "jobNo" },
+                            { "data": "quoteDate" },
+                            { "data": "orNo" },
+                            { "data": "opDate" },
+                            { "data": "receivedDate" }
+                        ]
+                    });
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>
