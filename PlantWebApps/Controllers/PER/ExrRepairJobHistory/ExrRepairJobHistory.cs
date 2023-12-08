@@ -207,6 +207,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
         }
 
+        public IActionResult CreateAN()
+        {
+            loadoption();
+            return View("~/Views/PER/ExrRepairJobHistory/CreateAN/CreateAN.cshtml");
+        }
+
         // load option for dropdown
         private void loadoption()
         {            
