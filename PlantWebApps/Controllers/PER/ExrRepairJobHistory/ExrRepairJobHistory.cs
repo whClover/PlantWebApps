@@ -214,6 +214,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryrepair = "Select ExrRepairTypeID,ExrRepairTypeAbr,ExrRepairType from tbl_ExrRepairType";
             ViewBag.repairType = SQLFunction.execQuery(queryrepair);
 
+            // repair type 2
+            string queryrepair2 = "SELECT ExrRepairtypeID, ExrRepairtypeAbr, ExrRepairtype FROM tbl_ExrRepairType WHERE ExrRepairtypeID not in (1,4,5)";
+            ViewBag.repairType2 = SQLFunction.execQuery(queryrepair2);
+
             //comp type
             string querycomp = "SELECT CompTypeID, CompType, CompTypeDesc FROM tbl_EXRCompType WHERE (((CompTypeID)<>2)); ";
             ViewBag.compType = SQLFunction.execQuery(querycomp);
@@ -241,6 +245,26 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             //CBToCategory
             string querycbtocategory = "SELECT TOCatID, TOCatDesc FROM tbl_TurnOverCat; ";
             ViewBag.cbtocategory = SQLFunction.execQuery(querycbtocategory);
+
+            //Currency
+            string querycurrency = "SELECT CurrID FROM tbl_Currency; ";
+            ViewBag.currency = SQLFunction.execQuery(querycurrency);
+
+            // tsaving cost category
+            string querytsavingcost = "select * from tbl_SavingCostCategory order by savingcostCatID";
+            ViewBag.tsavingcost = SQLFunction.execQuery(querytsavingcost);
+
+            // tdestination
+            string querytdestionation = "SELECT StoreID, StoreName FROM tblv_Store";
+            ViewBag.tdestination = SQLFunction.execQuery(querytdestionation);
+
+            // tsitealloc
+            string querytsitealloc = "SELECT Location, LocationName FROM tblv_LocationTS";
+            ViewBag.tsitealloc = SQLFunction.execQuery(querytsitealloc);
+
+            // tnextstatus
+            string querytnextstatus = "SELECT * FROM tbl_EXRJobStatus Where ExrJobStatusID Not IN (0,5,6,11,12)";
+            ViewBag.tnextstatus = SQLFunction.execQuery(querytnextstatus);
         }
         private string ApplyFilterCategory(string category, string value, string currentFilter)
         {

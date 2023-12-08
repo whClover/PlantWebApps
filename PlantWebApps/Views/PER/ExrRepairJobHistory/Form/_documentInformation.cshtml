@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
 }
 
 <div class="col border">
@@ -41,10 +42,10 @@
             <div class="row align-items-center">
                 <div class="col-2 fs-6">Doc Type</div>
                 <select name="" class="col-6">
-                    <option value="">PEX</option>
-                    <option value="1">Stock</option>
-                    <option value="2">Direct Change</option>
-                    <option value="3">Consigntment</option>
+                    <option value=""></option>
+                    <option value="1">FAR</option>
+                    <option value="2">CCR</option>
+                    <option value="3">No Doc</option>
                 </select>
                 <div class="col-4">
                     <p class="fst-italic text-primary" style="font-size: 1em">Reason Type Is Moved Bellow Supplier</p>
@@ -139,10 +140,14 @@
             <div class="row align-items-center">
                 <div class="col-2 fs-6">Current Status</div>
                 <select name="" class="col-4">
-                    <option value="">PEX</option>
-                    <option value="1">Stock</option>
-                    <option value="2">Direct Change</option>
-                    <option value="3">Consigntment</option>
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.tnextstatus.Rows)
+                    {
+                        var statusId = row["ExrJobStatusID"].ToString();
+                        var jobStatus = row["ExrJobStatus"].ToString();
+                        var statusDesc = row["ExrJobStatusDesc"].ToString();
+                        <option value="@statusId">@jobStatus | @statusDesc</option>
+                    }
                 </select>
                 <input type="text" class="col-5 ms-2" disabled />
             </div>
