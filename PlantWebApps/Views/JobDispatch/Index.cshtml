@@ -6,6 +6,30 @@
     ViewData["Title"] = "Job Dispatch";
 }
 
+<script>
+    // status modal
+    document.addEventListener('DOMContentLoaded', function () {
+        var dispatchTypeInput = document.getElementById('fDispatchTypeID');
+        var dispatchTypeSelect = document.getElementById('dispatchTypeSelect');
+
+        document.getElementById('saveStatusBtn').addEventListener('click', function () {
+            var selectedOptions = Array.from(dispatchTypeSelect.selectedOptions).map(option => option.value);
+
+            dispatchTypeInput.value = selectedOptions.join(', ');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var btnDanger = document.getElementById('dispatchTypeRemove');
+        var statusInput = document.getElementById('fDispatchTypeID');
+
+        btnDanger.addEventListener('click', function () {
+            statusInput.value = '';
+        });
+    });
+</script>
+
 <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
     <div class="row">
         <div class="col-12">
@@ -43,9 +67,9 @@
                                 <label class="form-label">AN NO</label>
                                 <input type="Text" class="form-control form-control-sm" id="tANNO" name="tANNO" />
                             </div>
-                            <div class="mb-2 d-flex">
+                            <div class="mb-2 col">
                                 <label class="form-label">Section</label>
-                                <select name="fSectionID" id="fSectionID" class="border-0">
+                                <select class="form-control form-control-sm" id="fSectionID" name="fSectionID">
                                     <option value=""></option>
                                 </select>
                             </div>
@@ -62,13 +86,56 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="mb-2">
+                                <label class="form-label">Dispatch Type</label>
+                                <div class="d-flex flex-row" style="gap: 10px;">
+                                    <input type="Text" class="form-control form-control-sm" id="fDispatchTypeID"
+                                           value="@ViewBag.fDispatchTypeID" name="fDispatchTypeID" style="height: 40px;" />
+                                    <div class="d-flex flex-row mb-2" style="gap: 10px;">
+                                        <button type="button" class="btn btn-primary" style="min-width: 50px;"
+                                                data-bs-toggle="modal" data-bs-target="#dispatchTypeModal">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="dispatchTypeRemove" style="min-width: 50px;">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             <hr />
                             <div class="mb-2">
                                 <div>
                                     <button class="btn btn-sm btn-primary" id="filterButton" type="submit">
                                         <i class="fa fa-search"></i> Search
                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="dispatchTypeModal" tabindex="-1" aria-labelledby="dispatchTypeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="statusModal">Status</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <select class="form-select" multiple aria-label="status select" style="min-height: 150px;" id="dispatchTypeSelect">
+                                        <option value="">For Repair</option>
+                                        <option value="">Spare Part</option>
+                                        <option value="">Stand</option>
+                                        <option value="">After Repair</option>
+                                        <option value="">Patch Dispatch</option>
+                                        <option value="">Return To Site</option>
+                                        <option value="">Part For Repair</option>
+                                        <option value="">For Trial</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +158,7 @@
                         <table id="myTable" class="table datatable mb-0 table-sm table-striped table-bordered">
                             <thead class="table-light">
                                 <tr>
-                                    <th></th>
+                                    <th>ID</th>
                                     <th>AN No</th>
                                     <th>Section</th>
                                     <th>Dispatch Type</th>
@@ -124,33 +191,27 @@
         });
 
         function loadData() {
-            var sectionid = $('#sectionid').val();
-            var jobcost = $('#jobcost').val();
-            var group = $('#group').val();
-            var userID = $('#userid').val();
-            var username = $('#username').val();
-            var fullname = $('#fullname').val();
-            var jobtitle = $('#jobtitle').val();
-            var prodgp = $('#prodgp').val();
-            var active = $('#active').val();
+            var fwono = $('#fwono').val();
+            var tanno = $('#tANNO').val();
+            var fsectionid = $('#fSectionID').val();
+            var fdocstart = $('#fdocstart').val();
+            var fdocend = $('#fdocend').val();
+            var fdispatchtypeid = $('#fDispatchTypeID').val();
 
             // Tampilkan loading overlay
             $('#loadingOverlay').show();
 
             $.ajax({
-                url: '@Url.Action("LoadData", "UserPriv")',
+                url: '@Url.Action("LoadData", "JobDispatch")',
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    sectionid: sectionid,
-                    jobcost: jobcost,
-                    group: group,
-                    userID: userID,
-                    username: username,
-                    fullname: fullname,
-                    jobtitle: jobtitle,
-                    prodgp: prodgp,
-                    active: active
+                    fwono: fwono,
+                    tanno: tanno,
+                    fsectionid: fsectionid,
+                    fdocstart: fdocstart,
+                    fdocend: fdocend,
+                    fdispatchtypeid: fdispatchtypeid
                 },
                 success: function (test) {
                     //console.log(test);
@@ -162,16 +223,12 @@
                         pageLength: 20,
                         data: test, // The data received from the AJAX request
                         columns: [
-                            { "data": "edit" },
-                            { "data": "section" },
-                            { "data": "jobcost" },
-                            { "data": "groupname" },
-                            { "data": "userID" },
-                            { "data": "username" },
-                            { "data": "fullname" },
-                            { "data": "productivegp" },
-                            { "data": "status" },
-                            { "data": "jobtitle" }
+                            { "data": "fwono" },
+                            { "data": "tanno" },
+                            { "data": "fsectionid" },
+                            { "data": "fdocstart" },
+                            { "data": "fdocend" },
+                            { "data": "fdispatchtypeid" }
                         ]
                     });
 
