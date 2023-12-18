@@ -142,6 +142,16 @@ namespace PlantWebApps.Helper
                     case 19:
                         eval = "(" + val.ToString().Substring(0, Math.Min(val.ToString().Length, vallen)) + ")";
                         break;
+                    case 20:
+                        if (DateTime.TryParse(val.ToString(), out DateTime dateTimehoursVal))
+                        {
+                            eval = "'" + dateTimehoursVal.ToString("yyyy-MM-dd HH:mm:ss.fff") + "'";
+                        }
+                        else
+                        {
+                            eval = "NULL";
+                        }
+                        break;
                     default:
                         eval = "'" + val.ToString().Substring(0, Math.Min(val.ToString().Length, vallen)) + "'";
                         break;

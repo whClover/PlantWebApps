@@ -24,4 +24,16 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "JobDispatchEditReport",
+    pattern: "JobDispatch/Report/{id}",
+    defaults: new { controller = "JobDispatch", action = "Report" }
+);
+
+app.MapControllerRoute(
+    name: "JobDispatchSearchWonoDetail",
+    pattern: "JobDispatch/searchwonodetail/{id}/{wono}",
+    defaults: new { controller = "JobDispatch", action = "SearchWonoDetail" }
+);
+
 app.Run();
