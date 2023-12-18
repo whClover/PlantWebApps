@@ -7,6 +7,35 @@
 }
 
 <script>
+    // overlay
+    function showOverlay() {
+        var overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        var spinner = document.createElement('div');
+        spinner.className = 'spinner';
+
+        var text = document.createElement('div');
+        text.className = 'text';
+        text.innerHTML = 'Processing Data...';
+
+        overlay.appendChild(spinner);
+        overlay.appendChild(text);
+        document.body.appendChild(overlay);
+
+        setTimeout(function () {
+            hideOverlay();
+        }, 3000);
+
+        return true;
+    }
+    function hideOverlay() {
+        var overlay = document.querySelector('.overlay');
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
+    }
+
     // status modal
     document.addEventListener('DOMContentLoaded', function () {
         var dispatchTypeInput = document.getElementById('fDispatchTypeID');
@@ -45,9 +74,12 @@
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/JobDispatch/Add">
                             <i class="fa fa-plus me-2"></i> ADD
                         </button>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/JobDispatch/Export">
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/JobDispatch/Export" >
                             <i class="fa fa-download me-2"></i> EXPORT
                         </button>
+                        <a class="btn btn-sm btn-primary" id="btnPrint">
+                            PRINT
+                        </a>
                     </div>
 
                     <!-- right offcanvas -->
@@ -71,6 +103,12 @@
                                 <label class="form-label">Section</label>
                                 <select class="form-control form-control-sm" id="fSectionID" name="fSectionID">
                                     <option value=""></option>
+                                    @foreach (DataRow row in ViewBag.section.Rows)
+                                    {
+                                        var jobSourceId = row["JobSourceID"].ToString();
+                                        var jobSource = row["JobSource"].ToString();
+                                        <option value="@jobSourceId">@jobSource</option>
+                                    }
                                 </select>
                             </div>
                             <div class="mb-2">
@@ -123,14 +161,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <select class="form-select" multiple aria-label="status select" style="min-height: 150px;" id="dispatchTypeSelect">
-                                        <option value="">For Repair</option>
-                                        <option value="">Spare Part</option>
-                                        <option value="">Stand</option>
-                                        <option value="">After Repair</option>
-                                        <option value="">Patch Dispatch</option>
-                                        <option value="">Return To Site</option>
-                                        <option value="">Part For Repair</option>
-                                        <option value="">For Trial</option>
+                                        <option value="For Repair">For Repair</option>
+                                        <option value="Spare Part">Spare Part</option>
+                                        <option value="Stand">Stand</option>
+                                        <option value="After Repair">After Repair</option>
+                                        <option value="Patch Dispatch">Patch Dispatch</option>
+                                        <option value="Return To Site">Return To Site</option>
+                                        <option value="Part For Repair">Part For Repair</option>
+                                        <option value="For Trial">For Trial</option>
                                     </select>
                                 </div>
                                 <div class="modal-footer">
@@ -158,7 +196,8 @@
                         <table id="myTable" class="table datatable mb-0 table-sm table-striped table-bordered">
                             <thead class="table-light">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Delete</th>
+                                    <th>Edit</th>
                                     <th>AN No</th>
                                     <th>Section</th>
                                     <th>Dispatch Type</th>
@@ -182,7 +221,6 @@
 </form>
 
 <script>
-
     $(document).ready(function () {
         loadData();
         $('#filterButton').click(function (e) {
@@ -202,7 +240,7 @@
             $('#loadingOverlay').show();
 
             $.ajax({
-                url: '@Url.Action("LoadData", "JobDispatch")',
+                url: '@Url.Action("loadData", "JobDispatch")',
                 type: 'GET',
                 dataType: 'json',
                 data: {
@@ -223,12 +261,18 @@
                         pageLength: 20,
                         data: test, // The data received from the AJAX request
                         columns: [
-                            { "data": "fwono" },
-                            { "data": "tanno" },
-                            { "data": "fsectionid" },
-                            { "data": "fdocstart" },
-                            { "data": "fdocend" },
-                            { "data": "fdispatchtypeid" }
+                            { "data": "delete" },
+                            { "data": "edit" },
+                            { "data": "id" },
+                            { "data": "section" },
+                            { "data": "dispatchType" },
+                            { "data": "attantionName" },
+                            { "data": "attentionTo" },
+                            { "data": "project" },
+                            { "data": "dispatchDate" },
+                            { "data": "handledDate" },
+                            { "data": "receivedDate" },
+                            { "data": "statusId" }
                         ]
                     });
 
@@ -243,4 +287,42 @@
             });
         }
     });
+
+    var btnPrint = document.getElementById('btnPrint');
+
+    btnPrint.addEventListener('click', function () {
+        var selectedRow = $('.datatable').DataTable().row(0).data();
+        var idValue = selectedRow.id;
+        window.location.href = '/jobdispatch/report/' + encodeURIComponent(idValue);
+    });
+
+    var tableCell = document.querySelector('#myTable tbody tr td');
+    btnDeleteDetail.addEventListener('click', function (e) {
+        console.log('btnDeleteDetail clicked');
+        e.preventDefault();
+        if (tableCell && tableCell.textContent.trim() !== '') {
+            console.log('Showing confirmation dialog');
+            Swal.fire({
+                title: 'Are you sure to delete this data?',
+                showDenyButton: true,
+                icon: "warning",
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No'
+            }).then((result) => {
+                console.log('User response:', result);
+                if (result.isConfirmed) {
+                    window.location.href = btnDeleteDetail.href;
+                } else if (result.isDenied) {
+                    Swal.fire("Data Not Deleted", "", "success");
+                }
+            });
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "There Is No Data To Be Deleted",
+            });
+        }
+    });
+
 </script>

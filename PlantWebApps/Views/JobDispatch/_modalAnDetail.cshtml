@@ -1,0 +1,146 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<!-- Modal -->
+<form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
+    <div class="modal fade" id="anDetailModal" tabindex="-1" aria-labelledby="anDetailModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="statusModal">AN Detail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row" style="gap: 10px">
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;" >
+                                Status
+                            </div>
+                            <input type="text" class="col-4" name="TStatusID" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["StatusID"] : "")" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Dispatch Type*</div>
+                            <select disabled class="col-4" name="TType" required>
+                                <option value=""></option>
+                                @foreach (DataRow row in ViewBag.tDispatchType.Rows)
+                                {
+                                    var tDispatchTypeId = row["DispatchTypeID"].ToString();
+                                    var tDispatchTypeType = row["DispatchType"].ToString();
+                                    var selectedDispatchType = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["DispatchType"].ToString() : null;
+                                    <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Advice Note*</div>
+                            <input type="text" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DispatchID"] : null)" class="col-4" name="TDispatchID" />
+                            <div class="col-1" style="font-size: 12px;" >
+                                ID
+                            </div>
+                            <input type="text" class="col-3 ms-2" name="TID" value="@ViewBag.id" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Section ID*</div>
+                            @* <select class="col-4" >
+                                <option value=""></option>
+                            </select> *@
+                            <input type="text" id="anDetailSection" name="TSectionID" class="col-4" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)" />
+                            <div class="col-1" style="font-size: 12px;">JobID</div>
+                            <input type="text" id="anDetailJobId" name="TJobID" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["JobID"] : null)"
+                                    class="col-3 ms-2" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">WONO</div>
+                            <input type="text" id="anDetailWono" name="TWONo" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["WONO"] : null)"
+                                   class="col-4" required  />
+                            <div class="col-1" style="font-size: 12px;">ChWO</div>
+                            <input type="text" id="anDetailChildWo" name="TChildWO"
+                                   class="col-3 ms-2" required value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ChildWO"] : null)" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Item No</div>
+                            <input type="text" class="col-4" name="TItem" required value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["Item"] : null)" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">
+                                Qty
+                            </div>
+                            <input type="text" class="col-4" name="TQty" required value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["Qty"] : null)" />
+                            <div class="col-1" style="font-size: 12px;">UOM</div>
+                            <input type="text" class="col-3 ms-2" name="TTUOM" required value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["UOM"] : null)" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;" >
+                                Description
+                            </div>
+                            <textarea row="8" id="anDetailDescription" name="TItemDesc" class="col-8" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ItemDesc"] : null)"></textarea>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">WO / OFF SITE / OP / OR</div>
+                            <textarea row="5" class="col-8" name="TPONo" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["PONo"] : null)"></textarea>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">PR No</div>
+                            <input type="text" class="col-4" name="TPRNo" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["PRNo"] : null)" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Remarks</div>
+                            <textarea row="5" class="col-8" name="TRemarks" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["Remarks"] : null)"></textarea>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Register</div>
+                            <input type="text" class="col-4" name="TRegisterBy" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterBy"] : null)" />
+                            <input type="text" class="col-4 ms-2" name="TRegisterDate"
+                                   datepicker-basic" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterDate"] : null)" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Modification</div>
+                            <input type="text" class="col-4" name="TModBy" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModBy"] : "")" />
+                            <input type="text" class="col-4 ms-2 datepicker-basic" name="TModDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Deleted</div>
+                            <input type="text" class="col-4" name="TDeletedBy" name="DeletedDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModBy"] : null)" />
+                            <input type="text" class="col-4 ms-2 datepicker-basic" name="DeletedDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p>Note : If AN Number is Not Found, register first using Module Job Dispatch</p>
+                    <button type="submit" class="btn btn-primary" id="saveStatusBtn" formaction="/JobDispatch/AddDetail">Select</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
