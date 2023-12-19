@@ -221,72 +221,72 @@
 </form>
 
 <script>
-    $(document).ready(function () {
-        loadData();
-        $('#filterButton').click(function (e) {
-            e.preventDefault();
+        $(document).ready(function () {
             loadData();
-        });
-
-        function loadData() {
-            var fwono = $('#fwono').val();
-            var tanno = $('#tANNO').val();
-            var fsectionid = $('#fSectionID').val();
-            var fdocstart = $('#fdocstart').val();
-            var fdocend = $('#fdocend').val();
-            var fdispatchtypeid = $('#fDispatchTypeID').val();
-
-            // Tampilkan loading overlay
-            $('#loadingOverlay').show();
-
-            $.ajax({
-                url: '@Url.Action("loadData", "JobDispatch")',
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    fwono: fwono,
-                    tanno: tanno,
-                    fsectionid: fsectionid,
-                    fdocstart: fdocstart,
-                    fdocend: fdocend,
-                    fdispatchtypeid: fdispatchtypeid
-                },
-                success: function (test) {
-                    //console.log(test);
-                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
-                    $('.datatable').DataTable({
-                        searching: false,
-                        lengthChange: false,
-                        responsive: true,
-                        pageLength: 20,
-                        data: test, // The data received from the AJAX request
-                        columns: [
-                            { "data": "delete" },
-                            { "data": "edit" },
-                            { "data": "id" },
-                            { "data": "section" },
-                            { "data": "dispatchType" },
-                            { "data": "attantionName" },
-                            { "data": "attentionTo" },
-                            { "data": "project" },
-                            { "data": "dispatchDate" },
-                            { "data": "handledDate" },
-                            { "data": "receivedDate" },
-                            { "data": "statusId" }
-                        ]
-                    });
-
-                    // Sembunyikan loading overlay setelah data dimuat
-                    $("#offcanvas").offcanvas("hide");
-                    $('#loadingOverlay').hide();
-
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
+            $('#filterButton').click(function (e) {
+                e.preventDefault();
+                loadData();
             });
-        }
-    });
+
+            function loadData() {
+                var fwono = $('#fwono').val();
+                var tanno = $('#tANNO').val();
+                var fsectionid = $('#fSectionID').val();
+                var fdocstart = $('#fdocstart').val();
+                var fdocend = $('#fdocend').val();
+                var fdispatchtypeid = $('#fDispatchTypeID').val();
+
+                // Tampilkan loading overlay
+                $('#loadingOverlay').show();
+
+                $.ajax({
+                    url: '@Url.Action("loadData", "JobDispatch")',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        fwono: fwono,
+                        tanno: tanno,
+                        fsectionid: fsectionid,
+                        fdocstart: fdocstart,
+                        fdocend: fdocend,
+                        fdispatchtypeid: fdispatchtypeid
+                    },
+                    success: function (test) {
+                        //console.log(test);
+                        $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                        $('.datatable').DataTable({
+                            searching: false,
+                            lengthChange: false,
+                            responsive: true,
+                            pageLength: 20,
+                            data: test, // The data received from the AJAX request
+                            columns: [
+                                { "data": "delete" },
+                                { "data": "edit" },
+                                { "data": "id" },
+                                { "data": "section" },
+                                { "data": "dispatchType" },
+                                { "data": "attantionName" },
+                                { "data": "attentionTo" },
+                                { "data": "project" },
+                                { "data": "dispatchDate" },
+                                { "data": "handledDate" },
+                                { "data": "receivedDate" },
+                                { "data": "statusId" }
+                            ]
+                        });
+
+                        // Sembunyikan loading overlay setelah data dimuat
+                        $("#offcanvas").offcanvas("hide");
+                        $('#loadingOverlay').hide();
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
 
     var btnPrint = document.getElementById('btnPrint');
 

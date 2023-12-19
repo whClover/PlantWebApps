@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@using System.Data;
+	ViewData["Title"] = "Component Evaluation EDIT";
+}
+
+<form method="post" action="/JobDispatch/Save">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title">Component Evaluation EDIT</h5>
+				</div>
+				<div class="card-body">
+					<div class="d-flex flex-column">
+						<div class="d-flex">
+							@* first section *@
+							<div class="col border">
+								<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+									<div class="container overflow-hidden">
+										<div class="row align-items-center">
+											<div class="col-3" style="font-size: 12px;">Assign WO</div>
+											<select class="col-4">
+												<option value=""></option>
+											</select>
+											<div class="col-4" style="font-size: 12px;">*4775</div>
+										</div>
+									</div>
+									<div class="container overflow-hidden">
+										<div class="row align-items-center">
+											<div class="col-3" style="font-size: 12px;">Unit Number</div>
+											<select class="col-4">
+												<option value=""></option>
+											</select>
+											<input type="Text" class="col-4 ms-2" />
+										</div>
+									</div>
+									<div class="container overflow-hidden">
+										<div class="row align-items-center">
+											<div class="col-3" style="font-size: 12px;">Location</div>
+											<input type="Text" class="col-4" />
+											<input type="Text" class="col-4 ms-2" />
+										</div>
+									</div>
+								</div>
+							</div>
+							@* second section *@
+							<div class="col border">
+								<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+									<div class="container overflow-hidden">
+										<div class="row align-items-center">
+											<div class="col-5" style="font-size: 12px;">Shipment Date*</div>
+											<input type="Text" class="col-7 datepicker-basic" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
+										</div>
+									</div>
+									<div class="container overflow-hidden">
+										<div class="row align-items-center">
+											<div class="col-5" style="font-size: 12px;">Shipment Date*</div>
+											<input type="Text" class="col-7 datepicker-basic" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						@* BUTTON *@
+						<div class="align-self-end my-3 d-flex" style="gap: 10px;">
+							<button type="submit" class="btn btn-sm btn-primary" formaction="/jobdispatch/save">
+								SAVE
+							</button>
+							<a class="btn btn-sm btn-primary" href="/JobDispatch">
+								CLOSE
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
