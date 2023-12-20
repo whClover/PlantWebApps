@@ -1,0 +1,326 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col border flex-column">
+	@* first section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Strip Down Finding</p>
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center">
+				<div class="col-12 ms-n2" style="font-size: 12px;">Details</div>
+				<textarea class="col-12" rows="5"></textarea>
+			</div>
+		</div>
+	</div>
+	@* second section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Maintenance Failure</p>
+		@* radio button *@
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center">
+				<input class="form-check-input" name="oCoreInspection" type="radio" id="oCoreInspectionY" checked>
+				<label class="form-check-label col-2 pt-1" for="oCoreInspection">Mechanical</label>
+				<input class="form-check-input" name="oCoreInspection" type="radio" id="oCoreInspectionN">
+				<label class="form-check-label col-2 pt-1" for="oCoreInspection">Electrical</label>
+			</div>
+		</div>
+		@* root cause *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Root Cause</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-4" style="font-size: 12px;">Maintenance Deficiency</div>
+			</div>
+		</div>
+		@* recommendation *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Recommendation</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-4" style="font-size: 12px;">Maintain Cleanliness</div>
+			</div>
+		</div>
+		@* sf system failure *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">SF System Failure</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-4" style="font-size: 12px;">Hydraulic System</div>
+			</div>
+		</div>
+		@* Detail Root Cause *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Detail Root Cause</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+			</div>
+		</div>
+		@* pcam required *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">PCAM Required</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-4" style="font-size: 12px;">No</div>
+			</div>
+		</div>
+		@* pcam status *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">PCAM Required</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-2" style="font-size: 12px;">Start</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* pcam id *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">PCAM ID</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-2" style="font-size: 12px;">Completed</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+	</div>
+	@* third section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Materials Reviewed</p>
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center">
+				@* first checkbox column *@
+				<div class="col-6 d-flex flex-column" style="font-size: 12px;">
+					@* work order check *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Work Order
+						</label>
+					</div>
+					@* installation check *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Installation Checklist
+						</label>
+					</div>
+					@* downtime report check *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Downtime Report Last 3 Months
+						</label>
+					</div>
+					@* check component change *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Component Change Out History
+						</label>
+					</div>
+					@* previous wo *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Previous WO
+						</label>
+					</div>
+					@* Sevice Board History Last 2000SMU *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Sevice Board History Last 2000SMU
+						</label>
+					</div>
+					@* Photo *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Photo
+						</label>
+					</div>
+					@* CFI *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							CFI
+						</label>
+					</div>
+					@* Component History *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Component History
+						</label>
+					</div>
+					@* S.O.S *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							S.O.S
+						</label>
+					</div>
+					@* Oil Top Up History *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Oil Top Up History
+						</label>
+					</div>
+				</div>
+				@* second checkbox column *@
+				<div class="col-6" style="font-size: 12px;">
+					@* Operation Condition Report *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Operation Condition Report
+						</label>
+					</div>
+					@* Previous OP *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Previous OP
+						</label>
+					</div>
+					@* Written Instruction *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Written Instruction
+						</label>
+					</div>
+					@* SOS/CTS *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							SOS/CTS
+						</label>
+					</div>
+					@* WO History 12 Months *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							WO History 12 Months
+						</label>
+					</div>
+					@* ECM Download *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							ECM Download
+						</label>
+					</div>
+					@* Operator Interview *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Operator Interview
+						</label>
+					</div>
+					@* Incident Notification Report *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Incident Notification Report
+						</label>
+					</div>
+					@* Incident Investigation Report *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Incident Investigation Report
+						</label>
+					</div>
+					@* Failure Analysys *@
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Failure Analysys
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@* fourth section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Evaluation Code</p>
+		@* table evaluation code *@
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center">
+				<div class="col-6 text-white d-flex align-items-center" 
+					style="font-size: 12px; height: 30px; background-color: grey">
+					Evaluation Code
+				</div>
+				<div class="col-3 text-white d-flex align-items-center"
+					 style="font-size: 12px; height: 30px; background-color: grey">
+					Route
+				</div>
+				<div class="col-3 text-white d-flex align-items-center"
+					 style="font-size: 12px; height: 30px; background-color: grey">
+					Costing
+				</div>
+			</div>
+		</div>
+		@* evaluation code input *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center" style="gap: 10px">
+				<select class="col-5">
+					<option value=""></option>
+				</select>
+				<input type="Text" class="col-3" readonly/>
+				<input type="Text" class="col-3" readonly/>
+			</div>
+		</div>
+		@* register *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Register</div>
+				<div class="col-3 text-primary" style="font-size: 12px;">Change Later</div>
+			</div>
+		</div>
+		@* last mod *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Last Mod</div>
+			</div>
+		</div>
+		@* TABLE *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center" style="gap: 10px;">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">A Code Sign OFF</th>
+							<th scope="col">Sign</th>
+							<th scope="col">Date</th>
+						</tr>
+					</thead>
+					<tbody style="font-size: 12px;">
+						<tr><td>Plant Supt</td></tr>
+						<tr><td>Plant Ops Supt</td></tr>
+						<tr><td>Plant Manager</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

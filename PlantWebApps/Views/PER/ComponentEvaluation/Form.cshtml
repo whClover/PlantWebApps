@@ -16,62 +16,36 @@
 				<div class="card-body">
 					<div class="d-flex flex-column">
 						<div class="d-flex">
-							@* first section *@
-							<div class="col border">
-								<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-									<div class="container overflow-hidden">
-										<div class="row align-items-center">
-											<div class="col-3" style="font-size: 12px;">Assign WO</div>
-											<select class="col-4">
-												<option value=""></option>
-											</select>
-											<div class="col-4" style="font-size: 12px;">*4775</div>
-										</div>
-									</div>
-									<div class="container overflow-hidden">
-										<div class="row align-items-center">
-											<div class="col-3" style="font-size: 12px;">Unit Number</div>
-											<select class="col-4">
-												<option value=""></option>
-											</select>
-											<input type="Text" class="col-4 ms-2" />
-										</div>
-									</div>
-									<div class="container overflow-hidden">
-										<div class="row align-items-center">
-											<div class="col-3" style="font-size: 12px;">Location</div>
-											<input type="Text" class="col-4" />
-											<input type="Text" class="col-4 ms-2" />
-										</div>
-									</div>
-								</div>
-							</div>
-							@* second section *@
-							<div class="col border">
-								<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-									<div class="container overflow-hidden">
-										<div class="row align-items-center">
-											<div class="col-5" style="font-size: 12px;">Shipment Date*</div>
-											<input type="Text" class="col-7 datepicker-basic" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
-										</div>
-									</div>
-									<div class="container overflow-hidden">
-										<div class="row align-items-center">
-											<div class="col-5" style="font-size: 12px;">Shipment Date*</div>
-											<input type="Text" class="col-7 datepicker-basic" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
-										</div>
-									</div>
-								</div>
-							</div>
+							<partial name="Form/FirstColumn.cshtml" />
+							<partial name="Form/SecondColumn.cshtml" />
 						</div>
 						@* BUTTON *@
-						<div class="align-self-end my-3 d-flex" style="gap: 10px;">
-							<button type="submit" class="btn btn-sm btn-primary" formaction="/jobdispatch/save">
-								SAVE
-							</button>
-							<a class="btn btn-sm btn-primary" href="/JobDispatch">
-								CLOSE
-							</a>
+						<div class="align-items-center mt-3 d-flex" style="gap: 10px;">
+							<div class="align-items-center d-flex" style="gap: 10px;">
+								<button type="submit" class="btn btn-sm btn-primary">
+									COPY TO JDE
+								</button>
+								<button type="submit" class="btn btn-sm btn-primary">
+									PRINT
+								</button>
+								<button type="submit" class="btn btn-sm btn-primary">
+									PRINT EVAL
+								</button>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox">
+									<label class="form-check-label">
+										To File
+									</label>
+								</div>
+							</div>
+							<div class="ms-auto">
+								<button type="submit" class="btn btn-sm btn-primary">
+									SAVE
+								</button>
+								<a class="btn btn-sm btn-primary" href="/JobDispatch">
+									CLOSE
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>

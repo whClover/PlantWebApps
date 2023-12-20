@@ -1,0 +1,233 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col border flex-column">
+	@* first section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		@* assign wo *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Assign WO</div>
+				<select class="col-4">
+					<option value=""></option>
+				</select>
+				<div class="col-4" style="font-size: 12px;">*4775</div>
+			</div>
+		</div>
+		@* unit number *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Unit Number</div>
+				<select class="col-4">
+					<option value=""></option>
+				</select>
+				<input type="Text" class="col-4 ms-2" />
+			</div>
+		</div>
+		@* location *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Location</div>
+				<input type="Text" class="col-4" />
+				<input type="Text" class="col-4 ms-2" />
+			</div>
+		</div>
+		@* maint type *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Maint Type</div>
+				<select class="col-4">
+					<option value=""></option>
+				</select>
+				<input type="Text" class="col-4 ms-2" />
+			</div>
+		</div>
+		@* job ID *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Maint Type</div>
+				<select class="col-4">
+					<option value=""></option>
+				</select>
+				<input type="Text" class="col-4 ms-2" />
+			</div>
+		</div>
+	</div>
+	@* second section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Complaint</p>
+		@* schedule smu *@
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Schedule SMU</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-3" style="font-size: 12px;">Completed SMU</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* details *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Details</div>
+				<textarea class="col-9" rows="3"></textarea>
+			</div>
+		</div>
+		@* currency *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Currency</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+			</div>
+		</div>
+		@* flat rate and total cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Flat Rate</div>
+				<input type="Text" class="col-3" />
+				<div class="col-3" style="font-size: 12px;">Total Cost Before</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* additional parts and saving cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Additional Parts</div>
+				<input type="Text" class="col-3" />
+				<div class="col-3" style="font-size: 12px;">Saving Cost</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* Parts and total qoute rev *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Parts</div>
+				<input type="Text" class="col-3" />
+				<div class="col-3" style="font-size: 12px;">Total Qoute Rev</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* Labour and tci supply *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Labour</div>
+				<input type="Text" class="col-3" />
+				<div class="col-3" style="font-size: 12px;">TCI Supply</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* consumable and total cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Consumable</div>
+				<input type="Text" class="col-3" />
+				<div class="col-3" style="font-size: 12px;">Total Cost</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* others and new price *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Others</div>
+				<input type="Text" class="col-3" />
+				<div class="col-3" style="font-size: 12px;">New Price</div>
+				<div class="col-3 btn btn-primary" style="font-size: 12px;">Change Later</div>
+			</div>
+		</div>
+	</div>
+	@* third section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Investigation</p>
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center" style="gap: 10px;">
+				<input type="Text" class="col-2" readonly/>
+				<input type="Text" class="col-2 datepicker-basic"/>
+				<input type="Text" class="col-2" />
+				<input type="Text" class="col-3" />
+				<button type="submit" class="btn btn-sm btn-primary col-2">
+					SAVE
+				</button>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center" style="gap: 10px;">
+				<button type="submit" class="btn btn-sm btn-primary col-2">
+					ADD
+				</button>
+				<button type="submit" class="btn btn-sm btn-primary col-2">
+					EDIT
+				</button>
+			</div>
+		</div>
+		@* TABLE *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center" style="gap: 10px;">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">When</th>
+							<th scope="col">Detail</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td></td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		@* supply date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3 datepicker-basic" style="font-size: 12px;">Supply Date</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* install date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3 datepicker-basic" style="font-size: 12px;">Install Date</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* remove date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3 datepicker-basic" style="font-size: 12px;">Remove Date</div>
+				<input type="Text" class="col-3" />
+			</div>
+		</div>
+		@* action taken / suggestion *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Action Taken / Suggestion</div>
+				<textarea class="col-9" rows="3"></textarea>
+			</div>
+		</div>
+		@* Conclusion *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Conclusion</div>
+				<textarea class="col-9" rows="5"></textarea>
+			</div>
+		</div>
+		@* evaluated by and date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Evaluated By</div>
+				<select class="col-3">
+					<option value=""></option>
+				</select>
+				<div class="col-1" style="font-size: 12px;">Date</div>
+				<input type="Text" class="col-5 datepicker-basic" />
+			</div>
+		</div>
+	</div>
+</div>
+
