@@ -32,8 +32,8 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Root Cause</div>
-				<select class="col-3">
-					<option value=""></option>
+				<select class="col-3" name="tRootCauseCode" id="tRootCauseCode">
+					<option value="" selected></option>
 					@foreach (DataRow row in ViewBag.tRootCauseCode.Rows)
 					{
 						var tRootCauseCodeRootCauseCode = row["RootCauseCode"].ToString();
@@ -41,15 +41,15 @@
 						<option value="@tRootCauseCodeRootCauseCode">@tRootCauseCodeRootCauseDesc</option>
 					}
 				</select>
-				<div class="col-4" style="font-size: 12px;">Maintenance Deficiency</div>
+				<div class="col-4" style="font-size: 12px;" name="tRootCauseCodeField" id="tRootCauseCodeField"></div>
 			</div>
 		</div>
 		@* recommendation *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Recommendation</div>
-				<select class="col-3">
-					<option value=""></option>
+				<select class="col-3" id="tRecCode" name="tRecCode">
+					<option value="" selected></option>
 					@foreach (DataRow row in ViewBag.tRecCode.Rows)
 					{
 						var tRecCodeRecCode = row["RecCode"].ToString();
@@ -57,14 +57,14 @@
 						<option value="@tRecCodeRecCode">@tRecCodeRecCode | @tRecCodeRecDesc</option>
 					}
 				</select>
-				<div class="col-4" style="font-size: 12px;">Maintain Cleanliness</div>
+				<div class="col-4" style="font-size: 12px;" id="tRecCodeField" name="tRecCodeField"></div>
 			</div>
 		</div>
 		@* sf system failure *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">SF System Failure</div>
-				<select class="col-3">
+				<select class="col-3" id="tSysFailCode" name="tSysFailCode">
 					<option value=""></option>
 					@foreach (DataRow row in ViewBag.tSysFailCode.Rows)
 					{
@@ -73,7 +73,7 @@
 						<option value="@tSysFailCodeSysFailCode">@tSysFailCodeSysFailCode | @tSysFailCodeSysFail</option>
 					}
 				</select>
-				<div class="col-4" style="font-size: 12px;">Hydraulic System</div>
+				<div class="col-4" style="font-size: 12px;" id="tSysFailCodeField" name="tSysFailCodeField"></div>
 			</div>
 		</div>
 		@* Detail Root Cause *@
@@ -89,18 +89,18 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">PCAM Required</div>
-				<select class="col-3">
+				<select class="col-3" id="tPCAMRequired" name="tPCAMRequired">
 					<option value=""></option>
 					<option value="Y">Y | Yes</option>
 					<option value="N">N | No</option>
 				</select>
-				<div class="col-4" style="font-size: 12px;">No</div>
+				<div class="col-4" style="font-size: 12px;" id="tPCAMRequiredField" name="tPCAMRequiredField"></div>
 			</div>
 		</div>
 		@* pcam status *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
-				<div class="col-3" style="font-size: 12px;">PCAM Required</div>
+				<div class="col-3" style="font-size: 12px;">PCAM Status</div>
 				<select class="col-3">
 					<option value=""></option>
 					<option value="NW">NW | Waiting Investigation</option>
@@ -115,9 +115,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">PCAM ID</div>
-				<select class="col-3">
-					<option value=""></option>
-				</select>
+				<input type="Text" class="col-3" />
 				<div class="col-2" style="font-size: 12px;">Completed</div>
 				<input type="Text" class="col-3" />
 			</div>
@@ -307,7 +305,7 @@
 		@* evaluation code input *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center" style="gap: 10px">
-				<select class="col-5">
+				<select class="col-5" id="tEvalCode" name="tEvalCode">
 					<option value=""></option>
 					@foreach (DataRow row in ViewBag.tEvalCode.Rows)
 					{
@@ -318,8 +316,8 @@
 						<option value="@tEvalCodeEvalCode">@tEvalCodeEvalDesc | @tEvalCodeRoute | @tEvalCodeCosting</option>
 					}
 				</select>
-				<input type="Text" class="col-3" readonly/>
-				<input type="Text" class="col-3" readonly/>
+				<input type="Text" class="col-3" id="tEvalCodeRoute" name="tEvalCodeRoute" readonly />
+				<input type="Text" class="col-3" id="tEvalCodeCosting" name="tEvalCodeCosting" readonly />
 			</div>
 		</div>
 		@* register *@
@@ -356,3 +354,49 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	// function to change other field from select
+
+	// root cause 
+	$("#tRootCauseCode").on("change", function () {
+		var value = $(this).find(":selected").text();
+		$("#tRootCauseCodeField").text(value);
+	});
+
+	// Recommendation 
+	$("#tRecCode").on("change", function () {
+		var value = $(this).find(":selected").text();
+		var valueAfterPipe = value.split("|")[1].trim();
+		$("#tRecCodeField").text(valueAfterPipe);
+	});
+
+	// SF System Failure tPCAMRequired
+	$("#tSysFailCode").on("change", function () {
+		var value = $(this).find(":selected").text();
+		var valueAfterPipe = value.split("|")[1].trim();
+		$("#tSysFailCodeField").text(valueAfterPipe);
+	});
+
+	// PCAM Required
+	$("#tPCAMRequired").on("change", function () {
+		var value = $(this).find(":selected").text();
+		var valueAfterPipe = value.split("|")[1].trim();
+		$("#tPCAMRequiredField").text(valueAfterPipe);
+	});
+
+	// Evaluation Code
+	$("#tEvalCode").on("change", function () {
+		var value = $(this).find(":selected").text();
+		console.log(value);
+
+		var valueAfterSecondPipe = value.split("|")[1].trim();
+		var valueAfterThirdPipe = value.split("|")[2].trim();
+
+		console.log(valueAfterSecondPipe);
+		console.log(valueAfterThirdPipe);
+
+		$("#tEvalCodeRoute").val(valueAfterSecondPipe);
+		$("#tEvalCodeCosting").val(valueAfterThirdPipe);
+	});
+</script>

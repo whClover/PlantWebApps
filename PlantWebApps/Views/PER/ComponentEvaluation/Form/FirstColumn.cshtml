@@ -27,7 +27,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Unit Number</div>
-				<select class="col-4">
+				<select class="col-4" id="tUnitNumber" name="tUnitNumber">
 					<option value=""></option>
 					@foreach (DataRow row in ViewBag.tUnitNumber.Rows)
 					{
@@ -35,25 +35,27 @@
 						var tUnitNumberUnitDescription = row["UnitDescription"].ToString();
 						var tUnitNumberLocation = row["Location"].ToString();
 						var tUnitNumberLocationName = row["LocationName"].ToString();
-						<option value="@tUnitNumberUnitNumber">@tUnitNumberUnitNumber</option>
+						<option value="@tUnitNumberUnitNumber">@tUnitNumberUnitNumber | @tUnitNumberUnitDescription 
+							| @tUnitNumberLocation | @tUnitNumberLocationName
+						</option>
 					}
 				</select>
-				<input type="Text" class="col-4 ms-2" />
+				<input type="Text" class="col-4 ms-2" id="tUnitNumberDescriptionField" name="tUnitNumberDescriptionField" />
 			</div>
 		</div>
 		@* location *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Location</div>
-				<input type="Text" class="col-4" />
-				<input type="Text" class="col-4 ms-2" />
+				<input type="Text" class="col-4" id="tUnitNumberLocationField" name="tUnitNumberLocationField" />
+				<input type="Text" class="col-4 ms-2" id="tUnitNumberLocationNameField" name="tUnitNumberLocationNameField" />
 			</div>
 		</div>
 		@* maint type *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Maint Type</div>
-				<select class="col-4">
+				<select class="col-4" id="tMaintType" name="tMaintType">
 					<option value=""></option>
 					@foreach (DataRow row in ViewBag.tMaintType.Rows)
 					{
@@ -62,7 +64,7 @@
 						<option value="@tMaintTypeMaintType">@tMaintTypeMaintType | @tMaintTypeMaintDesc</option>
 					}
 				</select>
-				<input type="Text" class="col-4 ms-2" />
+				<input type="Text" class="col-4 ms-2" id="tMaintTypeField" name="tMaintTypeField" />
 			</div>
 		</div>
 		@* job ID *@
@@ -82,12 +84,6 @@
 				<div class="col-3" style="font-size: 12px;">Schedule SMU</div>
 				<select class="col-3">
 					<option value=""></option>
-					@foreach (DataRow row in ViewBag.tMaintType.Rows)
-					{
-						var tMaintTypeMaintType = row["MaintType"].ToString();
-						var tMaintTypeMaintDesc = row["MaintDesc"].ToString();
-						<option value="@tMaintTypeMaintType">@tMaintTypeMaintType | @tMaintTypeMaintDesc</option>
-					}
 				</select>
 				<div class="col-3" style="font-size: 12px;">Completed SMU</div>
 				<input type="Text" class="col-3" />
@@ -265,4 +261,30 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	// function to change other field from select
+
+	// unit number
+	$("#tUnitNumber").on("change", function () {
+		var value = $(this).find(":selected").text();
+
+		var valueAfterFirstPipe = value.split("|")[1].trim();
+		var valueAfterSecondPipe = value.split("|")[2].trim();
+		var valueAfterThirdPipe = value.split("|")[3].trim();
+
+		$("#tUnitNumberDescriptionField").val(valueAfterFirstPipe);
+		$("#tUnitNumberLocationField").val(valueAfterSecondPipe);
+		$("#tUnitNumberLocationNameField").val(valueAfterThirdPipe);
+	});
+
+	// maint type
+	$("#tMaintType").on("change", function () {
+		var value = $(this).find(":selected").text();
+
+		var valueAfterFirstPipe = value.split("|")[1].trim();
+
+		$("#tMaintTypeField").val(valueAfterFirstPipe);
+	});
+</script>
 
