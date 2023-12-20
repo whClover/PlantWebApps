@@ -2,6 +2,7 @@
 using PlantWebApps.Helper;
 using System;
 using System.Data;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 {
@@ -125,6 +126,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		}
 		public IActionResult Edit()
 		{
+			LoadOption();
 			return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
 		}
         private void LoadOption()
@@ -164,6 +166,42 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			// load tReasonType
 			string querytReasonType = "SELECT ReasonTypeID, ReasonType, ReasonTypeDesc FROM tbl_EXRReasonType;";
 			ViewBag.tReasonType = SQLFunction.execQuery(querytReasonType);
+
+			// load tWono For Form
+			string querytWono = "SELECT DISTINCT Wono FROM v_ExrCEDetail";
+			ViewBag.tWono = SQLFunction.execQuery(querytWono);
+
+			// load tUnitNumber For Form
+			string querytUnitNumber = "SELECT UnitNumber, UnitDescription, Location, LocationName FROM v_UnitNumber;";
+			ViewBag.tUnitNumber = SQLFunction.execQuery(querytUnitNumber);
+
+			// load tMaintType For Form
+			string querytMaintType = "SELECT MaintType, MaintDesc FROM v_MaintType;";
+			ViewBag.tMaintType = SQLFunction.execQuery(querytMaintType);
+
+			// load tCurrID For Form
+			string querytCurrID = "Select CurrID from tbl_Currency";
+			ViewBag.tCurrID = SQLFunction.execQuery(querytCurrID);
+
+			// load tRootCauseCode For Form
+			string querytRootCauseCode = "SELECT RootCauseCode, RootCauseDesc FROM tbl_EXRCERootCause WHERE (((SysTypeID)=3));";
+			ViewBag.tRootCauseCode = SQLFunction.execQuery(querytRootCauseCode);
+
+			// load tRecCode For Form
+			string querytRecCode = "SELECT RecCode, RecDesc FROM tbl_EXRCERec WHERE SysTypeID=0;";
+			ViewBag.tRecCode = SQLFunction.execQuery(querytRecCode);
+
+			// load tSysFailCode For Form
+			string querytSysFailCode = "SELECT SysFailCode, SysFail FROM tbl_EXRCESysFail;";
+			ViewBag.tSysFailCode = SQLFunction.execQuery(querytSysFailCode);
+
+			// load tEvalByID For Form
+			string querytEvalByID = "SELECT UserID, UserDesc, Active FROM tbl_EXRUserDetail WHERE (((Active)=1) AND ((UserID) Not In (16,17,24,25,28)));";
+			ViewBag.tEvalByID = SQLFunction.execQuery(querytEvalByID);
+
+			// load tEvalCode For Form
+			string querytEvalCode = "SELECT EvalCode, EvalDesc, Route, Costing FROM tbl_EXRCEEvalCode;";
+			ViewBag.tEvalCode = SQLFunction.execQuery(querytEvalCode);
 		}
     }
 }
