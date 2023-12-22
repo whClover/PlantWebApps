@@ -6,7 +6,6 @@
 	ViewData["Title"] = "Component Evaluation EDIT";
 }
 
-<form method="post" enctype="multipart/form-data" asp-controller="ComponentEvaluation">
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -39,7 +38,7 @@
 								</div>
 							</div>
 							<div class="ms-auto">
-								<button type="submit" class="btn btn-sm btn-primary">
+								<button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/Edit">
 									SAVE
 								</button>
 								<a class="btn btn-sm btn-primary" href="/JobDispatch">
@@ -48,8 +47,19 @@
 							</div>
 						</div>
 					</div>
+				@if (TempData.Peek("Msg") != null)
+				{
+					@section Scripts
+					{
+					<script>
+						Swal.fire({
+							title: '@TempData.Peek("Msg")',
+								icon: '@TempData.Peek("Stat")'
+							});
+						</script>
+					}
+				}
 				</div>
 			</div>
 		</div>
 	</div>
-</form>

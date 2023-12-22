@@ -12,7 +12,7 @@
 		<div class="container overflow-hidden mt-n3">
 			<div class="row align-items-center">
 				<div class="col-12 ms-n2" style="font-size: 12px;">Details</div>
-				<textarea class="col-12" rows="5"></textarea>
+				<textarea class="col-12" rows="7">@ViewBag.data.Rows[0]["StripDown"].ToString()</textarea>
 			</div>
 		</div>
 	</div>
@@ -32,13 +32,13 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Root Cause</div>
-				<select class="col-3" name="tRootCauseCode" id="tRootCauseCode">
-					<option value="" selected></option>
+				<select class="col-3 select2" name="tRootCauseCode" id="tRootCauseCode">
+					<option></option>
 					@foreach (DataRow row in ViewBag.tRootCauseCode.Rows)
 					{
 						var tRootCauseCodeRootCauseCode = row["RootCauseCode"].ToString();
 						var tRootCauseCodeRootCauseDesc = row["RootCauseDesc"].ToString();
-						<option value="@tRootCauseCodeRootCauseCode">@tRootCauseCodeRootCauseDesc</option>
+						<option value="@tRootCauseCodeRootCauseCode" selected="@(tRootCauseCodeRootCauseCode == ViewBag.data?.Rows[0]?["RootCauseCode"].ToString())">@tRootCauseCodeRootCauseDesc</option>
 					}
 				</select>
 				<div class="col-4" style="font-size: 12px;" name="tRootCauseCodeField" id="tRootCauseCodeField"></div>
@@ -54,7 +54,7 @@
 					{
 						var tRecCodeRecCode = row["RecCode"].ToString();
 						var tRecCodeRecDesc = row["RecDesc"].ToString();
-						<option value="@tRecCodeRecCode">@tRecCodeRecCode | @tRecCodeRecDesc</option>
+						<option value="@tRecCodeRecCode" selected="@(tRecCodeRecCode == ViewBag.data?.Rows[0]?["RecCode"].ToString())">@tRecCodeRecCode | @tRecCodeRecDesc</option>
 					}
 				</select>
 				<div class="col-4" style="font-size: 12px;" id="tRecCodeField" name="tRecCodeField"></div>
@@ -70,7 +70,7 @@
 					{
 						var tSysFailCodeSysFailCode = row["SysFailCode"].ToString();
 						var tSysFailCodeSysFail = row["SysFail"].ToString();
-						<option value="@tSysFailCodeSysFailCode">@tSysFailCodeSysFailCode | @tSysFailCodeSysFail</option>
+						<option value="@tSysFailCodeSysFailCode" selected="@(tSysFailCodeSysFailCode == ViewBag.data?.Rows[0]?["SysFailCode"].ToString())">@tSysFailCodeSysFailCode | @tSysFailCodeSysFail</option>
 					}
 				</select>
 				<div class="col-4" style="font-size: 12px;" id="tSysFailCodeField" name="tSysFailCodeField"></div>
@@ -80,7 +80,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Detail Root Cause</div>
-				<select class="col-3">
+				<select class="col-3" id="rootCauseDetail" name="rootCauseDetail">
 					<option value=""></option>
 				</select>
 			</div>
@@ -101,23 +101,24 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">PCAM Status</div>
-				<select class="col-3">
+				<select class="col-3" id="tPCAMStatusID" name="tPCAMStatusID">
 					<option value=""></option>
-					<option value="NW">NW | Waiting Investigation</option>
+					<option value="NA">NA</option>
+					<option value="NW" selected>NW | Waiting Investigation</option>
 					<option value="IP">IP | In Progress</option>
 					<option value="CL">CL | Completed</option>
 				</select>
 				<div class="col-2" style="font-size: 12px;">Start</div>
-				<input type="Text" class="col-3" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMStartDate"].ToString()" />
 			</div>
 		</div>
 		@* pcam id *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">PCAM ID</div>
-				<input type="Text" class="col-3" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMID"].ToString()" />
 				<div class="col-2" style="font-size: 12px;">Completed</div>
-				<input type="Text" class="col-3" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMCompletedDate"].ToString()" />
 			</div>
 		</div>
 	</div>
@@ -130,77 +131,88 @@
 				<div class="col-6 d-flex flex-column" style="font-size: 12px;">
 					@* work order check *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" id="tM1" name="tM1" type="checkbox"
+							   value="@ViewBag.data.Rows[0]["M1"].ToString()" @(ViewBag.data.Rows[0]["M1"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Work Order
 						</label>
 					</div>
 					@* installation check *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM2" name="tM2"
+							   value="@ViewBag.data.Rows[0]["M2"].ToString()" @(ViewBag.data.Rows[0]["M2"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Installation Checklist
 						</label>
 					</div>
 					@* downtime report check *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM3" name="tM3"
+							   value="@ViewBag.data.Rows[0]["M3"].ToString()" @(ViewBag.data.Rows[0]["M3"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Downtime Report Last 3 Months
 						</label>
 					</div>
 					@* check component change *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM4" name="tM4"
+							   value="@ViewBag.data.Rows[0]["M4"].ToString()" @(ViewBag.data.Rows[0]["M4"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Component Change Out History
 						</label>
 					</div>
 					@* previous wo *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM5" name="tM5"
+							   value="@ViewBag.data.Rows[0]["M5"].ToString()" @(ViewBag.data.Rows[0]["M5"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Previous WO
 						</label>
 					</div>
 					@* Sevice Board History Last 2000SMU *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM6" name="tM6"
+							   value="@ViewBag.data.Rows[0]["M6"].ToString()" @(ViewBag.data.Rows[0]["M5"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Sevice Board History Last 2000SMU
 						</label>
 					</div>
 					@* Photo *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM7" name="tM7"
+							   value="@ViewBag.data.Rows[0]["M7"].ToString()" @(ViewBag.data.Rows[0]["M7"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Photo
 						</label>
 					</div>
 					@* CFI *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM8" name="tM8"
+							   value="@ViewBag.data.Rows[0]["M8"].ToString()" @(ViewBag.data.Rows[0]["M8"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							CFI
 						</label>
 					</div>
 					@* Component History *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM9" name="tM9"
+							   value="@ViewBag.data.Rows[0]["M9"].ToString()" @(ViewBag.data.Rows[0]["M9"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Component History
 						</label>
 					</div>
 					@* S.O.S *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM10" name="tM10"
+							   value="@ViewBag.data.Rows[0]["M10"].ToString()" @(ViewBag.data.Rows[0]["M10"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							S.O.S
 						</label>
 					</div>
 					@* Oil Top Up History *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM11" name="tM11"
+							   value="@ViewBag.data.Rows[0]["M11"].ToString()" @(ViewBag.data.Rows[0]["M11"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Oil Top Up History
 						</label>
@@ -210,70 +222,80 @@
 				<div class="col-6" style="font-size: 12px;">
 					@* Operation Condition Report *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM12" name="tM12"
+							   value="@ViewBag.data.Rows[0]["M12"].ToString()" @(ViewBag.data.Rows[0]["M12"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Operation Condition Report
 						</label>
 					</div>
 					@* Previous OP *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM13" name="tM13"
+							   value="@ViewBag.data.Rows[0]["M13"].ToString()" @(ViewBag.data.Rows[0]["M13"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Previous OP
 						</label>
 					</div>
 					@* Written Instruction *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM14" name="tM14"
+							   value="@ViewBag.data.Rows[0]["M14"].ToString()" @(ViewBag.data.Rows[0]["M14"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Written Instruction
 						</label>
 					</div>
 					@* SOS/CTS *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM15" name="tM15"
+							   value="@ViewBag.data.Rows[0]["M15"].ToString()" @(ViewBag.data.Rows[0]["M15"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							SOS/CTS
 						</label>
 					</div>
 					@* WO History 12 Months *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM16" name="tM16"
+							   value="@ViewBag.data.Rows[0]["M16"].ToString()" @(ViewBag.data.Rows[0]["M16"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							WO History 12 Months
 						</label>
 					</div>
 					@* ECM Download *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM17" name="tM17"
+							   value="@ViewBag.data.Rows[0]["M17"].ToString()" @(ViewBag.data.Rows[0]["M17"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							ECM Download
 						</label>
 					</div>
 					@* Operator Interview *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM18" name="tM18"
+							   value="@ViewBag.data.Rows[0]["M18"].ToString()" @(ViewBag.data.Rows[0]["M18"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Operator Interview
 						</label>
 					</div>
 					@* Incident Notification Report *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM19" name="tM19"
+							   value="@ViewBag.data.Rows[0]["M19"].ToString()" @(ViewBag.data.Rows[0]["M19"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Incident Notification Report
 						</label>
 					</div>
 					@* Incident Investigation Report *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM20" name="tM20"
+							   value="@ViewBag.data.Rows[0]["M20"].ToString()" @(ViewBag.data.Rows[0]["M20"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Incident Investigation Report
 						</label>
 					</div>
 					@* Failure Analysys *@
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox">
+						<input class="form-check-input" type="checkbox" id="tM21" name="tM21"
+							   value="@ViewBag.data.Rows[0]["M21"].ToString()" @(ViewBag.data.Rows[0]["M21"].ToString().ToLower() == "true" ? "checked" : "")>
 						<label class="form-check-label">
 							Failure Analysys
 						</label>
@@ -288,8 +310,8 @@
 		@* table evaluation code *@
 		<div class="container overflow-hidden mt-n3">
 			<div class="row align-items-center">
-				<div class="col-6 text-white d-flex align-items-center" 
-					style="font-size: 12px; height: 30px; background-color: grey">
+				<div class="col-6 text-white d-flex align-items-center"
+					 style="font-size: 12px; height: 30px; background-color: grey">
 					Evaluation Code
 				</div>
 				<div class="col-3 text-white d-flex align-items-center"
@@ -313,7 +335,7 @@
 						var tEvalCodeEvalDesc = row["EvalDesc"].ToString();
 						var tEvalCodeRoute = row["Route"].ToString();
 						var tEvalCodeCosting = row["Costing"].ToString();
-						<option value="@tEvalCodeEvalCode">@tEvalCodeEvalDesc | @tEvalCodeRoute | @tEvalCodeCosting</option>
+						<option value="@tEvalCodeEvalCode" selected="@(tEvalCodeEvalCode == ViewBag.data?.Rows[0]?["EvalCode"].ToString())">@tEvalCodeEvalDesc | @tEvalCodeRoute | @tEvalCodeCosting</option>
 					}
 				</select>
 				<input type="Text" class="col-3" id="tEvalCodeRoute" name="tEvalCodeRoute" readonly />
@@ -324,13 +346,18 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Register</div>
-				<div class="col-3 text-primary" style="font-size: 12px;">Change Later</div>
+				<div class="col-4 text-primary" style="font-size: 12px;" id="tRegDate" name="tRegDate"
+				>@ViewBag.data.Rows[0]["RegisterDate"].ToString()</div>
+				<div class="col-4 text-primary" style="font-size: 12px;" id="tRegBy" name="tRegBy">
+					@ViewBag.data.Rows[0]["RegisterBy"].ToString()</div>
 			</div>
 		</div>
 		@* last mod *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Last Mod</div>
+				<div class="col-4" style="font-size: 12px;">@ViewBag.data.Rows[0]["ModDate"].ToString()</div>
+				<div class="col-4" style="font-size: 12px;">@ViewBag.data.Rows[0]["ModBy"].ToString()</div>
 			</div>
 		</div>
 		@* TABLE *@
@@ -345,9 +372,21 @@
 						</tr>
 					</thead>
 					<tbody style="font-size: 12px;">
-						<tr><td>Plant Supt</td></tr>
-						<tr><td>Plant Ops Supt</td></tr>
-						<tr><td>Plant Manager</td></tr>
+						<tr>
+							<td>Plant Supt</td>
+							<td>@ViewBag.data.Rows[0]["PSName"].ToString()</td>
+							<td>@ViewBag.data.Rows[0]["PSDate"].ToString()</td>
+						</tr>
+						<tr>
+							<td>Plant Ops Supt</td>
+							<td>@ViewBag.data.Rows[0]["POSName"].ToString()</td>
+							<td>@ViewBag.data.Rows[0]["POSDate"].ToString()</td>
+						</tr>
+						<tr>
+							<td>Plant Manager</td>
+							<td>@ViewBag.data.Rows[0]["PMName"].ToString()</td>
+							<td>@ViewBag.data.Rows[0]["PMDate"].ToString()</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -356,47 +395,133 @@
 </div>
 
 <script>
-	// function to change other field from select
+	// CODE FOR AUTOFILLING FROM SELECT
 
-	// root cause 
+	// tRootCauseCode
+	var tRootCauseCode = $("#tRootCauseCode");
+	var tRootCauseCodeField = $("#tRootCauseCodeField");
+
+	function handlettRootCauseCode() {
+		var value = tRootCauseCode.find(":selected").text();
+
+		tRootCauseCodeField.text(value);
+	}
+
+	handlettRootCauseCode();
+	loadRootCauseDetail()
+
 	$("#tRootCauseCode").on("change", function () {
-		var value = $(this).find(":selected").text();
-		$("#tRootCauseCodeField").text(value);
+		handlettRootCauseCode();
+		loadRootCauseDetail();
 	});
 
-	// Recommendation 
-	$("#tRecCode").on("change", function () {
-		var value = $(this).find(":selected").text();
-		var valueAfterPipe = value.split("|")[1].trim();
-		$("#tRecCodeField").text(valueAfterPipe);
-	});
+	function loadRootCauseDetail() {
+		var rootCauseCode = $("#tRootCauseCode").val();
 
-	// SF System Failure tPCAMRequired
-	$("#tSysFailCode").on("change", function () {
-		var value = $(this).find(":selected").text();
-		var valueAfterPipe = value.split("|")[1].trim();
-		$("#tSysFailCodeField").text(valueAfterPipe);
-	});
+		$.ajax({
+			url: '/ComponentEvaluation/RootCauseDetail',
+			method: 'GET',
+			dataType: 'json',
+			data: { rootCauseCode: rootCauseCode },
+			success: function (response) {
+				// Clear the select element
+				$('#rootCauseDetail').empty();
 
-	// PCAM Required
-	$("#tPCAMRequired").on("change", function () {
-		var value = $(this).find(":selected").text();
-		var valueAfterPipe = value.split("|")[1].trim();
-		$("#tPCAMRequiredField").text(valueAfterPipe);
-	});
+				response.forEach(function (item) {
+					$('#rootCauseDetail').append($('<option>', {
+						value: item.rootCauseDetail,
+						text: item.rootCauseDetail
+					}));
+				});
+			}
+		});
+	}
 
-	// Evaluation Code
-	$("#tEvalCode").on("change", function () {
-		var value = $(this).find(":selected").text();
-		console.log(value);
+	// tRecCode
+	var tRecCode = $("#tRecCode");
+	var tRecCodeField = $("#tRecCodeField");
 
-		var valueAfterSecondPipe = value.split("|")[1].trim();
-		var valueAfterThirdPipe = value.split("|")[2].trim();
+	function handletRecCode() {
+		var value = tRecCode.find(":selected").text();
+		var valueAfterFirstPipe = value.split("|")[1].trim();
 
-		console.log(valueAfterSecondPipe);
-		console.log(valueAfterThirdPipe);
+		tRecCodeField.text(valueAfterFirstPipe);
+	}
 
-		$("#tEvalCodeRoute").val(valueAfterSecondPipe);
-		$("#tEvalCodeCosting").val(valueAfterThirdPipe);
-	});
+	handletRecCode();
+	tRecCode.on("change", handletRecCode);
+
+	// tSysFailCode
+	var tSysFailCode = $("#tSysFailCode");
+	var tSysFailCodeField = $("#tSysFailCodeField");
+
+	function handletSysFailCode() {
+		var value = tSysFailCode.find(":selected").text();
+		var valueAfterFirstPipe = value.split("|")[1].trim();
+
+		tSysFailCodeField.text(valueAfterFirstPipe);
+	}
+
+	handletSysFailCode();
+	tSysFailCode.on("change", handletSysFailCode);
+
+	// Handle tPCAMRequired value based on the pcam required query
+
+	function handlePCAMRequired() {
+		var pcamRequiredValue = '@ViewBag.PCAMRequired';
+		$('#tPCAMRequired').val(pcamRequiredValue);
+	}
+
+	handlePCAMRequired();
+
+	// handle the value of pcam status based on the value of pcam required
+	function handlePCAMStatus() {
+		var tPCAMRequired = $("#tPCAMRequired").val();
+		console.log(tPCAMRequired);
+		if (tPCAMRequired == "N") {
+			$('#tPCAMStatusID').val("NA");
+		}
+	}
+
+	handlePCAMStatus();
+	$("#tPCAMRequired").on("change", handlePCAMStatus);
+
+	// handle the value evaluation code route and costing
+	var tEvalCode = $("#tEvalCode");
+	var tEvalCodeRoute = $("#tEvalCodeRoute");
+	var tEvalCodeCosting = $("#tEvalCodeCosting");
+
+	function handletEvalCode() {
+		var value = tEvalCode.find(":selected").text();
+		var values = value.split("|").map(function (item) {
+			return item.trim();
+		});
+
+		tEvalCodeRoute.val(values[1]);
+		tEvalCodeCosting.val(values[2]);
+	}
+
+	handletEvalCode();
+	tEvalCode.on("change", handletEvalCode);
+
+	// handle eletrical and mechanical radio button
+	var electricalRadioButton = document.getElementById("oCoreInspectionN");
+	var mechanicalRadioButton = document.getElementById("oCoreInspectionY");
+	var sysFailSelect = document.getElementById("tSysFailCode");
+	var sysFailField = document.getElementById("tSysFailCodeField");
+
+	function handleRadioChange() {
+		if (electricalRadioButton.checked) {
+			sysFailSelect.style.display = "none";
+			sysFailField.style.display = "none";
+		} else {
+			sysFailSelect.style.display = "block";
+			sysFailField.style.display = "block";
+		}
+	}
+
+	electricalRadioButton.addEventListener("change", handleRadioChange);
+	mechanicalRadioButton.addEventListener("change", handleRadioChange);
+
+	handleRadioChange();
 </script>

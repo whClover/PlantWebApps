@@ -2,6 +2,8 @@
 using PlantWebApps.Helper;
 using System;
 using System.Data;
+using System.Drawing;
+using System.Linq.Expressions;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace PlantWebApps.Controllers.PER.ComponentEvaluation
@@ -9,6 +11,10 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
     public class ComponentEvaluation : Controller
     {
 		private string _tempfilter;
+		[TempData]
+		public String Msg { get; set; }
+		[TempData]
+		public String Stat { get; set; }
 		public IActionResult Index()
         {
             LoadOption();
@@ -67,7 +73,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			if (!string.IsNullOrEmpty(CWOType))
 			{
-				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(CWOType, 1) + tempfilter;
+				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(fSwo, 0) + tempfilter;
 			}
 
 			if (!string.IsNullOrEmpty(fUnitDesc))
@@ -87,8 +93,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			string temporder = $"ORDER BY {fSort} {fAsc}";
 			_tempfilter = Utility.VarFilter(tempfilter);
+			Console.WriteLine(_tempfilter);
 
-			string query = $"SELECT TOP 50 * from v_ExrCEDetail {_tempfilter} {temporder}";
+			string query = $"SELECT TOP 20 * from v_ExrCEDetail {_tempfilter} {temporder}";
 			Console.WriteLine(query);
 
 			var data = SQLFunction.execQuery(query);
@@ -118,18 +125,115 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					pcamStatus = Utility.CheckNull(row["PCAMStatusID"]),
 					pcamID = Utility.CheckNull(row["PCAMID"]),
 					psDate = Utility.CheckNull(row["PSDate"]),
-					edit = "<a class='btn btn-link btn-sm' href='/ComponentEvaluation/Edit/" + row["ID"] + "'><i class='fa fa-edit'></i></a>",
+					edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["ID"] + "'><i class='fa fa-edit'></i></button>",
 				};
 				rows.Add(rowData);
 			}
 			return new JsonResult(rows);
 		}
-		public IActionResult Edit()
+		public IActionResult Edit(string id, string tWono)
 		{
 			LoadOption();
+
+			// general data query
+			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{id}'";
+			ViewBag.data = SQLFunction.execQuery(query);
+
+			Console.WriteLine(ViewBag.data.Rows[0]["M1"]);
+
+			// PCAM Required query
+			string queryPcamRequired = @ViewBag.data.Rows[0]["PCAMRequired"].ToString();
+			ViewBag.PCAMRequired = queryPcamRequired;
+
 			return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
 		}
-        private void LoadOption()
+		public IActionResult RootCauseDetail(string rootCauseCode)
+		{
+			string query = $"SELECT RootCauseDetail FROM tbl_EXRCERootCauseDetail Where RootCauseCode = {rootCauseCode}";
+			
+			var data = SQLFunction.execQuery(query);
+			var rows = new List<object>();
+
+			foreach (DataRow row in data.Rows)
+			{
+				var rowData = new
+				{
+					rootCauseDetail = Utility.CheckNull(row["RootCauseDetail"]),
+				};
+				rows.Add(rowData);
+			}
+
+			return new JsonResult(rows);
+		}
+		public IActionResult AssignWo(string tWono)
+		{
+			string querytWono = $"SELECT DISTINCT Wono FROM v_ExrCEDetail WHERE WONO = '{tWono}'";
+			var data = SQLFunction.execQuery(querytWono);
+
+			var rows = new List<object>();
+
+			foreach (DataRow row in data.Rows)
+			{
+				var rowData = new
+				{
+					wono = Utility.CheckNull(row["Wono"]),
+				};
+				rows.Add(rowData);
+			}
+
+			return new JsonResult(rows);
+		}
+		public IActionResult ListInvest(string tWono)
+		{
+			// table list invest query
+			string queryListInvest = $"SELECT ID,CEID,WONO,InvesDate as [When],InvesDesc as [What],InvesDetail as [Detail],InvesWhen FROM tbl_EXRCEInvestigation where Wono = '{tWono}'";
+			Console.WriteLine(queryListInvest);
+			var data = SQLFunction.execQuery(queryListInvest);
+
+			var rows = new List<object>();
+
+			foreach (DataRow row in data.Rows)
+			{
+				var rowData = new
+				{
+					id = Utility.CheckNull(row["ID"]),
+					when = Utility.CheckNull(row["When"]),
+					what = Utility.CheckNull(row["What"]),
+					detail = Utility.CheckNull(row["Detail"]),
+					edit = $"<a id='selectedDetailRow' class='btn btn-primary btn-sm' " +
+					$"value='{string.Join(" ", row.ItemArray)}' " +
+					$">Edit</a>"
+				};
+				rows.Add(rowData);
+			}
+			return new JsonResult(rows);
+		}
+		public IActionResult CCESAVE(string id, string wono, string investDate, string investDesc, string investDetail)
+		{
+			LoadOption();
+
+			Console.WriteLine(id);
+			Console.WriteLine(wono);
+
+			var eid = Utility.Evar(id, 1);
+			var eCEID = Utility.Evar("", 1);
+			var eWono = Utility.Evar(wono, 1);
+			var eInvesDate = Utility.Evar(investDate, 2);
+			var eInvesDesc = Utility.Evar(investDesc, 1);
+			var eInvesDetail = Utility.Evar(investDetail, 1);
+			var eInvesWhen = Utility.Evar("", 1);
+
+			var query = @$"exec dbo.EXrCEAdd {eid}, {eCEID}, {eWono}, {eInvesDate}, {eInvesDesc}, {eInvesDetail}, {eInvesWhen}";
+
+			Console.WriteLine(query);
+			SQLFunction.execQuery(query);
+
+			Stat = "success";
+			Msg = "Data Has Been Inserted";
+
+			return Redirect("/ComponentEvaluation/Edit/" + id);
+		}
+		private void LoadOption()
         {
             // load fSpvDesc
 			string queryfSpvDesc = "SELECT UserID, UserAbr, UserDesc FROM tbl_EXRUserDetail WHERE (((UserID) Not In (16,17,24,25,28))); ";
@@ -166,10 +270,6 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			// load tReasonType
 			string querytReasonType = "SELECT ReasonTypeID, ReasonType, ReasonTypeDesc FROM tbl_EXRReasonType;";
 			ViewBag.tReasonType = SQLFunction.execQuery(querytReasonType);
-
-			// load tWono For Form
-			string querytWono = "SELECT DISTINCT Wono FROM v_ExrCEDetail";
-			ViewBag.tWono = SQLFunction.execQuery(querytWono);
 
 			// load tUnitNumber For Form
 			string querytUnitNumber = "SELECT UnitNumber, UnitDescription, Location, LocationName FROM v_UnitNumber;";
