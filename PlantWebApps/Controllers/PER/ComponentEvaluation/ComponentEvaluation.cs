@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace PlantWebApps.Controllers.PER.ComponentEvaluation
@@ -139,8 +140,6 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{id}'";
 			ViewBag.data = SQLFunction.execQuery(query);
 
-			Console.WriteLine(ViewBag.data.Rows[0]["M1"]);
-
 			// PCAM Required query
 			string queryPcamRequired = @ViewBag.data.Rows[0]["PCAMRequired"].ToString();
 			ViewBag.PCAMRequired = queryPcamRequired;
@@ -150,15 +149,17 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		public IActionResult RootCauseDetail(string rootCauseCode)
 		{
 			string query = $"SELECT RootCauseDetail FROM tbl_EXRCERootCauseDetail Where RootCauseCode = {rootCauseCode}";
-			
+			Console.WriteLine(query);
+
 			var data = SQLFunction.execQuery(query);
+			ViewBag.tRemark = data;
 			var rows = new List<object>();
 
 			foreach (DataRow row in data.Rows)
 			{
 				var rowData = new
 				{
-					rootCauseDetail = Utility.CheckNull(row["RootCauseDetail"]),
+					tRemark = Utility.CheckNull(row["RootCauseDetail"]),
 				};
 				rows.Add(rowData);
 			}
@@ -212,16 +213,13 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		{
 			LoadOption();
 
-			Console.WriteLine(id);
-			Console.WriteLine(wono);
-
-			var eid = Utility.Evar(id, 1);
-			var eCEID = Utility.Evar("", 1);
-			var eWono = Utility.Evar(wono, 1);
-			var eInvesDate = Utility.Evar(investDate, 2);
-			var eInvesDesc = Utility.Evar(investDesc, 1);
-			var eInvesDetail = Utility.Evar(investDetail, 1);
-			var eInvesWhen = Utility.Evar("", 1);
+			var eid = Utility.Evar(Utility.CheckNull(id), 1);
+			var eCEID = Utility.Evar(Utility.CheckNull(""), 1);
+			var eWono = Utility.Evar(Utility.CheckNull(wono), 1);
+			var eInvesDate = Utility.Evar(Utility.CheckNull(investDate), 2);
+			var eInvesDesc = Utility.Evar(Utility.CheckNull(investDesc), 1);
+			var eInvesDetail = Utility.Evar(Utility.CheckNull(investDetail), 1);
+			var eInvesWhen = Utility.Evar(Utility.CheckNull(""), 1);
 
 			var query = @$"exec dbo.EXrCEAdd {eid}, {eCEID}, {eWono}, {eInvesDate}, {eInvesDesc}, {eInvesDetail}, {eInvesWhen}";
 
@@ -232,6 +230,114 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			Msg = "Data Has Been Inserted";
 
 			return Redirect("/ComponentEvaluation/Edit/" + id);
+		}
+		public IActionResult Save(string ID, string WONO, string UnitNumber, string PCAMID, 
+			string PCAMRequired, string PCAMStatusID, string PCAMStartDate, string PCAMCompletedDate, 
+			string MaintType, string BdgtHours, string SMU, string Complaint, string FlatRate, 
+			string OROP, string ExcPart, string PartCost, string LabourCost, string OtherCost, 
+			string TCISupply, string SavingCost, string PriceType, string Price, string CurrID, 
+			string StripDown, string SysTypeID, string RootCauseCode, string SysFailCode, string RecCode, 
+			string M1, string M2, string M3, string M4, string M5, string M6, string M7, string M8, 
+			string M9, string M10, string M11, string M12, string M13, string M14, string M15, 
+			string M16, string M17, string M18, string M19, string M20, string M21, string ActionTaken, 
+			string EvalByID, string EvalDate, string EvalCode, string PSName, string PSDate, string POSName 
+			, string POSDate, string PMName, string PMDate, string Conclusion, string ModBy, string ModDate,
+			string JobID, string ConsCost, string SupplyDate, string InstallDate, string RemoveDate, string Remark)
+		{
+			LoadOption();
+
+			string eID =  (Utility.Evar(ID, 1));
+			string eWONO = (Utility.Evar(WONO, 1));
+			string eUnitNumber = (Utility.Evar(UnitNumber, 1));
+			string ePCAMID = (Utility.Evar(PCAMID, 1));
+			string ePCAMRequired = (Utility.Evar(PCAMRequired, 1));
+			string ePCAMStatusID = (Utility.Evar(PCAMStatusID, 1));
+			string ePCAMStartDate = (Utility.Evar(PCAMStartDate, 1));
+			string ePCAMCompletedDate = (Utility.Evar(PCAMCompletedDate, 1));
+			string eMaintType = (Utility.Evar(MaintType, 1));
+			string eBdgtHours = (Utility.Evar(BdgtHours, 1));
+			string eSMU = (Utility.Evar(SMU, 1));
+			string eComplaint = (Utility.Evar(Complaint, 1));
+			string eFlatRate = (Utility.Evar(FlatRate, 1));
+			string eOROP = (Utility.Evar(OROP, 1));
+			string eExcPart = (Utility.Evar(ExcPart, 1));
+			string ePartCost = (Utility.Evar(PartCost, 1));
+			string eLabourCost = (Utility.Evar(LabourCost, 1));
+			string eOtherCost = (Utility.Evar(OtherCost, 1));
+			string eTCISupply = (Utility.Evar(TCISupply, 1));
+			string eSavingCost = (Utility.Evar(SavingCost, 1));
+			string ePriceType = (Utility.Evar(PriceType, 1));
+			string ePrice = (Utility.Evar(Price, 1));
+			string eCurrID = (Utility.Evar(CurrID, 1));
+			string eStripDown = (Utility.Evar(StripDown, 1));
+			string eSysTypeID = (Utility.Evar(SysTypeID, 1));
+			string eRootCauseCode = (Utility.Evar(RootCauseCode, 1));
+			string eSysFailCode = (Utility.Evar(SysFailCode, 1));
+			string eRecCode = (Utility.Evar(RecCode, 1));
+			string eM1 = (Utility.Evar(M1, 1));
+			string eM2 = (Utility.Evar(M2, 1));
+			string eM3 = (Utility.Evar(M3, 1));
+			string eM4 = (Utility.Evar(M4, 1));
+			string eM5 = (Utility.Evar(M5, 1));
+			string eM6 = (Utility.Evar(M6, 1));
+			string eM7 = (Utility.Evar(M7, 1));
+			string eM8 = (Utility.Evar(M8, 1));
+			string eM9 = (Utility.Evar(M9, 1));
+			string eM10 = (Utility.Evar(M10, 1));
+			string eM11 = (Utility.Evar(M11, 1));
+			string eM12 = (Utility.Evar(M12, 1));
+			string eM13 = (Utility.Evar(M13, 1));
+			string eM14 = (Utility.Evar(M14, 1));
+			string eM15 = (Utility.Evar(M15, 1));
+			string eM16 = (Utility.Evar(M16, 1));
+			string eM17 = (Utility.Evar(M17, 1));
+			string eM18 = (Utility.Evar(M18, 1));
+			string eM19 = (Utility.Evar(M19, 1));
+			string eM20 = (Utility.Evar(M20, 1));
+			string eM21 = (Utility.Evar(M21, 1));
+			string eActionTaken = (Utility.Evar(ActionTaken, 1));
+			string eEvalByID = (Utility.Evar(EvalByID, 1));
+			string eEvalDate = (Utility.Evar(EvalDate, 1));
+			string eEvalCode = (Utility.Evar(EvalCode, 1));
+			string ePSName = (Utility.Evar(PSName, 1));
+			string ePSDate = (Utility.Evar(PSDate, 1));
+			string ePOSName = (Utility.Evar(POSName, 1));
+			string ePOSDate = (Utility.Evar(POSDate, 1));
+			string ePMName = (Utility.Evar(PMName, 1));
+			string ePMDate = (Utility.Evar(PMDate, 1));
+			string eConclusion = (Utility.Evar(Conclusion, 1));
+			string eModBy = (Utility.Evar(ModBy, 1));
+			string eModDate = (Utility.Evar(ModDate, 2));
+			string eJobID = (Utility.Evar(JobID, 1));
+			string eConsCost = (Utility.Evar(ConsCost, 1));
+			string eSupplyDate = (Utility.Evar(SupplyDate, 2));
+			string eInstallDate = (Utility.Evar(InstallDate, 2));
+			string eRemoveDate = (Utility.Evar(RemoveDate, 2));
+			string eRemark = (Utility.Evar(Remark, 1));
+
+			string query = @$"UPDATE tbl_EXRCEDetail SET UnitNumber = {eUnitNumber}, 
+			PCAMID = {ePCAMID}, MaintType = {eMaintType}, BdgtHours = {eBdgtHours}, SMU = {eSMU}
+			Complaint = {eComplaint}, FlatRate = {eFlatRate}, OROP = {eOROP}, ExcPart = {eExcPart}, 
+			PartCost = {ePartCost}, LabourCost = {eLabourCost},OtherCost = {eOtherCost},
+			PriceType = {ePriceType},Price = {ePrice},CurrID = {eCurrID},StripDown = {eStripDown}
+			,SysTypeID = {eSysTypeID},RootCauseCode = {eRootCauseCode},SysFailCode = {eSysFailCode},
+			RecCode = {eRecCode},M1 = {eM1}, M2 = {eM2},M3 = {eM3},M4 = {eM4},
+			M5 = {eM5},M6 = {eM6},M7 = {eM7},M8 = {eM8},M9 = {eM9},M10 = {eM10},M11 = {eM11},M12 = {eM12},
+			M13 = {eM13}, M14 = {eM14},M15 = {eM15},M16 = {eM16},
+			M17 = {eM17},M18 = {eM18},M19 = {eM19},M20 = {eM20},M21 = {eM21},ActionTaken = {eActionTaken},
+			EvalByID = {eEvalByID},EvalDate = {eEvalDate},
+			EvalCode = {eEvalCode},PSName = {ePSName},PSDate = {ePSDate},POSName = {ePOSName},
+			POSDate = {ePOSDate},PMName = {ePMName},PMDate = {ePMDate},
+			Conclusion = {eConclusion},ModBy = {eModBy},ModDate = {eModDate},JobID = {eJobID},ConsCost = {eConsCost}
+			,SavingCost = {eSavingCost},TCISupply = {eTCISupply}
+			,SupplyDate = {eSupplyDate},InstallDate = {eInstallDate},RemoveDate = {eRemoveDate},Remark = {eRemark} WHERE ID = {eID}";
+			
+			SQLFunction.execQuery(query);
+
+			Stat = "success";
+			Msg = "Data Has Been Inserted";
+
+			return Redirect("/ComponentEvaluation/Edit/" + ID);
 		}
 		private void LoadOption()
         {

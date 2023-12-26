@@ -12,7 +12,7 @@
 		<div class="container overflow-hidden mt-n3">
 			<div class="row align-items-center">
 				<div class="col-12 ms-n2" style="font-size: 12px;">Details</div>
-				<textarea class="col-12" rows="7">@ViewBag.data.Rows[0]["StripDown"].ToString()</textarea>
+				<textarea class="col-12" rows="7" id="tStripDown" name="tStripDown">@ViewBag.data.Rows[0]["StripDown"].ToString()</textarea>
 			</div>
 		</div>
 	</div>
@@ -80,9 +80,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Detail Root Cause</div>
-				<select class="col-3" id="rootCauseDetail" name="rootCauseDetail">
-					<option value=""></option>
-				</select>
+				<select class="col-3" id="tRemark" name="rootCauseDetail"></select>
 			</div>
 		</div>
 		@* pcam required *@
@@ -109,16 +107,16 @@
 					<option value="CL">CL | Completed</option>
 				</select>
 				<div class="col-2" style="font-size: 12px;">Start</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMStartDate"].ToString()" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMStartDate"].ToString()" id="tPCAMStartDate" name="tPCAMStartDate" />
 			</div>
 		</div>
 		@* pcam id *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">PCAM ID</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMID"].ToString()" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMID"].ToString()" id="tPCAMID" name="tPCAMID" />
 				<div class="col-2" style="font-size: 12px;">Completed</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMCompletedDate"].ToString()" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PCAMCompletedDate"].ToString()" id="tPCAMCompletedDate" name="tPCAMCompletedDate" />
 			</div>
 		</div>
 	</div>
@@ -357,7 +355,16 @@
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Last Mod</div>
 				<div class="col-4" style="font-size: 12px;">@ViewBag.data.Rows[0]["ModDate"].ToString()</div>
+				<input type="text" id="tModDate" class="d-none" value="@ViewBag.data.Rows[0]["ModDate"].ToString()" />
 				<div class="col-4" style="font-size: 12px;">@ViewBag.data.Rows[0]["ModBy"].ToString()</div>
+				<input type="text" id="tModBy" class="d-none" value="@ViewBag.data.Rows[0]["ModBy"].ToString()" />
+			</div>
+		</div>
+		@* OROP *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">OR / OP<v>
+				<div class="col-4" style="font-size: 12px;" id="tOROP" name="tOROP">@ViewBag.data.Rows[0]["OROP"].ToString()</div>
 			</div>
 		</div>
 		@* TABLE *@
@@ -374,18 +381,36 @@
 					<tbody style="font-size: 12px;">
 						<tr>
 							<td>Plant Supt</td>
-							<td>@ViewBag.data.Rows[0]["PSName"].ToString()</td>
-							<td>@ViewBag.data.Rows[0]["PSDate"].ToString()</td>
+							<td>
+								<input id="tPSName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PSName"].ToString()" />
+								@ViewBag.data.Rows[0]["PSName"].ToString()
+							</td>
+							<td>
+								<input id="tPSDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PSDate"].ToString()" />
+								@ViewBag.data.Rows[0]["PSDate"].ToString()
+							</td>
 						</tr>
 						<tr>
 							<td>Plant Ops Supt</td>
-							<td>@ViewBag.data.Rows[0]["POSName"].ToString()</td>
-							<td>@ViewBag.data.Rows[0]["POSDate"].ToString()</td>
+							<td>
+								<input id="tPOSName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["POSName"].ToString()" />
+								@ViewBag.data.Rows[0]["POSName"].ToString()
+							</td>
+							<td>
+								<input id="tPOSDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["POSDate"].ToString()" />
+								@ViewBag.data.Rows[0]["POSDate"].ToString()
+							</td>
 						</tr>
 						<tr>
 							<td>Plant Manager</td>
-							<td>@ViewBag.data.Rows[0]["PMName"].ToString()</td>
-							<td>@ViewBag.data.Rows[0]["PMDate"].ToString()</td>
+							<td>
+								<input id="tPMName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PMName"].ToString()" />
+								@ViewBag.data.Rows[0]["PMName"].ToString()
+							</td>
+							<td>
+								<input id="tPMDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PMDate"].ToString()" />
+								@ViewBag.data.Rows[0]["PMDate"].ToString()
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -424,14 +449,19 @@
 			dataType: 'json',
 			data: { rootCauseCode: rootCauseCode },
 			success: function (response) {
-				// Clear the select element
-				$('#rootCauseDetail').empty();
+				$('#tRemark').empty();
 
 				response.forEach(function (item) {
-					$('#rootCauseDetail').append($('<option>', {
-						value: item.rootCauseDetail,
-						text: item.rootCauseDetail
-					}));
+					var option = $('<option>', {
+						value: item.tRemark,
+						text: item.tRemark
+					});
+
+					if (item.tRemark === '@ViewBag.data?.Rows[0]?["Remark"].ToString()') {
+						option.prop('selected', true);
+					}
+
+					$('#tRemark').append(option);
 				});
 			}
 		});

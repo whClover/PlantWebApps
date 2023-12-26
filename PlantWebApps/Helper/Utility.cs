@@ -38,7 +38,9 @@ namespace PlantWebApps.Helper
         {
             string eval;
 
-            val = val.ToString().Replace("\"", "");
+			val = CheckNull(val);
+
+			val = val.ToString().Replace("\"", "");
             val = val.ToString().Replace("#N/A", "");
             val = val.ToString().Trim();
 

@@ -69,7 +69,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Job ID</div>
-				<input type="Text" class="col-4" value="@ViewBag.data.Rows[0]["JobID"].ToString()" />
+				<input type="Text" id="tJobID" class="col-4" value="@ViewBag.data.Rows[0]["JobID"].ToString()" />
 			</div>
 		</div>
 	</div>
@@ -80,16 +80,16 @@
 		<div class="container overflow-hidden mt-n3">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Schedule SMU</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["BdgtHours"].ToString()" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["BdgtHours"].ToString()" id="tBdgtHours" name="tBdgtHours" />
 				<div class="col-3" style="font-size: 12px;">Completed SMU</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["SMU"].ToString()" />
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["SMU"].ToString()" id="tSMU" name="tSMU" />
 			</div>
 		</div>
 		@* details *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Details</div>
-				<textarea class="col-9" rows="3">@ViewBag.data.Rows[0]["Complaint"].ToString()</textarea>
+				<textarea class="col-9" rows="3" id="tComplaint" name="">@ViewBag.data.Rows[0]["Complaint"].ToString()</textarea>
 			</div>
 		</div>
 		@* currency *@
@@ -162,9 +162,11 @@
 				<div class="col-3" style="font-size: 12px;">Others</div>
 				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["OtherCost"].ToString()"
 					   id="tOtherCost" name="tOtherCost" />
+				<input type="Text" class="col-3 d-none" id="tPrice" value="@ViewBag.data.Rows[0]["Price"].ToString()"
+					   id="tOtherCost" name="tOtherCost" />
 				<div class="col-3" style="font-size: 12px;">New Price</div>
 				<div class="col-3 text-white align-items-center d-flex" style="font-size: 12px;
-					background-color: blue; height: 25px;" id="tPrice" name="tPrice" value="">
+					background-color: blue; height: 25px;"  name="tPrice" value="">
 					<script>
 						var price = @ViewBag.data.Rows[0]["Price"];
 						var formattedPrice = new Intl.NumberFormat('en-US').format(price);
@@ -172,6 +174,16 @@
 					</script>
 				</div>
 			</div>
+		</div>
+		@* radio button *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<input class="form-check-input" name="PriceType" type="radio" id="lReman" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["PriceType"] : "0")">
+				<label class="form-check-label col-2 pt-1" for="lReman">Reman</label>
+				<input class="form-check-input" name="PriceType" type="radio" id="lPrice" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["PriceType"] : "2")">
+				<label class="form-check-label col-2 pt-1" for="lPrice">New Price</label>
+			</div>
+			<input type="text" class="d-none" id="tPriceType" />
 		</div>
 	</div>
 	@* third section *@
@@ -216,34 +228,35 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3 datepicker-basic" style="font-size: 12px;">Supply Date</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["SupplyDate"].ToString()" />
+				<input type="Text" id="tSupplyDate" class="col-3" value="@ViewBag.data.Rows[0]["SupplyDate"].ToString()" />
 			</div>
 		</div>
 		@* install date *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3 datepicker-basic" style="font-size: 12px;" >Install Date</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["InstallDate"].ToString()" />
+				<input type="Text" id="tInstallDate" class="col-3" value="@ViewBag.data.Rows[0]["InstallDate"].ToString()" />
 			</div>
 		</div>
 		@* remove date *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3 datepicker-basic" style="font-size: 12px;">Remove Date</div>
-				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["RemoveDate"].ToString()" />
+				<input type="Text" id="tRemoveDate" class="col-3" value="@ViewBag.data.Rows[0]["RemoveDate"].ToString()" />
 			</div>
 		</div>
 		@* action taken / suggestion *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Action Taken / Suggestion</div>
-				<textarea class="col-9" rows="3">@ViewBag.data.Rows[0]["ActionTaken"].ToString()</textarea>
+				<textarea class="col-9" rows="3" id="tActionTaken" name="tActionTaken">@ViewBag.data.Rows[0]["ActionTaken"].ToString()</textarea>
 			</div>
 		</div>
 		@* Conclusion *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Conclusion</div>
+				<input type="text" id="tConclusion" class="d-none" value="@ViewBag.data.Rows[0]["Conclusion"].ToString()" />
 				<textarea class="col-9" rows="5">@ViewBag.data.Rows[0]["Conclusion"].ToString()</textarea>
 			</div>
 		</div>
@@ -262,7 +275,7 @@
 					}
 				</select>
 				<div class="col-1" style="font-size: 12px;">Date</div>
-				<input type="Text" class="col-5 datepicker-basic" value="@ViewBag.data.Rows[0]["EvalDate"].ToString()" />
+				<input type="Text" class="col-5 datepicker-basic" id="tEvalDate" name="tEvalDate" value="@ViewBag.data.Rows[0]["EvalDate"].ToString()" />
 			</div>
 		</div>
 	</div>
@@ -441,6 +454,35 @@
 			}
 		});
 	}
+
+	// price type radio button
+	// Get the value of ViewBag.data.Rows[0]["PriceType"]
+	var priceType = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["PriceType"] : "0");
+
+	// Get the radio buttons
+	var remanRadio = document.getElementById("lReman");
+	var priceRadio = document.getElementById("lPrice");
+	var xpriceType = document.getElementById("tPriceType");
+
+	// Check the radio buttons based on the value of priceType
+	function handlePriceTypeRadioOnLoad() { 
+		if (priceType === 0) {
+			remanRadio.checked = true;
+			xpriceType.value = "0";
+		} else if (priceType === 2) {
+			priceRadio.checked = true;
+			xpriceType.value = "2";
+		}
+	}
+	handlePriceTypeRadioOnLoad();
+
+	remanRadio.addEventListener("click", () => {
+		xpriceType.value = "0";
+	});
+
+	priceRadio.addEventListener("click", () => {
+		xpriceType.value = "2";
+	});
 
 	// function loadListInvest
 	$(document).ready(function () {
