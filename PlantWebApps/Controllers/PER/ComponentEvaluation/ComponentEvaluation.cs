@@ -127,6 +127,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					pcamID = Utility.CheckNull(row["PCAMID"]),
 					psDate = Utility.CheckNull(row["PSDate"]),
 					edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["ID"] + "'><i class='fa fa-edit'></i></button>",
+					delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["ID"]})'><i class='fa fa-trash text-danger'></i></button>"
 				};
 				rows.Add(rowData);
 			}
@@ -145,6 +146,41 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			ViewBag.PCAMRequired = queryPcamRequired;
 
 			return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
+		}
+		public IActionResult Delete(string id)
+		{
+			LoadOption();
+
+			string query = $"DELETE FROM tbl_EXRCEDetail WHERE ID = {Utility.Evar(id, 0)}";
+			Console.WriteLine(query);
+
+			SQLFunction.execQuery(query);
+
+			Stat = "success";
+			Msg = "Data Has Been Deleted";
+
+			return Json(new { success = true });
+		}
+		public IActionResult CreateCESummary(string ID, string WONO)
+		{
+			LoadOption();
+			string query = $"select dbo.CreateCESummary({Utility.Evar(WONO, 0)}) as OUTPUT";
+			Console.WriteLine(query);
+
+			var data = SQLFunction.execQuery(query);
+
+			var rows = new List<object>();
+
+			foreach (DataRow row in data.Rows)
+			{
+				var rowData = new
+				{
+					output = Utility.CheckNull(row["OUTPUT"]),
+				};
+				rows.Add(rowData);
+			}
+			return new JsonResult(rows);
+
 		}
 		public IActionResult RootCauseDetail(string rootCauseCode)
 		{
