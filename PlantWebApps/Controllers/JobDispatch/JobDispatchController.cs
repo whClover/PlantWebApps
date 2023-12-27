@@ -316,7 +316,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             ViewBag.report = SQLFunction.execQuery(jobQuery);
             ViewBag.detail = SQLFunction.execQuery(Detailquery);
-            return PartialView("~/Views/Shared/_LayoutReport.cshtml");
+            return PartialView("~/Views/Shared/Report/_JobDispatchReport.cshtml");
         }
         public IActionResult AddDetail()
         {

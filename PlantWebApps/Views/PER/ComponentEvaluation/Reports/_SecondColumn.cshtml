@@ -1,0 +1,229 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="d-flex flex-column col-5 container" style="gap: 5px;">
+    <div class="row align-items-center border border-black">
+        <div class="col-12 fs-5">Materials Reviewed</div>
+        <!-- first checkbox column -->
+        <div class="col-4 d-flex flex-column">
+            <!-- work order check -->
+            <div class="form-check">
+                <input class="form-check-input" id="tM1" name="tM1" type="checkbox" value="">
+                <label class="form-check-label">
+                    Work Order
+                </label>
+            </div>
+            <!-- installation check -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM2" name="tM2" value="">
+                <label class="form-check-label">
+                    Installation Checklist
+                </label>
+            </div>
+            <!-- downtime report check -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM3" name="tM3" value="">
+                <label class="form-check-label">
+                    Downtime Report Last 3 Months
+                </label>
+            </div>
+            <!-- check component change -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM4" name="tM4" value="">
+                <label class="form-check-label">
+                    Component Change Out History
+                </label>
+            </div>
+            <!-- previous wo -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM5" name="tM5" value="">
+                <label class="form-check-label">
+                    Previous WO
+                </label>
+            </div>
+            <!-- Sevice Board History Last 2000SMU -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM6" name="tM6" value="">
+                <label class="form-check-label">
+                    Sevice Board History Last 2000SMU
+                </label>
+            </div>
+            <!-- Photo -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM7" name="tM7" value="">
+                <label class="form-check-label">
+                    Photo
+                </label>
+            </div>
+        </div>
+        <!-- second checkbox column -->
+        <div class="col-4">
+            <!-- CFI -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM8" name="tM8" value="">
+                <label class="form-check-label">
+                    CFI
+                </label>
+            </div>
+            <!-- Component History -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM9" name="tM9" value="">
+                <label class="form-check-label">
+                    Component History
+                </label>
+            </div>
+            <!-- S.O.S -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM10" name="tM10" value="">
+                <label class="form-check-label">
+                    S.O.S
+                </label>
+            </div>
+            <!-- Oil Top Up History -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM11" name="tM11" value="">
+                <label class="form-check-label">
+                    Oil Top Up History
+                </label>
+            </div>
+            <!-- Operation Condition Report -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM12" name="tM12" value="">
+                <label class="form-check-label">
+                    Operation Condition Report
+                </label>
+            </div>
+            <!-- Previous OP -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM13" name="tM13" value="">
+                <label class="form-check-label">
+                    Previous OP
+                </label>
+            </div>
+            <!-- Written Instruction -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM14" name="tM14" value="">
+                <label class="form-check-label">
+                    Written Instruction
+                </label>
+            </div>
+            
+        </div>
+        <div class="col-4 d-flex flex-column">
+            <!-- SOS/CTS -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM15" name="tM15" value="">
+                <label class="form-check-label">
+                    SOS/CTS
+                </label>
+            </div>
+            <!-- WO History 12 Months -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM16" name="tM16" value="">
+                <label class="form-check-label">
+                    WO History 12 Months
+                </label>
+            </div>
+            <!-- ECM Download -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM17" name="tM17" value="">
+                <label class="form-check-label">
+                    ECM Download
+                </label>
+            </div>
+            <!-- Operator Interview -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM18" name="tM18" value="">
+                <label class="form-check-label">
+                    Operator Interview
+                </label>
+            </div>
+            <!-- Incident Notification Report -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM19" name="tM19" value="">
+                <label class="form-check-label">
+                    Incident Notification Report
+                </label>
+            </div>
+            <!-- Incident Investigation Report -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM20" name="tM20" value="">
+                <label class="form-check-label">
+                    Incident Investigation Report
+                </label>
+            </div>
+            <!-- Failure Analysys -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tM21" name="tM21" value="">
+                <label class="form-check-label">
+                    Failure Analysys
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center border border-black">
+        <div class="col-12 fs-5">Investigation</div>
+        <div class="d-flex flex-column">
+            <table class="table px-5 table-bordered">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>When</th>
+                        <th>What</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="fw-bold">Action Taken/Suggestion</div>
+            <div>test</div>
+            <div class="row align-items-center fw-bold">
+                <div class="col-2">Conclusion</div>
+                <div class="col-1">:</div>
+            </div>
+            <div style="max-height: 100px;">test</div>
+            <div class="d-flex flex-row align-items-center justify-content-between fw-bold">
+                <div class="row col-6">
+                    <div class="col-8">Evaluated By :</div>
+                    <div class="col-4">test</div>
+                </div>
+                <div class="row col-6">
+                    <div class="col-8">Evaluated Date :</div>
+                    <div class="col-4">test</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="col-12 table mb-0 table-sm table-bordered">
+        <thead class="table-secondary">
+            <tr>
+                <th>Plant Superintendent</th>
+                <th>Plant Ops. Superintendent</th>
+                <th>PlantManger</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+            <tr>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+            </tr>
+            <tr>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

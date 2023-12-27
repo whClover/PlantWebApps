@@ -554,4 +554,11 @@
 	mechanicalRadioButton.addEventListener("change", handleRadioChange);
 
 	handleRadioChange();
+
+		function gotoReport() {
+			console.log("goto report clicked");
+			var url = window.location.href;
+			var ID = url.substring(url.lastIndexOf('/') + 1);
+			window.location.href = '/ComponentEvaluation/report/' + encodeURIComponent(ID);
+		};
 </script>

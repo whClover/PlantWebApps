@@ -1,0 +1,280 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Pichforest" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/images/favicon.ico">
+
+    <!-- Bootstrap Css -->
+    <link href="~/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="~/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="~/css/StyleSheet1.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="~/css/overlay.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/costume/js/jquery-3.5.1.min.js"></script>
+
+    <link href="~/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+    <link href="~/costume/datatable/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/costume/datatable/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="~/costume/datatable/buttons.foundation.min.css" rel="stylesheet">
+    <script src="~/costume/datatable/datatables.min.js"></script>
+    <script src="~/costume/datatable/dataTables.bootstrap5.min.js"></script>
+    <script src="~/costume/datatable/dataTables.buttons.min.js"></script>
+    <script src="~/costume/datatable/buttons.html5.min.js"></script>
+
+    <link href="~/libs/flatpickr/flatpickr.min.css" rel="stylesheet">
+
+    <!-- One of the following themes -->
+    <link rel="stylesheet" href="~/libs/simonwep/pickr/themes/classic.min.css" /> <!-- 'classic' theme -->
+
+    <link href="~/costume/select2/select2.min.css" rel="stylesheet" />
+    <script src="~/costume/select2/select2.min.js"></script>
+
+    <script src="~/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/costume/Utility.js"></script>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
+        <div class="d-flex flex-column mx-3 justify-content-between" style="gap: 100px;">
+
+            <div class="d-flex flex-column">
+                <a class="btn btn-primary d-print-none" style="max-width: 150px;" href=" javascript:printAndRedirect()">Print</a>
+                        @*Header*@
+                        <div class="d-flex flex-row justify-content-between align-items-center ">
+                            <div class="d-flex flex-column fs-4 fw-semibold">
+                                <div>Balikpapan</div>
+                                <div>PRO</div>
+                            </div>
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="fs-4 fw-semibold">PT. Thiess Contractor Indonesia</div>
+                                <div>Goods Outwards or Material Transfer</div>
+                            </div>
+                            <img src="~/images/Thiess.png" style="max-width: 150px;" />
+                        </div>
+
+                        <div class="d-flex flex-row align-self-end mt-2" style="margin-right: 100px;">
+                            <div>ADVICE NOTE NO:</div>
+                            @if (ViewBag.detail != null && ViewBag.detail.Rows.Count > 0)
+                            {
+                                <div class="text-danger ms-2">@ViewBag.detail.Rows[0]["DispatchID"]</div>
+                            }
+                            <input type="Text" class="col-8 d-none" name="reportID" id="reportID" />
+                        </div>
+
+                        @*Body*@
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="w-25">Date :</td>
+                                        <td class="w-25">@ViewBag.report?.Rows[0]?["ShipmentDate"]</td>
+                                        <td class="w-25">Project :</td>
+                                        <td class="w-25">@ViewBag.report?.Rows[0]?["Project"]</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-25">Good Consigned to :</td>
+                                        <td class="w-25">@ViewBag.report?.Rows[0]?["ConsignedTo"]</td>
+                                        <td class="w-25"></td>
+                                        <td class="w-25"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-25">Attention :</td>
+                                        <td class="w-25"></td>
+                                        <td class="w-25">Job No :</td>
+                                        <td class="w-25"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-25">Mode Of Transport :</td>
+                                        <td class="w-25">@ViewBag.report?.Rows[0]?["TransportMode"]</td>
+                                        <td class="w-25">Carrier :</td>
+                                        <td class="w-25"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-25">C/Note Or Manifest No :</td>
+                                        <td class="w-25">@ViewBag.report?.Rows[0]?["ManifestNo"]</td>
+                                        <td class="w-25">Dispatched From :</td>
+                                        <td class="w-25"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Unit</th>
+                                        <th>Description</th>
+                                        <th>WO / OFF SITE / OP/ OR</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach (DataRow row in ViewBag.detail.Rows)
+                                        {
+                                            var item = row["Item"].ToString();
+                                            var qty = row["Qty"].ToString();
+                                            var uom = row["UOM"].ToString();
+                                            var itemDesc = row["ItemDesc"].ToString();
+                                            var pono = row["PONo"].ToString();
+                                            var remarks = row["Remarks"].ToString();
+
+                                            <td>@item</td>
+                                            <td>@qty</td>
+                                            <td>@uom</td>
+                                            <td>@itemDesc</td>
+                                            <td>@pono</td>
+                                            <td>@remarks</td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    @*footer*@
+                    <div class="d-flex flex-column">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="height: 100px;">
+                                            <div>Dispatch By:</div>
+                                            <div>@ViewBag.report?.Rows[0]?["DispatchBy"]</div>
+                                        </td>
+                                        <td style="height: 100px;">
+                                            <div>Approved By:</div>
+                                            <div>@ViewBag.report?.Rows[0]?["HandledBy"]</div>
+                                        </td>
+                                        <td style="height: 100px;">
+                                            <div>Checked By:</div>
+                                            <div></div>
+                                        </td>
+                                        <td style="height: 100px;">
+                                            <div>Carrier By:</div>
+                                            <div></div>
+                                        </td>
+                                        <td style="height: 100px;">
+                                            <div>Receipt By:</div>
+                                            <div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date :</td>
+                                        <td>Date :</td>
+                                        <td>Date :</td>
+                                        <td>Date :</td>
+                                        <td>Date :</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <div class="row">
+                                <div class="col-2">Distribution</div>
+                                <div class="col-10"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">Original With Goods</div>
+                                <div class="col-10"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">Yellow / Kuning</div>
+                                <div class="col-10">:<span class="ms-2">Copy sent to consignee-sign and return to originator / kirim ke supplier dan kembali ke pengirim (LOG)</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">Red / Merah</div>
+                                <div class="col-10">:<span class="ms-2">Copy-file to consignee</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">Red / Merah</div>
+                                <div class="col-10">:<span class="ms-2">Copy-file to dispatcher</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">Red / Merah</div>
+                                <div class="col-10">:<span class="ms-2">Copy-file to security</span></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row mt-2 justify-content-between">
+                            <div>2014-09</div>
+                            <div>1 of 1</div>
+                            <div>503000-PRO-FO-008</div>
+                        </div>
+            </div>
+        </div>
+    </form>
+<!-- END layout-wrapper -->
+
+    <script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/libs/metismenujs/metismenujs.min.js"></script>
+    <script src="~/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/libs/feather-icons/feather.min.js"></script>
+    <script src="~/libs/flatpickr/flatpickr.min.js"></script>
+    <script src="~/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/js/app.js"></script>
+</body>
+</html>
+
+<script>
+    function printAndRedirect() {
+        window.print();
+
+        if (window.matchMedia) {
+            var mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function (mql) {
+                if (!mql.matches) {
+                    window.location.href = '/jobdispatch';
+                }
+            });
+        } else {
+            window.onafterprint = function () {
+                window.location.href = '/jobdispatch';
+            };
+        }
+    }
+</script>
+
+@* <style type="text/css" media="print">
+    body {
+        margin: 75px 0px 50px 0px;
+    }
+
+    /* Header styles */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    /* Footer styles */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+    }
+</style> *@

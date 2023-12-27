@@ -2,6 +2,7 @@
 using PlantWebApps.Helper;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
@@ -374,6 +375,52 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			Msg = "Data Has Been Inserted";
 
 			return Redirect("/ComponentEvaluation/Edit/" + ID);
+		}
+		public IActionResult ReportBody()
+		{
+			return View("~/Views/PER/ComponentEvaluation/Reports/Report.cshtml");
+		}
+		public IActionResult ReportHeading()
+		{
+			return View("~/Views/PER/ComponentEvaluation/Reports/ReportHeader.cshtml");
+		}
+		public IActionResult ReportFooter()
+		{
+			return View("~/Views/PER/ComponentEvaluation/Reports/ReportFooter.cshtml");
+		}
+		public IActionResult Report()
+		{
+            string tempAnno = "001210";
+            string servername = "https://localhost:5001/";
+			string namafile;
+			string namafile2;
+			string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+
+			if (!Directory.Exists(savePath))
+			{
+				Directory.CreateDirectory(savePath);
+			}
+			namafile = Path.Combine(savePath, tempAnno + "_dc.pdf");
+			ProcessStartInfo psi = new ProcessStartInfo
+			{
+				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+				//FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //Local aku... :P
+				Arguments = "--username minestar --password Mine1staR --orientation Landscape " +
+				   "\"https://localhost:7235/ComponentEvaluation/ReportBody" +
+				   "\" --footer-html \"https://localhost:7235/ComponentEvaluation/ReportFooter" +
+				   "\" --footer-spacing 3 --header-html \"https://localhost:7235/ComponentEvaluation/ReportHeading" +
+                   "\" --header-spacing 3 " +
+                   "\"" + namafile + "\""
+            
+			};
+			Process p = new Process { StartInfo = psi };
+			p.Start();
+			p.WaitForExit();
+
+			namafile2 = Path.Combine(savePath, tempAnno + "_dc.pdf");
+			string ffname = "AN." + tempAnno + ".pdf";
+
+			return PhysicalFile(namafile2, "application/pdf", ffname);
 		}
 		private void LoadOption()
         {

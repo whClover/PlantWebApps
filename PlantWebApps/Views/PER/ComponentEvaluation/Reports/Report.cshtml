@@ -1,0 +1,25 @@
+﻿@{
+    @using System.Data;
+    ViewData["Title"] = "Advice Note";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<br />
+<div class="d-flex flex-row justify-content-between">
+    @* first column *@
+    @* <partial name="_FirstColumn.cshtml" /> *@
+    @* second column *@
+    @* <partial name="_SecondColumn.cshtml" /> *@
+    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+        <tr>
+            <td style="width: 40%">
+                <partial name="Partial/_FirstColumn.cshtml" />
+            </td>
+            <td style="width: 60%">
+                <partial name="Partial/_SecondColumn.cshtml" />
+            </td>
+        </tr>
+    </table>
+    @* first column *@
+    @* second column *@
+</div>
