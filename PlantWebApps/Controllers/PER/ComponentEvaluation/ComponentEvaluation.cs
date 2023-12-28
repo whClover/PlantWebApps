@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using PlantWebApps.Helper;
 using System;
 using System.Data;
@@ -22,6 +23,75 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
             LoadOption();
             return View("~/Views/PER/ComponentEvaluation/Index.cshtml");
         }
+		private void BuildTempFilter()
+		{
+			string tempfilter = string.Empty;
+
+			Dictionary<string, string> formFields = new Dictionary<string, string>
+			{
+				{ "EvalByID", Request.Form["fSpvDesc"] },
+				{ "MaintType", Request.Form["fMaintBase"] },
+				{ "RootCauseCode", Request.Form["fRootCause"] },
+				{ "EvalCode", Request.Form["fEvalCode"] },
+				{ "SysFailCode", Request.Form["fFailedCode"] },
+				{ "RecCode", Request.Form["fRecCode"] },
+				{ "ComptypeID", Request.Form["tCompTypeID"] },
+				{ "ReasonTypeID", Request.Form["tReasonType"] },
+				{ "WarrantyResult", Request.Form["cbWarrantyResult"] }
+			};
+
+			foreach (var field in formFields)
+			{
+				if (!string.IsNullOrEmpty(field.Value))
+				{
+					var viewBagDict = ViewBag as IDictionary<string, object>;
+
+					if (viewBagDict != null)
+					{
+						viewBagDict[field.Key] = field.Value;
+					}
+
+					tempfilter = $" and {field.Key} = {Utility.Evar(field.Value, 1)}" + tempfilter;
+				}
+			}
+
+			string CwoTypeCategory = string.Empty;
+			switch (Request.Form["CWOType"])
+			{
+				case "1":
+					CwoTypeCategory = "WOno";
+					break;
+				case "2":
+					CwoTypeCategory = "JobID";
+					break;
+				case "3":
+					CwoTypeCategory = "ID";
+					break;
+			}
+
+			if (!string.IsNullOrEmpty(Request.Form["CWOType"]))
+			{
+				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(Request.Form["fSwo"], 0) + tempfilter;
+			}
+
+			if (!string.IsNullOrEmpty(Request.Form["fUnitDesc"]))
+			{
+				tempfilter = " AND UnitDescription in (" + Utility.Evar(Request.Form["fUnitDesc"], 1) + ")" + tempfilter;
+			}
+
+			if (!string.IsNullOrEmpty(Request.Form["dStart"]))
+			{
+				tempfilter = " and " + "EvalDate" + " >= " + Utility.Evar(Request.Form["dStart"], 2) + tempfilter;
+			}
+
+			if (!string.IsNullOrEmpty(Request.Form["dEnd"]))
+			{
+				tempfilter = " and " + "EvalDate" + " <= " + Utility.Evar(Request.Form["dEnd"], 2) + tempfilter;
+			}
+
+			string temporder = $"ORDER BY {Request.Form["fSort"]} {Request.Form["fAsc"]}";
+			_tempfilter = Utility.VarFilter(tempfilter);
+		}
 		public IActionResult LoadData(string fSpvDesc, string fSwo, string 
 			fUnitDesc, string fRootCause, string fEvalCode, string fMaintBase, 
 			string fFailedCode, string fRecCode, string tCompTypeID, string tReasonType, 
@@ -97,7 +167,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			_tempfilter = Utility.VarFilter(tempfilter);
 			Console.WriteLine(_tempfilter);
 
-			string query = $"SELECT TOP 20 * from v_ExrCEDetail {_tempfilter} {temporder}";
+			string query = $"SELECT * from v_ExrCEDetail {_tempfilter} {temporder}";
 			Console.WriteLine(query);
 
 			var data = SQLFunction.execQuery(query);
@@ -430,9 +500,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			ProcessStartInfo psi = new ProcessStartInfo
 			{
 				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-				Arguments = "--username minestar --password Mine1staR --orientation Landscape " +
+				Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm --orientation Landscape " +
 				   "\"https://localhost:7235/ComponentEvaluation/ReportBody/" + ID +
-				   "\" --footer-html \"https://localhost:7235/ComponentEvaluation/ReportFooter" +
+                   "\" --footer-html  --footer-right \"\"Page [page] of [topage]\"\" --footer-font-size 6 --footer-spacing -3\" \"https://localhost:7235/ComponentEvaluation/ReportFooter" +
 				   "\" --footer-spacing 3 --header-html \"https://localhost:7235/ComponentEvaluation/ReportHeading" +
                    "\" --header-spacing 3 " +
                    "\"" + namafile + "\""
@@ -447,11 +517,39 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			return PhysicalFile(namafile2, "application/pdf", ffname);
 		}
-		public IActionResult Test(string WONO, string ID)
+		public IActionResult Export()
 		{
-			Console.WriteLine(WONO);
+			BuildTempFilter();
+			string temporder = $"ORDER BY {Request.Form["fSort"]} {Request.Form["fAsc"]}";
 
-			return Redirect("/ComponentEvaluation/Edit/" + ID);
+			string dataQuery = $@"SELECT Wono,LocationName,UnitDescription,UnitNumber,MaintType,MaintDesc,
+			CompTypeDesc as CompType,ReasonTypeDesc as ReasonType,WarrantyResult as Warranty,ExrRepairBy
+			,SMU,BdgtHours,Complaint,CurrID,FlatRate,ExcPart as [AddPartCost],PartCost,LabourCost,ConsCost
+			,OtherCost,TotalCostBefore,SavingCost,TotalQuoteRev,TCISupply,OROP,PriceType,Price
+			,PercentNew as [% New Price],StripDown,SysTypeID,RootCauseCode,RootCauseDesc,SysFailCode
+			,SysFail,RecCode,RecDesc,ActionTaken,SupplyDate,InstallDate,RemoveDate,Remark,Conclusion,JobID,
+			PCAMID,EvalCode,EvalDesc,EvalDate,EvalByDesc from v_ExrCEDetail {_tempfilter} {temporder}";
+
+			Console.WriteLine(dataQuery);
+
+			DataTable data = SQLFunction.execQuery(dataQuery);
+			string fileName = "Component Evaluation.xlsx";
+
+			return Utility.ExportDataTableToExcel(data, fileName);
+		}
+		public IActionResult ExportInvestigation()
+		{
+			BuildTempFilter();
+
+			string dataQuery = $@"select wono,InvesDate,InvesDesc,InvesDetail from tbl_EXRCEInvestigation 
+			WHERE WOno IN (Select WONO from v_ExrCEDetail {_tempfilter}) order by wono";
+
+			Console.WriteLine(dataQuery);
+
+			DataTable data = SQLFunction.execQuery(dataQuery);
+			string fileName = "Component Evaluation Investigation.xlsx";
+
+			return Utility.ExportDataTableToExcel(data, fileName);
 		}
 		private void LoadOption()
         {

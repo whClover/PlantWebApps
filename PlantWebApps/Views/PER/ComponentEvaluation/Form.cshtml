@@ -157,9 +157,9 @@
 		}
 
 		function handleSave() {
-			console.log("test is clicked")
 			var extractedData = extractData();
 			saveRequest(extractedData);
+			Swal.fire("Data Has Been Inserted", "", "success");
 		}
 
 		$("#cSave").on("click", function () {

@@ -7,6 +7,34 @@
 }
 
 <script>
+	function showOverlay() {
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay';
+
+		var spinner = document.createElement('div');
+		spinner.className = 'spinner';
+
+		var text = document.createElement('div');
+		text.className = 'text';
+		text.innerHTML = 'Processing Data...';
+
+		overlay.appendChild(spinner);
+		overlay.appendChild(text);
+		document.body.appendChild(overlay);
+
+		setTimeout(function () {
+			hideOverlay();
+		}, 3000);
+
+		return true;
+	}
+	function hideOverlay() {
+		var overlay = document.querySelector('.overlay');
+		if (overlay) {
+			document.body.removeChild(overlay);
+		}
+	}
+
 	function confirmDelete(id) {
 		Swal.fire({
 			title: 'Are you sure?',
@@ -59,10 +87,10 @@
 						<button type="submit" class="btn btn-sm btn-primary">
 							EVAL REPORT
 						</button>
-						<button type="submit" class="btn btn-sm btn-primary" formaction="/JobDispatch/Export">
+						<button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/Export" OnClick="return showOverlay();">
 							<i class="fa fa-download me-2"></i> EXPORT
 						</button>
-						<button type="submit" class="btn btn-sm btn-primary">
+						<button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/ExportInvestigation" OnClick="return showOverlay();">
 							INVESTIG
 						</button>
 						<button type="submit" class="btn btn-sm btn-primary">
@@ -378,6 +406,7 @@
 	$(document).ready(function () {
 		LoadData();
 		$('#filterButton').click(function (e) {
+			console.log("filter is clicked")
 			e.preventDefault();
 			LoadData();
 		});
