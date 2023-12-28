@@ -4,8 +4,31 @@
     Layout = "~/Views/Shared/_LayoutReport.cshtml";
 }
 
-<br />
-<div class="d-flex flex-row justify-content-between">
+<style>
+    .font-label {
+        background-color: lightgray;
+        font-size: 16px;
+    }
+
+    .border {
+        border: 1px solid black;
+    }
+
+    .border-grey {
+        border: 1px solid grey;
+    }
+
+    .font-h3 {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .negative-top {
+        margin-top: -15px;
+    }
+</style>
+
+<div class="d-flex flex-row justify-content-between mt-n1" style="font-size: 9px;">
     @* first column *@
     @* <partial name="_FirstColumn.cshtml" /> *@
     @* second column *@

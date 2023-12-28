@@ -25,10 +25,10 @@
 							<button type="submit" class="btn btn-sm btn-primary">
 								COPY TO JDE
 							</button>
-							<button id="btnPrint" onclick="gotoReport()" type="button" class="btn btn-sm btn-primary">
+							<button id="btnPrint" type="button" class="btn btn-sm btn-primary">
 								PRINT
 							</button>
-							<button type="submit" class="btn btn-sm btn-primary">
+							<button class="btn btn-sm btn-primary" id="btnTest" type="button">
 								PRINT EVAL
 							</button>
 							<div class="form-check">
@@ -68,169 +68,288 @@
 
 <script>
 	$(document).ready(function () {
-		// Report Function
+		// extract the data from the form
+		function extractData() {
+			var data = {};
+
+			var url = window.location.href;
+			var ID = url.substring(url.lastIndexOf('/') + 1);
+
+			data.ID = ID;
+			data.WONO = $("#tWono").val();
+			data.UnitNumber = $("#tUnitNumber").val();
+			data.PCAMID = $("#tPCAMID").val();
+			data.PCAMRequired = $("#tPCAMRequired").val();
+			data.PCAMStatusID = $("#tPCAMStatusID").val();
+			data.PCAMStartDate = $("#tPCAMStartDate").val();
+			data.PCAMCompletedDate = $("#tPCAMCompletedDate").val();
+			data.MaintType = $("#tMaintType").val();
+			data.BdgtHours = $("#tBdgtHours").val();
+			data.SMU = $("#tSMU").val();
+			data.Complaint = $("#tComplaint").val();
+			data.FlatRate = $("#tFlatRate").val();
+			data.OROP = $("#tOROP").val();
+			data.ExcPart = $("#tExcPart").val();
+			data.PartCost = $("#tPartCost").val();
+			data.LabourCost = $("#tLabourCost").val();
+			data.OtherCost = $("#tOtherCost").val();
+			data.TCISupply = $("#tTCISupply").val();
+			data.SavingCost = $("#tSavingCost").val();
+			data.PriceType = $("#tPriceType").val();
+			data.Price = $("#tPrice").val();
+			data.CurrID = $("#tCurrID").val();
+			data.StripDown = $("#tStripDown").val();
+			data.SysTypeID = "123";
+			data.RootCauseCode = $("#tRootCauseCode").val();
+			data.SysFailCode = $("#tSysFailCode").val();
+			data.RecCode = $("#tRecCode").val();
+			data.M1 = $("#tM1").val();
+			data.M2 = $("#tM2").val();
+			data.M3 = $("#tM3").val();
+			data.M4 = $("#tM4").val();
+			data.M5 = $("#tM5").val();
+			data.M6 = $("#tM6").val();
+			data.M7 = $("#tM7").val();
+			data.M8 = $("#tM8").val();
+			data.M9 = $("#tM9").val();
+			data.M10 = $("#tM10").val();
+			data.M11 = $("#tM11").val();
+			data.M12 = $("#tM12").val();
+			data.M13 = $("#tM13").val();
+			data.M14 = $("#tM14").val();
+			data.M15 = $("#tM15").val();
+			data.M16 = $("#tM16").val();
+			data.M17 = $("#tM17").val();
+			data.M18 = $("#tM18").val();
+			data.M19 = $("#tM19").val();
+			data.M20 = $("#tM20").val();
+			data.M21 = $("#tM21").val();
+			data.ActionTaken = $("#tActionTaken").val();
+			data.EvalByID = $("#tEvalByID").val();
+			data.EvalDate = $("#tEvalDate").val();
+			data.EvalCode = $("#tEvalCode").val();
+			data.PSName = $("#tPSName").val();
+			data.PSDate = $("#tPSDate").val();
+			data.POSName = $("#tPOSName").val();
+			data.POSDate = $("#tPOSDate").val();
+			data.PMName = $("#tPMName").val();
+			data.PMDate = $("#tPMDate").val();
+			data.Conclusion = $("#tConclusion").val();
+			data.ModBy = $("#tModBy").val();
+			data.ModDate = $("#tModDate").val();
+			data.JobID = $("#tJobID").val();
+			data.ConsCost = $("#tConsCost").val();
+			data.SupplyDate = $("#tSupplyDate").val();
+			data.InstallDate = $("#tInstallDate").val();
+			data.RemoveDate = $("#tRemoveDate").val();
+			data.Remark = $("#tRemark").val();
+			return data;
+		}
+
+		// save the data to the database
+		function saveRequest(data) {
+			$.ajax({
+				url: '@Url.Action("Save", "ComponentEvaluation")',
+				method: 'POST',
+				dataType: 'json',
+				data: data
+			});
+		}
+
+		function handleSave() {
+			console.log("test is clicked")
+			var extractedData = extractData();
+			saveRequest(extractedData);
+		}
+
+		$("#cSave").on("click", function () {
+			handleSave();
+		});
+
+		// // Report Function
+		// function printRequest(data) {
+		// 	$.ajax({
+		// 		url: '@Url.Action("ReportBody", "ComponentEvaluation")',
+		// 		method: 'POST',
+		// 		dataType: 'json',
+		// 		data: data
+		// 	});
+		// }
+
+		// function handlePrint() {
+		// 	console.log("print is clicked")
+		// 	var extractedData = extractData();
+		// 	printRequest(extractedData);
+		// }
+
+		// $("#btnPrint").on("click", function () {
+		// 	handlePrint();
+		// });
+
+
 		function gotoReport() {
 			console.log("goto report clicked");
 			var url = window.location.href;
 			var ID = url.substring(url.lastIndexOf('/') + 1);
-			window.location.href = '/ComponentEvaluation/Report';
+			window.location.href = '/ComponentEvaluation/Report/' + ID;
 		};
 
 		$("#btnPrint").on("click", function () {
 			gotoReport();
 		});
 
-		function handleCSave() {
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			var WONO = $("#tWono").val();
-			var UnitNumber = $("#tUnitNumber").val();
-			var PCAMID = $("#tPCAMID").val();
-			var PCAMRequired = $("#tPCAMRequired").val();
-			var PCAMStatusID = $("#tPCAMStatusID").val();
-			var PCAMStartDate = $("#tPCAMStartDate").val();
-			var PCAMCompletedDate = $("#tPCAMCompletedDate").val();
-			var MaintType = $("#tMaintType").val();
-			var BdgtHours = $("#tBdgtHours").val();
-			var SMU = $("#tSMU").val();
-			var Complaint = $("#tComplaint").val();
-			var FlatRate = $("#tFlatRate").val();
-			var OROP = $("#tOROP").val();
-			var ExcPart = $("#tExcPart").val();
-			var PartCost = $("#tPartCost").val();
-			var LabourCost = $("#tLabourCost").val();
-			var OtherCost = $("#tOtherCost").val();
-			var TCISupply = $("#tTCISupply").val();
-			var SavingCost = $("#tSavingCost").val();
-			var PriceType = $("#tPriceType").val();
-			var Price = $("#tPrice").val();
-			var CurrID = $("#tCurrID").val();
-			var StripDown = $("#tStripDown").val();
-			var SysTypeID = "TEST";
-			var RootCauseCode = $("#tRootCauseCode").val();
-			var SysFailCode = $("#tSysFailCode").val();
-			var RecCode = $("#tRecCode").val();
-			var M1 = $("#tM1").val();
-			var M2 = $("#tM2").val();
-			var M3 = $("#tM3").val();
-			var M4 = $("#tM4").val();
-			var M5 = $("#tM5").val();
-			var M6 = $("#tM6").val();
-			var M7 = $("#tM7").val();
-			var M8 = $("#tM8").val();
-			var M9 = $("#tM9").val();
-			var M10 = $("#tM10").val();
-			var M11 = $("#tM11").val();
-			var M12 = $("#tM12").val();
-			var M13 = $("#tM13").val();
-			var M14 = $("#tM14").val();
-			var M15 = $("#tM15").val();
-			var M16 = $("#tM16").val();
-			var M17 = $("#tM17").val();
-			var M18 = $("#tM18").val();
-			var M19 = $("#tM19").val();
-			var M20 = $("#tM20").val();
-			var M21 = $("#tM21").val();
-			var ActionTaken = $("#tActionTaken").val();
-			var EvalByID = $("#tEvalByID").val();
-			var EvalDate = $("#tEvalDate").val();
-			var EvalCode = $("#tEvalCode").val();
-			var PSName = $("#tPSName").val();
-			var PSDate = $("#tPSDate").val();
-			var POSName = $("#tPOSName").val();
-			var POSDate = $("#tPOSDate").val();
-			var PMName = $("#tPMName").val();
-			var PMDate = $("#tPMDate").val();
-			var Conclusion = $("#tConclusion").val();
-			var ModBy = $("#tModBy").val();
-			var ModDate = $("#tModDate").val();
-			var JobID = $("#tJobID").val();
-			var ConsCost = $("#tConsCost").val();
-			var SupplyDate = $("#tSupplyDate").val();
-			var InstallDate = $("#tInstallDate").val();
-			var RemoveDate = $("#tRemoveDate").val();
-			var Remark = $("#tRemark").val();
 
-			$.ajax({
-				url: '@Url.Action("Save", "ComponentEvaluation")',
-				method: 'POST',
-				dataType: 'json',
-				data: {
-					ID: ID,
-					WONO: WONO,
-					UnitNumber: UnitNumber,
-					PCAMID: PCAMID,
-					PCAMRequired: PCAMRequired,
-					PCAMStatusID: PCAMStatusID,
-					PCAMStartDate: PCAMStartDate,
-					PCAMCompletedDate: PCAMCompletedDate,
-					MaintType: MaintType,
-					BdgtHours: BdgtHours,
-					SMU: SMU,
-					Complaint: Complaint,
-					FlatRate: FlatRate,
-					OROP: OROP,
-					ExcPart: ExcPart,
-					PartCost: PartCost,
-					LabourCost: LabourCost,
-					OtherCost: OtherCost,
-					TCISupply: TCISupply,
-					SavingCost: SavingCost,
-					PriceType: PriceType,
-					Price: Price,
-					CurrID: CurrID,
-					StripDown: StripDown,
-					SysTypeID: SysTypeID,
-					RootCauseCode: RootCauseCode,
-					SysFailCode: SysFailCode,
-					RecCode: RecCode,
-					M1: M1,
-					M2: M2,
-					M3: M3,
-					M4: M4,
-					M5: M5,
-					M6: M6,
-					M7: M7,
-					M8: M8,
-					M9: M9,
-					M10: M10,
-					M11: M11,
-					M12: M12,
-					M13: M13,
-					M14: M14,
-					M15: M15,
-					M16: M16,
-					M17: M17,
-					M18: M18,
-					M19: M19,
-					M20: M20,
-					M21: M21,
-					ActionTaken: ActionTaken,
-					EvalByID: EvalByID,
-					EvalDate: EvalDate,
-					EvalCode: EvalCode,
-					PSName: PSName,
-					PSDate: PSDate,
-					POSName: POSName,
-					POSDate: POSDate,
-					PMName: PMName,
-					PMDate: PMDate,
-					Conclusion: Conclusion,
-					ModBy: ModBy,
-					ModDate: ModDate,
-					JobID: JobID,
-					ConsCost: ConsCost,
-					SupplyDate: SupplyDate,
-					InstallDate: InstallDate,
-					RemoveDate: RemoveDate,
-					Remark: Remark
-				}
-			});
-		}
+		// function handleCSave() {
+		// 	var url = window.location.href;
+		// 	var ID = url.substring(url.lastIndexOf('/') + 1);
+		// 	var WONO = $("#tWono").val();
+		// 	var UnitNumber = $("#tUnitNumber").val();
+		// 	var PCAMID = $("#tPCAMID").val();
+		// 	var PCAMRequired = $("#tPCAMRequired").val();
+		// 	var PCAMStatusID = $("#tPCAMStatusID").val();
+		// 	var PCAMStartDate = $("#tPCAMStartDate").val();
+		// 	var PCAMCompletedDate = $("#tPCAMCompletedDate").val();
+		// 	var MaintType = $("#tMaintType").val();
+		// 	var BdgtHours = $("#tBdgtHours").val();
+		// 	var SMU = $("#tSMU").val();
+		// 	var Complaint = $("#tComplaint").val();
+		// 	var FlatRate = $("#tFlatRate").val();
+		// 	var OROP = $("#tOROP").val();
+		// 	var ExcPart = $("#tExcPart").val();
+		// 	var PartCost = $("#tPartCost").val();
+		// 	var LabourCost = $("#tLabourCost").val();
+		// 	var OtherCost = $("#tOtherCost").val();
+		// 	var TCISupply = $("#tTCISupply").val();
+		// 	var SavingCost = $("#tSavingCost").val();
+		// 	var PriceType = $("#tPriceType").val();
+		// 	var Price = $("#tPrice").val();
+		// 	var CurrID = $("#tCurrID").val();
+		// 	var StripDown = $("#tStripDown").val();
+		// 	var SysTypeID = "123";
+		// 	var RootCauseCode = $("#tRootCauseCode").val();
+		// 	var SysFailCode = $("#tSysFailCode").val();
+		// 	var RecCode = $("#tRecCode").val();
+		// 	var M1 = $("#tM1").val();
+		// 	var M2 = $("#tM2").val();
+		// 	var M3 = $("#tM3").val();
+		// 	var M4 = $("#tM4").val();
+		// 	var M5 = $("#tM5").val();
+		// 	var M6 = $("#tM6").val();
+		// 	var M7 = $("#tM7").val();
+		// 	var M8 = $("#tM8").val();
+		// 	var M9 = $("#tM9").val();
+		// 	var M10 = $("#tM10").val();
+		// 	var M11 = $("#tM11").val();
+		// 	var M12 = $("#tM12").val();
+		// 	var M13 = $("#tM13").val();
+		// 	var M14 = $("#tM14").val();
+		// 	var M15 = $("#tM15").val();
+		// 	var M16 = $("#tM16").val();
+		// 	var M17 = $("#tM17").val();
+		// 	var M18 = $("#tM18").val();
+		// 	var M19 = $("#tM19").val();
+		// 	var M20 = $("#tM20").val();
+		// 	var M21 = $("#tM21").val();
+		// 	var ActionTaken = $("#tActionTaken").val();
+		// 	var EvalByID = $("#tEvalByID").val();
+		// 	var EvalDate = $("#tEvalDate").val();
+		// 	var EvalCode = $("#tEvalCode").val();
+		// 	var PSName = $("#tPSName").val();
+		// 	var PSDate = $("#tPSDate").val();
+		// 	var POSName = $("#tPOSName").val();
+		// 	var POSDate = $("#tPOSDate").val();
+		// 	var PMName = $("#tPMName").val();
+		// 	var PMDate = $("#tPMDate").val();
+		// 	var Conclusion = $("#tConclusion").val();
+		// 	var ModBy = $("#tModBy").val();
+		// 	var ModDate = $("#tModDate").val();
+		// 	var JobID = $("#tJobID").val();
+		// 	var ConsCost = $("#tConsCost").val();
+		// 	var SupplyDate = $("#tSupplyDate").val();
+		// 	var InstallDate = $("#tInstallDate").val();
+		// 	var RemoveDate = $("#tRemoveDate").val();
+		// 	var Remark = $("#tRemark").val();
 
-		$("#cSave").on("click", function () {
-			handleCSave();
-		});
+		// 	$.ajax({
+		// 		url: '@Url.Action("Save", "ComponentEvaluation")',
+		// 		method: 'POST',
+		// 		dataType: 'json',
+		// 		data: {
+		// 			ID: ID,
+		// 			WONO: WONO,
+		// 			UnitNumber: UnitNumber,
+		// 			PCAMID: PCAMID,
+		// 			PCAMRequired: PCAMRequired,
+		// 			PCAMStatusID: PCAMStatusID,
+		// 			PCAMStartDate: PCAMStartDate,
+		// 			PCAMCompletedDate: PCAMCompletedDate,
+		// 			MaintType: MaintType,
+		// 			BdgtHours: BdgtHours,
+		// 			SMU: SMU,
+		// 			Complaint: Complaint,
+		// 			FlatRate: FlatRate,
+		// 			OROP: OROP,
+		// 			ExcPart: ExcPart,
+		// 			PartCost: PartCost,
+		// 			LabourCost: LabourCost,
+		// 			OtherCost: OtherCost,
+		// 			TCISupply: TCISupply,
+		// 			SavingCost: SavingCost,
+		// 			PriceType: PriceType,
+		// 			Price: Price,
+		// 			CurrID: CurrID,
+		// 			StripDown: StripDown,
+		// 			SysTypeID: SysTypeID,
+		// 			RootCauseCode: RootCauseCode,
+		// 			SysFailCode: SysFailCode,
+		// 			RecCode: RecCode,
+		// 			M1: M1,
+		// 			M2: M2,
+		// 			M3: M3,
+		// 			M4: M4,
+		// 			M5: M5,
+		// 			M6: M6,
+		// 			M7: M7,
+		// 			M8: M8,
+		// 			M9: M9,
+		// 			M10: M10,
+		// 			M11: M11,
+		// 			M12: M12,
+		// 			M13: M13,
+		// 			M14: M14,
+		// 			M15: M15,
+		// 			M16: M16,
+		// 			M17: M17,
+		// 			M18: M18,
+		// 			M19: M19,
+		// 			M20: M20,
+		// 			M21: M21,
+		// 			ActionTaken: ActionTaken,
+		// 			EvalByID: EvalByID,
+		// 			EvalDate: EvalDate,
+		// 			EvalCode: EvalCode,
+		// 			PSName: PSName,
+		// 			PSDate: PSDate,
+		// 			POSName: POSName,
+		// 			POSDate: POSDate,
+		// 			PMName: PMName,
+		// 			PMDate: PMDate,
+		// 			Conclusion: Conclusion,
+		// 			ModBy: ModBy,
+		// 			ModDate: ModDate,
+		// 			JobID: JobID,
+		// 			ConsCost: ConsCost,
+		// 			SupplyDate: SupplyDate,
+		// 			InstallDate: InstallDate,
+		// 			RemoveDate: RemoveDate,
+		// 			Remark: Remark
+		// 		}
+		// 	});
+		// }
+
+		// $("#cSave").on("click", function () {
+		// 	handleCSave();
+		// });
 
 		$('#btnCreateCESummary').on('click', function (e) {
 			e.preventDefault();

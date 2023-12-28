@@ -353,7 +353,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			string eRemark = (Utility.Evar(Remark, 1));
 
 			string query = @$"UPDATE tbl_EXRCEDetail SET UnitNumber = {eUnitNumber}, 
-			PCAMID = {ePCAMID}, MaintType = {eMaintType}, BdgtHours = {eBdgtHours}, SMU = {eSMU}
+			PCAMID = {ePCAMID}, MaintType = {eMaintType}, BdgtHours = {eBdgtHours}, SMU = {eSMU},
 			Complaint = {eComplaint}, FlatRate = {eFlatRate}, OROP = {eOROP}, ExcPart = {eExcPart}, 
 			PartCost = {ePartCost}, LabourCost = {eLabourCost},OtherCost = {eOtherCost},
 			PriceType = {ePriceType},Price = {ePrice},CurrID = {eCurrID},StripDown = {eStripDown}
@@ -368,7 +368,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			Conclusion = {eConclusion},ModBy = {eModBy},ModDate = {eModDate},JobID = {eJobID},ConsCost = {eConsCost}
 			,SavingCost = {eSavingCost},TCISupply = {eTCISupply}
 			,SupplyDate = {eSupplyDate},InstallDate = {eInstallDate},RemoveDate = {eRemoveDate},Remark = {eRemark} WHERE ID = {eID}";
-			
+
+			Console.Write(query);
+
 			SQLFunction.execQuery(query);
 
 			Stat = "success";
@@ -376,8 +378,32 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			return Redirect("/ComponentEvaluation/Edit/" + ID);
 		}
-		public IActionResult ReportBody()
+		public IActionResult ReportBody(string ID)
 		{
+			LoadOption();
+			
+			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{ID}'";
+			var dataTable = SQLFunction.execQuery(query);
+			ViewBag.data = SQLFunction.execQuery(query);
+			ViewBag.id = ID;
+
+			if (dataTable != null && dataTable.Rows.Count > 0)
+			{
+				var unitNumber = dataTable.Rows[0]["unitnumber"].ToString();
+				var evalcode = dataTable.Rows[0]["EvalCode"].ToString();
+				var wono = dataTable.Rows[0]["Wono"].ToString();
+
+				string queryUnitNumber = $@"SELECT UnitNumber, UnitDescription, Location, LocationName FROM v_UnitNumber WHERE UnitNumber = '{unitNumber}'";
+				ViewBag.tUnitNumber = SQLFunction.execQuery(queryUnitNumber);
+				Console.WriteLine(queryUnitNumber);
+
+                string querytEvalCode = $@"SELECT EvalCode, EvalDesc, Route, Costing FROM tbl_EXRCEEvalCode WHERE EvalCode = '{evalcode}'";
+                ViewBag.tEvalCode = SQLFunction.execQuery(querytEvalCode);
+
+                string queryListInvest = $"SELECT ID,CEID,WONO,InvesDate as [When],InvesDesc as [What],InvesDetail as [Detail],InvesWhen FROM tbl_EXRCEInvestigation where Wono = '{wono}'";
+				ViewBag.tListInvest = SQLFunction.execQuery(queryListInvest);
+            }
+
 			return View("~/Views/PER/ComponentEvaluation/Reports/Report.cshtml");
 		}
 		public IActionResult ReportHeading()
@@ -388,9 +414,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		{
 			return View("~/Views/PER/ComponentEvaluation/Reports/ReportFooter.cshtml");
 		}
-		public IActionResult Report()
+		public IActionResult Report(string ID)
 		{
-            string tempAnno = "001210";
+            string tempAnno = ID;
             string servername = "https://localhost:5001/";
 			string namafile;
 			string namafile2;
@@ -404,9 +430,8 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			ProcessStartInfo psi = new ProcessStartInfo
 			{
 				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-				//FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //Local aku... :P
 				Arguments = "--username minestar --password Mine1staR --orientation Landscape " +
-				   "\"https://localhost:7235/ComponentEvaluation/ReportBody" +
+				   "\"https://localhost:7235/ComponentEvaluation/ReportBody/" + ID +
 				   "\" --footer-html \"https://localhost:7235/ComponentEvaluation/ReportFooter" +
 				   "\" --footer-spacing 3 --header-html \"https://localhost:7235/ComponentEvaluation/ReportHeading" +
                    "\" --header-spacing 3 " +
@@ -421,6 +446,12 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			string ffname = "AN." + tempAnno + ".pdf";
 
 			return PhysicalFile(namafile2, "application/pdf", ffname);
+		}
+		public IActionResult Test(string WONO, string ID)
+		{
+			Console.WriteLine(WONO);
+
+			return Redirect("/ComponentEvaluation/Edit/" + ID);
 		}
 		private void LoadOption()
         {
