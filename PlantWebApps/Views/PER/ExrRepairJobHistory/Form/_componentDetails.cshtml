@@ -8,42 +8,43 @@
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
     <p class="fs-5">Component Details</p>
+    @* offsite wo *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">OffSite WO*</div>
-            <input type="text" class="col-10" />
+            <div class="col-2">Offsite WO*</div>
+            <input type="Text" class="col-4" />
         </div>
     </div>
+    @* cost before  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Cost Before</div>
-            <input type="text" class="col-6" placeholder="0.00"/>
-            <select name="" class="form-select col-3 ms-3" style="max-width: 165px;">
+            <div class="col-2">Cost Before</div>
+            <input type="text" class="col-4" placeholder="0.00"/>
+            <div class="col-2"></div>
+            <select name="" class="col-3">
                 <option value=""></option>
                 @foreach (DataRow row in ViewBag.currency.Rows)
                 {
                     var currid = row["CurrID"].ToString();
-                        <option value="@currid">@currid</option>
+                    <option value="@currid">@currid</option>
                 }
             </select>
         </div>
     </div>
+    @* cost revision and saving cost *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Cost Revision</div>
-            <input type="text" class="col-10" placeholder="0.00" />
+            <div class="col-2">Cost Revision</div>
+            <input type="text" class="col-4" placeholder="0.00" />
+            <div class="col-2">Saving Cost</div>
+            <input type="text" class="col-3" />
         </div>
     </div>
+    @* saving cat and add cost *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Saving Cost</div>
-            <input type="text" class="col-10" />
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fs-6">Saving Cat</div>
-            <select name="" class="col-10" disabled>
+            <div class="col-2">Saving Cat</div>
+            <select name="" class="col-4" disabled>
                 <option value=""></option>
                 @foreach (DataRow row in ViewBag.tsavingcost.Rows)
                 {
@@ -52,50 +53,46 @@
                     <option value="@savingcostid">@savingcostcategory</option>
                 }
             </select>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fs-6">Add Cost</div>
-            <select name="" class="col-10">
+            <div class="col-2">Add Cost</div>
+            <select name="" class="col-3">
                 <option value=""></option>
                 <option value="1">Y</option>
                 <option value="2">N</option>
             </select>
         </div>
     </div>
+    @* cost rts and or number  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Cost RTS</div>
-            <input type="text" class="col-8" />
-            <div class="fw-bold col-2">USD</div>
+            <div class="col-2">Cost RTS</div>
+            <input type="Text" class="col-3" />
+            <div class="col-1">USD</div>
+            <div class="col-2">OR Number</div>
+            <input type="Text" class="col-3" />
         </div>
     </div>
+    @* op number *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">OR Number</div>
-            <input type="text" class="col-10" />
+            <div class="col-2">OP Number</div>
+            <input type="text" class="col-4" />
         </div>
     </div>
+    @* op date and eiop  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">OP Number</div>
-            <input type="text" class="col-10" />
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fs-6">OP Date</div>
+            <div class="col-2">OP Date</div>
+            <input type="text" class="col-4" />
+            <div class="col-2">EIOP</div>
             <input type="text" class="col-3" />
-            <div class="col-2 fs-6">EIOP</div>
-            <input type="text" class="col-3" />
-            <div class="col-1 fs-6">7</div>
+            <div class="col-1">7</div>
         </div>
     </div>
+    @* exstore and repair type *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Ex Store</div>
-            <select name="" class="col-10">
+            <div class="col-2">EX Store</div>
+            <select name="" class="col-4">
                 <option value=""></option>
                 @foreach (DataRow row in ViewBag.fstore.Rows)
                 {
@@ -104,12 +101,8 @@
                     <option value="@storeid">@storename</option>
                 }
             </select>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fs-6">Repair Type</div>
-            <select name="" class="col-10">
+            <div class="col-2">Repair Type</div>
+            <select name="" class="col-3">
                 <option value=""></option>
                 @foreach (DataRow row in ViewBag.repairType2.Rows)
                 {
@@ -121,55 +114,56 @@
             </select>
         </div>
     </div>
+    @* req stand, req parts, doc.avail  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">ETC Date</div>
-            <input type="text" class="col-10" />
+            <div class="col-2">Req Stand</div>
+            <input class="col-1" name="reqStand" type="radio" id="reqStandY" checked>
+            <label class="col-1 pt-1" for="reqStandY">Y</label>
+            <input class="col-1" name="reqStand" type="radio" id="reqStandN">
+            <label class="col-1 pt-1" for="reqStandN">N</label>
         </div>
     </div>
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Req Stand</div>
-            <input class="form-check-input col-1" name="reqStand" type="radio" id="reqStandY" checked>
-            <label class="form-check-label fs-5 col-1 pt-1" for="reqStandY">Y</label>
-            <input class="form-check-input col-1" name="reqStand" type="radio" id="reqStandN">
-            <label class="form-check-label fs-5 col-1 pt-1" for="reqStandN">N</label>
+            <div class="col-2">Req Parts</div>
+            <input class="col-1" name="reqParts" type="radio" id="reqPartsY" checked>
+            <label class="col-1 pt-1" for="reqPartsY">Y</label>
+            <input class="col-1" name="reqParts" type="radio" id="reqPartsN">
+            <label class="col-1 pt-1" for="reqPartsN">N</label>
         </div>
     </div>
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Req Parts</div>
-            <input class="form-check-input col-1" name="reqParts" type="radio" id="reqPartsY" checked>
-            <label class="form-check-label fs-5 col-1 pt-1" for="reqPartsY">Y</label>
-            <input class="form-check-input col-1" name="reqParts" type="radio" id="reqPartsN">
-            <label class="form-check-label fs-5 col-1 pt-1" for="reqPartsN">N</label>
+            <div class="col-2">Doc.Avail</div>
+            <input class="col-1" name="docAvail" type="radio" id="docAvailY" checked>
+            <label class="col-1 pt-1" for="docAvailY">Y</label>
+            <input class="col-1" name="docAvail" type="radio" id="docAvailN">
+            <label class="col-1 pt-1" for="docAvailN">N</label>
+            <div class="col-2"></div>
+            <input type="text" class="col-3" />
         </div>
     </div>
+    @* etc date and support wo *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Doc.Avail</div>
-            <input class="form-check-input col-1" name="docAvail" type="radio" id="docAvailY" checked>
-            <label class="form-check-label fs-5 col-1 pt-1" for="docAvailY">Y</label>
-            <input class="form-check-input col-1" name="docAvail" type="radio" id="docAvailN">
-            <label class="form-check-label fs-5 col-1 pt-1" for="docAvailN">N</label>
-            <input type="text" class="col-4" disabled />
+            <div class="col-2">Etc Date</div>
+            <input type="text" class="col-4"/>
+            <div class="col-2">Support WO</div>
+            <input type="text" class="col-3" />
         </div>
     </div>
+    @* offsite wo* *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">Support WO</div>
-            <input type="text" class="col-10" />
+            <div class="col-2">OffSite WO*</div>
+            <input type="text" class="col-4" />
         </div>
     </div>
-    <div class="container overflow-hidden">
+    @* add order  *@
+    <div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
         <div class="row align-items-center">
-            <div class="col-2 fs-6">OffSite WO*</div>
-            <input type="text" class="col-10" />
-        </div>
-    </div>
-    <div class="row align-items-center" style="gap: 10px;">
-        <div class="col-12 row" >
-            <div class="col-2 fs-6">Add Order</div>
+            <div class="col-2 fw-bold">Add Order</div>
             <div class="col-10 row" style="gap: 15px;">
                 <select name="" class="col-3">
                     <option value=""></option>
@@ -191,8 +185,8 @@
                 </select>
             </div>
         </div>
-        <div class="col-12 row">
-            <div class="col-2"></div>
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold"></div>
             <div class="col-10 row" style="gap: 15px;">
                 <input type="text" class="col-3" />
                 <input type="text" class="col-3" />

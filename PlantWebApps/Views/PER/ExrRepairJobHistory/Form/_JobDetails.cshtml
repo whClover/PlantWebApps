@@ -8,29 +8,28 @@
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Job Details</p>
+        @* parent wo and comp desc *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Parent Wo*</div>
-                <input type="text" class="col-8" />
-                <button type="button" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">Find</button>
+                <div class="col-2">Parent Wo*</div>
+                <input type="Text" class="col-3"/>
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+                <div class="col-2">Comp.Desc</div>
+                <input type="Text" class="col-3"/>
             </div>
         </div>
+        @* maint type and comp type *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Comp.Desc</div>
-                <input type="text" class="col-10" />
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Maint Type</div>
-                <input type="text" class="col-10" />
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Comp Type</div>
-                <select name="" class="col-10">
+                <div class="col-2">Maint Type</div>
+                <input type="Text" class="col-3"/>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Comp Type</div>
+                <select name="" class="col-3">
                     <option selected></option>
                     <option value="1">PEX</option>
                     <option value="2">Stock</option>
@@ -39,54 +38,64 @@
                 </select>
             </div>
         </div>
+        @* unit no and unit desc *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Unit No</div>
-                <input type="text" class="col-10" />
+                <div class="col-2">Unit No</div>
+                <input type="Text" class="col-3" />
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Unit Desc</div>
+                <input type="Text" class="col-3" />
             </div>
         </div>
+        @* unit location and tci part no *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Unit Desc</div>
-                <textarea class="col-10" aria-label="With textarea" disabled></textarea>
+                <div class="col-2">TCI Part No</div>
+                <input type="Text" class="col-3" />
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+                <div class="col-2">Unit Location</div>
+                <input type="Text" class="col-3" />
             </div>
         </div>
+        @* tci desc  *@
         <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Unit Location</div>
-                <textarea class="col-10" aria-label="With textarea" disabled></textarea>
+            <div class="row">
+                <div class="col-2">TCI Desc</div>
+                <textarea class="col-9" rows="3" aria-label="With textarea"></textarea>
             </div>
         </div>
+        @* tci desc 2  *@
         <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">TCI Part No</div>
-                <input type="text" class="col-8" />
-                <button type="button" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">Find</button>
+            <div class="row">
+                <div class="col-2">TCI Desc 2</div>
+                <textarea class="col-9" rows="3" aria-label="With textarea"></textarea>
             </div>
         </div>
+        @* routable stock  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">TCI Desc</div>
-                <textarea class="col-10" aria-label="With textarea" disabled></textarea>
+                <div class="col-2">Routable Stock</div>
+                <input type="Text" class="col-4" />
+                <input type="Text" class="col-1 ms-2 datepicker-basic" />
             </div>
         </div>
+        @* total repair  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">TCI Desc2</div>
-                <textarea class="col-10" aria-label="With textarea" disabled></textarea>
+                <div class="col-2">Total Repair</div>
+                <input type="Text" class="col-4" />
             </div>
         </div>
+        @* repair by and supervisor  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Routable Stock</div>
-                <input type="text" class="col-8" disabled />
-                <input type="Text" class="col-2 datepicker-basic ms-2" style="max-width: 80px;" disabled />
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Repair By</div>
-                <select class="col-10" id="supplierid" name="supplierid">
+                <div class="col-2">Repair By</div>
+                <select class="col-4" id="supplierid" name="supplierid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.repairby.Rows)
                     {
@@ -96,12 +105,8 @@
                         <option value="@supplierid">@suppliername | @suppliername2 | @supplierid</option>
                     }
                 </select>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Supervisor</div>
-                <select class="col-10" id="supervisorid" name="supervisorid">
+                <div class="col-2">Supervisor</div>
+                <select class="col-3" id="supervisorid" name="supervisorid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.spvdesc.Rows)
                     {
@@ -112,21 +117,18 @@
                 </select>
             </div>
         </div>
+        @* reuqest p and reason type *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Request P</div>
-                <select class="col-10" id="RequestP1" name="RequestP1">
+                <div class="col-2">Request P</div>
+                <select class="col-4" id="RequestP1" name="RequestP1">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Reason Type</div>
-                <select class="col-10" id="reasontypeid" name="reasontypeid">
+                <div class="col-2">Reason Type</div>
+                <select class="col-3" id="reasontypeid" name="reasontypeid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.freason.Rows)
                     {

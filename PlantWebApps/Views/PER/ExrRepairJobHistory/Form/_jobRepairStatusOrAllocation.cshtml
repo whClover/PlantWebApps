@@ -7,16 +7,14 @@
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Repair Status/Allocation</p>
+        @* current status and repair advice *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Current Status</div>
-                <div class="col-10"></div>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2 fs-6">Repair Advice</div>
-                <select name="" class="col-10" disabled>
+                <div class="col-2">Current Status</div>
+                <div class="col-3"></div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Repair Advice</div>
+                <select name="" class="col-3">
                     <option value=""></option>
                     <option value="1"></option>
                     <option value="2"></option>
@@ -24,24 +22,27 @@
                 </select>
             </div>
         </div>
+        @* hold until  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Hold Until</div>
-                <input type="Text" class="col-10 datepicker-basic" />
+                <div class="col-2">Hold Until</div>
+                <input type="Text" class="col-4 datepicker-basic" />
             </div>
         </div>
+        @* remark  *@
         <div class="container overflow-hidden">
             <div class="row">
                 <div class="col-2">Remark</div>
-                <textarea class="form-control col-10" rows="5"></textarea>
+                <textarea class="col-9" rows="3" aria-label="With textarea"></textarea>
             </div>
         </div>
+
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2 fs-6">Last Change</div>
-                <div class="col-10 d-flex" style="gap: 10px;">
-                     <input type="text" class="form-control datepicker-basic ms-n2" style="max-width: 280px;" />
-                     <input type="text" class="form-control" />
+                <div class="col-2">Last Change</div>
+                <div class="row col-10" style="gap: 10px;">
+                     <input type="text" class="datepicker-basic col-6"/>
+                     <input type="text" class="col-5" />
                 </div>
             </div>
         </div>

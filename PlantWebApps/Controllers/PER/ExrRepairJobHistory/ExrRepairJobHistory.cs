@@ -304,7 +304,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             Msg = message;
             return null;
         }
-
+        public IActionResult OldCoreInspection()
+        {
+            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/OldCoreInvestigation.cshtml");
+        }
+        public IActionResult FinalInspection()
+        {
+            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/FinalInvestigation.cshtml");
+        }
         // load option for dropdown
         private void loadoption()
         {            
@@ -388,8 +395,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryChandledBy = "SELECT DisplayName,Account, Department, EmailAddress FROM v_AddressBook";
             ViewBag.cHandledBy = SQLFunction.execQuery(queryChandledBy);
         }
-        
-
         private string ApplyFilterCategory(string category, string value, string currentFilter)
         {
             if (!string.IsNullOrEmpty(value))

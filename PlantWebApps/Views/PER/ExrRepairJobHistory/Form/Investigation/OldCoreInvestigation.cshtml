@@ -1,0 +1,313 @@
+﻿@{
+}
+
+<div name="body" class="row justify-content-between" style="font-size: 12px;">
+	<div name="pdf" class="col-7">
+		<div name="header" class="d-flex flex-row align-items-center justify-content-between px-1" style="gap: 10px">
+			<img src="~/images/Thiess.png" style="max-width: 150px;" />
+			<div class="d-flex flex-column fs-6 fw-bold align-items-center">
+				<div>FINAL INSPECTION REPORT</div>
+				<div class="text-nowrap">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
+			</div>
+			<div class="d-flex flex-row align-items-center" style="gap: 5px;">
+				<div class="d-flex flex-row align-items-center" style="gap: 5px;">
+					<div class="text-nowrap">Job ID</div>
+					<input type="text" style="max-width: 75px;"/>
+				</div>
+				<a class="btn btn-sm btn-primary" style="font-size: 12px;">Display</a>
+			</div>
+		</div>
+		<div name="pdfBody" class="border border-black d-flex flex-column py-2">
+			<div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
+				@* no and unit no *@
+				<div class="row">
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Unit No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+				</div>
+				@* wo no and unit model *@
+				<div class="row">
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">WO No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Unit Model</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+				</div>
+				@* componenet desc and repaired by  *@
+				<div class="row">
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Comp Desc</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Repaired By</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+				</div>
+				@* part no and qoute no *@
+				<div class="row">
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Part No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Qoute No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+				</div>
+				@* job no and dn no *@
+				<div class="row">
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">Job No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+					<div class="row col-6 align-items-center">
+						<div class="col-3 text-nowrap">DN No</div>
+						<div class="col-9 row">
+							<div class="col-3">:</div>
+							<div class="col-9" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@* table *@
+			<div class="container overflow-hidden d-flex flex-column my-2" style="gap: 10px;">
+				<table class="table table-bordered border border-black">
+					<thead>
+						<tr>
+							<td class="text-center" style="width: 10%">No</td>
+							<td class="text-center" style="width: 75%">Description</td>
+							<td class="text-center" style="width: 15%">Check List</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">1</td>
+							<td style="background-color: #E2F0D9">
+								Ensure the Final Inspection Report from TCI Workshop (TCI-PLT-FO-166) is
+								available
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">2</td>
+							<td style="background-color: #E2F0D9">
+								Ensure the detail component is allign with information from JDE (WO, P/N,OP)
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">3</td>
+							<td style="background-color: #E2F0D9">
+								Ensure BSF Logistic Tag is available
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">4</td>
+							<td style="background-color: #E2F0D9">
+								Visual Inspection
+							</td>
+							<td class="text-center"></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								a. All bolts properly secured and fitted
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								b. Stand is proper && safe (no damage found on stand)
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								c. Check cleanliness condition (no oil spill found)
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								d. Check the cover condition is properly secured for component protection
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">5</td>
+							<td style="background-color: #E2F0D9">
+								Take a pictures
+							</td>
+							<td class="text-center"></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								a. Vendor ID Stamp or ID  Plate
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								b. Overall view of component
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9"></td>
+							<td style="background-color: #E2F0D9">
+								c. Ensure all pictures have been downloaded to BSF-PER server and 
+								rename the file name to each WO
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">6</td>
+							<td style="background-color: #E2F0D9">
+								Ensure testing report is attached on component, record it by taking picture 
+								( for major component only, i.e. : engine, transmission, torque converter, 
+								bevel gear, final drive and all hyd. cylinders)
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="text-center" style="background-color: #E2F0D9">7</td>
+							<td style="background-color: #E2F0D9">
+								Sign then record this report after finished inspection
+							</td>
+							<td class="text-center"><input type="checkbox" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="d-flex flex-column mt-n3">
+					<div>Remarks / Findings</div>
+					<textarea rows="5"></textarea>
+				</div>
+				<div class="d-flex" style="gap: 10px;">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Accept
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox">
+						<label class="form-check-label">
+							Reject
+						</label>
+					</div>
+				</div>
+				<div>NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
+				<div class="row">
+					<div class="col-6">
+						<div>Issued By,</div>
+						<div>QA/QC Engineer</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-4">Signature By</div>
+							<div class="col-6" style="background-color: #E2F0D9">test</div>
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-4">Date</div>
+							<div class="col-6" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div>Acknowledged By,</div>
+						<div>Supervisor/Superintend/Manager</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-4">Signature By</div>
+							<div class="col-6" style="background-color: #E2F0D9">test</div>
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-4">Date</div>
+							<div class="col-6" style="background-color: #E2F0D9">test</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex justify-content-between align-items-center my-2">
+			<div class="d-flex flex-column">
+				<div class="d-flex align-items-center" style="gap: 10px;">
+					<div class="fs-6 fw-bold" style="min-width: 75px;">Register</div>
+					<div>test</div>
+					<div>test</div>
+				</div>
+				<div class="d-flex align-items-center" style="gap: 10px;">
+					<div class="fs-6 fw-bold" style="min-width: 75px;">Last Mod</div>
+					<div>test</div>
+					<div>test</div>
+				</div>
+			</div>
+			<div class="d-flex" style="gap: 10px;">
+				<button class="btn btn-sm btn-primary">Print</button>
+				<button class="btn btn-sm btn-primary">Save</button>
+				<button class="btn btn-sm btn-primary">Close</button>
+			</div>
+		</div>
+	</div>
+	<div name="attachPicture" class="col-5">
+		<div class="d-flex flex-column border border-black p-2">
+			<div class="d-flex justify-content-between align-items-center ">
+				<div class="fs-6 fw-semibold">Attach Picture</div>
+				<div class="d-flex" style="gap: 10px;">
+					<button class="btn btn-sm btn-primary">Print Pdf</button>
+					<button class="btn btn-sm btn-primary">Upload</button>
+					<button class="btn btn-sm btn-primary">Delete</button>
+				</div>
+			</div>
+			<table class="table table-bordered border border-black my-2">
+				<thead>
+					<tr>
+						<td class="text-center" style="width: 15%">OPEN</td>
+						<td class="text-center" style="width: 20%">ID</td>
+						<td class="text-center" style="width: 65%">PICTURE CAPTION</td>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		
+	</div>
+</div>
