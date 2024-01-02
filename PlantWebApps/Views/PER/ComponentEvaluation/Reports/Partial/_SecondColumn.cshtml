@@ -1,0 +1,236 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    ViewData["Title"] = "Advice Note";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<div class="d-flex flex-column">
+    <div class="border" style="padding: 5px;">
+        <div class="font-h3">Materials Reviewed</div>
+        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; margin-top: 5px;">
+            <tr>
+                <td style="width: 33%">
+                    <!-- work order check -->
+                    <div>
+                        <input id="tM1" name="tM1" type="checkbox" value="@ViewBag.data.Rows[0]["M1"].ToString()" @(ViewBag.data.Rows[0]["M1"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Work Order
+                        </label>
+                    </div>
+                    <!-- installation check -->
+                    <div>
+                        <input type="checkbox" id="tM2" name="tM2" value="@ViewBag.data.Rows[0]["M2"].ToString()" @(ViewBag.data.Rows[0]["M2"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Installation Checklist
+                        </label>
+                    </div>
+                    <!-- downtime report check -->
+                    <div>
+                        <input type="checkbox" id="tM3" name="tM3" value="@ViewBag.data.Rows[0]["M3"].ToString()" @(ViewBag.data.Rows[0]["M3"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Downtime Report Last 3 Months
+                        </label>
+                    </div>
+                    <!-- check component change -->
+                    <div>
+                        <input type="checkbox" id="tM4" name="tM4" value="@ViewBag.data.Rows[0]["M4"].ToString()" @(ViewBag.data.Rows[0]["M4"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Component Change Out History
+                        </label>
+                    </div>
+                    <!-- previous wo -->
+                    <div>
+                        <input type="checkbox" id="tM5" name="tM5" value="@ViewBag.data.Rows[0]["M5"].ToString()" @(ViewBag.data.Rows[0]["M5"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Previous WO
+                        </label>
+                    </div>
+                    <!-- Sevice Board History Last 2000SMU -->
+                    <div>
+                        <input type="checkbox" id="tM6" name="tM6" value="@ViewBag.data.Rows[0]["M6"].ToString()" @(ViewBag.data.Rows[0]["M6"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Sevice Board History Last 2000SMU
+                        </label>
+                    </div>
+                    <!-- Photo -->
+                    <div>
+                        <input type="checkbox" id="tM7" name="tM7" value="@ViewBag.data.Rows[0]["M7"].ToString()" @(ViewBag.data.Rows[0]["M7"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Photo
+                        </label>
+                    </div>
+                </td>
+                <td style="width: 33%">
+                    <!-- CFI -->
+                    <div>
+                        <input type="checkbox" id="tM8" name="tM8" value="@ViewBag.data.Rows[0]["M8"].ToString()" @(ViewBag.data.Rows[0]["M8"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            CFI
+                        </label>
+                    </div>
+                    <!-- Component History -->
+                    <div>
+                        <input type="checkbox" id="tM9" name="tM9" value="@ViewBag.data.Rows[0]["M9"].ToString()" @(ViewBag.data.Rows[0]["M9"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Component History
+                        </label>
+                    </div>
+                    <!-- S.O.S -->
+                    <div>
+                        <input type="checkbox" id="tM10" name="tM10" value="@ViewBag.data.Rows[0]["M10"].ToString()" @(ViewBag.data.Rows[0]["M10"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            S.O.S
+                        </label>
+                    </div>
+                    <!-- Oil Top Up History -->
+                    <div>
+                        <input type="checkbox" id="tM11" name="tM11" value="@ViewBag.data.Rows[0]["M11"].ToString()" @(ViewBag.data.Rows[0]["M11"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Oil Top Up History
+                        </label>
+                    </div>
+                    <!-- Operation Condition Report -->
+                    <div>
+                        <input type="checkbox" id="tM12" name="tM12" value="@ViewBag.data.Rows[0]["M12"].ToString()" @(ViewBag.data.Rows[0]["M12"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Operation Condition Report
+                        </label>
+                    </div>
+                    <!-- Previous OP -->
+                    <div>
+                        <input type="checkbox" id="tM13" name="tM13" value="@ViewBag.data.Rows[0]["M13"].ToString()" @(ViewBag.data.Rows[0]["M13"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Previous OP
+                        </label>
+                    </div>
+                    <!-- Written Instruction -->
+                    <div>
+                        <input type="checkbox" id="tM14" name="tM14" value="@ViewBag.data.Rows[0]["M14"].ToString()" @(ViewBag.data.Rows[0]["M14"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Written Instruction
+                        </label>
+                    </div>
+                </td>
+                <td style="width: 33%">
+                    <!-- SOS/CTS -->
+                    <div>
+                        <input type="checkbox" id="tM15" name="tM15" value="@ViewBag.data.Rows[0]["M15"].ToString()" @(ViewBag.data.Rows[0]["M15"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            SOS/CTS
+                        </label>
+                    </div>
+                    <!-- WO History 12 Months -->
+                    <div>
+                        <input type="checkbox" id="tM16" name="tM16" value="@ViewBag.data.Rows[0]["M16"].ToString()" @(ViewBag.data.Rows[0]["M16"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            WO History 12 Months
+                        </label>
+                    </div>
+                    <!-- ECM Download -->
+                    <div>
+                        <input type="checkbox" id="tM17" name="tM17" value="@ViewBag.data.Rows[0]["M17"].ToString()" @(ViewBag.data.Rows[0]["M17"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            ECM Download
+                        </label>
+                    </div>
+                    <!-- Operator Interview -->
+                    <div>
+                        <input type="checkbox" id="tM18" name="tM18" value="@ViewBag.data.Rows[0]["M18"].ToString()" @(ViewBag.data.Rows[0]["M18"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Operator Interview
+                        </label>
+                    </div>
+                    <!-- Incident Notification Report -->
+                    <div>
+                        <input type="checkbox" id="tM19" name="tM19" value="@ViewBag.data.Rows[0]["M19"].ToString()" @(ViewBag.data.Rows[0]["M19"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Incident Notification Report
+                        </label>
+                    </div>
+                    <!-- Incident Investigation Report -->
+                    <div>
+                        <input type="checkbox" id="tM20" name="tM20" value="@ViewBag.data.Rows[0]["M20"].ToString()" @(ViewBag.data.Rows[0]["M20"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Incident Investigation Report
+                        </label>
+                    </div>
+                    <!-- Failure Analysys -->
+                    <div>
+                        <input type="checkbox" id="tM21" name="tM21" value="@ViewBag.data.Rows[0]["M21"].ToString()" @(ViewBag.data.Rows[0]["M21"].ToString().ToLower() == "true" ? "checked" : "")>
+                        <label>
+                            Failure Analysys
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="border" style="padding: 5px; margin-top: 15px;">
+        <div class="font-h3">Investigation</div>
+        <div class="d-flex flex-column">
+            <table class="table px-5 table-bordered" style="margin-top: 15px;">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>When</th>
+                        <th>What</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                        @foreach (DataRow row in ViewBag.tListInvest.Rows)
+                        {
+                        <tr>
+                            <td>@row["When"]</td>
+                            <td>@row["What"]</td>
+                            <td>@row["Detail"]</td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+            <div class="d-flex flex-column">
+                <div class="font-h3">Action Taken/Suggestion</div>
+                <div style="margin-top: 5px;">@ViewBag.data?.Rows[0]?["ActionTaken"]</div>
+            </div>
+            <div class="d-flex flex-column" style="min-height: 100px; margin-top: 15px;">
+                <div class="font-h3">Conclusion</div>
+                <div style="margin-top: 5px;">@ViewBag.data?.Rows[0]?["Conclusion"]</div>
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-between fw-bold">
+                <div class="d-flex flex-row">
+                    <div>Evaluated By :</div>
+                    <div class="ms-1">@ViewBag.data?.Rows[0]?["EvalByDesc"]</div>
+                </div>
+                <div class="d-flex flex-row">
+                    <div>Evaluated Date :</div>
+                    <div class="ms-1">@ViewBag.data?.Rows[0]?["EvalDate"]</div>
+                </div>
+            </div>
+        </div>
+        <table class="col-12 table mb-0 table-sm table-bordered" style="margin-top: 15px;">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Plant Superintendent</th>
+                    <th>Plant Ops. Superintendent</th>
+                    <th>PlantManger</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody>
+                <tr>
+                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PSName"].ToString()</td>
+                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["POSName"].ToString()</td>
+                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PMName"].ToString()</td>
+                </tr>
+                <tr>
+                    <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["PSDate"].ToString()</td>
+                    <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["POSDate"].ToString()</td>
+                    <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["PMDate"].ToString()</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

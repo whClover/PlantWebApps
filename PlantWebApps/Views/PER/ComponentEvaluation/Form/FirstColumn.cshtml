@@ -1,0 +1,527 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@using System.Data;
+}
+
+<div class="col border flex-column">
+	@* first section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		@* assign wo *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Assign WO</div>
+				<input type="text" class="col-4" name="tWono" id="tWono" value="@ViewBag.data.Rows[0]["Wono"].ToString()" />
+				<a class="btn btn-primary col-2 ms-2 " id="cFindWono" style="max-width: 50px; font-size: 12px;">
+					find
+				</a>
+				<div class="col-3" style="font-size: 12px;" id="tWonoField" name="tWonoField">@ViewBag.data.Rows[0]["Wono"].ToString()</div>
+			</div>
+		</div>
+		@* unit number *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Unit Number</div>
+				<select class="col-4" id="tUnitNumber" name="tUnitNumber">
+					<option value=""></option>
+					@foreach (DataRow row in ViewBag.tUnitNumber.Rows)
+					{
+						var tUnitNumberUnitNumber = row["UnitNumber"].ToString();
+						var tUnitNumberUnitDescription = row["UnitDescription"].ToString();
+						var tUnitNumberLocation = row["Location"].ToString();
+						var tUnitNumberLocationName = row["LocationName"].ToString();
+						var selectedtUnitNumber = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["UnitNumber"].ToString() : null;
+						<option value="@tUnitNumberUnitNumber" selected="@(tUnitNumberUnitNumber == ViewBag.data?.Rows[0]?["UnitNumber"].ToString())">
+							@tUnitNumberUnitNumber | @tUnitNumberUnitDescription
+							| @tUnitNumberLocation | @tUnitNumberLocationName
+						</option>
+					}
+				</select>
+				<input type="Text" class="col-4 ms-2" id="tUnitNumberDescriptionField" name="tUnitNumberDescriptionField" />
+			</div>
+		</div>
+		@* location *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Location</div>
+				<input type="Text" class="col-4" id="tUnitNumberLocationField" name="tUnitNumberLocationField" />
+				<input type="Text" class="col-4 ms-2" id="tUnitNumberLocationNameField" name="tUnitNumberLocationNameField" />
+			</div>
+		</div>
+		@* maint type *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Maint Type</div>
+				<select class="col-4" id="tMaintType" name="tMaintType">
+					<option value=""></option>
+					@foreach (DataRow row in ViewBag.tMaintType.Rows)
+					{
+						var tMaintTypeMaintType = row["MaintType"].ToString();
+						var tMaintTypeMaintDesc = row["MaintDesc"].ToString();
+						<option value="@tMaintTypeMaintType" selected="@(tMaintTypeMaintType == ViewBag.data?.Rows[0]?["MaintType"].ToString())">@tMaintTypeMaintType | @tMaintTypeMaintDesc</option>
+					}
+				</select>
+				<input type="Text" class="col-4 ms-2" id="tMaintTypeField" name="tMaintTypeField" />
+			</div>
+		</div>
+		@* job ID *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Job ID</div>
+				<input type="Text" id="tJobID" class="col-4" value="@ViewBag.data.Rows[0]["JobID"].ToString()" />
+			</div>
+		</div>
+	</div>
+	@* second section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Complaint</p>
+		@* schedule smu *@
+		<div class="container overflow-hidden mt-n3">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Schedule SMU</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["BdgtHours"].ToString()" id="tBdgtHours" name="tBdgtHours" />
+				<div class="col-3" style="font-size: 12px;">Completed SMU</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["SMU"].ToString()" id="tSMU" name="tSMU" />
+			</div>
+		</div>
+		@* details *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Details</div>
+				<textarea class="col-9" rows="3" id="tComplaint" name="">@ViewBag.data.Rows[0]["Complaint"].ToString()</textarea>
+			</div>
+		</div>
+		@* currency *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Currency</div>
+				<select class="col-3" id="tCurrID" name="tCurrID">
+					<option value=""></option>
+					@foreach (DataRow row in ViewBag.tCurrID.Rows)
+					{
+						var tCurrID = row["CurrID"].ToString();
+						<option value="@tCurrID" selected="@(tCurrID == ViewBag.data?.Rows[0]?["CurrID"].ToString())">@tCurrID</option>
+					}
+				</select>
+			</div>
+		</div>
+		@* flat rate and total cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Flat Rate</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["FlatRate"].ToString()"
+					   id="tFlatRate" name="tFlatRate" />
+				<div class="col-3" style="font-size: 12px;">Total Cost Before</div>
+				<input type="Text" class="col-3" id="tCostBefore" name="tCostBefore" />
+			</div>
+		</div>
+		@* additional parts and saving cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Additional Parts</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["ExcPart"].ToString()"
+					   id="tExcPart" />
+				<div class="col-3" style="font-size: 12px;">Saving Cost</div>
+				<input type="Text" class="col-3" id="tSavingCost" name="tSavingCost" value="@ViewBag.data.Rows[0]["SavingCost"].ToString()" />
+			</div>
+		</div>
+		@* Parts and total qoute rev *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Parts</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["PartCost"].ToString()"
+					   id="tPartCost" name="tPartCost" />
+				<div class="col-3" style="font-size: 12px;">Total Qoute Rev</div>
+				<input type="Text" class="col-3" id="tQouteRev" name="tQouteRev" />
+			</div>
+		</div>
+		@* Labour and tci supply *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Labour</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["LabourCost"].ToString()"
+					   id="tLabourCost" name="tLabourCost" />
+				<div class="col-3" style="font-size: 12px;">TCI Supply</div>
+				<input type="Text" class="col-3" id="tTCISupply" name="tTCISupply" value="@ViewBag.data.Rows[0]["TCISupply"].ToString()" />
+			</div>
+		</div>
+		@* consumable and total cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Consumable</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["ConsCost"].ToString()"
+					   id="tConsCost" name="tConsCost" />
+				<div class="col-3" style="font-size: 12px;">Total Cost</div>
+				<input type="Text" class="col-3" id="tTotalCost" name="tTotalCost" />
+			</div>
+		</div>
+		@* others and new price *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Others</div>
+				<input type="Text" class="col-3" value="@ViewBag.data.Rows[0]["OtherCost"].ToString()"
+					   id="tOtherCost" name="tOtherCost" />
+				<input type="Text" class="col-3 d-none" id="tPrice" value="@ViewBag.data.Rows[0]["Price"].ToString()"
+					   id="tOtherCost" name="tOtherCost" />
+				<div class="col-3" style="font-size: 12px;">New Price</div>
+				<div class="col-3 text-white align-items-center d-flex" style="font-size: 12px;
+					background-color: blue; height: 25px;"  name="tPrice" value="">
+					<script>
+						var price = @ViewBag.data.Rows[0]["Price"];
+						var formattedPrice = new Intl.NumberFormat('en-US').format(price);
+						document.write(formattedPrice);
+					</script>
+				</div>
+			</div>
+		</div>
+		@* radio button *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<input class="form-check-input" name="PriceType" type="radio" id="lReman" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["PriceType"] : "0")">
+				<label class="form-check-label col-2 pt-1" for="lReman">Reman</label>
+				<input class="form-check-input" name="PriceType" type="radio" id="lPrice" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["PriceType"] : "2")">
+				<label class="form-check-label col-2 pt-1" for="lPrice">New Price</label>
+			</div>
+			<input type="text" class="d-none" id="tPriceType" />
+		</div>
+	</div>
+	@* third section *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Investigation</p>
+			<div class="container overflow-hidden mt-n3">
+				<div class="row align-items-center" style="gap: 10px;">
+					<input type="Text" class="col-2" id="tCEID" name="tCEID" />
+					<input type="Text" class="col-2 datepicker-basic" id="tInvestDate" name="tInvestDate" />
+					<input type="Text" class="col-2" id="tInvesDesc" name="tInvesDesc" />
+					<input type="Text" class="col-3" id="tInvestDetail" name="tInvestDetail" />
+					<button type="submit" class="btn btn-sm btn-primary col-2" id="CCESAVE" name="CCESAVE">
+						SAVE
+					</button>
+				</div>
+			</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center" style="gap: 10px;">
+				<button type="submit" class="btn btn-sm btn-primary col-2" id="CCEADD" name="CCEADD">
+					ADD
+				</button>
+			</div>
+		</div>
+		@* TABLE *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center table-responsive" id="tableContainer" style="gap: 10px;">
+				<table id="myTable" class="table datatable mb-0 table-sm table-striped table-bordered">
+					<thead class="table-light">
+						<tr>
+							<th scope="col">Edit</th>
+							<th scope="col">ID</th>
+							<th scope="col">When</th>
+							<th scope="col">What</th>
+							<th scope="col">Detail</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		@* supply date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3 datepicker-basic" style="font-size: 12px;">Supply Date</div>
+				<input type="Text" id="tSupplyDate" class="col-3" value="@ViewBag.data.Rows[0]["SupplyDate"].ToString()" />
+			</div>
+		</div>
+		@* install date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3 datepicker-basic" style="font-size: 12px;" >Install Date</div>
+				<input type="Text" id="tInstallDate" class="col-3" value="@ViewBag.data.Rows[0]["InstallDate"].ToString()" />
+			</div>
+		</div>
+		@* remove date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3 datepicker-basic" style="font-size: 12px;">Remove Date</div>
+				<input type="Text" id="tRemoveDate" class="col-3" value="@ViewBag.data.Rows[0]["RemoveDate"].ToString()" />
+			</div>
+		</div>
+		@* action taken / suggestion *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Action Taken / Suggestion</div>
+				<textarea class="col-9" rows="3" id="tActionTaken" name="tActionTaken">@ViewBag.data.Rows[0]["ActionTaken"].ToString()</textarea>
+			</div>
+		</div>
+		@* Conclusion *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Conclusion</div>
+				<input type="text" id="tConclusion" class="d-none" value="@ViewBag.data.Rows[0]["Conclusion"].ToString()" />
+				<textarea class="col-9" rows="5">@ViewBag.data.Rows[0]["Conclusion"].ToString()</textarea>
+			</div>
+		</div>
+		@* evaluated by and date *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-3" style="font-size: 12px;">Evaluated By</div>
+				<select class="col-3" id="tEvalByID" name="tEvalByID">
+					<option value=""></option>
+					@foreach (DataRow row in ViewBag.tEvalByID.Rows)
+					{
+						var tEvalByIDUserID = row["UserID"].ToString();
+						var tEvalByIDUserDesc = row["UserDesc"].ToString();
+						var tEvalByIDActive = row["Active"].ToString();
+						<option value="@tEvalByIDUserID" selected="@(tEvalByIDUserID == ViewBag.data?.Rows[0]?["EvalByID"].ToString())">@tEvalByIDUserDesc</option>
+					}
+				</select>
+				<div class="col-1" style="font-size: 12px;">Date</div>
+				<input type="Text" class="col-5 datepicker-basic" id="tEvalDate" name="tEvalDate" value="@ViewBag.data.Rows[0]["EvalDate"].ToString()" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// function to calculate values for complaint section
+	function sumComplaint() {
+		// get the value from html
+		var FlatRate = parseFloat($("#tFlatRate").val()) || 0;
+		var ExcPart = parseFloat($("#tExcPart").val()) || 0;
+		var PartCost = parseFloat($("#tPartCost").val()) || 0;
+		var LabourCost = parseFloat($("#tLabourCost").val()) || 0;
+		var ConstCost = parseFloat($("#tConstCost").val()) || 0;
+		var OtherCost = parseFloat($("#tOtherCost").val()) || 0;
+		var SavingCost = parseFloat($("#tSavingCost").val()) || 0;
+		var TCISupply = parseFloat($("#tTCISupply").val()) || 0;
+
+		// Calculation
+		var CostBeforeValue = FlatRate + ExcPart + PartCost + LabourCost + ConstCost + OtherCost;
+		var QouteRevValue = CostBeforeValue + SavingCost;
+		var TotalCostValue = QouteRevValue + TCISupply;
+
+		// assign back with formatting
+		$("#tFlatRate").val(FlatRate);
+		$("#tExcPart").val(ExcPart);
+		$("#tPartCost").val(PartCost);
+		$("#tLabourCost").val(LabourCost);
+		$("#tConstCost").val(ConstCost);
+		$("#tOtherCost").val(OtherCost);
+		$("#tSavingCost").val(SavingCost);
+		$("#tTCISupply").val(TCISupply);
+
+		// assign the calculation value to the target element
+		$("#tCostBefore").val(CostBeforeValue);
+		$("#tQouteRev").val(QouteRevValue);
+		$("#tTotalCost").val(TotalCostValue);
+	}
+
+	sumComplaint();
+
+	// change value when pressing enter
+	$(document).on('keypress', function (e) {
+		if (e.which === 13) {
+			sumComplaint();
+		}
+	});
+
+	// Code For autofill from input
+
+	// wono
+	function loadTwonol() {
+		var tWono = $("#tWono").val();
+		$.ajax({
+			url: '/ComponentEvaluation/AssignWo',
+			method: 'GET',
+			dataType: 'json',
+			data: { tWono: tWono },
+			success: function (response) {
+				$('#tWonoField').empty();
+
+				if (response.length > 0) {
+					$('#tWonoField').text(response[0].wono);
+				} else { 
+					Swal.fire("Wo Not Exist", "", "warning");
+				}
+			}
+		});
+	}
+
+	loadTwonol()
+
+	$("#cFindWono").on("click", function () {
+		loadTwonol();
+	});
+
+	// CODE FOR AUTOFILLING FROM SELLECT
+
+	// unit number
+	var tUnitNumber = $("#tUnitNumber");
+	var tUnitNumberDescriptionField = $("#tUnitNumberDescriptionField");
+	var tUnitNumberLocationField = $("#tUnitNumberLocationField");
+	var tUnitNumberLocationNameField = $("#tUnitNumberLocationNameField");
+
+	function handleTUnitNumberChange() {
+		var value = tUnitNumber.find(":selected").text();
+		var values = value.split("|").map(function (item) {
+			return item.trim();
+		});
+
+		tUnitNumberDescriptionField.val(values[1]);
+		tUnitNumberLocationField.val(values[2]);
+		tUnitNumberLocationNameField.val(values[3]);
+	}
+
+	handleTUnitNumberChange();
+	tUnitNumber.on("change", handleTUnitNumberChange);
+
+	// maint type
+	var tMaintType = $("#tMaintType");
+	var tMaintTypeField = $("#tMaintTypeField");
+
+	function handletMaintTypeChange() {
+		var value = tMaintType.find(":selected").text();
+		var valueAfterFirstPipe = value.split("|")[1].trim();
+
+		tMaintTypeField.val(valueAfterFirstPipe);
+	}
+
+	handletMaintTypeChange();
+	tMaintType.on("change", handletMaintTypeChange);
+
+	// getting the value from investigation table when edit button is clicked
+	$(document).on('click', '#selectedDetailRow', function () {
+		var rowValue = $(this).attr('value');
+
+		// Split the rowValue by empty space using regex
+		var regex = /\s+/;
+		var parsedData = rowValue.split(regex);
+
+		// Assign each parsed value to the input field
+		$('#tCEID').val(parsedData[0]);
+		$('#tInvesDesc').val(parsedData[2]);
+		$('#tInvestDetail').val(parsedData[3]);
+	});
+
+	// funtion to when add button is clicked in investigation table the input value will be empty
+	$(document).on('click', '#CCEADD', function () {
+		$('#tCEID').val('New');
+		$('#tInvestDate').val('');
+		$('#tInvesDesc').val('');
+		$('#tInvestDetail').val('');
+	});
+
+	// function when investigation save button is clicked
+	$(document).on('click', '#CCESAVE', function () {
+		if ($('#tCEID').val() === "") {
+			Swal.fire("Please Fill In The Investigation CEID field", "", "warning");
+		}
+
+		if ($('#tInvestDate').val() === "") {
+			Swal.fire("Please Fill In The Investigation Date field", "", "warning");
+		}
+
+		if ($('#tInvesDesc').val() === "") {
+			Swal.fire("Please Fill In The Investigation Description field", "", "warning");
+		}
+
+		if ($('#tInvestDetail').val() === "") {
+			Swal.fire("Please Fill In The Investigation Detail field", "", "warning");
+		}
+
+		handleCCESave()
+	});
+
+	function handleCCESave() {
+		var wono = $("#tWono").val();
+		var investDate = $("#tInvesDate").val();
+		var investDesc = $("#tInvesdesc").val();
+		var investDetail = $("#tinvesdetail").val();
+		var url = window.location.href;
+		var id = url.substring(url.lastIndexOf('/') + 1);
+
+		console.log(id);
+		console.log(wono);
+
+		$.ajax({
+			url: '/ComponentEvaluation/CCESAVE',
+			method: 'POST',
+			dataType: 'json',
+			data: { wono: wono, 
+					id: id,
+					investDate: investDate,
+					investDesc: investDesc,
+					investDetail: investDetail,
+			}
+		});
+		Swal.fire("Data Has Been Inserted", "", "success");
+	}
+
+	// price type radio button
+	// Get the value of ViewBag.data.Rows[0]["PriceType"]
+	var priceType = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["PriceType"] : "0");
+
+	// Get the radio buttons
+	var remanRadio = document.getElementById("lReman");
+	var priceRadio = document.getElementById("lPrice");
+	var xpriceType = document.getElementById("tPriceType");
+
+	// Check the radio buttons based on the value of priceType
+	function handlePriceTypeRadioOnLoad() { 
+		if (priceType === 0) {
+			remanRadio.checked = true;
+			xpriceType.value = "0";
+		} else if (priceType === 2) {
+			priceRadio.checked = true;
+			xpriceType.value = "2";
+		}
+	}
+	handlePriceTypeRadioOnLoad();
+
+	remanRadio.addEventListener("click", () => {
+		xpriceType.value = "0";
+	});
+
+	priceRadio.addEventListener("click", () => {
+		xpriceType.value = "2";
+	});
+
+	// function loadListInvest
+	$(document).ready(function () {
+		ListInvest()
+
+		function ListInvest() {
+			var tWono = $('#tWono').val();
+			$.ajax({
+				url: '@Url.Action("ListInvest", "ComponentEvaluation")',
+				type: 'GET',
+				dataType: 'json',
+				data: {tWono : tWono},
+				success: function (test) {
+					console.log('json reponse:',test);
+					$('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+					$('.datatable').DataTable({
+						searching: false,
+						lengthChange: false,
+						responsive: true,
+						data: test, // The data received from the AJAX request
+						columns: [
+							{ "data": "edit" },
+							{ "data": "id" },
+							{ "data": "when" },
+							{ "data": "what" },
+							{ "data": "detail" },
+						]
+					});
+
+					// Sembunyikan loading overlay setelah data dimuat
+					$("#offcanvas").offcanvas("hide");
+					$('#loadingOverlay').hide();
+				},
+				error: function (xhr, status, error) {
+					console.error(error);
+				}
+			});
+		}
+	});
+
+</script>
