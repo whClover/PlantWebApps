@@ -1,4 +1,5 @@
 ﻿@{
+	@using System.Data;
 }
 
 <div name="body" class="row justify-content-between" style="font-size: 12px;">
@@ -12,7 +13,7 @@
 			<div class="d-flex flex-row align-items-center" style="gap: 5px;">
 				<div class="d-flex flex-row align-items-center" style="gap: 5px;">
 					<div class="text-nowrap">Job ID</div>
-					<input type="text" style="max-width: 75px;"/>
+					<input id="id" name="id" type="text" style="max-width: 75px;" value="" />
 				</div>
 				<a class="btn btn-sm btn-primary" style="font-size: 12px;">Display</a>
 			</div>
@@ -25,14 +26,14 @@
 						<div class="col-3 text-nowrap">No</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 					<div class="row col-6 align-items-center">
 						<div class="col-3 text-nowrap">Unit No</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 				</div>
@@ -42,65 +43,41 @@
 						<div class="col-3 text-nowrap">WO No</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 					<div class="row col-6 align-items-center">
 						<div class="col-3 text-nowrap">Unit Model</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 				</div>
-				@* componenet desc and repaired by  *@
+				@* componenet desc and received date by  *@
 				<div class="row">
 					<div class="row col-6 align-items-center">
 						<div class="col-3 text-nowrap">Comp Desc</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Repaired By</div>
+						<div class="col-3 text-nowrap">Received Date</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
-						</div>
-					</div>
-				</div>
-				@* part no and qoute no *@
-				<div class="row">
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Part No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Qoute No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 				</div>
-				@* job no and dn no *@
+				@* orginal site *@
 				<div class="row">
 					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Job No</div>
+						<div class="col-3 text-nowrap">Original Site</div>
 						<div class="col-9 row">
 							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">DN No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">test</div>
+							<div class="col-9" style="background-color: #E2F0D9"></div>
 						</div>
 					</div>
 				</div>
@@ -118,28 +95,6 @@
 					<tbody>
 						<tr>
 							<td class="text-center" style="background-color: #E2F0D9">1</td>
-							<td style="background-color: #E2F0D9">
-								Ensure the Final Inspection Report from TCI Workshop (TCI-PLT-FO-166) is
-								available
-							</td>
-							<td class="text-center"><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">2</td>
-							<td style="background-color: #E2F0D9">
-								Ensure the detail component is allign with information from JDE (WO, P/N,OP)
-							</td>
-							<td class="text-center"><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">3</td>
-							<td style="background-color: #E2F0D9">
-								Ensure BSF Logistic Tag is available
-							</td>
-							<td class="text-center"><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">4</td>
 							<td style="background-color: #E2F0D9">
 								Visual Inspection
 							</td>
@@ -174,7 +129,7 @@
 							<td class="text-center"><input type="checkbox" /></td>
 						</tr>
 						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">5</td>
+							<td class="text-center" style="background-color: #E2F0D9">2</td>
 							<td style="background-color: #E2F0D9">
 								Take a pictures
 							</td>
@@ -197,24 +152,15 @@
 						<tr>
 							<td class="text-center" style="background-color: #E2F0D9"></td>
 							<td style="background-color: #E2F0D9">
-								c. Ensure all pictures have been downloaded to BSF-PER server and 
+								c. Ensure all pictures have been downloaded to BSF-PER server and
 								rename the file name to each WO
 							</td>
 							<td class="text-center"><input type="checkbox" /></td>
 						</tr>
 						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">6</td>
+							<td class="text-center" style="background-color: #E2F0D9">3</td>
 							<td style="background-color: #E2F0D9">
-								Ensure testing report is attached on component, record it by taking picture 
-								( for major component only, i.e. : engine, transmission, torque converter, 
-								bevel gear, final drive and all hyd. cylinders)
-							</td>
-							<td class="text-center"><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">7</td>
-							<td style="background-color: #E2F0D9">
-								Sign then record this report after finished inspection
+								Sign & record  this report after finished inspection
 							</td>
 							<td class="text-center"><input type="checkbox" /></td>
 						</tr>
@@ -287,7 +233,7 @@
 			</div>
 		</div>
 	</div>
-	<div name="attachPicture" class="col-5">
+	<div id="TabPicture" name="TabPicture" class="col-5">
 		<div class="d-flex flex-column border border-black p-2">
 			<div class="d-flex justify-content-between align-items-center ">
 				<div class="fs-6 fw-semibold">Attach Picture</div>
@@ -308,6 +254,14 @@
 				<tbody></tbody>
 			</table>
 		</div>
-		
+
 	</div>
 </div>
+
+<script>
+	if ($("#id").val() === "") {
+		$("#TabPicture").hide();
+	} else {
+		$("#TabPicture").show();
+	}
+</script>

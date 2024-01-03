@@ -14,7 +14,7 @@
                 <label class="col-2 pt-1" for="oCoreInspection">Accept</label>
                 <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionN">
                 <label class="col-2 pt-1" for="oCoreInspection">Reject</label>
-                <a href="/ExrRepairJobHistory/OldCoreInspection" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">View</a>
+                <a id="btnOldCore" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">View</a>
             </div>
         </div>
         <div class="container overflow-hidden">
@@ -24,8 +24,16 @@
                 <label class=" col-2 pt-1" for="finalInspection">Accept</label>
                 <input class="col-1" name="finalInspection" type="radio" id="finalInspectionN">
                 <label class="col-2 pt-1" for="finalInspection">Reject</label>
-                <a href="/ExrRepairJobHistory/FinalInspection" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">View</a>
+                <a id="btnFinalInspection" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">View</a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var currentURL = window.location.href;
+    var id = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+
+    $("#btnOldCore").attr("href", "/ExrRepairJobHistoryInspection/OldCore/" + id);
+    $("#btnFinalInspection").attr("href", "/ExrRepairJobHistoryInspection/FinalInspection/" + id);
+</script>

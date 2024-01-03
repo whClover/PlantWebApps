@@ -159,8 +159,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     quoteDate = Utility.CheckNull(row["QuoteDate"]),
                     orNo = Utility.CheckNull(row["ORNo"]),
                     opDate = Utility.CheckNull(row["OPDate"]),
-                    receivedDate = Utility.CheckNull(row["ReceivedDate"])
-                };
+                    receivedDate = Utility.CheckNull(row["ReceivedDate"]),
+					edit = "<a class='btn btn-link btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "'><i class='fa fa-edit'></i></a>"
+				};
                 rows.Add(rowData);
             }
             return new JsonResult(rows);
@@ -206,8 +207,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             loadoption();
             return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
         }
-
-        public IActionResult CreateAN()
+		public IActionResult Edit(string id)
+		{
+			loadoption();
+			return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
+		}
+		public IActionResult CreateAN()
         {
             loadoption();
             var eSpv = ViewBag.spvdesc;
@@ -306,8 +311,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult OldCoreInspection()
         {
-            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/OldCoreInvestigation.cshtml");
-        }
+			return Redirect("/ExrRepairJobHistoryInspection/Index");
+		}
         public IActionResult FinalInspection()
         {
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/FinalInvestigation.cshtml");

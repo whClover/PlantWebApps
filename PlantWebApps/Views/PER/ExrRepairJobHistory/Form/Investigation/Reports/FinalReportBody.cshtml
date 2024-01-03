@@ -1,0 +1,346 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<style>
+    .font-label {
+        background-color: lightgray;
+        font-size: 12px;
+    }
+
+    .border {
+        border: 1px solid black;
+    }
+
+    .border-grey {
+        border: 1px solid grey;
+    }
+
+    .font-h3 {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .negative-top {
+        margin-top: -15px;
+    }
+</style>
+
+<div class="d-flex flex-column align-items-center justify-content-between mt-n1">
+    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; font-size: 14px;">
+        <tr>
+            <td style="width: 50%">
+                <div class="d-flex flex-column">
+                    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">No</div>
+                                    <div style="min-width: ;">:</div>
+									<div>@ViewBag.data.Rows[0]["ID"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Wo No.</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["OffSiteWO"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Component Desc</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["Description1"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Part No</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["TCIPartNo"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Job No</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["JobNo"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td>
+                <div class="d-flex flex-column">
+                    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Unit No</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["UnitNumber"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Unit Model</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["UnitDescription"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Repair By</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["SupplierName"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">Qoute No</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["QuoteNo"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div style="min-width: 150px;">DN No</div>
+                                    <div style="min-width: 25px;">:</div>
+									<div>@ViewBag.data.Rows[0]["DnNumber"].ToString()</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+	<table class="table table-bordered border border-black" style="border-bottom: none;">
+		<thead>
+			<tr class="fw-bold">
+				<td class="text-center" style="width: 10%">No</td>
+				<td class="text-center" style="width: 75%">Description</td>
+				<td class="text-center" style="width: 15%">Check List</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="text-center">1</td>
+				<td>
+					Ensure the Final Inspection Report from TCI Workshop (TCI-PLT-FO-166) is
+					available
+				</td>
+				<td class="text-center">
+					<input id="tCheck1" name="tCheck1" type="checkbox" value="@ViewBag.data.Rows[0]["Check1"].ToString()"
+					@(ViewBag.data.Rows[0]["Check1"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center">2</td>
+				<td >
+					Ensure the detail component is allign with information from JDE (WO, P/N,OP)
+				</td>
+				<td class="text-center">
+					<input id="tCheck2" name="tCheck2" type="checkbox" value="@ViewBag.data.Rows[0]["Check2"].ToString()"
+					@(ViewBag.data.Rows[0]["Check2"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center"  >3</td>
+				<td >
+					Ensure BSF Logistic Tag is available
+				</td>
+				<td class="text-center">
+					<input id="tCheck3" name="tCheck3" type="checkbox" value="@ViewBag.data.Rows[0]["Check3"].ToString()"
+					@(ViewBag.data.Rows[0]["Check3"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" >4</td>
+				<td >
+					Visual Inspection
+				</td>
+				<td class="text-center"></td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					a. All bolts properly secured and fitted
+				</td>
+				<td class="text-center">
+					<input id="tCheck4a" name="tCheck4a" type="checkbox" value="@ViewBag.data.Rows[0]["Check4a"].ToString()"
+					@(ViewBag.data.Rows[0]["Check4a"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					b. Stand is proper && safe (no damage found on stand)
+				</td>
+				<td class="text-center">
+					<input id="tCheck4b" name="tCheck4b" type="checkbox" value="@ViewBag.data.Rows[0]["Check4b"].ToString()"
+					@(ViewBag.data.Rows[0]["Check4b"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					c. Check cleanliness condition (no oil spill found)
+				</td>
+				<td class="text-center">
+					<input id="tCheck4c" name="tCheck4c" type="checkbox" value="@ViewBag.data.Rows[0]["Check4c"].ToString()"
+					@(ViewBag.data.Rows[0]["Check4c"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					d. Check the cover condition is properly secured for component protection
+				</td>
+				<td class="text-center">
+					<input id="tCheck4d" name="tCheck4d" type="checkbox" value="@ViewBag.data.Rows[0]["Check4d"].ToString()"
+					@(ViewBag.data.Rows[0]["Check4d"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" >5</td>
+				<td >
+					Take a pictures
+				</td>
+				<td class="text-center"></td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					a. Vendor ID Stamp or ID  Plate
+				</td>
+				<td class="text-center">
+					<input id="tCheck5a" name="tCheck5a" type="checkbox" value="@ViewBag.data.Rows[0]["Check5a"].ToString()"
+					@(ViewBag.data.Rows[0]["Check5a"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					b. Overall view of component
+				</td>
+				<td class="text-center">
+					<input id="tCheck5b" name="tCheck5b" type="checkbox" value="@ViewBag.data.Rows[0]["Check5b"].ToString()"
+					@(ViewBag.data.Rows[0]["Check5b"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" ></td>
+				<td >
+					c. Ensure all pictures have been downloaded to BSF-PER server and
+					rename the file name to each WO
+				</td>
+				<td class="text-center">
+					<input id="tCheck5c" name="tCheck5c" type="checkbox" value="@ViewBag.data.Rows[0]["Check5C"].ToString()"
+					@(ViewBag.data.Rows[0]["Check5C"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" >6</td>
+				<td >
+					Ensure testing report is attached on component, record it by taking picture
+					( for major component only, i.e. : engine, transmission, torque converter,
+					bevel gear, final drive and all hyd. cylinders)
+				</td>
+				<td class="text-center">
+					<input id="tCheck6" name="tCheck6" type="checkbox" value="@ViewBag.data.Rows[0]["Check6"].ToString()"
+					@(ViewBag.data.Rows[0]["Check6"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center" >7</td>
+				<td >
+					Sign then record this report after finished inspection
+				</td>
+				<td class="text-center">
+					<input id="tCheck7" name="tCheck7" type="checkbox" value="@ViewBag.data.Rows[0]["Check7"].ToString()"
+					@(ViewBag.data.Rows[0]["Check7"].ToString().ToLower() == "-1" ? "checked" : "")>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="d-flex flex-column mt-n3 border border-black" style="width: 100%; border-top: none">
+		<div class="border border-black fw-bold" style="border-top: none">Remarks / Findings</div>
+		<div style="min-height: 150px;">
+			@ViewBag.data.Rows[0]["Remark"].ToString()
+		</div>
+		<div class="d-flex" style="gap: 10px; border-top: none;">
+			<div class="form-check">
+				<input id="ChkAccept" style="transform: scale(1.5);" name="ChkAccept" type="checkbox" value="@ViewBag.data.Rows[0]["CheckAccept"].ToString()"
+				@(ViewBag.data.Rows[0]["CheckAccept"].ToString().ToLower() == "-1" ? "checked" : "")>
+				<label class="form-check-label ms-1 fw-bold">
+					Accept
+				</label>
+			</div>
+			<div class="form-check">
+				<input id="ChkReject" style="transform: scale(1.5);" name="ChkReject" type="checkbox" value="@ViewBag.data.Rows[0]["CheckReject"].ToString()"
+				@(ViewBag.data.Rows[0]["CheckReject"].ToString().ToLower() == "-1" ? "checked" : "")>
+				<label class="form-check-label ms-1 fw-bold">
+					Reject
+				</label>
+			</div>
+		</div>
+		<div class="mt=1">NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
+		<table class="border border-black border-bottom-0 border-start-0 border-end-0 " style="width: 100%">
+			<tbody>
+				<tr>
+					<td style="width: 50%">
+						<div class="fw-bold">Issued By,</div>
+						<div>QA/QC Engineer</div>
+						<div class="d-flex align-items-center" style="margin-top: 125px;">
+							<div class="d-flex align-items-center" style="margin-top: 10px; gap: 10px;">
+								<div>Signature : </div>
+								<input type="text" id="tIssuedSign" name="eIssuedSign" class="border border-0 ms-1" value="@ViewBag.data.Rows[0]["IssuedSign"].ToString()" />
+							</div>
+							<div class="d-flex align-items-center" style="margin-top: 10px;">
+								<div>Date : </div>
+								<input type="text" id="tIssuedDate" name="eIssuedDate" class="border border-0 ms-1" value="@ViewBag.data.Rows[0]["IssuedDate"].ToString()" />
+							</div>
+						</div>
+					</td>
+					<td style="width: 50%">
+						<div class="fw-bold">Acknowledged By,</div>
+						<div>Supervisor/Superintend/Manager</div>
+						<div class="d-flex align-items-center" style="margin-top: 125px;">
+							<div class="d-flex align-items-center" style="margin-top: 10px; gap: 10px;">
+								<div>Signature : </div>
+								<input type="text" id="tAcknowledgedSign" name="eAcknowledgedSign" class="border border-0 ms-1" value="@ViewBag.data.Rows[0]["AcknowledgedSign"].ToString()" />
+							</div>
+							<div class="d-flex align-items-center" style="margin-top: 10px;">
+								<div>Date : </div>
+								<input type="text" id="tAcknowledgedDate" name="eAcknowledgedDate" class="border border-0 ms-1" value="@ViewBag.data.Rows[0]["AcknowledgedDate"].ToString()" />
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>	
+		</table>
+	</div>
+</div>

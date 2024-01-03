@@ -36,4 +36,10 @@ app.MapControllerRoute(
     defaults: new { controller = "JobDispatch", action = "SearchWonoDetail" }
 );
 
+app.MapControllerRoute(
+	name: "ExrRepairJobHistoryForm",
+	pattern: "ExrRepairJobHistory/Edit/{id}",
+	defaults: new { controller = "ExrRepairJobHistory", action = "Edit" }
+);
+
 app.Run();
