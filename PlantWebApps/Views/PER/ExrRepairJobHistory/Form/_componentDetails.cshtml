@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
 }
 
 <div class="col border">
@@ -19,9 +20,11 @@
             <input type="text" class="col-6" placeholder="0.00"/>
             <select name="" class="form-select col-3 ms-3" style="max-width: 165px;">
                 <option value=""></option>
-                <option value="1"></option>
-                <option value="2"></option>
-                <option value="3"></option>
+                @foreach (DataRow row in ViewBag.currency.Rows)
+                {
+                    var currid = row["CurrID"].ToString();
+                        <option value="@currid">@currid</option>
+                }
             </select>
         </div>
     </div>
@@ -40,11 +43,14 @@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2 fs-6">Saving Cat</div>
-            <select name="" class="col-10">
-                <option value="">PEX</option>
-                <option value="1">Stock</option>
-                <option value="2">Direct Change</option>
-                <option value="3">Consigntment</option>
+            <select name="" class="col-10" disabled>
+                <option value=""></option>
+                @foreach (DataRow row in ViewBag.tsavingcost.Rows)
+                {
+                    var savingcostid = row["SavingCostCatID"].ToString();
+                    var savingcostcategory = row["SavingCostCategory"].ToString();
+                    <option value="@savingcostid">@savingcostcategory</option>
+                }
             </select>
         </div>
     </div>
@@ -52,10 +58,9 @@
         <div class="row align-items-center">
             <div class="col-2 fs-6">Add Cost</div>
             <select name="" class="col-10">
-                <option value="">PEX</option>
-                <option value="1">Stock</option>
-                <option value="2">Direct Change</option>
-                <option value="3">Consigntment</option>
+                <option value=""></option>
+                <option value="1">Y</option>
+                <option value="2">N</option>
             </select>
         </div>
     </div>
@@ -91,10 +96,13 @@
         <div class="row align-items-center">
             <div class="col-2 fs-6">Ex Store</div>
             <select name="" class="col-10">
-                <option value="">PEX</option>
-                <option value="1">Stock</option>
-                <option value="2">Direct Change</option>
-                <option value="3">Consigntment</option>
+                <option value=""></option>
+                @foreach (DataRow row in ViewBag.fstore.Rows)
+                {
+                    var storeid = row["StoreID"].ToString();
+                    var storename = row["StoreName"].ToString();
+                    <option value="@storeid">@storename</option>
+                }
             </select>
         </div>
     </div>
@@ -102,10 +110,14 @@
         <div class="row align-items-center">
             <div class="col-2 fs-6">Repair Type</div>
             <select name="" class="col-10">
-                <option value="">PEX</option>
-                <option value="1">Stock</option>
-                <option value="2">Direct Change</option>
-                <option value="3">Consigntment</option>
+                <option value=""></option>
+                @foreach (DataRow row in ViewBag.repairType2.Rows)
+                {
+                    var repairtypeid = row["ExrRepairtypeID"].ToString();
+                    var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
+                    var repairtype = row["ExrRepairtype"].ToString();
+                    <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
+                }
             </select>
         </div>
     </div>
@@ -160,22 +172,22 @@
             <div class="col-2 fs-6">Add Order</div>
             <div class="col-10 row" style="gap: 15px;">
                 <select name="" class="col-3">
-                    <option value="">PEX</option>
-                    <option value="1">Stock</option>
-                    <option value="2">Direct Change</option>
-                    <option value="3">Consigntment</option>
+                    <option value=""></option>
+                    <option value="1">Spare Part</option>
+                    <option value="2">Steel Stand</option>
+                    <option value="3">Wooden Box</option>
                 </select>
                 <select name="" class="col-3">
-                    <option value="">PEX</option>
-                    <option value="1">Stock</option>
-                    <option value="2">Direct Change</option>
-                    <option value="3">Consigntment</option>
+                    <option value=""></option>
+                    <option value="1">Spare Part</option>
+                    <option value="2">Steel Stand</option>
+                    <option value="3">Wooden Box</option>
                 </select>
                 <select name="" class="col-3">
-                    <option value="">PEX</option>
-                    <option value="1">Stock</option>
-                    <option value="2">Direct Change</option>
-                    <option value="3">Consigntment</option>
+                    <option value=""></option>
+                    <option value="1">Spare Part</option>
+                    <option value="2">Steel Stand</option>
+                    <option value="3">Wooden Box</option>
                 </select>
             </div>
         </div>

@@ -204,7 +204,105 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult Add()
         {
             loadoption();
-            return View("~/Views/PER/ExrRepairJobHistory/Add.cshtml");
+            return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
+        }
+
+        public IActionResult CreateAN()
+        {
+            loadoption();
+            var eSpv = ViewBag.spvdesc;
+            var eRepairBy = ViewBag.repairby;
+
+            ViewBag.Project = "BSF";
+            ViewBag.JobNo = "503002";
+            ViewBag.ShipmentDate = DateTime.Now;
+            ViewBag.AttentionTo = eRepairBy;
+
+            //string tempstring = $"select displayName from v_AddressBook ";
+            //var rst2 = SQLFunction.execQuery(tempstring);
+
+            //foreach (DataRow row in rst2.Rows)
+            //{
+            //    string eName = row["DisplayName"].ToString();
+            //    ViewBag.cHandledBy = eName;
+            //    ViewBag.DetailVisible = false;
+            //}
+
+            return View("~/Views/PER/ExrRepairJobHistory/CreateAN/CreateAN.cshtml");
+        }
+        public IActionResult CSave()
+        {
+            loadoption();
+
+            string tblName = "tbl_DispatchJob";
+
+            var attentionTo = Request.Form["tAttentionTo"];
+            var shipmentDate = Request.Form["tShipmentDate"];
+            var sectionId = Request.Form["tSectionId"];
+            var eid = Request.Form["tid"];
+            var dispatchType = Request.Form["tdispatchtype"];
+            var consignedTo = Request.Form["tConsignedTo"];
+            var attentionName = Request.Form["tAttentionName"];
+            var attentionEmail = Request.Form["tAttentionEmail"];
+            var transportMode = Request.Form["tTransportMode"];
+            var manifestNo = Request.Form["tManifestNo"];
+            var project = Request.Form["tProject"];
+            var jobNo = Request.Form["tJobNo"];
+            var dispatchBy = Request.Form["tDispatchBy"];
+            var dispatchDate = Request.Form["tDispatchDate"];
+            //var dispatchEmail = Request.Form[""];
+            var handledBy = Request.Form["cHandledBy"];
+            var handledDate = Request.Form["tHandledDate"];
+            //var receivedBy = Request.Form["tReceivedBy"];
+            //var receivedDate = Request.Form["tReceivedDate"];
+            //var statusId = Request.Form["tStatusID"];
+
+            if (string.IsNullOrEmpty(attentionTo) || string.IsNullOrEmpty(shipmentDate) || string.IsNullOrEmpty(sectionId))
+            {
+                Stat = "error";
+                Msg = "Please Fill Mandatory (*) Field";
+            }
+            else
+            {
+                string eidValue = !string.IsNullOrEmpty(eid) ? eid : "null";
+                string eDispatchType = !string.IsNullOrEmpty(dispatchType) ? dispatchType : HandleError("Please Select Dispatch Type");
+                string eSectionId = !string.IsNullOrEmpty(sectionId) ? sectionId : HandleError("Please Select Dispatch From");
+                string eShipmentDate = !string.IsNullOrEmpty(shipmentDate) ? Utility.Evar(shipmentDate, 2) : "null";
+                string eConsignedTo = !string.IsNullOrEmpty(consignedTo) ? consignedTo : "null";
+                string eAttentionName = !string.IsNullOrEmpty(attentionName) ? Utility.Evar(attentionName, 18) : "null";
+                string eAttentionEmail = !string.IsNullOrEmpty(attentionEmail) ? attentionEmail : "null";
+                string eAttentionTo = !string.IsNullOrEmpty(attentionTo) ?  Utility.Evar(attentionTo, 0) : HandleError("Please Select tAttentionTo");
+                string eTransportMode = !string.IsNullOrEmpty(transportMode) ? transportMode : "null";
+                string eManifesNo = !string.IsNullOrEmpty(manifestNo) ? manifestNo : "null";
+                string eProject = !string.IsNullOrEmpty(project) ? project : "null";
+                string eJobNo = !string.IsNullOrEmpty(jobNo) ? jobNo : "null";
+                string eDispatchBy = !string.IsNullOrEmpty(dispatchBy) ? dispatchBy : "null";
+                string eDispatchDate = !string.IsNullOrEmpty(dispatchDate) ? Utility.Evar(dispatchDate, 2) : "null";
+                //string eDispatchEmail = !string.IsNullOrEmpty(dispatchDate) ? Utility.Evar(dispatchDate, 16) : null;
+                string eHandledBy = !string.IsNullOrEmpty(handledBy) ? handledBy : "null";
+                string eHandledDate = !string.IsNullOrEmpty(handledDate) ? Utility.Evar(handledDate, 2) : "null";
+                //string eReceivedBy = !string.IsNullOrEmpty(receivedBy) ? $"'{receivedBy}'" : null;
+                //string eReceivedDate = !string.IsNullOrEmpty(receivedDate) ? Utility.Evar(receivedDate, 16) : null;
+                //string eStatusId = !string.IsNullOrEmpty(statusId) ? $"'{statusId}'" : null;
+
+                //string queryDispatchNumber = "Select dbo.GetANNumber()";
+                //var rsrDispatchNumber = SQLFunction.execQuery(queryDispatchNumber);
+
+                var dataQuery = $@"INSERT INTO {tblName} (ID, SectionID, DispatchType, ShipmentDate, ConsignedTo, AttentionName, AttentionEmail, AttentionTo, TransportMode, ManifestNo, Project, JobNo, DispatchBy, DispatchDate, HandledBy, HandledDate) VALUES ('{eidValue}', '{eSectionId}', '{eDispatchType}',{eShipmentDate}, '{eConsignedTo}', '{eAttentionName}', '{eAttentionEmail}', '{eAttentionTo}', '{eTransportMode}', '{eManifesNo}', '{eProject}', '{eJobNo}', '{eDispatchBy}', {eDispatchDate}, '{eHandledBy}', {eHandledDate})";
+                
+                Console.WriteLine(dataQuery);
+                var data = SQLFunction.execQuery(dataQuery);
+
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private string HandleError(string message)
+        {
+            Stat = "error";
+            Msg = message;
+            return null;
         }
 
         // load option for dropdown
@@ -213,6 +311,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             //repair type
             string queryrepair = "Select ExrRepairTypeID,ExrRepairTypeAbr,ExrRepairType from tbl_ExrRepairType";
             ViewBag.repairType = SQLFunction.execQuery(queryrepair);
+
+            // repair type 2
+            string queryrepair2 = "SELECT ExrRepairtypeID, ExrRepairtypeAbr, ExrRepairtype FROM tbl_ExrRepairType WHERE ExrRepairtypeID not in (1,4,5)";
+            ViewBag.repairType2 = SQLFunction.execQuery(queryrepair2);
 
             //comp type
             string querycomp = "SELECT CompTypeID, CompType, CompTypeDesc FROM tbl_EXRCompType WHERE (((CompTypeID)<>2)); ";
@@ -241,7 +343,53 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             //CBToCategory
             string querycbtocategory = "SELECT TOCatID, TOCatDesc FROM tbl_TurnOverCat; ";
             ViewBag.cbtocategory = SQLFunction.execQuery(querycbtocategory);
+
+            //Currency
+            string querycurrency = "SELECT CurrID FROM tbl_Currency; ";
+            ViewBag.currency = SQLFunction.execQuery(querycurrency);
+
+            // tsaving cost category
+            string querytsavingcost = "select * from tbl_SavingCostCategory order by savingcostCatID";
+            ViewBag.tsavingcost = SQLFunction.execQuery(querytsavingcost);
+
+            // tdestination
+            string querytdestionation = "SELECT StoreID, StoreName FROM tblv_Store";
+            ViewBag.tdestination = SQLFunction.execQuery(querytdestionation);
+
+            // tsitealloc
+            string querytsitealloc = "SELECT Location, LocationName FROM tblv_LocationTS";
+            ViewBag.tsitealloc = SQLFunction.execQuery(querytsitealloc);
+
+            // tnextstatus
+            string querytnextstatus = "SELECT * FROM tbl_EXRJobStatus Where ExrJobStatusID Not IN (0,5,6,11,12)";
+            ViewBag.tnextstatus = SQLFunction.execQuery(querytnextstatus);
+
+            // tAttentionTo for CreateAN
+            string queryTattentionTo = "SELECT isnull(SupplierName,SupplierID) as SupplierName, SupplierID FROM tbl_SupplierList ORDER BY SupplierName";
+            ViewBag.tAatentionTo = SQLFunction.execQuery(queryTattentionTo);
+
+            // tAttentionName for CreateAN
+            string queryTaatentionName = "SELECT DisplayName, Department, EmailAddress FROM v_AddressBook";
+            ViewBag.tAttentionName = SQLFunction.execQuery(queryTaatentionName);
+
+            // tSectionId for CreateAN
+            string queryTsectionId = "SELECT JobSourceID, JobSource FROM tbl_JobSource";
+            ViewBag.tSectionId = SQLFunction.execQuery(queryTsectionId);
+
+            // tDispatchBy for CreateAN
+            string queryTdispatchType = "SELECT DispatchTypeID, DispatchType FROM tbl_DispatchType";
+            ViewBag.tDispatchType = SQLFunction.execQuery(queryTdispatchType);
+
+            // tDispatchBy for CreateAN
+            string queryTdispatchBy = "SELECT DisplayName,Account, Department, EmailAddress FROM v_AddressBook";
+            ViewBag.tDispatchBy = SQLFunction.execQuery(queryTdispatchBy);
+
+            // tDispatchBy for CreateAN
+            string queryChandledBy = "SELECT DisplayName,Account, Department, EmailAddress FROM v_AddressBook";
+            ViewBag.cHandledBy = SQLFunction.execQuery(queryChandledBy);
         }
+        
+
         private string ApplyFilterCategory(string category, string value, string currentFilter)
         {
             if (!string.IsNullOrEmpty(value))

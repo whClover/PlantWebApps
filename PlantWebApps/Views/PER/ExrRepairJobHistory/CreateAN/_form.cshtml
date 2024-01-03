@@ -1,0 +1,278 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+
+
+<div class="d-flex flex-column">
+    <div class="d-flex">
+        <div class="col border">
+            <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Dispatch Type*</div>
+                        <select name="tDispatchType" class="col-7">
+                            <option value=""></option>
+                            @foreach (DataRow row in ViewBag.tDispatchType.Rows)
+                            {
+                                var tDispatchTypeId = row["DispatchTypeID"].ToString();
+                                var tDispatchTypeType = row["DispatchType"].ToString();
+                                <option value="@tDispatchTypeId">@tDispatchTypeType</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">ShipmentDate</div>
+                        <input type="Text" class="col-7 datepicker-basic" name="tShipmentDate" value="@ViewBag.ShipmentDate" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Consigned TO*</div>
+                        <select name="tAttentionTo" class="col-5">
+                            <option value=""></option>
+                            @foreach (DataRow row in ViewBag.tAatentionTo.Rows)
+                            {
+                                var tAttentionToId = row["SupplierID"].ToString();
+                                var tAttemtionToName = row["SupplierName"].ToString();
+                                <option value="@tAttentionToId">@tAttemtionToName | @tAttentionToId</option>
+                            }
+                        </select>
+                        <input type="text" class="col-2 ms-2" style="max-width: 30px;" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Attention Address</div>
+                        <input type="text" name="tConsignedTo" class="col-7" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Attention Name</div>
+                        <select name="tAttentionName" class="col-7">
+                            <option value=""></option>
+                            @foreach (DataRow row in ViewBag.tAttentionName.Rows)
+                            {
+                                var tAttentionNameDisplayName = row["DisplayName"].ToString();
+                                var tAttentionNameDepartment = row["Department"].ToString();
+                                var tAttentionNameEmail = row["EmailAddress"].ToString();
+                                <option value="@tAttentionNameEmail">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Attention Email</div>
+                        <input type="text" name="tAttentionEmail" class="col-7" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* 2 section *@
+        <div class="col border">
+            <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Project</div>
+                        <input type="text" name="tProject" class="col-7" value="@ViewBag.Project"/>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Job No</div>
+                        <input type="text" name="tJobNo" class="col-7" value="@ViewBag.JobNo" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Manifest No</div>
+                        <input type="text" name="tManifestNo" class="col-7" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Transport Mode</div>
+                        <input type="text" name="tTransportMode" class="col-7" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Handled By</div>
+                        <input type="text" name="tHandledBy" class="col-7" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Dispatch From*</div>
+                        <select name="tSectionId" class="col-7">
+                            <option value=""></option>
+                            @foreach (DataRow row in ViewBag.tSectionId.Rows)
+                            {
+                                var tSectionId = row["JobSourceID"].ToString();
+                                var tSectionIdJobSource = row["JobSource"].ToString();
+                                <option value="@tSectionId">@tSectionIdJobSource</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Dispatch By</div>
+                        <select name="tDispatchBy" id="tDispatchBy" class="col-7">
+                            <option value=""></option>
+                            @foreach (DataRow row in ViewBag.tDispatchBy.Rows)
+                            {
+                                var tDispatchByDisplayName = row["DisplayName"].ToString();
+                                var tDispatchByAccount = row["Account"].ToString();
+                                var tDispatchByDepartment = row["Department"].ToString();
+                                var tDispatchByEmailAddress = row["EmailAddress"].ToString();
+                                <option value="@tDispatchByEmailAddress">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* 3 section *@
+        <div class="col border">
+            <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Dispatch Email</div>
+                        <input type="text" name="tDispatchValue" id="tDispatchValue" value="" class="col-7" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
+                        <input type="text" class="col-7 datepicker-basic" name="tDispatchDate" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Handled By</div>
+                        <select name="cHandledBy" class="col-7">
+                            <option value=""></option>
+                            @foreach (DataRow row in ViewBag.cHandledBy.Rows)
+                            {
+                                var cHandledByDisplayName = row["DisplayName"].ToString();
+                                var cHandledByByAccount = row["Account"].ToString();
+                                var cHandledByDepartment = row["Department"].ToString();
+                                var cHandledByEmailAddress = row["EmailAddress"].ToString();
+                                <option value="@cHandledByEmailAddress">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Handled Date</div>
+                        <input type="text" class="col-7 datepicker-basic" name="tHandledDate" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Received By</div>
+                        <input type="text" class="col-7" name="tReceivedBy"/>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Received Date</div>
+                        <input type="text" class="col-7 datepicker-basic" name="tReceivedDate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* 4 section *@
+        <div class="col border">
+            <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">StatusID</div>
+                        <input type="text" class="col-7" name="tStatusID"/>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">Advice Note</div>
+                        <input type="text" class="col-4" name="tID"/>
+                        <button type="button" class="col-3 ms-2 btn btn-primary" name="cFind" style="max-width: 50px; font-size: 12px;">
+                            find
+                        </button>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">RegisterBy</div>
+                        <input type="text" class="col-7" name="tRegisterBy"/>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
+                        <input type="text" class="col-7 datepicker-basic" name="tRegisterDate" />
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5" style="font-size: 12px;">ModBy</div>
+                        <input type="text" class="col-7" tModBy/>
+                    </div>
+                </div>
+                <div class="container overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-5 " style="font-size: 12px;">ModDate</div>
+                        <input type="text" class="col-7 datepicker-basic" name="tModDate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="align-self-end my-3 d-flex" style="gap: 10px;">
+        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/CSave">
+            SAVE
+        </button>
+        <button type="button" class="btn btn-sm btn-primary">
+            CLOSE
+        </button>
+    </div>
+
+    @if (TempData.Peek("Msg") != null)
+    {
+        @section Scripts
+    {
+        <script>
+            Swal.fire({
+                title: '@TempData.Peek("Msg")',
+                    icon: '@TempData.Peek("Stat")'
+                });
+            </script>
+        }
+    }
+</div>
+
+
+<script>
+    const selectElement = document.querySelector('select[name="tDispatchBy"]');
+    const inputElement = document.querySelector('input[name="tDispatchValue"]');
+
+    selectElement.addEventListener('change', function () {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+        if (selectedOption) {
+            const valuesArray = selectedOption.value.split('|');
+            const valueFromThirdColumn = valuesArray[2];
+            inputElement.value = valueFromThirdColumn;
+        } else {
+            inputElement.value = "";
+        }
+    });
+</script>

@@ -1,0 +1,142 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<!-- Modal -->
+<form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
+    <div class="modal fade modal-lg" id="addJobDetailModal" tabindex="-1" aria-labelledby="addJobDetailModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="statusModal">Select Fill Filter Criteria</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column" style="gap: 10px">
+                    <div class="d-flex flex-column">
+                        <div class="d-flex" style="gap: 10px;">
+                            <div style="min-width: 115px;">ADVICE NOTE NO:</div>
+                            <div value="@ViewBag.id"></div>
+                        </div>
+                        <div class="d-flex" style="gap: 10px;">
+                            <div style="min-width: 115px;">DIPATCH TYPE:</div>
+                            <div value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["DispatchType"] : null)"></div>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden d-flex flex-row align-items-center" style="gap: 10px">
+                        <div class="row align-items-center col-3">
+                            <select class="form-control form-control-sm" id="fSectionId" name="fSectionId" required>
+                                @foreach (DataRow row in ViewBag.section.Rows)
+                                {
+                                    var jobSourceId = row["JobSourceID"].ToString();
+                                    var jobSource = row["JobSource"].ToString();
+                                    <option value="@jobSourceId">@jobSource</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <input type="Text" class="form-control form-control-sm ms-2" name="fJobID" id="fJobID" placeholder="Job ID" required/>
+                        </div>
+                        <div class="col-2">
+                            <input type="Text" class="form-control form-control-sm ms-2" name="fWONO" id="fWONO" placeholder="WONO" required/>
+                        </div>
+                        <div class="col-2">
+                            <input type="Text" class="form-control form-control-sm ms-2" name="fCompDesc" id="fCompDesc" placeholder="Comp Desc" />
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary col-2 ms-auto" id="filterDetailAnButton" style="max-width: 75px;"
+                           >Find
+                       </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="detailTable" class="table detailTable table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th></th>
+                                    <th>Section ID</th>
+                                    <th>Section</th>
+                                    <th>Job ID</th>
+                                    <th>WONO</th>
+                                    <th>ChildWO</th>
+                                    <th>ExtWO</th>
+                                    <th>CompDesc</th>
+                                    <th>MainType</th>
+                                    <th>CompQty</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anDetailModal">Select</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#filterDetailAnButton').click(function (e) {
+            e.preventDefault();
+            var selectedOption = $('#fSectionId').val();
+            if (selectedOption === '') {
+                window.alert('Please select a section ID.');
+            } else {
+                LoadDetailAnData();
+            }
+        });
+
+        function LoadDetailAnData() {
+            var sectionid = $('#fSectionId').val();
+            var jobid = $('#fJobID').val();
+            var wono = $('#fWONO').val();
+            var compdesc = $('#fCompDesc').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadDetailAnData", "JobDispatch")',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    sectionid: sectionid,
+                    jobid: jobid,
+                    wono: wono,
+                    compdesc: compdesc
+                },
+                success: function (test) {
+                    //console.log(test);
+                    $('.detailTable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.detailTable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "select" },
+                            { "data": "sectionid" },
+                            { "data": "section" },
+                            { "data": "jobid" },
+                            { "data": "wonodata" },
+                            { "data": "childwo" },
+                            { "data": "extwo" },
+                            { "data": "compdesc" },
+                            { "data": "mainttype" },
+                            { "data": "compqty" }
+                        ]
+                    });
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>
