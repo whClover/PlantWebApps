@@ -119,19 +119,19 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         {
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/FinalReportHeader.cshtml");
         }
-        public IActionResult FinalReportBody()
+        public IActionResult FinalReportBody(string ID)
 		{
-			FinalInspection("101204");
+			FinalInspection(ID);
 			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/FinalReportBody.cshtml");
 		}
 		public IActionResult FinalReportFooter()
 		{
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/FinalReportFooter.cshtml");
         }
-        public IActionResult Report()
+        public IActionResult Report(string ID)
         {
-			Console.WriteLine("Masuk");
-            string tempAnno = "101204";
+			Console.WriteLine(ID);
+            string jobId = ID;
             string servername = "https://localhost:5001/";
             string namafile;
             string namafile2;
@@ -141,14 +141,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             {
                 Directory.CreateDirectory(savePath);
             }
-            namafile = Path.Combine(savePath, tempAnno + "_dc.pdf");
+            namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
                 FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
                 Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportBody/" +
+                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportBody/" + ID +
                    "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportFooter" +
-                   "\" --footer-spacing 3 --footer-right \"\"Page [page] of [topage]\"\"  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportHeader" +
+                   "\" --footer-spacing 3  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportHeader" +
                    "\" --header-spacing 3 " +
                    "\"" + namafile + "\""
 
@@ -157,8 +157,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             p.Start();
             p.WaitForExit();
 
-            namafile2 = Path.Combine(savePath, tempAnno + "_dc.pdf");
-            string ffname = "AN." + tempAnno + ".pdf";
+            namafile2 = Path.Combine(savePath, jobId + ".pdf");
+            string ffname = "Final Inspection Report " + jobId + ".pdf";
 
             return PhysicalFile(namafile2, "application/pdf", ffname);
         }

@@ -491,7 +491,8 @@
 			console.log("goto report clicked");
 			var url = window.location.href;
 			var ID = url.substring(url.lastIndexOf('/') + 1);
-			window.location.href = '/ExrRepairJobHistoryInspection/Report';
+			console.log("id", ID);
+			window.location.href = '/ExrRepairJobHistoryInspection/Report/' + ID;
 		};
 
 		$("#btnPrint").on("click", function () {
