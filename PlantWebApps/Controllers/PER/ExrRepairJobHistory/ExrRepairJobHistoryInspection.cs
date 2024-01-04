@@ -130,7 +130,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult Report(string ID)
         {
-			Console.WriteLine(ID);
             string jobId = ID;
             string servername = "https://localhost:5001/";
             string namafile;
@@ -187,7 +186,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 				if (!allowedExtensions.Contains(fileExtension))
 				{
 					Stat = "warning";
-					Msg = "Please make sure the file is an image.";
+					Msg = "File Must Be An Image";
 					return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
 				}
 				// Menambahkan format jam (yyyyMMddHHmmss) di ujung nama file

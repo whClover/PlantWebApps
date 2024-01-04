@@ -53,7 +53,7 @@
 					<div class="text-nowrap">Job ID</div>
 					<input id="tjobid" name="ejobid" type="text" style="max-width: 75px;" value="@ViewBag.data.Rows[0]["JobID"].ToString()" />
 				</div>
-				<a class="btn btn-sm btn-primary" style="font-size: 12px;">Display</a>
+				<a id="btnDisplay" class="btn btn-sm btn-primary" style="font-size: 12px;">Display</a>
 			</div>
 		</div>
 		<div name="pdfBody" class="border border-black d-flex flex-column py-2">
@@ -467,11 +467,26 @@
 
 <script>
 	$(document).ready(function () {
-		if ($("#tjobid").val() === "") {
-			$("#TabPicture").hide();
-		} else {
-			$("#TabPicture").show();
+		// hide attach picture
+		hideAttachPict()
+		function hideAttachPict() {
+			if ($("#tjobid").val() === "") {
+				$("#TabPicture").hide();
+			} else {
+				$("#TabPicture").show();
+			}
 		}
+
+		// btn display
+		$("#btnDisplay").on('click', function () {
+			var ID = $("#tjobid").val();
+			hideAttachPict();
+			if (ID === "") {
+				Swal.fire("Please fill Job ID", "", "warning");
+				return false;
+			}
+			window.location.href = '/ExrRepairJobHistoryInspection/FinalInspection/' + ID;
+		});
 
 		// upload file functionality
 		var fileUploadInput = $('#fileupload');
@@ -488,10 +503,8 @@
 
 		// print functionality
 		function gotoReport() {
-			console.log("goto report clicked");
 			var url = window.location.href;
 			var ID = url.substring(url.lastIndexOf('/') + 1);
-			console.log("id", ID);
 			window.location.href = '/ExrRepairJobHistoryInspection/Report/' + ID;
 		};
 
