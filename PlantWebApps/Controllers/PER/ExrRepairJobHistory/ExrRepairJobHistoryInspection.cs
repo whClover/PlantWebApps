@@ -162,5 +162,61 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return PhysicalFile(namafile2, "application/pdf", ffname);
         }
-    }
+		public async Task<IActionResult> UploadFile(IFormFile fileupload)
+		{
+			string ID = Request.Form["ejobid"];
+			string TWONO = Request.Form["formWono"];
+			Console.WriteLine(TWONO);
+			string einspectionType = "FinalInspect";
+
+			string fileName = "";
+			var filePath = "";
+			string fileExtension = "";
+			var targetDirectory = "";
+			string newPath = "";
+			string newFile = "";
+			string ePictureCaption = "";
+			string PathExrJobInspection  = @$"\\BPNAPS07.THIESS.AUS\database\Plant_Component\PictInspection\ExrJobInspection\";
+			string[] allowedExtensions = { ".png", ".PNG", ".jpeg", ".JPEG", ".jpg", ".JPG", ".gif", ".GIF" };
+			if (fileupload != null && fileupload.Length > 0)
+			{
+				fileExtension = Path.GetExtension(fileupload.FileName); // nama file dengan ekstensi
+
+				fileName = Path.GetFileNameWithoutExtension(fileupload.FileName); // Mengambil nama file tanpa ekstensi
+				fileName = fileName.Replace(" ", "");
+				if (!allowedExtensions.Contains(fileExtension))
+				{
+					Stat = "warning";
+					Msg = "Please make sure the file is an image.";
+					return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
+				}
+				// Menambahkan format jam (yyyyMMddHHmmss) di ujung nama file
+				string currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+				string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
+				ePictureCaption = fileName1;
+				//targetDirectory = $"{PathExrJobInspection}"; server
+				targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "temp"); // local
+
+				newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
+				newFile = $@"{newPath}\{fileName1}";
+
+				filePath = Path.Combine(targetDirectory, fileName);
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await fileupload.CopyToAsync(stream);
+				}
+			}
+
+			string query = @$"exec dbo.ExrOldCoreInspectPic {Utility.Evar(TWONO, 1)}, 
+			{Utility.Evar(ID, 1)}, {Utility.Evar(newFile, 1)}, {Utility.Evar(ePictureCaption, 1)}, 
+			{Utility.Evar(einspectionType,1 )}, {Utility.Evar(Utility.eusername(), 1)}";
+
+			Console.WriteLine(query);
+
+			Stat = "success";
+			Msg = "Image has been uploaded successfully";
+			return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
+		}
+	}
 }

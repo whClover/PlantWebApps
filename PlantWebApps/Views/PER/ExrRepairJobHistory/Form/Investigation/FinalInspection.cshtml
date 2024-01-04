@@ -39,6 +39,7 @@
 
 <partial name="Modal/_ModalFinalInvestigation.cshtml" />
 
+<form method="post" action="/ExrRepairJobHistoryInspection" enctype="multipart/form-data">
 <div name="body" class="row justify-content-between" style="font-size: 12px;">
 	<div name="pdf" class="col-7">
 		<div name="header" class="d-flex flex-row align-items-center justify-content-between px-1" style="gap: 10px">
@@ -81,6 +82,7 @@
 						<div class="col-9 row">
 							<div class="col-3">:</div>
 							<div id="tWono" name="ewono" class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["OffSiteWO"].ToString()</div>
+								<input type="text" name="formWono" class="d-none" value="@ViewBag.data.Rows[0]["OffSiteWO"].ToString()" />
 						</div>
 					</div>
 					<div class="row col-6 align-items-center">
@@ -368,10 +370,14 @@
 		<div class="d-flex flex-column border border-black p-2">
 			<div class="d-flex justify-content-between align-items-center ">
 				<div class="fs-6 fw-semibold">Attach Picture</div>
-				<div class="d-flex" style="gap: 10px;">
-					<button class="btn btn-sm btn-primary">Print Pdf</button>
-					<button class="btn btn-sm btn-primary">Upload</button>
-				</div>
+					<div class="d-flex" style="gap: 10px;">
+						<div>
+							<label for="fileupload" class="form-label">Select Image To Be Uploaded</label>
+							<input class="form-control form-control-sm" type="file" id="fileupload" name="fileupload" accept="image/*" multiple>
+						</div>
+						<button class="btn btn-sm btn-primary" type="submit" id="btnUpload" disabled formaction="/ExrRepairJobHistoryInspection/UploadFile">Upload</button>
+						<button class="btn btn-sm btn-primary">Print Pdf</button>
+					</div>
 			</div>
 			<table class="table datatable table-bordered table-responsive border border-black my-2">
 				<thead>
@@ -387,6 +393,8 @@
 		</div>
 	</div>
 </div>
+</form>
+
 
 @if (TempData.Peek("Msg") != null)
 {
@@ -465,6 +473,20 @@
 			$("#TabPicture").show();
 		}
 
+		// upload file functionality
+		var fileUploadInput = $('#fileupload');
+
+		var btnUpload = $('#btnUpload');
+
+		fileUploadInput.on('change', function () {
+			if (fileUploadInput[0].files.length > 0) {
+				btnUpload.prop('disabled', false);
+			} else {
+				btnUpload.prop('disabled', true);
+			}
+		});
+
+		// print functionality
 		function gotoReport() {
 			console.log("goto report clicked");
 			var url = window.location.href;
@@ -556,7 +578,7 @@
 
 		var imageUrls = [];
 
-		// picture functionality
+		// load picture and image viewer functionality
 		lstPict()
 
 		function lstPict() {
@@ -867,8 +889,5 @@
 			loadImage();
 		}
 
-		
 	});
-
-	
 </script>
