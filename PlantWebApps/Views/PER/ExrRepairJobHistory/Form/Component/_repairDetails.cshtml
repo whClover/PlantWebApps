@@ -11,20 +11,24 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">CE ID</div>
-                <input type="text" class="col-10" disabled/>
+                <input type="text" class="col-3" />
+                <div class="col-1"></div>
+                <div class="col-2 ">DN Number</div>
+                <input type="text" class="col-3" />
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">TCI Comp ID</div>
-                <input type="text" class="col-8" />
-                <button type="button" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">Create</button>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
+                <input type="text" class="col-3" />
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                    </svg>
+                </button>
                 <div class="col-2  ">Store</div>
-                <select name="" class="col-10">
+                <select name="" class="col-3">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.tdestination.Rows)
                     {
@@ -38,88 +42,75 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Meter Run</div>
-                <input type="text" class="col-10" />
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
+                <input type="text" class="col-3" />
+                <div class="col-1"></div>
                 <div class="col-2  ">Meter To Run</div>
-                <input type="text" class="col-10" />
+                <input type="text" class="col-3" />
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Internal WO</div>
-                <input type="text" class="col-6" disabled/>
-                <button type="button" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">find</button>
-                <button type="button" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">upload</button>
+                <input type="text" class="col-3"/>
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                        <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0z" />
+                    </svg>
+                </button>
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">RR OR No</div>
-                <input type="text" class="col-10" disabled/>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
+                <input type="text" class="col-3" />
+                <div class="col-1"></div>
                 <div class="col-2  ">RR OP No</div>
-                <input type="text" class="col-10" disabled />
+                <input type="text" class="col-3" />
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Issued Date</div>
-                <div class="col-10 d-flex" style="gap: 10px;">
+                <div class="col-3 d-flex" style="gap: 10px;">
                      <input type="text" class="form-control datepicker-basic ms-n2" style="max-width: 280px;" />
                      <input type="text" class="form-control" />
                 </div>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
+                <div class="col-1"></div>
                 <div class="col-2  ">ST OT Number</div>
-                <input type="text" class="col-10" disabled />
+                <input type="text" class="col-3" />
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">WO Fit To Unit</div>
-                <input type="text" class="col-10" disabled />
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
+                <input type="text" class="col-3"  />
+                <div class="col-1"></div>
                 <div class="col-2  ">Fit To Unit</div>
-                <input type="text" class="col-10" disabled />
+                <input type="text" class="col-3" />
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Received</div>
-                <div class="col-10 row" style="gap: 10px;">
-                    <input type="Text" class="col-8 datepicker-basic" style="max-width: 280px;" />
-                    <input type="text" class="col-4" />
+                <div class="col-3 row" style="gap: 10px;">
+                    <input type="Text" class="col-8 datepicker-basic"/>
+                    <input type="text" class="col-3" />
                 </div>
+                
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Received By</div>
-                <input type="text" class="col-8" />
-                <div class="fw-bold col-2">Supplier</div>
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2  ">DN Number</div>
-                <input type="text" class="col-10" disabled />
-            </div>
-        </div>
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
+                <input type="text" class="col-3" />
+                <div class="fw-bold col-1">Suppl</div>
                 <div class="col-2  ">Tagging Date</div>
-                <input type="text" class="col-10" disabled />
+                <input type="text" class="col-3" />
             </div>
         </div>
     </div>

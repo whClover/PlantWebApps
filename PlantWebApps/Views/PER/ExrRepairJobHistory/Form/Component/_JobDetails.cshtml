@@ -80,7 +80,7 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Routable Stock</div>
-                <input type="Text" class="col-4" />
+                <input type="Text" class="col-3" />
                 <input type="Text" class="col-1 ms-2 datepicker-basic" />
             </div>
         </div>
@@ -88,14 +88,14 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Total Repair</div>
-                <input type="Text" class="col-4" />
+                <input type="Text" class="col-3" />
             </div>
         </div>
         @* repair by and supervisor  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Repair By</div>
-                <select class="col-4" id="supplierid" name="supplierid">
+                <select class="col-3" id="supplierid" name="supplierid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.repairby.Rows)
                     {
@@ -105,6 +105,7 @@
                         <option value="@supplierid">@suppliername | @suppliername2 | @supplierid</option>
                     }
                 </select>
+                <div class="col-1"></div>
                 <div class="col-2">Supervisor</div>
                 <select class="col-3" id="supervisorid" name="supervisorid">
                     <option value=""></option>
@@ -121,12 +122,13 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Request P</div>
-                <select class="col-4" id="RequestP1" name="RequestP1">
+                <select class="col-3" id="RequestP1" name="RequestP1">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
+                <div class="col-1"></div>
                 <div class="col-2">Reason Type</div>
                 <select class="col-3" id="reasontypeid" name="reasontypeid">
                     <option value=""></option>
