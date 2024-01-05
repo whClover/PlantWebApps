@@ -22,17 +22,7 @@
 		overlay.appendChild(text);
 		document.body.appendChild(overlay);
 
-		setTimeout(function () {
-			hideOverlay();
-		}, 3000);
-
-		return true;
-	}
-	function hideOverlay() {
-		var overlay = document.querySelector('.overlay');
-		if (overlay) {
-			document.body.removeChild(overlay);
-		}
+		return true; // Allow the server-side click event to proceed
 	}
 
 	function confirmDelete(id) {
@@ -113,7 +103,7 @@
 									@* eval by *@
 									<div class="mb-2 col">
 										<label class="form-label">Eval By*</label>
-										<select class="form-control form-control-sm" id="fSpvDesc" name="fSpvDesc">
+										<select class="form-control form-control-sm select2" style="width:100%" id="fSpvDesc" name="fSpvDesc">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fSpvDesc.Rows)
 											{
@@ -404,6 +394,7 @@
 <script>
 	// Load data on page load
 	$(document).ready(function () {
+		$('#loadingOverlay').show();
 		LoadData();
 		$('#filterButton').click(function (e) {
 			console.log("filter is clicked")

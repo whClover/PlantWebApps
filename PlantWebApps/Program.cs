@@ -42,4 +42,10 @@ app.MapControllerRoute(
 	defaults: new { controller = "ExrRepairJobHistory", action = "Edit" }
 );
 
+//app.MapControllerRoute(
+//	name: "ExrRepairJobHistoryInvestigationReportPic",
+//	pattern: "ExrRepairJobHistoryInspection/PrintPict/{wo}",
+//	defaults: new { controller = "ExrRepairJobHistoryInspection", action = "PrintPict" }
+//);
+
 app.Run();

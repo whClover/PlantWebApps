@@ -82,7 +82,7 @@
 						<div class="col-9 row">
 							<div class="col-3">:</div>
 							<div id="tWono" name="ewono" class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["OffSiteWO"].ToString()</div>
-								<input type="text" name="formWono" class="d-none" value="@ViewBag.data.Rows[0]["OffSiteWO"].ToString()" />
+								<input type="text" id="formWono" name="formWono" class="d-none" value="@ViewBag.data.Rows[0]["OffSiteWO"].ToString()" />
 						</div>
 					</div>
 					<div class="row col-6 align-items-center">
@@ -362,7 +362,7 @@
 				<button id="btnPrint" type="button" class="btn btn-sm btn-primary">
 					<i class="fa fa-print"></i> Print
 				</button>
-				<button id="cSave" class="btn btn-sm btn-primary">Save</button>
+				<button type="button" id="cSave" class="btn btn-sm btn-primary">Save</button>
 			</div>
 		</div>
 	</div>
@@ -376,7 +376,7 @@
 							<input class="form-control form-control-sm" type="file" id="fileupload" name="fileupload" accept="image/*" multiple>
 						</div>
 						<button class="btn btn-sm btn-primary" type="submit" id="btnUpload" disabled formaction="/ExrRepairJobHistoryInspection/UploadFile">Upload</button>
-						<button class="btn btn-sm btn-primary">Print Pdf</button>
+						<button type="button" id="btnPrintPict" class="btn btn-sm btn-primary">Print Pdf</button>
 					</div>
 			</div>
 			<table class="table datatable table-bordered table-responsive border border-black my-2">
@@ -395,6 +395,9 @@
 </div>
 </form>
 
+<button hx-get="/ExrRepairJobHistoryInspection/FinalReportPictBody/6816479" hx-swap="none">
+	Click Me
+</button>
 
 @if (TempData.Peek("Msg") != null)
 {
@@ -512,6 +515,26 @@
 			gotoReport();
 		});
 
+		// print pict functionality
+		function gotoReportPict() {
+			console.log("report pict clicked")
+			var wo = $("#formWono").val();
+			console.log(wo);
+
+			$.ajax({
+				url: '/ExrRepairJobHistoryInspection/PrintPict',
+				method: 'POST',
+				dataType: 'json',
+				data: {
+					wo: wo
+				}
+			});
+		};
+
+		$("#btnPrintPict").on("click", function () {
+			gotoReportPict();
+		});
+
 		$("#cSave").click(function () {
 
 			console.log("check value", ChkAccept, ChkReject)
@@ -531,6 +554,7 @@
 
 		// save functionality
 		function FormSave() {
+			console.log("masuk")
 			var eID = "NULL";
 			var eJobID = $('#tjobid').val();
 			var eWono = $('#tWono').text();
