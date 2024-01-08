@@ -113,7 +113,7 @@
 					@* original site *@
 					<div class="row">
 						<div class="row col-6 align-items-center">
-							<div class="col-3 text-nowrap">Part No</div>
+							<div class="col-3 text-nowrap">Original Site</div>
 							<div class="col-9 row">
 								<div class="col-3">:</div>
 								<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["StoreName"].ToString()</div>
@@ -311,7 +311,7 @@
 							<label for="fileupload" class="form-label">Select Image To Be Uploaded</label>
 							<input class="form-control form-control-sm" type="file" id="fileupload" name="fileupload" accept="image/*" multiple>
 						</div>
-						<button class="btn btn-sm btn-primary" type="submit" id="btnUpload" disabled formaction="/ExrRepairJobHistoryInspection/UploadFile">Upload</button>
+						<button class="btn btn-sm btn-primary" type="submit" id="btnUpload" disabled formaction="/ExrRepairJobHistoryInspection/OldUploadFile">Upload</button>
 						<button type="button" id="btnPrintPict" class="btn btn-sm btn-primary">Print Pdf</button>
 					</div>
 				</div>
@@ -512,7 +512,7 @@
 		function gotoReport() {
 			var url = window.location.href;
 			var ID = url.substring(url.lastIndexOf('/') + 1);
-			window.location.href = '/ExrRepairJobHistoryInspection/Report/' + ID;
+			window.location.href = '/ExrRepairJobHistoryInspection/OldReport/' + ID;
 		};
 
 		$("#btnPrint").on("click", function () {
@@ -614,7 +614,7 @@
 			var tWono = $('#tWono').text();
 
 			$.ajax({
-				url: '@Url.Action("LstPict", "ExrRepairJobHistoryInspection")',
+				url: '@Url.Action("OldLstPict", "ExrRepairJobHistoryInspection")',
 				type: 'GET',
 				dataType: 'json',
 				data: { tWono: tWono },
