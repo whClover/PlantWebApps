@@ -132,7 +132,7 @@
 									@* unit desc *@
 									<div class="mb-2 col">
 										<label class="form-label">Unit Desc</label>
-										<select class="form-control form-control-sm" id="fUnitDesc" name="fUnitDesc">
+										<select class="form-control form-control-sm select2" id="fUnitDesc" name="fUnitDesc">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fUnitDesc.Rows)
 											{
@@ -144,7 +144,7 @@
 									@* root cause *@
 									<div class="mb-2 col">
 										<label class="form-label">Root Cause</label>
-										<select class="form-control form-control-sm" id="fRootCause" name="fRootCause">
+										<select class="form-control form-control-sm select2" id="fRootCause" name="fRootCause">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fRootCause.Rows)
 											{
@@ -160,7 +160,7 @@
 									@* eval code *@
 									<div class="mb-2 col">
 										<label class="form-label">Eval Code</label>
-										<select class="form-control form-control-sm" id="fEvalCode" name="fEvalCode">
+										<select class="form-control form-control-sm select2" id="fEvalCode" name="fEvalCode">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fEvalCode.Rows)
 											{
@@ -173,7 +173,7 @@
 									@* maint type *@
 									<div class="mb-2 col">
 										<label class="form-label">Maint Type</label>
-										<select class="form-control form-control-sm" id="fMaintBase" name="fMaintBase">
+										<select class="form-control form-control-sm select2" id="fMaintBase" name="fMaintBase">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fmaintbase.Rows)
 											{
@@ -188,7 +188,7 @@
 								<div class="row">
 									<div class="mb-2 col">
 										<label class="form-label">Failed Code*</label>
-										<select class="form-control form-control-sm" id="fFailedCode" name="fFailedCode">
+										<select class="form-control form-control-sm select2" id="fFailedCode" name="fFailedCode">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fFailedCode.Rows)
 											{
@@ -200,7 +200,7 @@
 									</div>
 									<div class="mb-2 col">
 										<label class="form-label">Rec Code*</label>
-										<select class="form-control form-control-sm" id="fRecCode" name="fRecCode">
+										<select class="form-control form-control-sm select2" id="fRecCode" name="fRecCode">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.fRecCode.Rows)
 											{
@@ -234,7 +234,7 @@
 									@* comp type *@
 									<div class="mb-2 col">
 										<label class="form-label">Comp Type</label>
-										<select class="form-control form-control-sm" id="tCompTypeID" name="tCompTypeID">
+										<select class="form-control form-control-sm select2" id="tCompTypeID" name="tCompTypeID">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.tCompTypeID.Rows)
 											{
@@ -251,7 +251,7 @@
 									@* reason type *@
 									<div class="mb-2 col">
 										<label class="form-label">Reason Type</label>
-										<select class="form-control form-control-sm" id="tReasonType" name="tReasonType">
+										<select class="form-control form-control-sm select2" id="tReasonType" name="tReasonType">
 											<option value=""></option>
 											@foreach (DataRow row in ViewBag.tReasonType.Rows)
 											{

@@ -395,10 +395,6 @@
 </div>
 </form>
 
-<button hx-get="/ExrRepairJobHistoryInspection/FinalReportPictBody/6816479" hx-swap="none">
-	Click Me
-</button>
-
 @if (TempData.Peek("Msg") != null)
 {
 	@section Scripts
@@ -535,15 +531,48 @@
 			gotoReportPict();
 		});
 
+		// checkboxes
+		function checkboxOnChange() {
+			var checkboxes = [
+				"#tCheck1",
+				"#tCheck2",
+				"#tCheck3",
+				"#tCheck4a",
+				"#tCheck4b",
+				"#tCheck4c",
+				"#tCheck4d",
+				"#tCheck5a",
+				"#tCheck5b",
+				"#tCheck5c",
+				"#tCheck6",
+				"#tCheck7",
+				"#ChkAccept",
+				"#ChkReject"
+			];
+
+			checkboxes.forEach(function (checkboxId) {
+				var checkbox = $(checkboxId);
+
+				checkbox.on("change", function () {
+					if (checkbox.prop("checked")) {
+						checkbox.val("-1");
+					} else {
+						checkbox.val("0");
+					}
+				});
+			});
+		}
+
+		checkboxOnChange();
+
 		$("#cSave").click(function () {
 
-			console.log("check value", ChkAccept, ChkReject)
 			if ($("#tjobid").val() === "") {
 				Swal.fire("Please fill Job ID", "", "warning");
 				return false;
 			}
 
-			if ($("#ChkAccept").val() == "" || $("#ChkReject").val() == "") {
+			if ($("#ChkAccept").val() == "" && $("#ChkReject").val() == "") {
 				Swal.fire("Select Inspect Result (Accept/Reject)", "", "warning");
 				return false;
 			}

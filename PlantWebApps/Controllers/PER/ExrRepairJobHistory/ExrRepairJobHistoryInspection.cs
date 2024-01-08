@@ -283,5 +283,39 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			Msg = "Image has been uploaded successfully";
 			return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
 		}
+		public IActionResult SaveOld (string eID, string eJobID, string eWono, string eNoRegister,
+			string eCheck1a, string eCheck1b, string eCheck1c, string eCheck1d, string eCheck2a,
+			string eCheck2b, string eCheck2c, string eCheck3, string eInspectResult, string eRemark, 
+			string eIssuedSign, string eIssuedDate, string eAcknowledgedSign, 
+			string eAcknowledgedDate)
+		{
+			string xID = (Utility.Evar(eID, 0));
+			string xJobID = (Utility.Evar(eJobID, 0));
+			string xWono = (Utility.Evar(eWono, 1));
+			string xNoRegister = (Utility.Evar(eNoRegister, 0));
+			string xCheck1a = (Utility.Evar(eCheck1a, 0));
+			string xCheck1b = (Utility.Evar(eCheck1b, 0));
+			string xCheck1c = (Utility.Evar(eCheck1c, 0));
+			string xCheck1d = (Utility.Evar(eCheck1d, 0));
+			string xCheck2a = (Utility.Evar(eCheck2a, 0));
+			string xCheck2b = (Utility.Evar(eCheck2b, 0));
+			string xCheck2c = (Utility.Evar(eCheck2c, 0));
+			string xCheck3 = (Utility.Evar(eCheck3, 0));
+			string xInspectResult = (Utility.Evar(eInspectResult, 0));
+			string xRemark = (Utility.Evar(eRemark, 1));
+			string xIssuedSign = (Utility.Evar(eIssuedSign, 1));
+			string xIssuedDate = (Utility.Evar(eIssuedDate, 2));
+			string xAcknowledgedSign = eAcknowledgedSign;
+			string xAcknowledgedDate = (Utility.Evar(eAcknowledgedDate, 2));
+
+			string query = $@"exec dbo.ExrOldCoreInspect {xID}, {xJobID}, {xWono}, {xNoRegister}, 
+			{xCheck1a}, {xCheck1b}, {xCheck1c}, {xCheck1d}, {xCheck2a}, {xCheck2b}, {xCheck2c}, {xCheck3}, 
+			{xInspectResult}, {xRemark},  {xIssuedSign}, 
+			{xIssuedDate}, '{xAcknowledgedSign}', {xAcknowledgedDate}, {Utility.Evar(Utility.eusername(), 1)}";
+
+			Console.WriteLine(query);
+			//SQLFunction.execQuery(query);
+			return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + eJobID);
+		}
 	}
 }
