@@ -42,10 +42,16 @@ app.MapControllerRoute(
 	defaults: new { controller = "ExrRepairJobHistory", action = "Edit" }
 );
 
-//app.MapControllerRoute(
-//	name: "ExrRepairJobHistoryInvestigationReportPic",
-//	pattern: "ExrRepairJobHistoryInspection/PrintPict/{wo}",
-//	defaults: new { controller = "ExrRepairJobHistoryInspection", action = "PrintPict" }
-//);
+app.MapControllerRoute(
+    name: "ExrRepairJobHistoryInvestigationOldReportPic",
+    pattern: "ExrRepairJobHistoryInspection/OldReportPictBody/{wo}",
+    defaults: new { controller = "ExrRepairJobHistoryInspection", action = "OldReportPictBody" }
+);
+
+app.MapControllerRoute(
+	name: "ExrRepairJobHistoryInvestigationOldReportPicHeader",
+	pattern: "ExrRepairJobHistoryInspection/OldReportPictHeader/{wo}",
+	defaults: new { controller = "ExrRepairJobHistoryInspection", action = "OldReportPictHeader" }
+);
 
 app.Run();

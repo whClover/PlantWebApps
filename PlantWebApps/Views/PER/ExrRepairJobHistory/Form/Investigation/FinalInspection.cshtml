@@ -514,15 +514,15 @@
 		// print pict functionality
 		function gotoReportPict() {
 			console.log("report pict clicked")
-			var wo = $("#formWono").val();
-			console.log(wo);
+			var ID = $("#formWono").val();
+			console.log(ID);
 
 			$.ajax({
 				url: '/ExrRepairJobHistoryInspection/PrintPict',
 				method: 'POST',
 				dataType: 'json',
 				data: {
-					wo: wo
+					ID: ID
 				}
 			});
 		};

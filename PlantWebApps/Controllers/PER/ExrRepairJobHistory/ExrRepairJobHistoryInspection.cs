@@ -163,69 +163,32 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return PhysicalFile(namafile2, "application/pdf", ffname);
         }
-		public IActionResult DataFinalReportPictBody(string wo)
+		public IActionResult DataFinalReportPictBody(string ID)
 		{
-			Console.WriteLine("wono is" + wo);
+			Console.WriteLine("wono is" + ID);
 			string placeholder = "https://placekitten.com/200/300";
 			string query = @$"Select ID,JobID,WoNO,IDReg,PictureCaption,picturepath,inspectType 
-			from tblv_ExrOldCoreInspAttachPic where InspectType='FinalInspect' AND WONO={Utility.Evar(wo, 1)}";
+			from tblv_ExrOldCoreInspAttachPic where InspectType='FinalInspect' AND WONO={Utility.Evar(ID, 1)}";
 			Console.WriteLine(query);
 			ViewBag.data = SQLFunction.execQuery(query);
 			ViewBag.placeholder = placeholder;
 			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictBody.cshtml");
 		}
-		public IActionResult FinalReportPictHeader(string wo)
+		public IActionResult FinalReportPictHeader(string ID)
 		{
-			DataFinalReportPictBody(wo);
+			DataFinalReportPictBody(ID);
 			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictHeader.cshtml");
 		}
-		public IActionResult FinalReportPictBody(string wo)
+		public IActionResult FinalReportPictBody(string ID)
 		{
-			DataFinalReportPictBody(wo);
+			DataFinalReportPictBody(ID);
 			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictBody.cshtml");
 		}
 		public IActionResult FinalReportPictFooter()
 		{
 			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictFooter.cshtml");
 		}
-		public IActionResult TestWono (string wono)
-		{
-			Console.WriteLine(wono);
-			return Json(new { success = true });
-		}
-		public IActionResult PrintPict(string wo)
-		{
-			Console.WriteLine(wo);
-			string servername = "https://localhost:5001/";
-            string namafile;
-            string namafile2;
-            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
-
-            if (!Directory.Exists(savePath))
-            {
-                Directory.CreateDirectory(savePath);
-            }
-			namafile = Path.Combine(savePath, wo + ".pdf");
-			ProcessStartInfo psi = new ProcessStartInfo
-			{
-				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-				Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm " +
-				   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictBody/" + wo +
-				   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictFooter" +
-				   "\" --footer-spacing 3  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictHeader/" + wo +
-				   "\" --header-spacing 3 " +
-				   "\"" + namafile + "\""
-
-			};
-			Process p = new Process { StartInfo = psi };
-			p.Start();
-			p.WaitForExit();
-
-			namafile2 = Path.Combine(savePath, wo + ".pdf");
-            string ffname = "Final Inspection Image " + wo + ".pdf";
-
-            return PhysicalFile(namafile2, "application/pdf", ffname);
-        }
+		
 		public async Task<IActionResult> UploadFile(IFormFile fileupload)
 		{
 			string ID = Request.Form["ejobid"];
@@ -312,7 +275,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			{xIssuedDate}, '{xAcknowledgedSign}', {xAcknowledgedDate}, {Utility.Evar(Utility.eusername(), 1)}";
 
 			Console.WriteLine(query);
-			//SQLFunction.execQuery(query);
+			SQLFunction.execQuery(query);
 			return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + eJobID);
 		}
 		public IActionResult OldReportHeader()
@@ -445,6 +408,96 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			Stat = "success";
 			Msg = "Image has been uploaded successfully";
 			return Redirect("/ExrRepairJobHistoryInspection/OldCore/" + ID);
+		}
+		public IActionResult DataOldReportPictBody(string ID)
+		{
+			Console.WriteLine("wono is" + ID);
+			string placeholder = "https://placekitten.com/200/300";
+			string query = @$"Select ID,JobID,WoNO,IDReg,PictureCaption,picturepath,inspectType 
+			from tblv_ExrOldCoreInspAttachPic where InspectType='OldCoreInspect' AND WONO={Utility.Evar(ID, 1)}";
+			Console.WriteLine(query);
+			ViewBag.data = SQLFunction.execQuery(query);
+			ViewBag.placeholder = placeholder;
+			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/PictBody.cshtml");
+		}
+		public IActionResult OldReportPictHeader(string ID)
+		{
+            DataOldReportPictBody(ID);
+			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/PictHeader.cshtml");
+		}
+		public IActionResult OldReportPictBody(string ID)
+		{
+            DataOldReportPictBody(ID);
+			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/PictBody.cshtml");
+		}
+		public IActionResult OldReportPictFooter()
+		{
+			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/PictFooter.cshtml");
+		}
+		public IActionResult PrintPict(string ID)
+		{
+			Console.WriteLine(ID);
+			string servername = "https://localhost:5001/";
+			string namafile;
+			string namafile2;
+			string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+
+			if (!Directory.Exists(savePath))
+			{
+				Directory.CreateDirectory(savePath);
+			}
+			namafile = Path.Combine(savePath, ID + ".pdf");
+			ProcessStartInfo psi = new ProcessStartInfo
+			{
+				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+				Arguments = "--username minestar --password Mine1staR --margin-bottom 20mm " +
+				   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictBody/" + ID +
+				   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictFooter" +
+				   "\" --footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictHeader/" + ID +
+				   "\" --header-spacing 3 " +
+				   "\"" + namafile + "\""
+
+			};
+			Process p = new Process { StartInfo = psi };
+			p.Start();
+			p.WaitForExit();
+
+			namafile2 = Path.Combine(savePath, ID + ".pdf");
+			string ffname = "Final Inspection Image " + ID + ".pdf";
+
+			return PhysicalFile(namafile2, "application/pdf", ffname);
+		}
+		public IActionResult OldPrintPict(string ID)
+		{
+			Console.WriteLine(ID);
+			string servername = "https://localhost:5001/";
+			string namafile;
+			string namafile2;
+			string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+
+			if (!Directory.Exists(savePath))
+			{
+				Directory.CreateDirectory(savePath);
+			}
+			namafile = Path.Combine(savePath, ID + ".pdf");
+			ProcessStartInfo psi = new ProcessStartInfo
+			{
+				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                Arguments = "--username minestar --password Mine1staR --margin-bottom 20mm " +
+				   "\"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictBody/" + ID +
+				   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictFooter\"" +
+                   " --footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictHeader/" + ID +
+				   "\" --header-spacing 3 " +
+				   "\"" + namafile + "\""
+            };
+			Process p = new Process { StartInfo = psi };
+			p.Start();
+			p.WaitForExit();
+
+			namafile2 = Path.Combine(savePath, ID + ".pdf");
+			string ffname = "Old Core Inspection Image " + ID + ".pdf";
+
+			return PhysicalFile(namafile2, "application/pdf", ffname);
 		}
 	}
 }

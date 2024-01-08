@@ -45,7 +45,7 @@
 			<div name="header" class="d-flex flex-row align-items-center justify-content-between px-1" style="gap: 10px">
 				<img src="~/images/Thiess.png" style="max-width: 150px;" />
 				<div class="d-flex flex-column fs-6 fw-bold align-items-center">
-					<div>FINAL INSPECTION REPORT</div>
+					<div>OLD CORE INSPECTION REPORT</div>
 					<div class="text-nowrap">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
 				</div>
 				<div class="d-flex flex-row align-items-center" style="gap: 5px;">
@@ -522,15 +522,15 @@
 		// print pict functionality
 		function gotoReportPict() {
 			console.log("report pict clicked")
-			var wo = $("#formWono").val();
-			console.log(wo);
+			var ID = $("#formWono").val();
+			console.log(ID);
 
 			$.ajax({
-				url: '/ExrRepairJobHistoryInspection/PrintPict',
+				url: '/ExrRepairJobHistoryInspection/OldPrintPict',
 				method: 'POST',
 				dataType: 'json',
 				data: {
-					wo: wo
+					ID: ID
 				}
 			});
 		};

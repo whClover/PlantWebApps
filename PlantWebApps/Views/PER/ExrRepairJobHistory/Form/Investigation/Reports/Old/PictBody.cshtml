@@ -5,7 +5,6 @@
     @using System.Data;
     Layout = "~/Views/Shared/_LayoutReport.cshtml";
 }
-
 <div class="table-responsive">
     <table class="table mb-2 mt-2 table-sm table-hover">
         <thead class="table-light">
@@ -19,7 +18,7 @@
             {
                 <tr height="558px">
                     <td>@row["PictureCaption"]</td>
-                    <td><img src="@ViewBag.placeholder.ToString()" style="max-width: 300px;" /></td>
+                    <td><img src="@ViewBag.placeholder.ToString()" /></td>
                 </tr>
             }
         </tbody>
