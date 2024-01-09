@@ -12,79 +12,103 @@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Offsite WO*</div>
-            <input type="Text" class="col-4" />
+            <div class="col-4">
+                <input type="Text" class="col-4 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* cost before  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Cost Before</div>
-            <input type="text" class="col-4" placeholder="0.00"/>
-            <div class="col-2"></div>
-            <select name="" class="col-3">
-                <option value=""></option>
-                @foreach (DataRow row in ViewBag.currency.Rows)
-                {
-                    var currid = row["CurrID"].ToString();
-                    <option value="@currid">@currid</option>
-                }
-            </select>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" placeholder="0.00"/>
+            </div>
+            <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.currency.Rows)
+                        {
+                            var currid = row["CurrID"].ToString();
+                            <option value="@currid">@currid</option>
+                        }
+                    </select>
+            </div>
+                
         </div>
     </div>
     @* cost revision and saving cost *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Cost Revision</div>
-            <input type="text" class="col-4" placeholder="0.00" />
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
+            </div>
             <div class="col-2">Saving Cost</div>
-            <input type="text" class="col-3" />
+            <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* saving cat and add cost *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Saving Cat</div>
-            <select name="" class="col-4" disabled>
-                <option value=""></option>
-                @foreach (DataRow row in ViewBag.tsavingcost.Rows)
-                {
-                    var savingcostid = row["SavingCostCatID"].ToString();
-                    var savingcostcategory = row["SavingCostCategory"].ToString();
-                    <option value="@savingcostid">@savingcostcategory</option>
-                }
-            </select>
+            <div class="col-4">
+                    <select name="" class="col-4 form-control form-control-sm" disabled>
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.tsavingcost.Rows)
+                        {
+                            var savingcostid = row["SavingCostCatID"].ToString();
+                            var savingcostcategory = row["SavingCostCategory"].ToString();
+                            <option value="@savingcostid">@savingcostcategory</option>
+                        }
+                    </select>
+            </div>
             <div class="col-2">Add Cost</div>
-            <select name="" class="col-3">
-                <option value=""></option>
-                <option value="1">Y</option>
-                <option value="2">N</option>
-            </select>
+            <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm">
+                        <option value=""></option>
+                        <option value="1">Y</option>
+                        <option value="2">N</option>
+                    </select>
+            </div>
         </div>
     </div>
     @* cost rts and or number  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Cost RTS</div>
-            <input type="Text" class="col-3" />
+            <div class="col-3">
+                <input type="Text" class="col-3 form-control form-control-sm" />
+            </div>
             <div class="col-1">USD</div>
             <div class="col-2">OR Number</div>
-            <input type="Text" class="col-3" />
+            <div class="col-3">
+                <input type="Text" class="col-3 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* op number *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">OP Number</div>
-            <input type="text" class="col-4" />
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* op date and eiop  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">OP Date</div>
-            <input type="text" class="col-4" />
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" />
+            </div>
             <div class="col-2">EIOP</div>
-            <input type="text" class="col-3" />
+            <div class="col-3">
+                <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
             <div class="col-1">7</div>
         </div>
     </div>
@@ -92,26 +116,30 @@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">EX Store</div>
-            <select name="" class="col-4">
-                <option value=""></option>
-                @foreach (DataRow row in ViewBag.fstore.Rows)
-                {
-                    var storeid = row["StoreID"].ToString();
-                    var storename = row["StoreName"].ToString();
-                    <option value="@storeid">@storename</option>
-                }
-            </select>
+            <div class="col-4">
+                    <select name="" class="col-4 form-control form-control-sm">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.fstore.Rows)
+                        {
+                            var storeid = row["StoreID"].ToString();
+                            var storename = row["StoreName"].ToString();
+                            <option value="@storeid">@storename</option>
+                        }
+                    </select>
+            </div>
             <div class="col-2">Repair Type</div>
-            <select name="" class="col-3">
-                <option value=""></option>
-                @foreach (DataRow row in ViewBag.repairType2.Rows)
-                {
-                    var repairtypeid = row["ExrRepairtypeID"].ToString();
-                    var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
-                    var repairtype = row["ExrRepairtype"].ToString();
-                    <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
-                }
-            </select>
+                <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.repairType2.Rows)
+                        {
+                            var repairtypeid = row["ExrRepairtypeID"].ToString();
+                            var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
+                            var repairtype = row["ExrRepairtype"].ToString();
+                            <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
+                        }
+                    </select>
+                </div>
         </div>
     </div>
     @* req stand, req parts, doc.avail  *@
@@ -141,23 +169,31 @@
             <input class="col-1" name="docAvail" type="radio" id="docAvailN">
             <label class="col-1 pt-1" for="docAvailN">N</label>
             <div class="col-2"></div>
-            <input type="text" class="col-3" />
+            <div class="col-3">
+                <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* etc date and support wo *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Etc Date</div>
-            <input type="text" class="col-4"/>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm"/>
+            </div>
             <div class="col-2">Support WO</div>
-            <input type="text" class="col-3" />
+            <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* offsite wo* *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">OffSite WO*</div>
-            <input type="text" class="col-4" />
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" />
+            </div>
         </div>
     </div>
     @* add order  *@
@@ -165,32 +201,45 @@
         <div class="row align-items-center">
             <div class="col-2 fw-bold">Add Order</div>
             <div class="col-10 row" style="gap: 15px;">
-                <select name="" class="col-3">
-                    <option value=""></option>
-                    <option value="1">Spare Part</option>
-                    <option value="2">Steel Stand</option>
-                    <option value="3">Wooden Box</option>
-                </select>
-                <select name="" class="col-3">
-                    <option value=""></option>
-                    <option value="1">Spare Part</option>
-                    <option value="2">Steel Stand</option>
-                    <option value="3">Wooden Box</option>
-                </select>
-                <select name="" class="col-3">
-                    <option value=""></option>
-                    <option value="1">Spare Part</option>
-                    <option value="2">Steel Stand</option>
-                    <option value="3">Wooden Box</option>
-                </select>
+                <div class="col-3">
+                        <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="1">Spare Part</option>
+                            <option value="2">Steel Stand</option>
+                            <option value="3">Wooden Box</option>
+                        </select>
+                </div>
+                <div class="col-3">
+                        <select name="" class="col-3 form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="1">Spare Part</option>
+                            <option value="2">Steel Stand</option>
+                            <option value="3">Wooden Box</option>
+                        </select>
+                </div>
+                <div class="col-3">
+                        <select name="" class="col-3 form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="1">Spare Part</option>
+                            <option value="2">Steel Stand</option>
+                            <option value="3">Wooden Box</option>
+                        </select>
+                </div>
             </div>
         </div>
         <div class="row align-items-center">
             <div class="col-2 fw-bold"></div>
             <div class="col-10 row" style="gap: 15px;">
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+
+                </div>
             </div>
         </div>
     </div>
@@ -198,9 +247,15 @@
         <div class="row align-items-center">
             <div class="col-2 fw-bold">OR Number</div>
             <div class="col-10 row" style="gap: 15px;">
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
             </div>
         </div>
     </div>
@@ -208,9 +263,15 @@
         <div class="row align-items-center">
             <div class="col-2 fw-bold">Received Date</div>
             <div class="col-10 row" style="gap: 15px;">
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
             </div>
         </div>
     </div>
@@ -218,9 +279,15 @@
         <div class="row align-items-center">
             <div class="col-2 fw-bold">DN Number</div>
             <div class="col-10 row" style="gap: 15px;">
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
             </div>
         </div>
     </div>
@@ -228,12 +295,17 @@
         <div class="row align-items-center">
             <div class="col-2 fw-bold">STOT-OldCore</div>
             <div class="col-10 row" style="gap: 15px;">
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
-                <input type="text" class="col-3" />
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
             </div>
         </div>
     </div>
     </div>
-    
 </div>

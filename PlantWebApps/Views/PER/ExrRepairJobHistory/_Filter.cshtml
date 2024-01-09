@@ -97,7 +97,7 @@
                         <option value="7">Previous WO</option>
                         <option value="8">Previous OP</option>
                     </select>
-                    <input type="text" id="cwotypevalue" name="cwotypevalue" />
+                        <input type="text" id="cwotypevalue" class="form-control form-control-sm" name="cwotypevalue" />
                 </div>
             </div>
             @* select fdoc type *@
@@ -118,7 +118,7 @@
                         <option value="12">Log AN No</option>
                         <option value="13">WO Allocation</option>
                     </select>
-                    <input type="text" name="fdoctypevalue" id="fdoctypevalue" />
+                        <input type="text" name="fdoctypevalue" id="fdoctypevalue" class="form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -136,7 +136,7 @@
                         <option value="7">Supplier Serial Number</option>
                         <option value="8">Component Desc</option>
                     </select>
-                    <input type="text" name="ccompidvalue" id="ccompidvalue" />
+                    <input type="text" class="form-control form-control-sm" name="ccompidvalue" id="ccompidvalue" />
                 </div>
             </div>
             @* select fdate type *@
@@ -193,13 +193,13 @@
                         <option value="12">Registered By</option>
                         <option value="13">Tagging By</option>
                     </select>
-                    <input type="text" name="lmodbyvalue" id="lmodbyvalue" />
+                        <input type="text" name="lmodbyvalue" class="form-control form-control-sm" id="lmodbyvalue" />
                 </div>
             </div>
             @* select Eq.Class *@
             <div class="mb-2 col">
                 <label class="form-label">Eq.Class</label>
-                    <select class="form-control form-control-sm select2" id="unitnumber" name="unitnumber">
+                    <select style="width: 100%" class="form-control form-control-sm select2" id="unitnumber" name="unitnumber">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.feqclass.Rows)
                     {
