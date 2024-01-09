@@ -129,40 +129,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 		{
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/ReportFooter.cshtml");
         }
-        public IActionResult Report(string ID)
-        {
-			Console.WriteLine(ID);
-            string jobId = ID;
-            string servername = "https://localhost:5001/";
-            string namafile;
-            string namafile2;
-            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
-
-            if (!Directory.Exists(savePath))
-            {
-                Directory.CreateDirectory(savePath);
-            }
-            namafile = Path.Combine(savePath, jobId + ".pdf");
-            ProcessStartInfo psi = new ProcessStartInfo
-            {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportFooter" +
-                   "\" --footer-spacing 3  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportHeader" +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
-
-            };
-            Process p = new Process { StartInfo = psi };
-            p.Start();
-            p.WaitForExit();
-
-            namafile2 = Path.Combine(savePath, jobId + ".pdf");
-            string ffname = "Final Inspection Report " + jobId + ".pdf";
-
-            return PhysicalFile(namafile2, "application/pdf", ffname);
-        }
+        
 		public IActionResult DataFinalReportPictBody(string ID)
 		{
 			Console.WriteLine("wono is" + ID);
@@ -223,7 +190,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 				string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
 				ePictureCaption = fileName1;
 				//targetDirectory = $"{PathExrJobInspection}"; server
-				targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "temp"); // local
+				targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
 
 				newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
 				newFile = $@"{newPath}\{fileName1}";
@@ -387,7 +354,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 				string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
 				ePictureCaption = fileName1;
 				//targetDirectory = $"{PathExrJobInspection}"; server
-				targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "temp"); // local
+				targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
 
 				newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
 				newFile = $@"{newPath}\{fileName1}";
@@ -499,5 +466,39 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
 			return PhysicalFile(namafile2, "application/pdf", ffname);
 		}
-	}
+        public IActionResult Report(string ID)
+        {
+            Console.WriteLine(ID);
+            string jobId = ID;
+            string servername = "https://localhost:5001/";
+            string namafile;
+            string namafile2;
+            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+            namafile = Path.Combine(savePath, jobId + ".pdf");
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm " +
+                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportBody/" + ID +
+                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportFooter" +
+                   "\" --footer-spacing 3  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportHeader" +
+                   "\" --header-spacing 3 " +
+                   "\"" + namafile + "\""
+
+            };
+            Process p = new Process { StartInfo = psi };
+            p.Start();
+            p.WaitForExit();
+
+            namafile2 = Path.Combine(savePath, jobId + ".pdf");
+            string ffname = "Final Inspection Report " + jobId + ".pdf";
+
+            return PhysicalFile(namafile2, "application/pdf", ffname);
+        }
+    }
 }

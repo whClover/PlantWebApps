@@ -7,8 +7,10 @@
 }
 
 <div class="table-responsive">
-    <table class="table mb-2 mt-2 table-sm table-hover">
-        <thead class="table-light">
+    <div class="test">test</div>
+    <link rel="stylesheet" href="StyleSheet.css" />
+    <table class="table table-sm table-hover">
+        <thead class="table-light table-heading">
             <tr>
                 <th>Image Name</th>
                 <th>Image</th>
@@ -17,9 +19,9 @@
         <tbody>
             @foreach (DataRow row in ViewBag.data.Rows)
             {
-                <tr height="558px">
+                <tr class="break">
                     <td>@row["PictureCaption"]</td>
-                    <td><img src="@ViewBag.placeholder.ToString()" style="max-width: 300px;" /></td>
+                    <td><img src="@ViewBag.placeholder.ToString()" /></td>
                 </tr>
             }
         </tbody>

@@ -1,0 +1,9 @@
+﻿@media print {
+    tr.break:nth-child(2n+2) {
+        page-break-after: always !important;
+    }
+}
+
+.test {
+    color: red;
+}

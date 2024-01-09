@@ -523,16 +523,8 @@
 		function gotoReportPict() {
 			console.log("report pict clicked")
 			var ID = $("#formWono").val();
-			console.log(ID);
 
-			$.ajax({
-				url: '/ExrRepairJobHistoryInspection/OldPrintPict',
-				method: 'POST',
-				dataType: 'json',
-				data: {
-					ID: ID
-				}
-			});
+			window.location.href = '/ExrRepairJobHistoryInspection/OldPrintPict/' + ID;
 		};
 
 		$("#btnPrintPict").on("click", function () {
