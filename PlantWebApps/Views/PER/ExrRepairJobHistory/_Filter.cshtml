@@ -16,7 +16,7 @@
         <div class="row">
             <div class="mb-2 col">
                 <label class="form-label">Repair Type</label>
-                <select class="form-control form-control-sm" id="repairtypeid" name="repairtypeid">
+                <select class="form-control form-control-sm select2" id="repairtypeid" name="repairtypeid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.repairType.Rows)
                     {
@@ -28,7 +28,7 @@
                 </select>
             <div class="mb-2 col">
                 <label class="form-label">Comp. Type</label>
-                <select class="form-control form-control-sm" id="comptype" name="comptype">
+                    <select class="form-control form-control-sm select2" id="comptype" name="comptype">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.comptype.Rows)
                     {
@@ -59,7 +59,7 @@
         <div class="row">
             <div class="mb-2 col">
                 <label class="form-label">Spv Desc</label>
-                <select class="form-control form-control-sm" id="supervisorid" name="supervisorid">
+                    <select class="form-control form-control-sm select2" id="supervisorid" name="supervisorid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.spvdesc.Rows)
                     {
@@ -71,7 +71,7 @@
             </div>
             <div class="mb-2 col">
                 <label class="form-label">Repair By</label>
-                <select class="form-control form-control-sm" id="supplierid" name="supplierid">
+                    <select class="form-control form-control-sm select2" id="supplierid" name="supplierid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.repairby.Rows)
                     {
@@ -199,7 +199,7 @@
             @* select Eq.Class *@
             <div class="mb-2 col">
                 <label class="form-label">Eq.Class</label>
-                <select class="form-control form-control-sm" id="unitnumber" name="unitnumber">
+                    <select class="form-control form-control-sm select2" id="unitnumber" name="unitnumber">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.feqclass.Rows)
                     {
@@ -214,7 +214,7 @@
             @* select FReason *@
             <div class="mb-2 col">
                 <label class="form-label">Reason</label>
-                <select class="form-control form-control-sm" id="reasontypeid" name="reasontypeid">
+                    <select class="form-control form-control-sm select2" id="reasontypeid" name="reasontypeid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.freason.Rows)
                     {
@@ -233,7 +233,7 @@
                         <option value="2">Store</option>
                         <option value="3">Allocation</option>
                     </select>
-                    <select class="form-control form-control-sm" id="freasonvalue" name="freasonvalue">
+                        <select class="form-control form-control-sm select2" id="freasonvalue" name="freasonvalue">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.fstore.Rows)
                         {
@@ -271,7 +271,7 @@
             @* select Turn Over Cat *@
             <div class="mb-2 col">
                 <label class="form-label">TurnOverCat</label>
-                <select class="form-control form-control-sm" id="tocatdesc" name="tocatdesc">
+                    <select class="form-control form-control-sm select2" id="tocatdesc" name="tocatdesc">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.cbtocategory.Rows)
                     {
