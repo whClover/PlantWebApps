@@ -1,0 +1,60 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col border">
+    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+        <p class="fs-5">Repair Status/Allocation</p>
+        @* current status and repair advice *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Current Status</div>
+                <div class="col-3"></div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Repair Advice</div>
+                <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm select2">
+                        <option value=""></option>
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        @* hold until  *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Hold Until</div>
+                <div class="col-4">
+                    <input type="Text" class="col-4 form-control form-control-sm datepicker-basic" />
+                </div>
+            </div>
+        </div>
+        @* remark  *@
+        <div class="container overflow-hidden">
+            <div class="row">
+                <div class="col-2">Remark</div>
+                <div class="col-9">
+                    <textarea class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Last Change</div>
+                <div class="row col-10" style="gap: 10px;">
+                    <div class="col-6">
+                        <input type="text" class="form-control form-control-sm datepicker-basic col-6" />
+                    </div>
+                    <div class="col-5">
+                        <input type="text" class="form-control form-control-sm col-5" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

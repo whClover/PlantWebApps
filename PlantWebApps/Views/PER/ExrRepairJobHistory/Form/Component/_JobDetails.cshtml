@@ -1,0 +1,180 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="col border">
+    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+        <p class="fs-5">Job Details</p>
+        @* parent wo and comp desc *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Parent Wo*</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm"/>
+                </div>
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+                <div class="col-2">Comp.Desc</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        @* maint type and comp type *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Maint Type</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Comp Type</div>
+                <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm select2">
+                        <option selected></option>
+                        <option value="1">PEX</option>
+                        <option value="2">Stock</option>
+                        <option value="3">Direct Change</option>
+                        <option value="4">Consigntment</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        @* unit no and unit desc *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Unit No</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Unit Desc</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        @* unit location and tci part no *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">TCI Part No</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+                <div class="col-2">Unit Location</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        @* tci desc  *@
+        <div class="container overflow-hidden">
+            <div class="row">
+                <div class="col-2">TCI Desc</div>
+                <div class="col-9">
+                    <textarea class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        @* tci desc 2  *@
+        <div class="container overflow-hidden">
+            <div class="row">
+                <div class="col-2">TCI Desc 2</div>
+                <div class="col-9">
+                    <textarea class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        @* routable stock  *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Routable Stock</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic" />
+                </div>
+            </div>
+        </div>
+        @* total repair  *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Total Repair</div>
+                <div class="col-3">
+                    <input type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        @* repair by and supervisor  *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Repair By</div>
+                <div class="col-3">
+                    <select class="col-3 form-control form-control-sm select2" id="supplierid" name="supplierid">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.repairby.Rows)
+                        {
+                            var supplierid = row["SupplierID"].ToString();
+                            var suppliername = row["SupplierName"].ToString();
+                            var suppliername2 = row["SupplierName2"].ToString();
+                            <option value="@supplierid">@suppliername | @suppliername2 | @supplierid</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2">Supervisor</div>
+                <div class="col-3">
+                    <select class="col-3 form-control form-control-sm select2" id="supervisorid" name="supervisorid">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.spvdesc.Rows)
+                        {
+                            var supervisorid = row["SupervisorID"].ToString();
+                            var supervisordesc = row["SupervisorDesc"].ToString();
+                            <option value="@supervisorid">@supervisordesc</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        @* reuqest p and reason type *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Request P</div>
+                <div class="col-3">
+                    <select class="col-3 form-control form-control-sm" id="RequestP1" name="RequestP1">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2">Reason Type</div>
+                <div class="col-3">
+                    <select class="col-3 form-control form-control-sm select2" id="reasontypeid" name="reasontypeid">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.freason.Rows)
+                    {
+                        var reasontypeid = row["ReasonTypeID"].ToString();
+                        var reasontype = row["ReasonType"].ToString();
+                        var reasontypedesc = row["ReasonTypeDesc"].ToString();
+                        <option value="@reasontypeid">@reasontype</option>
+                    }
+                </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

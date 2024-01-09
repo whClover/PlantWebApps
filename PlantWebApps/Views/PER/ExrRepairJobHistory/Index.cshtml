@@ -150,6 +150,7 @@
                         <table id="myTable" class="table datatable mb-0 table-sm table-hover">
                             <thead class="table-light">
                                 <tr>
+                                    <th>EDIT</th>
                                     <th>ID</th>
                                     <th>Prio</th>
                                     <th>Total AGE WO</th>
@@ -276,6 +277,7 @@
                         pageLength: 20,
                         data: test, // The data received from the AJAX request
                         columns: [
+                            { "data": "edit" },
                             { "data": "id" },
                             { "data": "totalAgeWO" },
                             { "data": "unitNumber" },

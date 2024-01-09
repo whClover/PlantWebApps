@@ -1,0 +1,311 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="col border">
+    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+    <p class="fs-5">Component Details</p>
+    @* offsite wo *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Offsite WO*</div>
+            <div class="col-4">
+                <input type="Text" class="col-4 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* cost before  *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Cost Before</div>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" placeholder="0.00"/>
+            </div>
+            <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.currency.Rows)
+                        {
+                            var currid = row["CurrID"].ToString();
+                            <option value="@currid">@currid</option>
+                        }
+                    </select>
+            </div>
+                
+        </div>
+    </div>
+    @* cost revision and saving cost *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Cost Revision</div>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
+            </div>
+            <div class="col-2">Saving Cost</div>
+            <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* saving cat and add cost *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Saving Cat</div>
+            <div class="col-4">
+                    <select name="" class="col-4 form-control form-control-sm" disabled>
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.tsavingcost.Rows)
+                        {
+                            var savingcostid = row["SavingCostCatID"].ToString();
+                            var savingcostcategory = row["SavingCostCategory"].ToString();
+                            <option value="@savingcostid">@savingcostcategory</option>
+                        }
+                    </select>
+            </div>
+            <div class="col-2">Add Cost</div>
+            <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm">
+                        <option value=""></option>
+                        <option value="1">Y</option>
+                        <option value="2">N</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+    @* cost rts and or number  *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Cost RTS</div>
+            <div class="col-3">
+                <input type="Text" class="col-3 form-control form-control-sm" />
+            </div>
+            <div class="col-1">USD</div>
+            <div class="col-2">OR Number</div>
+            <div class="col-3">
+                <input type="Text" class="col-3 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* op number *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">OP Number</div>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* op date and eiop  *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">OP Date</div>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" />
+            </div>
+            <div class="col-2">EIOP</div>
+            <div class="col-3">
+                <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
+            <div class="col-1">7</div>
+        </div>
+    </div>
+    @* exstore and repair type *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">EX Store</div>
+            <div class="col-4">
+                    <select name="" class="col-4 form-control form-control-sm">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.fstore.Rows)
+                        {
+                            var storeid = row["StoreID"].ToString();
+                            var storename = row["StoreName"].ToString();
+                            <option value="@storeid">@storename</option>
+                        }
+                    </select>
+            </div>
+            <div class="col-2">Repair Type</div>
+                <div class="col-3">
+                    <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.repairType2.Rows)
+                        {
+                            var repairtypeid = row["ExrRepairtypeID"].ToString();
+                            var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
+                            var repairtype = row["ExrRepairtype"].ToString();
+                            <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
+                        }
+                    </select>
+                </div>
+        </div>
+    </div>
+    @* req stand, req parts, doc.avail  *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Req Stand</div>
+            <input class="col-1" name="reqStand" type="radio" id="reqStandY" checked>
+            <label class="col-1 pt-1" for="reqStandY">Y</label>
+            <input class="col-1" name="reqStand" type="radio" id="reqStandN">
+            <label class="col-1 pt-1" for="reqStandN">N</label>
+        </div>
+    </div>
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Req Parts</div>
+            <input class="col-1" name="reqParts" type="radio" id="reqPartsY" checked>
+            <label class="col-1 pt-1" for="reqPartsY">Y</label>
+            <input class="col-1" name="reqParts" type="radio" id="reqPartsN">
+            <label class="col-1 pt-1" for="reqPartsN">N</label>
+        </div>
+    </div>
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Doc.Avail</div>
+            <input class="col-1" name="docAvail" type="radio" id="docAvailY" checked>
+            <label class="col-1 pt-1" for="docAvailY">Y</label>
+            <input class="col-1" name="docAvail" type="radio" id="docAvailN">
+            <label class="col-1 pt-1" for="docAvailN">N</label>
+            <div class="col-2"></div>
+            <div class="col-3">
+                <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* etc date and support wo *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">Etc Date</div>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm"/>
+            </div>
+            <div class="col-2">Support WO</div>
+            <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* offsite wo* *@
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2">OffSite WO*</div>
+            <div class="col-4">
+                <input type="text" class="col-4 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* add order  *@
+    <div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold">Add Order</div>
+            <div class="col-10 row" style="gap: 15px;">
+                <div class="col-3">
+                        <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="1">Spare Part</option>
+                            <option value="2">Steel Stand</option>
+                            <option value="3">Wooden Box</option>
+                        </select>
+                </div>
+                <div class="col-3">
+                        <select name="" class="col-3 form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="1">Spare Part</option>
+                            <option value="2">Steel Stand</option>
+                            <option value="3">Wooden Box</option>
+                        </select>
+                </div>
+                <div class="col-3">
+                        <select name="" class="col-3 form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="1">Spare Part</option>
+                            <option value="2">Steel Stand</option>
+                            <option value="3">Wooden Box</option>
+                        </select>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold"></div>
+            <div class="col-10 row" style="gap: 15px;">
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold">OR Number</div>
+            <div class="col-10 row" style="gap: 15px;">
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold">Received Date</div>
+            <div class="col-10 row" style="gap: 15px;">
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold">DN Number</div>
+            <div class="col-10 row" style="gap: 15px;">
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-2 fw-bold">STOT-OldCore</div>
+            <div class="col-10 row" style="gap: 15px;">
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

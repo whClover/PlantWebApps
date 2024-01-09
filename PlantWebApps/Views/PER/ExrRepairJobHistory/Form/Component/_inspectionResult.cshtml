@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col border">
+    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+        <p class="fs-5">Inspection Result</p>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Old Core Inspection</div>
+                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionY" checked>
+                <label class="col-2 pt-1" for="oCoreInspection">Accept</label>
+                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionN">
+                <label class="col-2 pt-1" for="oCoreInspection">Reject</label>
+                <a id="btnOldCore" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">View</a>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Final Inspection</div>
+                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionY" checked>
+                <label class=" col-2 pt-1" for="finalInspection">Accept</label>
+                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionN">
+                <label class="col-2 pt-1" for="finalInspection">Reject</label>
+                <a id="btnFinalInspection" class="btn btn-primary col-2 ms-2" style="max-width: 80px;">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var currentURL = window.location.href;
+    var id = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+
+    $("#btnOldCore").attr("href", "/ExrRepairJobHistoryInspection/OldCore/" + id);
+    $("#btnFinalInspection").attr("href", "/ExrRepairJobHistoryInspection/FinalInspection/" + id);
+</script>
