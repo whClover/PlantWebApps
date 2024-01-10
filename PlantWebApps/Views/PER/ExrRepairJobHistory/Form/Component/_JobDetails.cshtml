@@ -13,30 +13,30 @@
             <div class="row align-items-center">
                 <div class="col-2">Parent Wo*</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm"/>
+                    <input id="tOffSiteWO" name="tOffSiteWO" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
-                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                <button id="CFindWO" name="CFindWO" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
                 </button>
                 <div class="col-2">Comp.Desc</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="TCompDesc" name="TCompDesc" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
-        @* maint type and comp type *@
+        @* comp type  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2">Maint Type</div>
-                <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-2">Comp Type</div>
                 <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm select2">
+                    <input id="tCompTypeID" name="tCompTypeID" type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2">Comp QTY</div>
+                <div class="col-3">
+                    <select id="TCompQty" name="TCompQty" class="col-3 form-control form-control-sm select2">
                         <option selected></option>
                         <option value="1">PEX</option>
                         <option value="2">Stock</option>
@@ -46,17 +46,31 @@
                 </div>
             </div>
         </div>
+        @* maint type and comp type *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Maint Type</div>
+                <div class="col-3">
+                    <input id="tMaintType" name="tMaintType" type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-2"></div>
+                <div class="col-3">
+                    <input id="TMaintDesc" name="TMaintDesc" type="Text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
         @* unit no and unit desc *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Unit No</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tunitno" name="tunitno" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-2">Unit Desc</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tunitdesc" name="tunitdesc" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -65,16 +79,16 @@
             <div class="row align-items-center">
                 <div class="col-2">TCI Part No</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tTCIPartNo" name="tTCIPartNo" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
-                <button type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                <button id="cfind" name="cfind" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
                 </button>
                 <div class="col-2">Unit Location</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tLocationName" name="tLocationName" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -83,7 +97,7 @@
             <div class="row">
                 <div class="col-2">TCI Desc</div>
                 <div class="col-9">
-                    <textarea class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                    <textarea id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -92,7 +106,7 @@
             <div class="row">
                 <div class="col-2">TCI Desc 2</div>
                 <div class="col-9">
-                    <textarea class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                    <textarea id="tPartDesc2" name="tPartDesc2" class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -101,10 +115,10 @@
             <div class="row align-items-center">
                 <div class="col-2">Routable Stock</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tRoutableStock" name="tRoutableStock" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic" />
+                    <input id="tRoutModDate" name="tRoutModDate" type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>
@@ -113,16 +127,16 @@
             <div class="row align-items-center">
                 <div class="col-2">Total Repair</div>
                 <div class="col-3">
-                    <input type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
-        @* repair by and supervisor  *@
+        @* repair by  *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Repair By</div>
                 <div class="col-3">
-                    <select class="col-3 form-control form-control-sm select2" id="supplierid" name="supplierid">
+                    <select id="tRepairByID" name="tRepairByID" class="col-3 form-control form-control-sm select2" id="supplierid" name="supplierid">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.repairby.Rows)
                         {
@@ -134,9 +148,15 @@
                     </select>
                 </div>
                 <div class="col-1"></div>
+                <div class="col-2">*Calculation</div>
+            </div>
+        </div>
+        @* supervisor *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
                 <div class="col-2">Supervisor</div>
                 <div class="col-3">
-                    <select class="col-3 form-control form-control-sm select2" id="supervisorid" name="supervisorid">
+                    <select id="tSpvID" name="tSpvID" class="col-3 form-control form-control-sm select2" id="supervisorid" name="supervisorid">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.spvdesc.Rows)
                         {
@@ -146,6 +166,8 @@
                         }
                     </select>
                 </div>
+                <div class="col-1"></div>
+                <div class="col-2">*Calculation</div>
             </div>
         </div>
         @* reuqest p and reason type *@
@@ -153,7 +175,7 @@
             <div class="row align-items-center">
                 <div class="col-2">Request P</div>
                 <div class="col-3">
-                    <select class="col-3 form-control form-control-sm" id="RequestP1" name="RequestP1">
+                    <select id="tRequestP1" name="tRequestP1" class="col-3 form-control form-control-sm" id="RequestP1" name="RequestP1">
                         <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -163,7 +185,7 @@
                 <div class="col-1"></div>
                 <div class="col-2">Reason Type</div>
                 <div class="col-3">
-                    <select class="col-3 form-control form-control-sm select2" id="reasontypeid" name="reasontypeid">
+                    <select id="tReasonType" name="tReasonType" class="col-3 form-control form-control-sm select2" id="reasontypeid" name="reasontypeid">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.freason.Rows)
                     {

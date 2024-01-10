@@ -19,7 +19,11 @@ namespace PlantWebApps.Helper
             string username = Environment.UserName;
             return username;
         }
-
+        public static string getDate()
+        {
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+            return date;
+        }
         public static string GetCurrentUsername()
         {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();

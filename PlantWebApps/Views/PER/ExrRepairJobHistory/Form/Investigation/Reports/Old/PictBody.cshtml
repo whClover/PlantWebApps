@@ -5,8 +5,8 @@
     @using System.Data;
     Layout = "~/Views/Shared/_LayoutReport.cshtml";
 }
-<div class="table-responsive">
-    <table class="table mb-2 mt-2 table-sm table-hover">
+<div>
+    <table class="table mb-0 mt-2 table-sm table-hover">
         <thead class="table-light">
             <tr>
                 <th>Image Name</th>
@@ -24,3 +24,9 @@
         </tbody>
     </table>
 </div>
+
+<style>
+    tr, td, th, tbody, thead, tfoot {
+        page-break-inside: avoid !important;
+    }
+</style>

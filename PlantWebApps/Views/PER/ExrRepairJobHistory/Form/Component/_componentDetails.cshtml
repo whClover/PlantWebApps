@@ -13,7 +13,11 @@
         <div class="row align-items-center">
             <div class="col-2">Offsite WO*</div>
             <div class="col-4">
-                <input type="Text" class="col-4 form-control form-control-sm" />
+                <input id="TChildWo" name="TChildWo" type="Text" class="col-4 form-control form-control-sm" />
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3">
+                <input id="tChildwo2" name="tChildwo2" type="Text" class="col-4 form-control form-control-sm" />
             </div>
         </div>
     </div>
@@ -22,17 +26,18 @@
         <div class="row align-items-center">
             <div class="col-2">Cost Before</div>
             <div class="col-4">
-                <input type="text" class="col-4 form-control form-control-sm" placeholder="0.00"/>
+                <input id="tCostBefore" name="tCostBefore" type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
             </div>
+            <div class="col-2"></div>
             <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
-                        <option value=""></option>
-                        @foreach (DataRow row in ViewBag.currency.Rows)
-                        {
-                            var currid = row["CurrID"].ToString();
-                            <option value="@currid">@currid</option>
-                        }
-                    </select>
+                <select id="tCurrID" name="tCurrID" class="col-3 form-control form-control-sm form-control form-control-sm select2">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.currency.Rows)
+                    {
+                        var currid = row["CurrID"].ToString();
+                        <option value="@currid">@currid</option>
+                    }
+                </select>
             </div>
                 
         </div>
@@ -42,50 +47,59 @@
         <div class="row align-items-center">
             <div class="col-2">Cost Revision</div>
             <div class="col-4">
-                <input type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
+                <input id="tCostAfter" name="tCostAfter" type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
             </div>
             <div class="col-2">Saving Cost</div>
             <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                <input id="tunitcost" name="tunitcost" type="text" class="col-3 form-control form-control-sm" />
             </div>
         </div>
     </div>
-    @* saving cat and add cost *@
+    @* saving cat *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Saving Cat</div>
             <div class="col-4">
-                    <select name="" class="col-4 form-control form-control-sm" disabled>
-                        <option value=""></option>
-                        @foreach (DataRow row in ViewBag.tsavingcost.Rows)
-                        {
-                            var savingcostid = row["SavingCostCatID"].ToString();
-                            var savingcostcategory = row["SavingCostCategory"].ToString();
-                            <option value="@savingcostid">@savingcostcategory</option>
-                        }
-                    </select>
+                <select id="tsavingcostCat" name="tsavingcostCat" class="col-4 form-control form-control-sm">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.tsavingcost.Rows)
+                    {
+                        var savingcostid = row["SavingCostCatID"].ToString();
+                        var savingcostcategory = row["SavingCostCategory"].ToString();
+                        <option value="@savingcostid">@savingcostcategory</option>
+                    }
+                </select>
             </div>
-            <div class="col-2">Add Cost</div>
+            <div class="col-2"></div>
             <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm">
+                <input id="tsavingcostCatID" name="tsavingcostCatID" type="text" class="col-3 form-control form-control-sm" />
+            </div>
+        </div>
+    </div>
+    @* add cost  *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Add Cost</div>
+                <div class="col-3">
+                    <select id="tAddCost" name="tAddCost" class="col-3 form-control form-control-sm">
                         <option value=""></option>
                         <option value="1">Y</option>
                         <option value="2">N</option>
                     </select>
+                </div>
             </div>
         </div>
-    </div>
     @* cost rts and or number  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">Cost RTS</div>
             <div class="col-3">
-                <input type="Text" class="col-3 form-control form-control-sm" />
+                <input id="tRTSCost" name="tRTSCost" type="Text" class="col-3 form-control form-control-sm" />
             </div>
             <div class="col-1">USD</div>
             <div class="col-2">OR Number</div>
             <div class="col-3">
-                <input type="Text" class="col-3 form-control form-control-sm" />
+                <input id="tORNo" name="tORNo" type="Text" class="col-3 form-control form-control-sm" />
             </div>
         </div>
     </div>
@@ -94,7 +108,7 @@
         <div class="row align-items-center">
             <div class="col-2">OP Number</div>
             <div class="col-4">
-                <input type="text" class="col-4 form-control form-control-sm" />
+                <input id="tOPNo" name="tOPNo" type="text" class="col-4 form-control form-control-sm" />
             </div>
         </div>
     </div>
@@ -103,33 +117,40 @@
         <div class="row align-items-center">
             <div class="col-2">OP Date</div>
             <div class="col-4">
-                <input type="text" class="col-4 form-control form-control-sm datepicker-basic" />
+                <input id="tOPDate" name="tOPDate" type="text" class="col-4 form-control form-control-sm datepicker-basic" />
             </div>
             <div class="col-2">EIOP</div>
             <div class="col-3">
-                <input type="text" class="col-3 form-control form-control-sm" />
+                <input id="TEPOPDiff" name="TEPOPDiff" type="text" class="col-3 form-control form-control-sm" />
             </div>
-            <div class="col-1">7</div>
+                <div id="TEPOPKpi" name="TEPOPKpi" class="col-1">7</div>
         </div>
     </div>
-    @* exstore and repair type *@
+    @* exstore *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
             <div class="col-2">EX Store</div>
             <div class="col-4">
-                    <select name="" class="col-4 form-control form-control-sm">
-                        <option value=""></option>
-                        @foreach (DataRow row in ViewBag.fstore.Rows)
-                        {
-                            var storeid = row["StoreID"].ToString();
-                            var storename = row["StoreName"].ToString();
-                            <option value="@storeid">@storename</option>
-                        }
-                    </select>
+                <select id="tStoreID" name="tStoreID" class="col-4 form-control form-control-sm">
+                    <option value=""></option>
+                    @foreach (DataRow row in ViewBag.fstore.Rows)
+                    {
+                        var storeid = row["StoreID"].ToString();
+                        var storename = row["StoreName"].ToString();
+                        <option value="@storeid">@storename</option>
+                    }
+                </select>
             </div>
-            <div class="col-2">Repair Type</div>
+            <div class="col-3">*calculation</div>
+            <div class="col-3">*calculation</div>
+        </div>
+    </div>
+        @* exstore and repair type *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Repair Type</div>
                 <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                    <select id="tRepairTypeID" name="tRepairTypeID" class="col-4 form-control form-control-sm form-control form-control-sm">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.repairType2.Rows)
                         {
@@ -140,8 +161,11 @@
                         }
                     </select>
                 </div>
+                <div class="col-3">*calculation</div>
+            </div>
         </div>
-    </div>
+    @* Change Chekbox Later *@
+
     @* req stand, req parts, doc.avail  *@
     <div class="container overflow-hidden">
         <div class="row align-items-center">
@@ -170,7 +194,7 @@
             <label class="col-1 pt-1" for="docAvailN">N</label>
             <div class="col-2"></div>
             <div class="col-3">
-                <input type="text" class="col-3 form-control form-control-sm" />
+                <input id="tDocAvbDate" name="tDocAvbDate" type="text" class="col-3 form-control form-control-sm" />
             </div>
         </div>
     </div>
@@ -179,20 +203,11 @@
         <div class="row align-items-center">
             <div class="col-2">Etc Date</div>
             <div class="col-4">
-                <input type="text" class="col-4 form-control form-control-sm datepicker-basic"/>
+                <input id="tetadate" name="tetadate" type="text" class="col-4 form-control form-control-sm datepicker-basic" />
             </div>
             <div class="col-2">Support WO</div>
             <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* offsite wo* *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">OffSite WO*</div>
-            <div class="col-4">
-                <input type="text" class="col-4 form-control form-control-sm" />
+                <input id="tWoJobCost" name="tWoJobCost" type="text" class="col-3 form-control form-control-sm" />
             </div>
         </div>
     </div>
@@ -202,7 +217,7 @@
             <div class="col-2 fw-bold">Add Order</div>
             <div class="col-10 row" style="gap: 15px;">
                 <div class="col-3">
-                        <select name="" class="col-3 form-control form-control-sm form-control form-control-sm">
+                        <select id="CAddOrder1" name="CAddOrder1" class="col-3 form-control form-control-sm select2">
                             <option value=""></option>
                             <option value="1">Spare Part</option>
                             <option value="2">Steel Stand</option>
@@ -210,7 +225,7 @@
                         </select>
                 </div>
                 <div class="col-3">
-                        <select name="" class="col-3 form-control form-control-sm">
+                        <select id="CAddOrder2" name="CAddOrder2" class="col-3 form-control form-control-sm select2">
                             <option value=""></option>
                             <option value="1">Spare Part</option>
                             <option value="2">Steel Stand</option>
@@ -218,7 +233,7 @@
                         </select>
                 </div>
                 <div class="col-3">
-                        <select name="" class="col-3 form-control form-control-sm">
+                        <select id="CAddOrder3" name="CAddOrder3" class="col-3 form-control form-control-sm select2">
                             <option value=""></option>
                             <option value="1">Spare Part</option>
                             <option value="2">Steel Stand</option>
@@ -231,14 +246,13 @@
             <div class="col-2 fw-bold"></div>
             <div class="col-10 row" style="gap: 15px;">
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderOther1" name="taddOrderOther1" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderOther2" name="taddOrderOther2" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
-
+                    <input id="taddOrderOther3" name="taddOrderOther3" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -248,13 +262,13 @@
             <div class="col-2 fw-bold">OR Number</div>
             <div class="col-10 row" style="gap: 15px;">
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tAddOrderORNo1" name="tAddOrderORNo1" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tAddOrderORNo2" name="tAddOrderORNo2" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tAddOrderORNo3" name="tAddOrderORNo3" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -264,13 +278,13 @@
             <div class="col-2 fw-bold">Received Date</div>
             <div class="col-10 row" style="gap: 15px;">
                 <div class="col-3">
-                        <input type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="taddOrderDate1" name="taddOrderDate1" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderDate2" name="taddOrderDate2" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderDate3" name="taddOrderDate3" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -280,13 +294,13 @@
             <div class="col-2 fw-bold">DN Number</div>
             <div class="col-10 row" style="gap: 15px;">
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderDNNo1" name="taddOrderDNNo1" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderDNNo2" name="taddOrderDNNo2" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="taddOrderDNNo3" name="taddOrderDNNo3" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -296,13 +310,10 @@
             <div class="col-2 fw-bold">STOT-OldCore</div>
             <div class="col-10 row" style="gap: 15px;">
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tST" name="tST" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tOt" name="tOt" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>

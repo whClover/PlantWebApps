@@ -125,8 +125,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string sortOrder = string.IsNullOrEmpty(sort) ? "desc" : sort;
 
             _tempfilter = Utility.VarFilter(tempfilter);
-
-            string dataQuery = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {_tempfilter} order by id {sortOrder}";
+            string dataQuery = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {_tempfilter} AND StatusID != '9' order by id {sortOrder}";
+            Console.WriteLine(dataQuery);
             var data = SQLFunction.execQuery(dataQuery);
             var rows = new List<object>();
 
@@ -160,8 +160,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     orNo = Utility.CheckNull(row["ORNo"]),
                     opDate = Utility.CheckNull(row["OPDate"]),
                     receivedDate = Utility.CheckNull(row["ReceivedDate"]),
-					edit = "<a class='btn btn-link btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "'><i class='fa fa-edit'></i></a>"
-				};
+					edit = "<a class='btn btn-link btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "'><i class='fa fa-edit'></i></a>",
+                    delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["id"]})'><i class='fa fa-trash text-danger'></i></button>"
+                };
                 rows.Add(rowData);
             }
             return new JsonResult(rows);
@@ -169,39 +170,190 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult Export()
         {
             var cReportTypeQuery = "";
+            string tempfilter = string.Empty;
 
             loadoption();
 
             var creportType = Request.Form["creportype"];
+            var repairType = Request.Form["repairtypeid"];
+            var compType = Request.Form["comptype"];
+            var statusInput = Request.Form["statusInput"];
+            var supervisorId = Request.Form["supervisorid"];
+            var supplierId = Request.Form["supplierid"];
+            var cwoType = Request.Form["cwotype"];
+            var cwoTypeValue = Request.Form["cwotypevalue"];
             var fdocType = Request.Form["fdoctype"];
             var fdocTypeValue = Request.Form["fdoctypevalue"];
+            var ccompIdType = Request.Form["ccompidtype"];
+            var ccompIdValue = Request.Form["ccompidvalue"];
+            var sDate = Request.Form["sdate"];
+            var startDate = Request.Form["startdate"];
+            var endDate = Request.Form["endate"];
+            var lmodBy = Request.Form["lmodby"];
+            var lmodByValue = Request.Form["lmodbyvalue"];
+            var reasonTypeId = Request.Form["reasontypeid"];
+            var freasonType = Request.Form["freasontype"];
+            var freasonValue = Request.Form["freasonvalue"];
+            var cbDelay = Request.Form["cbdelay"];
+            var cbDelayValue = Request.Form["cbdelayvalue"];
+            var repairAdvice = Request.Form["repairadvice"];
+            var toCatDesc = Request.Form["tocatdesc"];
+            var requestP1 = Request.Form["RequestP1"];
+            var fissNull = Request.Form["fissnull"];
+            var pCam = Request.Form["pcam"];
+            var sortBy = Request.Form["sortby"];
 
-            switch (creportType)
+            if (creportType == "")
             {
-                case "3":
-                    Stat = "error";
-                    Msg = "Not Available";
-                    return RedirectToAction(nameof(Index));
+                Stat = "error";
+                Msg = "Please Select A Report Type";
+                return RedirectToAction(nameof(Index));
+            }
+            if (creportType == "3") 
+            {
+                Stat = "error";
+                Msg = "Not Available";
+                return RedirectToAction(nameof(Index));
+            }
+            if (fdocType != "3" && fdocTypeValue == "")
+            {
+                Stat = "error";
+                Msg = "Please Select DN Number And Its Value";
+                return RedirectToAction(nameof(Index));
+            }
 
-                case "2" when (fdocType != "3" && string.IsNullOrEmpty(fdocTypeValue)) || string.IsNullOrEmpty(fdocTypeValue):
-                    Stat = "error";
-                    Msg = fdocType == "3" ? "Please select a document type for DN number." : "Please select a DN number.";
-                    return RedirectToAction(nameof(Index));
+            var sortByValue = FilterHelper.SelectSortBy(sortBy);
+            tempfilter = ApplySortCategory(sortByValue, tempfilter);
 
+            var cwoCategory = FilterHelper.SelectCwoTypeFilter(cwoType);
+            tempfilter = ApplyFilterCategory(cwoCategory, cwoTypeValue, tempfilter);
+
+            var fdocTypeCategory = FilterHelper.SelectFdocTypeFilter(fdocType);
+
+            var ccompIdTypeCategory = FilterHelper.SelectCCompIdTypeFilter(ccompIdType);
+            tempfilter = ApplyFilterCategory(ccompIdTypeCategory, ccompIdValue, tempfilter);
+
+            var lmodByCategory = FilterHelper.SelectImodByFilter(lmodBy);
+            tempfilter = ApplyFilterCategory(lmodByCategory, lmodByValue, tempfilter);
+
+            var fReasonCategory = FilterHelper.SelectFreasonFilter(freasonType);
+            tempfilter = ApplyFilterCategory(fReasonCategory, freasonValue, tempfilter);
+
+            var cbDelayCategory = FilterHelper.SelectCbDelay(cbDelay);
+            tempfilter = ApplyCbDelayCategory(cbDelayCategory, cbDelayValue, tempfilter);
+
+            var fisNullValue = FilterHelper.SelectFisNull(fissNull);
+            tempfilter = ApplyFisNullCategory(fisNullValue, tempfilter);
+
+            Dictionary<string, string> formFields = new Dictionary<string, string>
+                {
+                    { "repairtypeid", repairType },
+                    { "comptype", compType },
+                    { "supervisorid", supervisorId },
+                    { "supplierid", supplierId },
+                    { "unitnumber", toCatDesc },
+                    { "reasontypeid", reasonTypeId },
+                    { "repairadvice", repairAdvice },
+                    { "tocatdesc", toCatDesc },
+                    { "RequestP1", requestP1 }
+                };
+
+            if (!string.IsNullOrEmpty(pCam))
+            {
+                tempfilter = " and PCAMStatusID = " + Utility.Evar(pCam, 1) + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(statusInput))
+            {
+                tempfilter = " and status in (" + Utility.Evar(statusInput, 1) + ")" + tempfilter;
+                ViewBag.statusValue = statusInput;
+            }
+
+            string strdate;
+            switch (sDate)
+            {
+                case "1":
+                    strdate = "ModDate";
+                    break;
+                case "2":
+                    strdate = "CompletedDate";
+                    break;
                 default:
-                    var cReportTypeValue = FilterHelper.SelectCreportType(Request.Form["creportype"]);
-                    cReportTypeQuery = ApplyCreportTypeQuery(cReportTypeValue, Request.Form["fdoctypevalue"]);
+                    strdate = "ModDate";
+                    break;
+            }
 
-                    string dataQuery = $"{cReportTypeQuery}";
-                    Console.WriteLine(dataQuery);
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                tempfilter = " and " + strdate + " >= " + Utility.Evar(startDate, 2) + tempfilter;
+                ViewBag.startdate = startDate;
+            }
 
-                    DataTable data = SQLFunction.execQuery(dataQuery);
-                    string fileName = "External Repair Job History.xlsx";
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                tempfilter = " and " + strdate + " <= " + Utility.Evar(endDate, 2) + tempfilter;
+                ViewBag.endate = endDate;
+            }
 
-                    return Utility.ExportDataTableToExcel(data, fileName);
+            foreach (var field in formFields)
+            {
+                if (!string.IsNullOrEmpty(field.Value))
+                {
+                    var viewBagDict = ViewBag as IDictionary<string, object>;
+
+                    if (viewBagDict != null)
+                    {
+                        viewBagDict[field.Key] = field.Value;
+                    }
+
+                    tempfilter = $" and {field.Key} like {Utility.Evar(field.Value, 11)}" + tempfilter;
+                }
+            }
+
+            var cReportTypeValue = FilterHelper.SelectCreportType(creportType);
+            cReportTypeQuery = ApplyCreportTypeQuery(cReportTypeValue, fdocTypeCategory, Utility.Evar(fdocTypeValue, 1));
+            var plusFilter = $"{cReportTypeQuery}{tempfilter})";
+
+            string dataQuery = $"{plusFilter}";
+            DataTable data = SQLFunction.execQuery(dataQuery);
+            string fileName = "External Repair Job History.xlsx";
+
+            if (data != null && data.Rows.Count > 0)
+            {
+                return Utility.ExportDataTableToExcel(data, fileName);
+            }
+            else 
+            {
+                Stat = "error";
+                Msg = "No Data To Export";
+                return RedirectToAction(nameof(Index));
             }
         }
+        public IActionResult Delete(string id)
+        {
+            var deletedDate = Utility.Evar(Utility.getDate(), 2);
+            var deletedBy = Utility.Evar(Utility.eusername(), 1);
+            var ID = Utility.Evar(id, 1);
 
+            Console.WriteLine(deletedDate);
+            Console.WriteLine(deletedBy);
+            Console.WriteLine(ID);
+
+            string queryUpdate = @$"Update tbl_ExrJobDetail set StatusID='9', DeletedDate = {deletedDate}, 
+            DeletedBy = {deletedBy} WHERE ID = {ID}";
+
+            Console.WriteLine(queryUpdate);
+
+            string queryNotified = $@"exec dbo.ExrJobStatusUpdate {ID}, '9', {deletedDate}, {deletedBy}";
+
+            SQLFunction.execQuery(queryUpdate);
+            SQLFunction.execQuery(queryNotified);
+
+            Stat = "success";
+            Msg = "Data Has Been Deleted";
+
+            return Json(new { success = true });
+        }
         public IActionResult Add()
         {
             loadoption();
@@ -209,8 +361,15 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
 		public IActionResult Edit(string id)
 		{
+            Console.WriteLine("This is edit" + id);
+
 			loadoption();
-			return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
+
+            // general data query
+            string query = $"SELECT * from v_ExrJobDetail WHERE ID = '{id}'";
+            ViewBag.data = SQLFunction.execQuery(query);
+
+            return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
 		}
 		public IActionResult CreateAN()
         {
@@ -416,13 +575,13 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return currentFilter;
         }
-        private string ApplyCreportTypeQuery(string value, string fdocTypeValue)
+        private string ApplyCreportTypeQuery(string value, string fdoc, string fdocTypeValue)
         {
-            if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(fdocTypeValue))
+            if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(fdoc) && !string.IsNullOrEmpty(fdocTypeValue))
             {
-                return $"{value} {Utility.Evar(fdocTypeValue, 19)}";
+                return $"{value} WHERE {fdoc} = {fdocTypeValue}";
             }
-            return value;
+            return value + ")";
         }
         private string ApplyCbDelayCategory(string category, string value, string currentFilter)
         {

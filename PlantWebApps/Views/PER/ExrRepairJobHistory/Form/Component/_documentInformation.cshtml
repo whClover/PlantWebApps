@@ -10,14 +10,14 @@
         <p class="fs-5">Document Information</p>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2  ">Qoute No</div>
+                <div class="col-2 ">Qoute No</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tQuoteNo" name="tQuoteNo" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">FAR/CCR Date</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="tDocDate" name="tDocDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>
@@ -25,12 +25,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Job No</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tJobNo" name="tJobNo" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Supplier Serial Number</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSerialNumberOEM" name="tSerialNumberOEM" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -38,12 +38,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Qoute Date</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="tQuoteDate" name="tQuoteDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">WCS Date</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="tWCSDate" name="tWCSDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>
@@ -51,12 +51,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Qoute Rev.Date</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="tQuoteRevDate" name="tQuoteRevDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Qoute Rev.No</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tQuoteRevNo" name="tQuoteRevNo" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Doc Type</div>
                 <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm">
+                    <select id="tDocTypeID" name="tDocTypeID" class="col-3 form-control form-control-sm">
                         <option value=""></option>
                         <option value="1">FAR</option>
                         <option value="2">CCR</option>
@@ -81,12 +81,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Log AN Date</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="tDlogAnDate" name="tDlogAnDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Log AN Number</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tDlogAnNo" name="tDlogAnNo" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -94,14 +94,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">PER AN Date</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                    <input id="tDPerAnDate" name="tDPerAnDate" type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-2">
-                    <input type="text" class="col-2  form-control form-control-sm" />
+                    <input id="tLogANReceivedBy" name="tLogANReceivedBy" type="text" class="col-2  form-control form-control-sm" />
                 </div>
                 <div class="col-2"></div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm" />
+                    <input id="tLogDate" name="tLogDate" type="text" class="col-2 form-control form-control-sm" />
                 </div>
                 <div class="col-1">3</div>
             </div>
@@ -110,47 +110,46 @@
             <div class="row align-items-center">
                 <div class="col-2  ">EG - EI Date</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                    <input id="tEGEI" name="tEGEI" type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-2">
-                    <input type="text" class="col-2 ms-2 form-control form-control-sm" />
+                    <input id="tQuotePrintBy" name="tQuotePrintBy" type="text" class="col-2 ms-2 form-control form-control-sm" />
                 </div>
                 <div class="col-2">EGEI</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm" />
+                    <input id="TEGEIQuote" name="TEGEIQuote" type="text" class="col-2 form-control form-control-sm" />
                 </div>
-                <div class="col-1">2</div>
+                <div id="TEGEIQuoteKPI" name="TEGEIQuoteKPI" class="col-1">2</div>
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">EI - EK Date</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-
+                    <input id="tEIEK" name="tEIEK" type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-2">
-                    <input type="text" class="col-2 ms-2 form-control form-control-sm" />
+                    <input id="tQuoteApprovedBy" name="tQuoteApprovedBy" type="text" class="col-2 ms-2 form-control form-control-sm" />
                 </div>
                 <div class="col-2">EIEK</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm" />
+                    <input id="TEGEIEIEK" name="TEGEIEIEK" type="text" class="col-2 form-control form-control-sm" />
                 </div>
-                <div class="col-1">7</div>
+                <div id="TEIEKKPI" name="TEIEKKPI" class="col-1">7</div>
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">EK - EP Date</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                    <input id="tEKEP" name="tEKEP" type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-2">
-                    <input type="text" class="col-2 ms-2 form-control form-control-sm" />
+                    <input id="tQuoteProcessBy" name="tQuoteProcessBy" type="text" class="col-2 ms-2 form-control form-control-sm" />
                 </div>
                 <div class="col-2">EKEP</div>
                 <div class="col-2">
-                <input type="text" class="col-2 form-control form-control-sm" />
+                    <input id="tEKEPDIff" name="tEKEPDIff" type="text" class="col-2 form-control form-control-sm" />
                 </div>
                 <div class="col-1">2</div>
             </div>
@@ -162,7 +161,7 @@
                     <input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-2">
-                <input type="text" class="col-2 ms-2 form-control form-control-sm" />
+                    <input id="TEKEPKPI" name="TEKEPKPI" type="text" class="col-2 ms-2 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -170,10 +169,10 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Disp Comp.Date</div>
                 <div class="col-2">
-                    <input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                    <input id="TDispCompDate" name="TDispCompDate" type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-2">
-                    <input type="text" class="col-2 ms-2 form-control form-control-sm" />
+                    <input id="tDisputeCompletedBy" name="tDisputeCompletedBy" type="text" class="col-2 ms-2 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -181,20 +180,25 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Location Hold</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-1"></div>
-                <div class="col-2  ">Current Status</div>
-                <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="CLocationHold" name="CLocationHold" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Current Status</div>
-                <div class="col-4">
-                    <select name="" class="col-4 form-control form-control-sm select2">
+                <div class="col-3">
+                    <input id="tStatusID" name="tStatusID" type="text" class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2">*Calculation</div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Next Status</div>
+                <div class="col-3">
+                    <select id="tNextStatus" name="tNextStatus" class="col-4 form-control form-control-sm select2">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.tnextstatus.Rows)
                         {
@@ -205,10 +209,24 @@
                         }
                     </select>
                 </div>
-                <div class="col-2"></div>
-                <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm"  />
+                <div class="col-1"></div>
+                <div class="col-2">*Calculation</div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">OR Req Date</div>
+                <div class="col-2">
+                    <input id="tORRequestDate" name="tORRequestDate" type="text" class="col-2 form-control form-control-sm datepicker-basic" />
                 </div>
+                <div class="col-2">OR Completed</div>
+                <div class="col-2">
+                    <input id="tORCompletedDAte" name="tORCompletedDAte" type="text" class="col-2 ms-2 form-control form-control-sm" />
+                </div>
+                <div class="col-2">
+                    <input id="TORDiff" name="TORDiff" type="text" class="col-2 form-control form-control-sm" />
+                </div>
+                <div id="TORKpi" name="TORKpi" class="col-1">1</div>
             </div>
         </div>
     </div>

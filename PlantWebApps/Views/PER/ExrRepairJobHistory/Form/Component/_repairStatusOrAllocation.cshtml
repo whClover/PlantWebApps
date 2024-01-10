@@ -10,14 +10,9 @@
         <p class="fs-5">Repair Status / Allocation</p>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2  ">OffSite WO*</div>
-                <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-1"></div>
                 <div class="col-2  ">Site Alloc</div>
                 <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm select2">
+                    <select id="tSiteAlloc" name="tSiteAlloc" class="col-3 form-control form-control-sm select2">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.tsitealloc.Rows)
                         {
@@ -33,12 +28,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">WONO Alloc</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="TWOAlloc" name="TWOAlloc" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">UnitNo Alloc</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tUnitAlloc" name="tUnitAlloc" type="text" class="col-3 form-control form-control-sm" />
 
                 </div>
             </div>
@@ -47,12 +42,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Sched Start</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSchedStartAlloc" name="tSchedStartAlloc" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Store Alloc</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSuggestedStore" name="tSuggestedStore" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -60,12 +55,12 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Current SOH</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSOHAlloc" name="tSOHAlloc" type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Outsnd Req</div>
                 <div class="col-3">
-                    <input type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tOutReqAlloc" name="tOutReqAlloc" type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>

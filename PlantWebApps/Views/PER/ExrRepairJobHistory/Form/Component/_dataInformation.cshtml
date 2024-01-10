@@ -11,11 +11,11 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Register By</div>
                 <div class="col-10 row" style="gap: 10px;">
-                    <div class="col-5">
-                        <input type="Text" class="col-5 datepicker-basic form-control form-control-sm" style="max-width: 280px;" />
+                    <div class="col-4">
+                        <input id="tRegisterDate" name="tRegisterDate" type="Text" class="col-4 datepicker-basic form-control form-control-sm" style="max-width: 280px;" />
                     </div>
-                    <div class="col-5">
-                        <input type="text" class="col-5 form-control form-control-sm" />
+                    <div class="col-4">
+                        <input id="TRegisterBy" name="TRegisterBy" type="text" class="col-4 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
@@ -24,11 +24,11 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Last Mod</div>
                 <div class="col-10 row" style="gap: 10px;">
-                    <div class="col-5">
-                        <input type="Text" class="col-5 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                    <div class="col-4">
+                        <input id="tmoddate" name="tmoddate" type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
-                    <div class="col-5">
-                        <input type="text" class="col-5 form-control form-control-sm" />
+                    <div class="col-4">
+                        <input id="tmodby" name="tmodby" type="text" class="col-4 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
@@ -37,11 +37,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Closed By</div>
                 <div class="col-10 row" style="gap: 10px;">
-                    <div class="col-5">
-                        <input type="Text" class="col-5 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                    <div class="col-4">
+                        <input id="tclosedDate" name="tclosedDate" type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
-                    <div class="col-5">
-                        <input type="text" class="col-5 form-control form-control-sm" />
+                    <div class="col-4">
+                        <input id="TClosedBy" name="TClosedBy" type="text" class="col-4 form-control form-control-sm" />
+                    </div>
+                    <div id="tTagging" name="tTagging" class="col-3">
+                        *calculation
                     </div>
                 </div>
             </div>
@@ -50,11 +53,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Tagged By</div>
                 <div class="col-10 row" style="gap: 10px;">
-                    <div class="col-5">
-                        <input type="Text" class="col-5 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                    <div class="col-4">
+                        <input type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
-                    <div class="col-5">
-                        <input type="text" class="col-5 form-control form-control-sm" />
+                    <div class="col-4">
+                        <input type="text" class="col-4 form-control form-control-sm" />
+                    </div>
+                    <div id="tTagging" name="tTagging" class="col-3">
+                        *calculation
                     </div>
                 </div>
             </div>
@@ -63,14 +69,21 @@
             <div class="row align-items-center">
                 <div class="col-2  ">In Transit By</div>
                 <div class="col-10 row" style="gap: 10px;">
-                    <div class="col-5">
-                        <input type="Text" class="col-5 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                    <div class="col-4">
+                        <input type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
-                    <div class="col-5">
-                        <input type="text" class="col-5 form-control form-control-sm" />
+                    <div class="col-4">
+                        <input type="text" class="col-4 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container overflow-hidden  mt-2">
+            <div class="d-flex justify-content-center" style="gap: 10px;">
+                <button id="CViewApp" name="CViewApp" class="btn btn-sm btn-secondary">APPROVAL</button>
+                <button id="CClear" name="CClear" class="btn btn-sm btn-secondary">CLEAR</button>
+                <button id="CColor" name="CColor" class="btn btn-sm btn-secondary">COLOR</button>
+             </div>
         </div>
     </div>
 </div>

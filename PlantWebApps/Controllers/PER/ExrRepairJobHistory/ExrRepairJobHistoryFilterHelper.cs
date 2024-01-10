@@ -40,34 +40,34 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             switch (parsedFilterOption)
             {
                 case 1:
-                    cReportTypeValue = "SELECT * from dbo.fR_PERJobDetail()  WHERE ID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fR_PERJobDetail()  WHERE ID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 2:
                     cReportTypeValue = "SELECT * from dbo.fR_EXRORRequestTCI";
                     break;
                 case 4:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRInspectionDetail()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRInspectionDetail()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 5:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRInspectionDetail()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRInspectionDetail()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 6:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRCompSummary()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRCompSummary()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 7:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRJobUnitSummary()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRJobUnitSummary()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 8:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRJobUnitSummary()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRJobUnitSummary()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 9:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRWarranty()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRWarranty()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 10:
-                    cReportTypeValue = "SELECT * from dbo.fr_EXRWIPReport()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_EXRWIPReport()  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
                 case 11:
-                    cReportTypeValue = "SELECT * from dbo.fr_ExrVarianceAnalysis  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1)";
+                    cReportTypeValue = "SELECT * from dbo.fr_ExrVarianceAnalysis  WHERE JobID IN (SELECT ID FROM v_ExrJobDetailRev1";
                     break;
             }
             return (cReportTypeValue);

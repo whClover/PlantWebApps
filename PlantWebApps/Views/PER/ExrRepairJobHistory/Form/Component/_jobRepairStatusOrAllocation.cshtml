@@ -11,16 +11,28 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Current Status</div>
-                <div class="col-3">Change Later</div>
+                <div class="col-3">
+                    <input id="tCurrentStatus" name="tCurrentStatus" type="Text" class="col-3 form-control form-control-sm" />
+                </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-3">Change Later</div>
+            </div>
+        </div>
+        @* repair advice  *@
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
                 <div class="col-2">Repair Advice</div>
                 <div class="col-3">
-                    <select name="" class="col-3 form-control form-control-sm select2">
+                    <select id="tRepairAdvice" name="tRepairAdvice" class="col-3 form-control form-control-sm select2">
                         <option value=""></option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option value="3"></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
                     </select>
+                </div>
+                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+                <div class="col-3">
+                    <input id="TSupplier" name="TSupplier" type="Text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>

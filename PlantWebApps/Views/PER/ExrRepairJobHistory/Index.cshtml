@@ -57,6 +57,39 @@
             statusInput.value = '';
         });
     });
+
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `
+                            <div style="font-size: 16px; text-align: center;">
+                                <div style="margin-bottom: 10px;">
+                                    Are you sure to delete the following data?
+                                </div>
+                            </div>
+                        `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                performDelete(id);
+            }
+        });
+    }
+
+    function performDelete(id) {
+        $.ajax({
+            method: "POST",
+            url: "/ExrRepairJobHistory/Delete",
+            dataType: 'json',
+            data: { id: id }
+        }).done(function (response) {
+            location.reload();
+        });
+    }
 </script>
 
 <form method="post" enctype="multipart/form-data" asp-controller="ExrRepairJobHistory">
@@ -150,6 +183,7 @@
                         <table id="myTable" class="table datatable mb-0 table-sm table-hover">
                             <thead class="table-light">
                                 <tr>
+                                    <th>DELETE</th>
                                     <th>EDIT</th>
                                     <th>ID</th>
                                     <th>Prio</th>
@@ -277,6 +311,7 @@
                         pageLength: 20,
                         data: test, // The data received from the AJAX request
                         columns: [
+                            { "data": "delete" },
                             { "data": "edit" },
                             { "data": "id" },
                             { "data": "totalAgeWO" },
