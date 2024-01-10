@@ -344,10 +344,12 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Register</div>
-				<div class="col-4 text-primary" style="font-size: 12px;" id="tRegDate" name="tRegDate"
-				>@ViewBag.data.Rows[0]["RegisterDate"].ToString()</div>
+				<div class="col-4 text-primary" style="font-size: 12px;" id="tRegDate" name="tRegDate">
+					@ViewBag.data.Rows[0]["RegisterDate"].ToString()
+				</div>
 				<div class="col-4 text-primary" style="font-size: 12px;" id="tRegBy" name="tRegBy">
-					@ViewBag.data.Rows[0]["RegisterBy"].ToString()</div>
+					@ViewBag.data.Rows[0]["RegisterBy"].ToString()
+				</div>
 			</div>
 		</div>
 		@* last mod *@
@@ -363,202 +365,205 @@
 		@* OROP *@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
-				<div class="col-3" style="font-size: 12px;">OR / OP<v>
-				<div class="col-4" style="font-size: 12px;" id="tOROP" name="tOROP">@ViewBag.data.Rows[0]["OROP"].ToString()</div>
+				<div class="col-3" style="font-size: 12px;">
+					OR / OP<v>
+						<div class="col-4" style="font-size: 12px;" id="tOROP" name="tOROP">@ViewBag.data.Rows[0]["OROP"].ToString()</div>
+				</div>
 			</div>
-		</div>
-		@* TABLE *@
-		<div class="container overflow-hidden">
-			<div class="row align-items-center" style="gap: 10px;">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th scope="col">A Code Sign OFF</th>
-							<th scope="col">Sign</th>
-							<th scope="col">Date</th>
-						</tr>
-					</thead>
-					<tbody style="font-size: 12px;">
-						<tr>
-							<td>Plant Supt</td>
-							<td>
-								<input id="tPSName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PSName"].ToString()" />
-								@ViewBag.data.Rows[0]["PSName"].ToString()
-							</td>
-							<td>
-								<input id="tPSDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PSDate"].ToString()" />
-								@ViewBag.data.Rows[0]["PSDate"].ToString()
-							</td>
-						</tr>
-						<tr>
-							<td>Plant Ops Supt</td>
-							<td>
-								<input id="tPOSName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["POSName"].ToString()" />
-								@ViewBag.data.Rows[0]["POSName"].ToString()
-							</td>
-							<td>
-								<input id="tPOSDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["POSDate"].ToString()" />
-								@ViewBag.data.Rows[0]["POSDate"].ToString()
-							</td>
-						</tr>
-						<tr>
-							<td>Plant Manager</td>
-							<td>
-								<input id="tPMName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PMName"].ToString()" />
-								@ViewBag.data.Rows[0]["PMName"].ToString()
-							</td>
-							<td>
-								<input id="tPMDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PMDate"].ToString()" />
-								@ViewBag.data.Rows[0]["PMDate"].ToString()
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			@* TABLE *@
+			<div class="container overflow-hidden">
+				<div class="row align-items-center" style="gap: 10px;">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th scope="col">A Code Sign OFF</th>
+								<th scope="col">Sign</th>
+								<th scope="col">Date</th>
+							</tr>
+						</thead>
+						<tbody style="font-size: 12px;">
+							<tr>
+								<td>Plant Supt</td>
+								<td>
+									<input id="tPSName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PSName"].ToString()" />
+									@ViewBag.data.Rows[0]["PSName"].ToString()
+								</td>
+								<td>
+									<input id="tPSDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PSDate"].ToString()" />
+									@ViewBag.data.Rows[0]["PSDate"].ToString()
+								</td>
+							</tr>
+							<tr>
+								<td>Plant Ops Supt</td>
+								<td>
+									<input id="tPOSName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["POSName"].ToString()" />
+									@ViewBag.data.Rows[0]["POSName"].ToString()
+								</td>
+								<td>
+									<input id="tPOSDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["POSDate"].ToString()" />
+									@ViewBag.data.Rows[0]["POSDate"].ToString()
+								</td>
+							</tr>
+							<tr>
+								<td>Plant Manager</td>
+								<td>
+									<input id="tPMName" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PMName"].ToString()" />
+									@ViewBag.data.Rows[0]["PMName"].ToString()
+								</td>
+								<td>
+									<input id="tPMDate" class="d-none" type="text" value="@ViewBag.data.Rows[0]["PMDate"].ToString()" />
+									@ViewBag.data.Rows[0]["PMDate"].ToString()
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<script>
-	// CODE FOR AUTOFILLING FROM SELECT
+	<script>
+		$(document).ready(function () {
+			// CODE FOR AUTOFILLING FROM SELECT
 
-	// tRootCauseCode
-	var tRootCauseCode = $("#tRootCauseCode");
-	var tRootCauseCodeField = $("#tRootCauseCodeField");
+			// tRootCauseCode
+			var tRootCauseCode = $("#tRootCauseCode");
+			var tRootCauseCodeField = $("#tRootCauseCodeField");
 
-	function handlettRootCauseCode() {
-		var value = tRootCauseCode.find(":selected").text();
+			function handlettRootCauseCode() {
+				var value = tRootCauseCode.find(":selected").text();
 
-		tRootCauseCodeField.text(value);
-	}
+				tRootCauseCodeField.text(value);
+			}
 
-	handlettRootCauseCode();
-	loadRootCauseDetail()
+			handlettRootCauseCode();
+			loadRootCauseDetail()
 
-	$("#tRootCauseCode").on("change", function () {
-		handlettRootCauseCode();
-		loadRootCauseDetail();
-	});
+			$("#tRootCauseCode").on("change", function () {
+				handlettRootCauseCode();
+				loadRootCauseDetail();
+			});
 
-	function loadRootCauseDetail() {
-		var rootCauseCode = $("#tRootCauseCode").val();
+			function loadRootCauseDetail() {
+				var rootCauseCode = $("#tRootCauseCode").val();
 
-		$.ajax({
-			url: '/ComponentEvaluation/RootCauseDetail',
-			method: 'GET',
-			dataType: 'json',
-			data: { rootCauseCode: rootCauseCode },
-			success: function (response) {
-				$('#tRemark').empty();
+				$.ajax({
+					url: '/ComponentEvaluation/RootCauseDetail',
+					method: 'GET',
+					dataType: 'json',
+					data: { rootCauseCode: rootCauseCode },
+					success: function (response) {
+						$('#tRemark').empty();
 
-				response.forEach(function (item) {
-					var option = $('<option>', {
-						value: item.tRemark,
-						text: item.tRemark
-					});
+						response.forEach(function (item) {
+							var option = $('<option>', {
+								value: item.tRemark,
+								text: item.tRemark
+							});
 
-					if (item.tRemark === '@ViewBag.data?.Rows[0]?["Remark"].ToString()') {
-						option.prop('selected', true);
+							if (item.tRemark === '@ViewBag.data?.Rows[0]?["Remark"].ToString()') {
+								option.prop('selected', true);
+							}
+
+							$('#tRemark').append(option);
+						});
 					}
-
-					$('#tRemark').append(option);
 				});
 			}
+
+			// tRecCode
+			var tRecCode = $("#tRecCode");
+			var tRecCodeField = $("#tRecCodeField");
+
+			function handletRecCode() {
+				var value = tRecCode.find(":selected").text();
+				var valueAfterFirstPipe = value.split("|")[1].trim();
+
+				tRecCodeField.text(valueAfterFirstPipe);
+			}
+
+			handletRecCode();
+			tRecCode.on("change", handletRecCode);
+
+			// tSysFailCode
+			var tSysFailCode = $("#tSysFailCode");
+			var tSysFailCodeField = $("#tSysFailCodeField");
+
+			function handletSysFailCode() {
+				var value = tSysFailCode.find(":selected").text();
+				var valueAfterFirstPipe = value.split("|")[1].trim();
+
+				tSysFailCodeField.text(valueAfterFirstPipe);
+			}
+
+			handletSysFailCode();
+			tSysFailCode.on("change", handletSysFailCode);
+
+			// Handle tPCAMRequired value based on the pcam required query
+
+			function handlePCAMRequired() {
+				var pcamRequiredValue = '@ViewBag.PCAMRequired';
+				$('#tPCAMRequired').val(pcamRequiredValue);
+			}
+
+			handlePCAMRequired();
+
+			// handle the value of pcam status based on the value of pcam required
+			function handlePCAMStatus() {
+				var tPCAMRequired = $("#tPCAMRequired").val();
+				console.log(tPCAMRequired);
+				if (tPCAMRequired == "N") {
+					$('#tPCAMStatusID').val("NA");
+				}
+			}
+
+			handlePCAMStatus();
+			$("#tPCAMRequired").on("change", handlePCAMStatus);
+
+			// handle the value evaluation code route and costing
+			var tEvalCode = $("#tEvalCode");
+			var tEvalCodeRoute = $("#tEvalCodeRoute");
+			var tEvalCodeCosting = $("#tEvalCodeCosting");
+
+			function handletEvalCode() {
+				var value = tEvalCode.find(":selected").text();
+				var values = value.split("|").map(function (item) {
+					return item.trim();
+				});
+
+				tEvalCodeRoute.val(values[1]);
+				tEvalCodeCosting.val(values[2]);
+			}
+
+			handletEvalCode();
+			tEvalCode.on("change", handletEvalCode);
+
+			// handle eletrical and mechanical radio button
+			var electricalRadioButton = document.getElementById("oCoreInspectionN");
+			var mechanicalRadioButton = document.getElementById("oCoreInspectionY");
+			var sysFailSelect = document.getElementById("tSysFailCode");
+			var sysFailField = document.getElementById("tSysFailCodeField");
+
+			function handleRadioChange() {
+				if (electricalRadioButton.checked) {
+					sysFailSelect.style.display = "none";
+					sysFailField.style.display = "none";
+				} else {
+					sysFailSelect.style.display = "block";
+					sysFailField.style.display = "block";
+				}
+			}
+
+			electricalRadioButton.addEventListener("change", handleRadioChange);
+			mechanicalRadioButton.addEventListener("change", handleRadioChange);
+
+			handleRadioChange();
+
+			function gotoReport() {
+				console.log("goto report clicked");
+				var url = window.location.href;
+				var ID = url.substring(url.lastIndexOf('/') + 1);
+				window.location.href = '/ComponentEvaluation/report/' + encodeURIComponent(ID);
+			};
 		});
-	}
-
-	// tRecCode
-	var tRecCode = $("#tRecCode");
-	var tRecCodeField = $("#tRecCodeField");
-
-	function handletRecCode() {
-		var value = tRecCode.find(":selected").text();
-		var valueAfterFirstPipe = value.split("|")[1].trim();
-
-		tRecCodeField.text(valueAfterFirstPipe);
-	}
-
-	handletRecCode();
-	tRecCode.on("change", handletRecCode);
-
-	// tSysFailCode
-	var tSysFailCode = $("#tSysFailCode");
-	var tSysFailCodeField = $("#tSysFailCodeField");
-
-	function handletSysFailCode() {
-		var value = tSysFailCode.find(":selected").text();
-		var valueAfterFirstPipe = value.split("|")[1].trim();
-
-		tSysFailCodeField.text(valueAfterFirstPipe);
-	}
-
-	handletSysFailCode();
-	tSysFailCode.on("change", handletSysFailCode);
-
-	// Handle tPCAMRequired value based on the pcam required query
-
-	function handlePCAMRequired() {
-		var pcamRequiredValue = '@ViewBag.PCAMRequired';
-		$('#tPCAMRequired').val(pcamRequiredValue);
-	}
-
-	handlePCAMRequired();
-
-	// handle the value of pcam status based on the value of pcam required
-	function handlePCAMStatus() {
-		var tPCAMRequired = $("#tPCAMRequired").val();
-		console.log(tPCAMRequired);
-		if (tPCAMRequired == "N") {
-			$('#tPCAMStatusID').val("NA");
-		}
-	}
-
-	handlePCAMStatus();
-	$("#tPCAMRequired").on("change", handlePCAMStatus);
-
-	// handle the value evaluation code route and costing
-	var tEvalCode = $("#tEvalCode");
-	var tEvalCodeRoute = $("#tEvalCodeRoute");
-	var tEvalCodeCosting = $("#tEvalCodeCosting");
-
-	function handletEvalCode() {
-		var value = tEvalCode.find(":selected").text();
-		var values = value.split("|").map(function (item) {
-			return item.trim();
-		});
-
-		tEvalCodeRoute.val(values[1]);
-		tEvalCodeCosting.val(values[2]);
-	}
-
-	handletEvalCode();
-	tEvalCode.on("change", handletEvalCode);
-
-	// handle eletrical and mechanical radio button
-	var electricalRadioButton = document.getElementById("oCoreInspectionN");
-	var mechanicalRadioButton = document.getElementById("oCoreInspectionY");
-	var sysFailSelect = document.getElementById("tSysFailCode");
-	var sysFailField = document.getElementById("tSysFailCodeField");
-
-	function handleRadioChange() {
-		if (electricalRadioButton.checked) {
-			sysFailSelect.style.display = "none";
-			sysFailField.style.display = "none";
-		} else {
-			sysFailSelect.style.display = "block";
-			sysFailField.style.display = "block";
-		}
-	}
-
-	electricalRadioButton.addEventListener("change", handleRadioChange);
-	mechanicalRadioButton.addEventListener("change", handleRadioChange);
-
-	handleRadioChange();
-
-		function gotoReport() {
-			console.log("goto report clicked");
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			window.location.href = '/ComponentEvaluation/report/' + encodeURIComponent(ID);
-		};
-</script>
+	</script>

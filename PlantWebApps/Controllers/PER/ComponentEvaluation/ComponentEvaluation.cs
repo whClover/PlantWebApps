@@ -451,6 +451,8 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		public IActionResult ReportBody(string ID)
 		{
 			LoadOption();
+
+			Console.WriteLine("id is " + ID);
 			
 			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{ID}'";
 			var dataTable = SQLFunction.execQuery(query);
@@ -476,8 +478,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			return View("~/Views/PER/ComponentEvaluation/Reports/Report.cshtml");
 		}
-		public IActionResult ReportHeading()
+		public IActionResult ReportHeading(string ID)
 		{
+			Console.WriteLine("evaluation wo" + ID);
 			return View("~/Views/PER/ComponentEvaluation/Reports/ReportHeader.cshtml");
 		}
 		public IActionResult ReportFooter()

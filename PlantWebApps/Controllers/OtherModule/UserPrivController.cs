@@ -39,7 +39,6 @@ namespace PlantWebApps.Controllers.OtherModule
 
             return View("~/Views/OtherModule/userpriv/Form.cshtml");
         }
-
         public IActionResult Export()
         {
             BuildTempFilter();

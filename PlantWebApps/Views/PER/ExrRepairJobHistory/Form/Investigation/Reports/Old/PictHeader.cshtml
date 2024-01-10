@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@using System.Data;
+	Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+	<tr>
+		<td style="width: 25%">
+			<img src="~/images/Thiess.png" style="max-width: 175px;" />
+		</td>
+		<td style="width: 50%">
+			<div class="d-flex flex-column align-items-center">
+				<div style="font-size: 24px" class="fw-bold">OLD CORE INSPECTION IMAGE</div>
+				<div style="font-size: 14px" class="fw-bold">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
+			</div>
+		</td>
+		<td style="width: 25%">
+			<div></div>
+		</td>
+	</tr>
+	<tr>
+		<td style="width: 25%">
+			<div class="d-flex align-items-center" style="margin-left: 15px;">
+				<div style="min-width: 100px;">WO Number</div>
+				<div style="min-width: 25px;">:</div>
+				<div>@ViewBag.data.Rows[0]["WoNO"].ToString()</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
