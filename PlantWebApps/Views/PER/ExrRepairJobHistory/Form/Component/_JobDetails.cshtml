@@ -3,6 +3,23 @@
 *@
 @{
     @using System.Data;
+
+    var optionsTCompQty = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "", Text = "" },
+        new SelectListItem { Value = "1", Text = "PEX" },
+        new SelectListItem { Value = "2", Text = "Stock" },
+        new SelectListItem { Value = "3", Text = "Direct Change" },
+        new SelectListItem { Value = "4", Text = "Consignment" }
+    };
+
+    var optionstRequestP1 = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "", Text = "" },
+        new SelectListItem { Value = "1", Text = "1" },
+        new SelectListItem { Value = "2", Text = "2" },
+        new SelectListItem { Value = "3", Text = "3" }
+    };
 }
 
 <div class="col border">
@@ -13,7 +30,8 @@
             <div class="row align-items-center">
                 <div class="col-2">Parent Wo*</div>
                 <div class="col-3">
-                    <input id="tOffSiteWO" name="tOffSiteWO" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tOffSiteWO" name="tOffSiteWO" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OffSiteWO"] : "")" />
                 </div>
                 <button id="CFindWO" name="CFindWO" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -22,7 +40,8 @@
                 </button>
                 <div class="col-2">Comp.Desc</div>
                 <div class="col-3">
-                    <input id="TCompDesc" name="TCompDesc" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="TCompDesc" name="TCompDesc" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompDesc"] : "")" />
                 </div>
             </div>
         </div>
@@ -31,17 +50,20 @@
             <div class="row align-items-center">
                 <div class="col-2">Comp Type</div>
                 <div class="col-3">
-                    <input id="tCompTypeID" name="tCompTypeID" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tCompTypeID" name="tCompTypeID" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompQty"] : "")" />
                 </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-2">Comp QTY</div>
                 <div class="col-3">
                     <select id="TCompQty" name="TCompQty" class="col-3 form-control form-control-sm select2">
-                        <option selected></option>
-                        <option value="1">PEX</option>
-                        <option value="2">Stock</option>
-                        <option value="3">Direct Change</option>
-                        <option value="4">Consigntment</option>
+                        <option></option>
+                        @foreach (var option in optionsTCompQty)
+                        {
+                            var value = option.Value;
+                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompQty"].ToString())"
+                            >@option.Text</option>
+                        }
                     </select>
                 </div>
             </div>
@@ -51,12 +73,14 @@
             <div class="row align-items-center">
                 <div class="col-2">Maint Type</div>
                 <div class="col-3">
-                    <input id="tMaintType" name="tMaintType" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tMaintType" name="tMaintType" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MaintType"] : "")" />
                 </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-2"></div>
                 <div class="col-3">
-                    <input id="TMaintDesc" name="TMaintDesc" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="TMaintDesc" name="TMaintDesc" type="Text" class="col-3 form-control form-control-sm border border-0"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MaintDesc"] : "")" disabled />
                 </div>
             </div>
         </div>
@@ -65,12 +89,14 @@
             <div class="row align-items-center">
                 <div class="col-2">Unit No</div>
                 <div class="col-3">
-                    <input id="tunitno" name="tunitno" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tunitno" name="tunitno" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitNumber"] : "")" />
                 </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-2">Unit Desc</div>
                 <div class="col-3">
-                    <input id="tunitdesc" name="tunitdesc" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tunitdesc" name="tunitdesc" type="Text" class="col-3 form-control form-control-sm border border-0"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitDescription"] : "")" disabled/>
                 </div>
             </div>
         </div>
@@ -79,7 +105,8 @@
             <div class="row align-items-center">
                 <div class="col-2">TCI Part No</div>
                 <div class="col-3">
-                    <input id="tTCIPartNo" name="tTCIPartNo" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tTCIPartNo" name="tTCIPartNo" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")" />
                 </div>
                 <button id="cfind" name="cfind" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -88,7 +115,8 @@
                 </button>
                 <div class="col-2">Unit Location</div>
                 <div class="col-3">
-                    <input id="tLocationName" name="tLocationName" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tLocationName" name="tLocationName" type="Text" class="col-3 form-control form-control-sm border border-0"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LocationName"] : "")" disabled/>
                 </div>
             </div>
         </div>
@@ -97,7 +125,8 @@
             <div class="row">
                 <div class="col-2">TCI Desc</div>
                 <div class="col-9">
-                    <textarea id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                    <input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0" 
+                    value="@ViewBag.data.Rows[0]["Description1"].ToString()" disabled/>
                 </div>
             </div>
         </div>
@@ -106,7 +135,8 @@
             <div class="row">
                 <div class="col-2">TCI Desc 2</div>
                 <div class="col-9">
-                    <textarea id="tPartDesc2" name="tPartDesc2" class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                    <input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
+                           value="@ViewBag.data.Rows[0]["Description2"].ToString()" disabled />
                 </div>
             </div>
         </div>
@@ -115,10 +145,12 @@
             <div class="row align-items-center">
                 <div class="col-2">Routable Stock</div>
                 <div class="col-3">
-                    <input id="tRoutableStock" name="tRoutableStock" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tRoutableStock" name="tRoutableStock" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutableStock"] : "")" />
                 </div>
                 <div class="col-3">
-                    <input id="tRoutModDate" name="tRoutModDate" type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic" />
+                    <input id="tRoutModDate" name="tRoutModDate" type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic"
+                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutModDate"] : "")" />
                 </div>
             </div>
         </div>
@@ -127,7 +159,9 @@
             <div class="row align-items-center">
                 <div class="col-2">Total Repair</div>
                 <div class="col-3">
-                    <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm" />
+                    @* <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm"
+                           value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TotalRepair"] : "")" /> *@
+                    <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm"/>
                 </div>
             </div>
         </div>
@@ -136,14 +170,14 @@
             <div class="row align-items-center">
                 <div class="col-2">Repair By</div>
                 <div class="col-3">
-                    <select id="tRepairByID" name="tRepairByID" class="col-3 form-control form-control-sm select2" id="supplierid" name="supplierid">
+                    <select id="tRepairByID" name="tRepairByID" class="col-3 form-control form-control-sm select2">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.repairby.Rows)
                         {
                             var supplierid = row["SupplierID"].ToString();
                             var suppliername = row["SupplierName"].ToString();
                             var suppliername2 = row["SupplierName2"].ToString();
-                            <option value="@supplierid">@suppliername | @suppliername2 | @supplierid</option>
+                            <option value="@supplierid" selected="@(supplierid == ViewBag.data?.Rows[0]?["RepairByID"].ToString())">@suppliername | @suppliername2 | @supplierid</option>
                         }
                     </select>
                 </div>
@@ -156,13 +190,13 @@
             <div class="row align-items-center">
                 <div class="col-2">Supervisor</div>
                 <div class="col-3">
-                    <select id="tSpvID" name="tSpvID" class="col-3 form-control form-control-sm select2" id="supervisorid" name="supervisorid">
+                    <select id="tSpvID" name="tSpvID" class="col-3 form-control form-control-sm select2">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.spvdesc.Rows)
                         {
                             var supervisorid = row["SupervisorID"].ToString();
                             var supervisordesc = row["SupervisorDesc"].ToString();
-                            <option value="@supervisorid">@supervisordesc</option>
+                            <option value="@supervisorid" selected="@(supervisorid == ViewBag.data?.Rows[0]?["SupervisorID"].ToString())">@supervisordesc</option>
                         }
                     </select>
                 </div>
@@ -173,26 +207,27 @@
         @* reuqest p and reason type *@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
-                <div class="col-2">Request P</div>
+                <div class="col-2">Request P1</div>
                 <div class="col-3">
-                    <select id="tRequestP1" name="tRequestP1" class="col-3 form-control form-control-sm" id="RequestP1" name="RequestP1">
-                        <option value=""></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                    <select id="tRequestP1" name="tRequestP1" class="col-3 form-control form-control-sm select2">
+                        @foreach (var option in optionstRequestP1)
+                        {
+                            var value = option.Value;
+                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["RequestP1"].ToString())">@option.Text</option>
+                        }
                     </select>
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2">Reason Type</div>
                 <div class="col-3">
-                    <select id="tReasonType" name="tReasonType" class="col-3 form-control form-control-sm select2" id="reasontypeid" name="reasontypeid">
+                    <select id="tReasonType" name="tReasonType" class="col-3 form-control form-control-sm select2">
                     <option value=""></option>
                     @foreach (DataRow row in ViewBag.freason.Rows)
                     {
                         var reasontypeid = row["ReasonTypeID"].ToString();
                         var reasontype = row["ReasonType"].ToString();
                         var reasontypedesc = row["ReasonTypeDesc"].ToString();
-                        <option value="@reasontypeid">@reasontype</option>
+                            <option value="@reasontypeid" selected="@(reasontypeid == ViewBag.data?.Rows[0]?["ReasonTypeID"].ToString())">@reasontype</option>
                     }
                 </select>
                 </div>

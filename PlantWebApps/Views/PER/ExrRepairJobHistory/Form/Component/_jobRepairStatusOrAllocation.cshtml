@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
 }
 
 <div class="col border">
@@ -12,7 +13,8 @@
             <div class="row align-items-center">
                 <div class="col-2">Current Status</div>
                 <div class="col-3">
-                    <input id="tCurrentStatus" name="tCurrentStatus" type="Text" class="col-3 form-control form-control-sm" />
+                    <input id="tCurrentStatus" name="tCurrentStatus" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["RepairAdvice"] : "")"
+                        type="Text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-3">Change Later</div>
@@ -25,9 +27,12 @@
                 <div class="col-3">
                     <select id="tRepairAdvice" name="tRepairAdvice" class="col-3 form-control form-control-sm select2">
                         <option value=""></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                        @foreach (DataRow row in ViewBag.repairadvice.Rows)
+                        {
+                            var JobStatusID = row["JobStatusID"].ToString();
+                            var JobStatus = row["JobStatus"].ToString();
+                            <option value="@JobStatusID" selected="@(JobStatusID == ViewBag.data?.Rows[0]?["RepairAdvice"].ToString())">@JobStatusID | @JobStatus</option>
+                        }
                     </select>
                 </div>
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
@@ -50,20 +55,53 @@
             <div class="row">
                 <div class="col-2">Remark</div>
                 <div class="col-9">
-                    <textarea class="col-9 form-control form-control-sm" rows="3" aria-label="With textarea"></textarea>
+                    <input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
+                           value="@ViewBag.data.Rows[0]["RemarkAdvice"].ToString()" disabled />
                 </div>
             </div>
         </div>
-
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Last Change</div>
                 <div class="row col-10" style="gap: 10px;">
-                    <div class="col-6">
-                        <input type="text" class="form-control form-control-sm datepicker-basic col-6" />
+                    <div class="col-4">
+                        <input id="tLastChangeDate" name="tLastChangeDate" type="Text" class="col-3 form-control form-control-sm datepicker-basic"
+                               value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LastChangeDate"] : "")" />
                     </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control form-control-sm col-5" />
+                    <div class="col-4">
+                        <input id="tLastChangeBy" name="tLastChangeBy" type="Text" class="col-3 form-control form-control-sm "
+                               value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LastChangeBy"] : "")" />
+                    </div>
+                    <input id="tCheck" name="tCheck" class="col-3 border border-0" disabled value="1"/>
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2">Last Change</div>
+                <div class="row col-10" style="gap: 10px;">
+                    <div class="col-4">
+                        <input id="TFlagLCDate" name="TFlagLCDate" type="Text" class="col-3 form-control form-control-sm datepicker-basic"
+                               value="@ViewBag.by" />
+                    </div>
+                    <div class="col-4">
+                        <input id="TFlagLCBy" name="TFlagLCBy" type="Text" class="col-3 form-control form-control-sm "
+                               value="@ViewBag.date" />
+                    </div>
+                    <div id="cCheck" name="tCheck" class="col-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2"></div>
+                <div class="row col-10" style="gap: 10px;">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                        <input id="tReason" name="tReason" type="Text" class="col-3 form-control form-control-sm "
+                               value="" />
                     </div>
                 </div>
             </div>

@@ -361,13 +361,26 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
 		public IActionResult Edit(string id)
 		{
-            Console.WriteLine("This is edit" + id);
-
 			loadoption();
 
             // general data query
             string query = $"SELECT * from v_ExrJobDetail WHERE ID = '{id}'";
+
+            // v_ExrJobDetailRev1 data query
+            //string queryDetail = @$"SELECT *,dbo.GetExrInspectResult(ID,'OLD') as resultOldCoreInspect,
+            //dbo.GetExrInspectResult(ID,'FIN') AS resultFinalInspect,dbo.exrtotalrepair(TCIPartno) as TotalRepair
+            //from v_ExrJobDetailRev1 WHERE ID={id}";
+
+            string queryDetail = @$"SELECT *,dbo.GetExrInspectResult(ID,'OLD') as resultOldCoreInspect,
+            dbo.GetExrInspectResult(ID,'FIN') AS resultFinalInspect
+            from v_ExrJobDetailRev1 WHERE ID={id}";
+
+            Console.WriteLine(queryDetail);
+
             ViewBag.data = SQLFunction.execQuery(query);
+            ViewBag.detail = SQLFunction.execQuery(queryDetail);
+            ViewBag.by = Utility.eusername();
+            ViewBag.date = Utility.getDate();
 
             return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
 		}
@@ -534,6 +547,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             // tnextstatus
             string querytnextstatus = "SELECT * FROM tbl_EXRJobStatus Where ExrJobStatusID Not IN (0,5,6,11,12)";
             ViewBag.tnextstatus = SQLFunction.execQuery(querytnextstatus);
+
+            // tnextstatus
+            string queryrepairadvice = "Select JobStatusID,JobStatus from dbo.JobStatusEXR('ALL') order by StatusOrder";
+            ViewBag.repairadvice = SQLFunction.execQuery(queryrepairadvice);
 
             // tAttentionTo for CreateAN
             string queryTattentionTo = "SELECT isnull(SupplierName,SupplierID) as SupplierName, SupplierID FROM tbl_SupplierList ORDER BY SupplierName";
