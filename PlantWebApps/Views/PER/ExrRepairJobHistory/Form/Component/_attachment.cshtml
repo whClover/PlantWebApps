@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
 }
 
 <div class="col border" >
@@ -14,6 +15,24 @@
             <button id="Command4499" name="Command4499" type="button" class="btn btn-secondary">AN Dispatch</button>
             <button id="Command4500" name="Command4500" type="button" class="btn btn-secondary">View</button>
         </div>
-        <textarea id="ListAttachment" name="ListAttachment" class="form-control form-control-sm" rows="10"></textarea>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Attachment Type</th>
+                        <th>File Path</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in ViewBag.ListAttachment.Rows)
+                    {
+                        <tr>
+                            <td>@row["AttachmentType"]</td>
+                            <td>@row["FilePath"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

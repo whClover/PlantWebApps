@@ -2,236 +2,264 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    @using System.Data;
+	@using System.Data;
 
-    var optionsTCompQty = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "", Text = "" },
-        new SelectListItem { Value = "1", Text = "PEX" },
-        new SelectListItem { Value = "2", Text = "Stock" },
-        new SelectListItem { Value = "3", Text = "Direct Change" },
-        new SelectListItem { Value = "4", Text = "Consignment" }
-    };
+	var optionsTCompQty = new List<SelectListItem>
+	{
+		new SelectListItem { Value = "", Text = "" },
+		new SelectListItem { Value = "1", Text = "PEX" },
+		new SelectListItem { Value = "2", Text = "Stock" },
+		new SelectListItem { Value = "3", Text = "Direct Change" },
+		new SelectListItem { Value = "4", Text = "Consignment" }
+	};
 
-    var optionstRequestP1 = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "", Text = "" },
-        new SelectListItem { Value = "1", Text = "1" },
-        new SelectListItem { Value = "2", Text = "2" },
-        new SelectListItem { Value = "3", Text = "3" }
-    };
+	var optionstRequestP1 = new List<SelectListItem>
+	{
+		new SelectListItem { Value = "", Text = "" },
+		new SelectListItem { Value = "1", Text = "1" },
+		new SelectListItem { Value = "2", Text = "2" },
+		new SelectListItem { Value = "3", Text = "3" }
+	};
 }
 
 <div class="col border">
-    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-        <p class="fs-5">Job Details</p>
-        @* parent wo and comp desc *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Parent Wo*</div>
-                <div class="col-3">
-                    <input id="tOffSiteWO" name="tOffSiteWO" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OffSiteWO"] : "")" />
-                </div>
-                <button id="CFindWO" name="CFindWO" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                </button>
-                <div class="col-2">Comp.Desc</div>
-                <div class="col-3">
-                    <input id="TCompDesc" name="TCompDesc" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompDesc"] : "")" />
-                </div>
-            </div>
-        </div>
-        @* comp type  *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Comp Type</div>
-                <div class="col-3">
-                    <input id="tCompTypeID" name="tCompTypeID" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompQty"] : "")" />
-                </div>
-                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
-                <div class="col-2">Comp QTY</div>
-                <div class="col-3">
-                    <select id="TCompQty" name="TCompQty" class="col-3 form-control form-control-sm select2">
-                        <option></option>
-                        @foreach (var option in optionsTCompQty)
-                        {
-                            var value = option.Value;
-                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompQty"].ToString())"
-                            >@option.Text</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-        @* maint type and comp type *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Maint Type</div>
-                <div class="col-3">
-                    <input id="tMaintType" name="tMaintType" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MaintType"] : "")" />
-                </div>
-                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
-                <div class="col-2"></div>
-                <div class="col-3">
-                    <input id="TMaintDesc" name="TMaintDesc" type="Text" class="col-3 form-control form-control-sm border border-0"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MaintDesc"] : "")" disabled />
-                </div>
-            </div>
-        </div>
-        @* unit no and unit desc *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Unit No</div>
-                <div class="col-3">
-                    <input id="tunitno" name="tunitno" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitNumber"] : "")" />
-                </div>
-                <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
-                <div class="col-2">Unit Desc</div>
-                <div class="col-3">
-                    <input id="tunitdesc" name="tunitdesc" type="Text" class="col-3 form-control form-control-sm border border-0"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitDescription"] : "")" disabled/>
-                </div>
-            </div>
-        </div>
-        @* unit location and tci part no *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">TCI Part No</div>
-                <div class="col-3">
-                    <input id="tTCIPartNo" name="tTCIPartNo" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")" />
-                </div>
-                <button id="cfind" name="cfind" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                </button>
-                <div class="col-2">Unit Location</div>
-                <div class="col-3">
-                    <input id="tLocationName" name="tLocationName" type="Text" class="col-3 form-control form-control-sm border border-0"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LocationName"] : "")" disabled/>
-                </div>
-            </div>
-        </div>
-        @* tci desc  *@
-        <div class="container overflow-hidden">
-            <div class="row">
-                <div class="col-2">TCI Desc</div>
-                <div class="col-9">
-                    <input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0" 
-                    value="@ViewBag.data.Rows[0]["Description1"].ToString()" disabled/>
-                </div>
-            </div>
-        </div>
-        @* tci desc 2  *@
-        <div class="container overflow-hidden">
-            <div class="row">
-                <div class="col-2">TCI Desc 2</div>
-                <div class="col-9">
-                    <input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
-                           value="@ViewBag.data.Rows[0]["Description2"].ToString()" disabled />
-                </div>
-            </div>
-        </div>
-        @* routable stock  *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Routable Stock</div>
-                <div class="col-3">
-                    <input id="tRoutableStock" name="tRoutableStock" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutableStock"] : "")" />
-                </div>
-                <div class="col-3">
-                    <input id="tRoutModDate" name="tRoutModDate" type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic"
-                           value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutModDate"] : "")" />
-                </div>
-            </div>
-        </div>
-        @* total repair  *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Total Repair</div>
-                <div class="col-3">
-                    @* <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm"
-                           value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TotalRepair"] : "")" /> *@
-                    <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm"/>
-                </div>
-            </div>
-        </div>
-        @* repair by  *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Repair By</div>
-                <div class="col-3">
-                    <select id="tRepairByID" name="tRepairByID" class="col-3 form-control form-control-sm select2">
-                        <option value=""></option>
-                        @foreach (DataRow row in ViewBag.repairby.Rows)
-                        {
-                            var supplierid = row["SupplierID"].ToString();
-                            var suppliername = row["SupplierName"].ToString();
-                            var suppliername2 = row["SupplierName2"].ToString();
-                            <option value="@supplierid" selected="@(supplierid == ViewBag.data?.Rows[0]?["RepairByID"].ToString())">@suppliername | @suppliername2 | @supplierid</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-2">*Calculation</div>
-            </div>
-        </div>
-        @* supervisor *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Supervisor</div>
-                <div class="col-3">
-                    <select id="tSpvID" name="tSpvID" class="col-3 form-control form-control-sm select2">
-                        <option value=""></option>
-                        @foreach (DataRow row in ViewBag.spvdesc.Rows)
-                        {
-                            var supervisorid = row["SupervisorID"].ToString();
-                            var supervisordesc = row["SupervisorDesc"].ToString();
-                            <option value="@supervisorid" selected="@(supervisorid == ViewBag.data?.Rows[0]?["SupervisorID"].ToString())">@supervisordesc</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-2">*Calculation</div>
-            </div>
-        </div>
-        @* reuqest p and reason type *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Request P1</div>
-                <div class="col-3">
-                    <select id="tRequestP1" name="tRequestP1" class="col-3 form-control form-control-sm select2">
-                        @foreach (var option in optionstRequestP1)
-                        {
-                            var value = option.Value;
-                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["RequestP1"].ToString())">@option.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-2">Reason Type</div>
-                <div class="col-3">
-                    <select id="tReasonType" name="tReasonType" class="col-3 form-control form-control-sm select2">
-                    <option value=""></option>
-                    @foreach (DataRow row in ViewBag.freason.Rows)
-                    {
-                        var reasontypeid = row["ReasonTypeID"].ToString();
-                        var reasontype = row["ReasonType"].ToString();
-                        var reasontypedesc = row["ReasonTypeDesc"].ToString();
-                            <option value="@reasontypeid" selected="@(reasontypeid == ViewBag.data?.Rows[0]?["ReasonTypeID"].ToString())">@reasontype</option>
-                    }
-                </select>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Job Details</p>
+		@* parent wo and comp desc *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Parent Wo*</div>
+				<div class="col-3">
+					<input id="tOffSiteWO" name="tOffSiteWO" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OffSiteWO"] : "")" />
+				</div>
+				<button id="CFindWO" name="CFindWO" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+					</svg>
+				</button>
+				<div class="col-2">Comp.Desc</div>
+				<div class="col-3">
+					<input id="TCompDesc" name="TCompDesc" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompDesc"] : "")" />
+				</div>
+			</div>
+		</div>
+		@* comp type  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Comp Type</div>
+				<div class="col-3">
+					<input id="tCompTypeID" name="tCompTypeID" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompQty"] : "")" />
+				</div>
+				<div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+				<div class="col-2">Comp QTY</div>
+				<div class="col-3">
+					<select id="TCompQty" name="TCompQty" class="col-3 form-control form-control-sm select2">
+						<option></option>
+						@foreach (var option in optionsTCompQty)
+						{
+							var value = option.Value;
+							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompQty"].ToString())">@option.Text</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+		@* maint type and comp type *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Maint Type</div>
+				<div class="col-3">
+					<input id="tMaintType" name="tMaintType" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MaintType"] : "")" />
+				</div>
+				<div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+				<div class="col-2"></div>
+				<div class="col-3">
+					<input id="TMaintDesc" name="TMaintDesc" type="Text" class="col-3 form-control form-control-sm border border-0"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MaintDesc"] : "")" disabled />
+				</div>
+			</div>
+		</div>
+		@* unit no and unit desc *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Unit No</div>
+				<div class="col-3">
+					<input id="tunitno" name="tunitno" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitNumber"] : "")" />
+				</div>
+				<div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
+				<div class="col-2">Unit Desc</div>
+				<div class="col-3">
+					<input id="tunitdesc" name="tunitdesc" type="Text" class="col-3 form-control form-control-sm border border-0"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitDescription"] : "")" disabled />
+				</div>
+			</div>
+		</div>
+		@* unit location and tci part no *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">TCI Part No</div>
+				<div class="col-3">
+					<input id="tTCIPartNo" name="tTCIPartNo" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")" />
+				</div>
+				<button id="cfind" name="cfind" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+					</svg>
+				</button>
+				<div class="col-2">Unit Location</div>
+				<div class="col-3">
+					<input id="tLocationName" name="tLocationName" type="Text" class="col-3 form-control form-control-sm border border-0"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LocationName"] : "")" disabled />
+				</div>
+			</div>
+		</div>
+		@* tci desc  *@
+		<div class="container overflow-hidden">
+			<div class="row">
+				<div class="col-2">TCI Desc</div>
+				<div class="col-9">
+					<input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
+						   value="@ViewBag.data.Rows[0]["Description1"].ToString()" disabled />
+				</div>
+			</div>
+		</div>
+		@* tci desc 2  *@
+		<div class="container overflow-hidden">
+			<div class="row">
+				<div class="col-2">TCI Desc 2</div>
+				<div class="col-9">
+					<input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
+						   value="@ViewBag.data.Rows[0]["Description2"].ToString()" disabled />
+				</div>
+			</div>
+		</div>
+		@* routable stock  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Routable Stock</div>
+				<div class="col-3">
+					<input id="tRoutableStock" name="tRoutableStock" type="Text" class="col-3 form-control form-control-sm"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutableStock"] : "")" />
+				</div>
+				<div class="col-3">
+					<input id="tRoutModDate" name="tRoutModDate" type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic"
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutModDate"] : "")" />
+				</div>
+			</div>
+		</div>
+		@* total repair  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Total Repair</div>
+				<div class="col-3">
+					@* <input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm"
+					value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TotalRepair"] : "")" /> *@
+					<input id="tTotalRepair" name="tTotalRepair" type="Text" class="col-3 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* repair by  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Repair By</div>
+				<div class="col-3">
+					<select id="tRepairByID" name="tRepairByID" class="col-3 form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.repairby.Rows)
+						{
+							var supplierid = row["SupplierID"].ToString();
+							var suppliername = row["SupplierName"].ToString();
+							var suppliername2 = row["SupplierName2"].ToString();
+							<option data-tsupplier="@suppliername" data-dbvalue="@ViewBag.data?.Rows[0]?["SupplierName"].ToString()"
+								value="@supplierid" selected="@(supplierid == ViewBag.data?.Rows[0]?["RepairByID"].ToString())"
+								>@suppliername | @suppliername2 | @supplierid</option>
+						}
+					</select>
+				</div>
+				<div class="col-1"></div>
+				<div id="jdRepairByCalc" class="col-2"></div>
+			</div>
+		</div>
+		@* supervisor *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Supervisor</div>
+				<div class="col-3">
+					<select id="tSpvID" name="tSpvID" class="col-3 form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.spvdesc.Rows)
+						{
+							var supervisorid = row["SupervisorID"].ToString();
+							var supervisordesc = row["SupervisorDesc"].ToString();
+							<option value="@supervisorid" selected="@(supervisorid == ViewBag.data?.Rows[0]?["SupervisorID"].ToString())">@supervisordesc</option>
+						}
+					</select>
+				</div>
+				<div class="col-1"></div>
+				<div id="jdSpvCalc" name="jdSpvCalc" class="col-2"></div>
+			</div>
+		</div>
+		@* reuqest p and reason type *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Request P1</div>
+				<div class="col-3">
+					<select id="tRequestP1" name="tRequestP1" class="col-3 form-control form-control-sm select2">
+						@foreach (var option in optionstRequestP1)
+						{
+							var value = option.Value;
+							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["RequestP1"].ToString())">@option.Text</option>
+						}
+					</select>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-2">Reason Type</div>
+				<div class="col-3">
+					<select id="tReasonType" name="tReasonType" class="col-3 form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.freason.Rows)
+						{
+							var reasontypeid = row["ReasonTypeID"].ToString();
+							var reasontype = row["ReasonType"].ToString();
+							var reasontypedesc = row["ReasonTypeDesc"].ToString();
+							<option data-reasontype="@reasontype" data-dbreason="@ViewBag.data?.Rows[0]?["ReasonType"].ToString()"
+								value="@reasontypeid" selected="@(reasontypeid == ViewBag.data?.Rows[0]?["ReasonTypeID"].ToString())"
+								>@reasontype</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<script>
+	$(document).ready(function () {
+		// getting data to text from select option
+		function getjdRepairByCalc() { 
+			var selectedVal = $("#tRepairByID").val();
+			$('#jdRepairByCalc').text(selectedVal);
+		}
+
+		getjdRepairByCalc();
+		$('#tRepairByID').change(function () {
+			getjdRepairByCalc()
+		});
+
+		function getjdSpvCalc() {
+			var selectedVal = $("#tSpvID").val();
+			$('#jdSpvCalc').text(selectedVal);
+		}
+
+		getjdSpvCalc();
+		$('#tSpvID').change(function () {
+			getjdSpvCalc()
+		});
+	});
+</script>

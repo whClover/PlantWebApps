@@ -7,6 +7,7 @@
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Remark</p>
-        <textarea id="tRemark" name="tRemark" class="form-control form-control-sm" rows="10"></textarea>
+        <textarea id="tRemark" name="tRemark" class="form-control form-control-sm" 
+        rows="10">@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["Remark"] : "")</textarea>
     </div>
 </div>

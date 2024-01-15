@@ -11,7 +11,8 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Buyer</div>
                 <div class="col-8">
-                    <input id="tBuyerName" name="tBuyerName" type="text" class="col-8 form-control form-control-sm" />
+                    <input id="tBuyerName" name="tBuyerName" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["BuyerName"] : "")"
+                        type="text" class="col-8 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -20,7 +21,8 @@
                 <div class="col-2  ">App Date</div>
                 <div class="col-9 row" style="gap: 10px;">
                     <div class="col-8" style="max-width: 280px;">
-                        <input id="tAppSentDate" name="tAppSentDate" type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
+                        <input id="tAppSentDate" name="tAppSentDate" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AppSentDate"] : "")"
+                            type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
                     </div>
                     <div class="col-3">
                         <input id="tappdiff" name="tappdiff" type="text" class="col-3 form-control form-control-sm" />
@@ -32,17 +34,21 @@
             <div class="row align-items-center">
                 <div class="col-2 d-flex align-items-center" style="gap: 10px;">
                     <div class="fw-bold">1st</div>
-                    <input class="form-check-input mt-0" type="checkbox" value="">
+                    <input id="tApp1" name="tApp1" class="form-check-input mt-0" type="checkbox"
+                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc.Rows[0]["App1"] : "")"
+                            @(ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0 && ViewBag.AddOrderEtc.Rows[0]["App1"].ToString().ToLower() == "true" ? "checked" : "") />
                 </div>
                 <div class="col-10 row" style="gap: 15px;">
                     <div class="col-3">
-                        <input id="tApp1By" name="tApp1By" type="text" class="col-3 form-control form-control-sm" />
+                        <input id="tApp1By" name="tApp1By" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App1By"] : "")"
+                            type="text" class="col-3 form-control form-control-sm" />
                     </div>
                     <div class="col-3">
-                        <input id="tApp1Date" name="tApp1Date" type="text" class="col-3 form-control form-control-sm" />
+                        <input id="tApp1Date" name="tApp1Date" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App1Date"] : "")"
+                            type="text" class="col-3 form-control form-control-sm" />
                     </div>
                     <div class="col-3">
-                        <input type="text" class="col-3 form-control form-control-sm" value="*calculation" />
+                        <input type="text" class="col-3 form-control form-control-sm" id="t1stdiff" name="t1stdiff" />
                     </div>
                 </div>
             </div>
@@ -51,17 +57,21 @@
             <div class="row align-items-center">
                 <div class="col-2 d-flex align-items-center" style="gap: 10px;">
                     <div class="fw-bold">2nd</div>
-                    <input class="form-check-input mt-0" type="checkbox" value="">
+                    <input id="tApp2" name="tApp2" class="form-check-input mt-0" type="checkbox"
+                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App2"] : "")"
+                            @(ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0 && ViewBag.AddOrderEtc.Rows[0]["App2"].ToString().ToLower() == "true" ? "checked" : "") />
                 </div>
                 <div class="col-10 row" style="gap: 15px;">
                     <div class="col-3">
-                        <input id="tApp2By" name="tApp2By" type="text" class="col-3 form-control form-control-sm" />
+                        <input id="tApp2By" name="tApp2By" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App2By"] : "")"
+                            type="text" class="col-3 form-control form-control-sm" />
                     </div>
                     <div class="col-3">
-                        <input id="tApp2Date" name="tApp2Date" type="text" class="col-3 form-control form-control-sm" />
+                        <input id="tApp2Date" name="tApp2Date" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App2Date"] : "")"
+                            type="text" class="col-3 form-control form-control-sm" />
                     </div>
                     <div class="col-3">
-                        <input id="t2nddiff" name="t2nddiff" type="text" class="col-3 form-control form-control-sm" value="*calculation" />
+                        <input id="t2nddiff" name="t2nddiff" type="text" class="col-3 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
@@ -70,20 +80,129 @@
             <div class="row align-items-center">
                 <div class="col-2 d-flex align-items-center" style="gap: 10px;">
                     <div class="fw-bold">3rd</div>
-                    <input class="form-check-input mt-0" type="checkbox" value="">
+                    <input id="tApp3" name="tApp3" class="form-check-input mt-0" type="checkbox"
+                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App3"] : "")"
+                            @(ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0 && ViewBag.AddOrderEtc.Rows[0]["App3"].ToString().ToLower() == "true" ? "checked" : "")>
                 </div>
                 <div class="col-10 row" style="gap: 15px;">
                     <div class="col-3">
-                        <input id="tApp3By" name="tApp3By" type="text" class="col-3 form-control form-control-sm" />
+                        <input id="tApp3By" name="tApp3By" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App3By"] : "")"
+                            type="text" class="col-3 form-control form-control-sm" />
                     </div>
                     <div class="col-3">
-                        <input id="tApp3Date" name="tApp3Date" type="text" class="col-3 form-control form-control-sm" />
+                        <input id="tApp3Date" name="tApp3Date" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App3Date"] : "")"
+                            type="text" class="col-3 form-control form-control-sm" />
                     </div>
                     <div class="col-3">
-                        <input id="t3rddiff" name="t3rddiff" type="text" class="col-3 form-control form-control-sm" value="*calculation" />
+                        <input id="t3rddiff" name="t3rddiff" type="text" class="col-3 form-control form-control-sm"/>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // date difference
+        // gettappdiff
+        function gettappdiff() {
+            if ($("#tAppSentDate").val() != "" && $("#tEKEP").val() != "") {
+                var datettAppSentDate = new Date($("#tAppSentDate").val());
+                var datettEKEP = new Date($("#tEKEP").val());
+
+                datettAppSentDate.setHours(0, 0, 0, 0);
+                datettEKEP.setHours(0, 0, 0, 0);
+
+                var oneDayInMillis = 24 * 60 * 60 * 1000;
+                var diffInDays = Math.round((datettEKEP - datettAppSentDate) / oneDayInMillis);
+
+                $("#tappdiff").val(diffInDays);
+            }
+        }
+        gettappdiff();
+        $('#tAppSentDate').change(function () {
+            gettappdiff();
+        });
+
+        $('#tEKEP').change(function () {
+            gettappdiff();
+        });
+
+        // t1stdiff
+        function gett1stdiff() {
+            if ($("#tApp1Date").val() != "" && $("#tAppSentDate").val() != "") {
+                var datetApp1Date = new Date($("#tApp1Date").val());
+                var datetAppSentDate = new Date($("#tAppSentDate").val());
+
+                datetApp1Date.setHours(0, 0, 0, 0);
+                datetAppSentDate.setHours(0, 0, 0, 0);
+
+                var oneDayInMillis = 24 * 60 * 60 * 1000;
+                var diffInDays = Math.round((datetAppSentDate - datetApp1Date) / oneDayInMillis);
+
+                $("#t1stdiff").val(diffInDays);
+            }
+        }
+
+        gett1stdiff();
+        $('#tApp1Date').change(function () {
+            gett1stdiff();
+        });
+
+        $('#tAppSentDate').change(function () {
+            gett1stdiff();
+        });
+
+        // t2nddiff
+        function gettt2nddiff() {
+            if ($("#tApp2Date").val() != "" && $("#tApp1Date").val() != "") {
+                var datetApp2Date = new Date($("#tApp2Date").val());
+                var datetApp1Date = new Date($("#tApp1Date").val());
+
+                datetApp2Date.setHours(0, 0, 0, 0);
+                datetApp1Date.setHours(0, 0, 0, 0);
+
+                var oneDayInMillis = 24 * 60 * 60 * 1000;
+                var diffInDays = Math.round((datetApp1Date - datetApp2Date) / oneDayInMillis);
+
+                $("#t2nddiff").val(diffInDays);
+            }
+        }
+
+        gettt2nddiff();
+        $('#datetApp2Date').change(function () {
+            gettt2nddiff();
+        });
+
+        $('#datetApp1Date').change(function () {
+            gettt2nddiff();
+        });
+
+        // t3rddiff
+        function gett3rddiff() {
+            if ($("#tApp3Date").val() != "" && $("#tApp2Date").val() != "") {
+                var datetApp3Date = new Date($("#tApp3Date").val());
+                var datetApp2Date = new Date($("#tApp2Date").val());
+
+                datetApp3Date.setHours(0, 0, 0, 0);
+                datetApp2Date.setHours(0, 0, 0, 0);
+
+                var oneDayInMillis = 24 * 60 * 60 * 1000;
+                var diffInDays = Math.round((datetApp2Date - datetApp3Date) / oneDayInMillis);
+
+                $("#t3rddiff").val(diffInDays);
+            }
+        }
+
+        gett3rddiff();
+        $('#tApp3Date').change(function () {
+            gett3rddiff();
+        });
+
+        $('#tApp2Date').change(function () {
+            gett3rddiff();
+        });
+
+    });
+</script>

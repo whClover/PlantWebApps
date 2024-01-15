@@ -2,6 +2,21 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
+
+    object dataTCICost = ViewBag.data?.Rows[0]?["TCICost"];
+    string tciCost = dataTCICost != null ? dataTCICost.ToString() : "";
+    var formattedTCICost = tciCost != "" ? Convert.ToDecimal(tciCost).ToString("N2") : "";
+
+    var optionsCbWarrantyResult = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "", Text = "" },
+        new SelectListItem { Value = "1", Text = "Accept" },
+        new SelectListItem { Value = "2", Text = "Prorate" },
+        new SelectListItem { Value = "3", Text = "Accept (Prorated Cost)" },
+        new SelectListItem { Value = "4", Text = "Pending Evaluation" },
+        new SelectListItem { Value = "4", Text = "Waiting FAR" }
+    };
 }
 
 <div class="col border">
@@ -12,18 +27,18 @@
                 <div class="col-2  ">Warranty</div>
                 <div class="col-3">
                     <select id="cbWarrantyResult" name="cbWarrantyResult" class="col-3 form-control form-control-sm select2">
-                        <option value=""></option>
-                        <option value="1">Accept</option>
-                        <option value="2">Prorate</option>
-                        <option value="3">Accept (Prorated Cost)</option>
-                        <option value="3">Pending Evaluation</option>
-                        <option value="3">Waiting FAR</option>
+                        @foreach (var option in optionsCbWarrantyResult)
+                        {
+                            var value = option.Value;
+                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["WarrantyResult"].ToString())">@option.Text</option>
+                        }
                     </select>
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Total Cost</div>
                 <div class="col-3">
-                    <input id="tCostRepair" name="tCostRepair" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tCostRepair" name="tCostRepair" 
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -31,12 +46,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">OEM Cost</div>
                 <div class="col-3">
-                    <input id="tOemCost" name="tOemCost" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tOemCost" name="tOemCost" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OemCost"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">TCI Cost</div>
                 <div class="col-3">
-                    <input id="tTCICost" name="tTCICost" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tTCICost" name="tTCICost" value="@formattedTCICost"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -44,12 +61,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">WO Previous</div>
                 <div class="col-3">
-                    <input id="tWOPrevious" name="tWOPrevious" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tWOPrevious" name="tWOPrevious" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WOPrevious"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">OP Previous</div>
                 <div class="col-3">
-                    <input id="tOPPrevious" name="tOPPrevious" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tOPPrevious" name="tOPPrevious" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPPrevious"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -57,12 +76,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Internal WO Previous</div>
                 <div class="col-3">
-                    <input id="tIntWOPrevious" name="tIntWOPrevious" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tIntWOPrevious" name="tIntWOPrevious" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["intWOPrevious"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Settlement Date</div>
                 <div class="col-3">
-                    <input id="tDecisionDate" name="tDecisionDate" type="Text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="tDecisionDate" name="tDecisionDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DecisionDate"] : "")"
+                        type="Text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>

@@ -375,10 +375,24 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             dbo.GetExrInspectResult(ID,'FIN') AS resultFinalInspect
             from v_ExrJobDetailRev1 WHERE ID={id}";
 
-            Console.WriteLine(queryDetail);
+            string queryAddOrderEtc = $"Select * from tbl_ExrJobDetailTwo WHERE ID={id}";
 
-            ViewBag.data = SQLFunction.execQuery(query);
+            string queryListStatus = $"SELECT id,itemchange,descchange,moddate,modby,src from v_ExrJobChangeHistory  Where JobID = {id}";
+
+            string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
+            Status ,DispatchTypeID,RegisterBy,Registerdate  from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id}";
+
+            string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where id={id}";
+
+            string queryHoldUntil = $"select top 1 TargetDate from tbl_ExrJobChangeHistory where JobID={id} and JobStatus='OH' order by ModDate desc";
+
+			ViewBag.data = SQLFunction.execQuery(query);
             ViewBag.detail = SQLFunction.execQuery(queryDetail);
+            ViewBag.AddOrderEtc = SQLFunction.execQuery(queryAddOrderEtc);
+            ViewBag.ListStatus = SQLFunction.execQuery(queryListStatus);
+            ViewBag.ListDispatch = SQLFunction.execQuery(queryListDispatch);
+            ViewBag.ListAttachment = SQLFunction.execQuery(queryListAttachment);
+            ViewBag.HoldUntil = SQLFunction.execQuery(queryHoldUntil);
             ViewBag.by = Utility.eusername();
             ViewBag.date = Utility.getDate();
 

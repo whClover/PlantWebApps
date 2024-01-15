@@ -11,7 +11,8 @@
             <div class="row align-items-center">
                 <div class="col-2  ">AN For Repair</div>
                 <div class="col-3">
-                    <input id="tSuppForRepairAN" name="tSuppForRepairAN" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSuppForRepairAN" name="tSuppForRepairAN" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SuppForRepairANNo"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <button id="CANFPUpload" name="CANFPUpload" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
@@ -24,11 +25,14 @@
             <div class="row align-items-center">
                 <div class="col-2 ">Email Date</div>
                 <div class="col-3">
-                    <input id="tEmailDate" name="tEmailDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" placeholder="0.00" />
+                    <input id="tEmailDate" name="tEmailDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EmailDate"] : "")"
+                        type="text" class="col-3 form-control form-control-sm datepicker-basic"/>
                 </div>
-                <div class="col-1"></div>
+                <div class="col-1 ms-n1"></div>
+                <div class="col-2"></div>
                 <div class="col-3">
-                    <input id="ldur" name="ldur" type="text" class="col-3 form-control form-control-sm datepicker-basic" placeholder="0.00" />
+                    <input id="ldur" name="ldur" 
+                        type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>
@@ -36,14 +40,45 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Received Date</div>
                 <div class="col-3">
-                    <input id="tSuppReceiveANDate" name="tSuppReceiveANDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" placeholder="0.00" />
+                    <input id="tSuppReceiveANDate" name="tSuppReceiveANDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SuppReceiveANDate"] : "")"
+                           type="text" class="col-3 form-control form-control-sm datepicker-basic"/>
                 </div>
                 <div class="col-1 ms-n1"></div>
                 <div class="col-2" >Received By</div>
                 <div class="col-3">
-                    <input id="tSuppReceiveANBy" name="tSuppReceiveANBy" type="text" class="col-3 form-control form-control-sm" placeholder="0.00" />
+                    <input id="tSuppReceiveANBy" name="tSuppReceiveANBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SuppReceiveANBy"] : "")"
+                        type="text" class="col-3 form-control form-control-sm"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // date difference
+        function getLdur() {
+            if ($("#tSuppReceiveANDate").val() != "" && $("#tEmailDate").val() != "") {
+                var datetSuppReceiveANDate = new Date($("#tSuppReceiveANDate").val());
+                var datetEmailDate = new Date($("#tEmailDate").val());
+
+                datetSuppReceiveANDate.setHours(0, 0, 0, 0);
+                datetEmailDate.setHours(0, 0, 0, 0);
+
+                var oneDayInMillis = 24 * 60 * 60 * 1000;
+                var diffInDays = Math.round((datetEmailDate - datetSuppReceiveANDate) / oneDayInMillis);
+
+                $("#ldur").val(diffInDays);
+            }
+        }
+        
+
+        $('#tSuppReceiveANDate').change(function () {
+            getLdur();
+        });
+
+        $('#tEmailDate').change(function () {
+            getLdur();
+        });
+    });
+</script>

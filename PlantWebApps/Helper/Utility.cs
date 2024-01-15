@@ -194,8 +194,29 @@ namespace PlantWebApps.Helper
             else
                 return string.Empty;
         }
+		//private static bool IsNumeric(object value)
+		//{
+		//	double temp;
+		//	return double.TryParse(value.ToString(), out temp);
+		//}
+		//public static object CalcVar(object value1, object value2)
+		//{
+		//	object result = "";
 
-        public static IActionResult ExportDataTableToExcel(DataTable dataTable, string fileName)
+		//	if (!IsNumeric(value1))
+		//	{
+		//		return result;
+		//	}
+		//	else if (!IsNumeric(value2))
+		//	{
+		//		return result;
+		//	}
+
+		//	result = Convert.ToDouble(value1) - Convert.ToDouble(value2);
+
+		//	return result;
+		//}
+		public static IActionResult ExportDataTableToExcel(DataTable dataTable, string fileName)
         {
             // Create a new Excel package
             using (ExcelPackage package = new ExcelPackage())

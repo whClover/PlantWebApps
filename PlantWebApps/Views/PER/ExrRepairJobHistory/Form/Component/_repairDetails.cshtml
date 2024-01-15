@@ -3,6 +3,14 @@
 *@
 @{
     @using System.Data;
+
+    var optionstReceivedBy = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "", Text = "" },
+        new SelectListItem { Value = "Log BSF", Text = "Log BSF" },
+        new SelectListItem { Value = "Log Site", Text = "Log Site" },
+        new SelectListItem { Value = "PER BSF", Text = "PER BSF" }
+    };
 }
 
 <div class="col border">
@@ -12,7 +20,8 @@
             <div class="row align-items-center">
                 <div class="col-2 ">CE ID</div>
                 <div class="col-3">
-                    <input id="tCEID" name="tCEID" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tCEID" name="tCEID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CEID"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -20,7 +29,8 @@
             <div class="row align-items-center">
                 <div class="col-2 ">DN Number</div>
                 <div class="col-3">
-                    <input id="tDnNumber" name="tDnNumber" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tDnNumber" name="tDnNumber" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DnNumber"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <button id="CRepairAN" name="CRepairAN" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -33,7 +43,8 @@
             <div class="row align-items-center">
                 <div class="col-2  ">TCI Comp ID</div>
                 <div class="col-3">
-                    <input id="tTCIPartID" name="tTCIPartID" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tTCIPartID" name="tTCIPartID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <button id="CCreateID" name="CCreateID" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save-fill" viewBox="0 0 16 16">
@@ -48,7 +59,7 @@
                         {
                             var storeid = row["StoreID"].ToString();
                             var storename = row["StoreName"].ToString();
-                            <option value="@storeid">@storename</option>
+                            <option value="@storeid" selected="@(storeid == ViewBag.data?.Rows[0]?["Destination"].ToString())">@storename</option>
                         }
                     </select>
                 </div>
@@ -58,12 +69,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Meter Run</div>
                 <div class="col-3">
-                    <input id="tMeterRun" name="tMeterRun" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tMeterRun" name="tMeterRun" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MeterRun"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Meter To Run</div>
                 <div class="col-3">
-                    <input id="tMeterToRun" name="tMeterToRun" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tMeterToRun" name="tMeterToRun" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MeterToRun"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -71,7 +84,8 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Internal WO</div>
                 <div class="col-3">
-                    <input id="tIntWO" name="tIntWO" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tIntWO" name="tIntWO" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IntWO"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <button id="cFindIntWO" name="cFindIntWO" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -89,7 +103,8 @@
             <div class="row align-items-center">
                 <div class="col-2  ">ST OT Number</div>
                 <div class="col-3">
-                    <input id="tSTOtNo" name="tSTOtNo" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSTOtNo" name="tSTOtNo" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["STOtNo"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -97,11 +112,13 @@
             <div class="row align-items-center">
                 <div class="col-2  ">WO Fit To Unit</div>
                 <div class="col-3">
-                    <input id="tWOFitToUnit" name="tWOFitToUnit" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tWOFitToUnit" name="tWOFitToUnit" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WOFitToUnit"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3"></div>
                 <div class="col-3">
-                    <input id="tWOFitToUnitID" name="tWOFitToUnitID" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tWOFitToUnitID" name="tWOFitToUnitID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WOFitToUnit"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -109,7 +126,8 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Fit To Unit</div>
                 <div class="col-3">
-                    <input id="tFitToUnit" name="tFitToUnit" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tFitToUnit" name="tFitToUnit" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["FitToUnit"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -117,11 +135,13 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Received</div>
                 <div class="col-3">
-                    <input id="tReceivedDate" name="tReceivedDate" type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
+                    <input id="tReceivedDate" name="tReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")"
+                        type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-3"></div>
                 <div class="col-3">
-                    <input id="tReceivedByName" name="tReceivedByName" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tReceivedByName" name="tReceivedByName" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedByName"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -129,12 +149,19 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Received By</div>
                 <div class="col-3">
-                    <input id="TreceivedBy" name="TreceivedBy" type="text" class="col-3 form-control form-control-sm" />
+                    <select id="TreceivedBy" name="TreceivedBy" class="col-3 form-control form-control-sm select2">
+                        @foreach (var option in optionstReceivedBy)
+                        {
+                            var value = option.Value;
+                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["ReceivedBy"].ToString())">@option.Text</option>
+                        }
+                    </select>
                 </div>
-                <div class="fw-bold col-1">Suppl</div>
+                <div class="fw-bold col-1 text-nowrap" style="font-size: 10px;">Supplier</div>
                 <div class="col-2  ">Tagging Date</div>
                 <div class="col-3">
-                    <input id="TDTaggingDate" name="TDTaggingDate" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                    <input id="TDTaggingDate" name="TDTaggingDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TaggingDate"] : "")"
+                        type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>

@@ -2,321 +2,551 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    @using System.Data;
+	@using System.Data;
+
+	object dataCostBefore = ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["CostBefore"] : null;
+	string costBefore = dataCostBefore != null ? dataCostBefore.ToString() : "";
+	var formattedCostBefore = costBefore != "" ? Convert.ToDecimal(costBefore).ToString("N2") : "";
+
+	object dataCostAfter = ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["CostAfter"] : null;
+	string costAfter = dataCostAfter != null ? dataCostAfter.ToString() : "";
+	var formattedCostAfter = costAfter != "" ? Convert.ToDecimal(costAfter).ToString("N2") : "";
+
+	object dataCostRts = ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["RTScost"] : null;
+	string costRts = dataCostRts != null ? dataCostRts.ToString() : "";
+	var formattedCostRts = costRts != "" ? Convert.ToDecimal(costRts).ToString("N2") : "";
+
+	var optionsttAddCost = new List<SelectListItem>
+	{
+		new SelectListItem { Value = "", Text = "" },
+		new SelectListItem { Value = "Y", Text = "Y" },
+		new SelectListItem { Value = "N", Text = "N" }
+	};
+
+	var optionsCAddOrder = new List<SelectListItem>
+	{
+		new SelectListItem { Value = "", Text = "" },
+		new SelectListItem { Value = "Spare Part", Text = "Spare Part" },
+		new SelectListItem { Value = "Steel Stand", Text = "Steel Stand" },
+		new SelectListItem { Value = "Wooden Box", Text = "Wooden Box" }
+	};
 }
 
 <div class="col border">
-    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-    <p class="fs-5">Component Details</p>
-    @* offsite wo *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Offsite WO*</div>
-            <div class="col-4">
-                <input id="TChildWo" name="TChildWo" type="Text" class="col-4 form-control form-control-sm" />
-            </div>
-            <div class="col-2"></div>
-            <div class="col-3">
-                <input id="tChildwo2" name="tChildwo2" type="Text" class="col-4 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* cost before  *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Cost Before</div>
-            <div class="col-4">
-                <input id="tCostBefore" name="tCostBefore" type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
-            </div>
-            <div class="col-2"></div>
-            <div class="col-3">
-                <select id="tCurrID" name="tCurrID" class="col-3 form-control form-control-sm form-control form-control-sm select2">
-                    <option value=""></option>
-                    @foreach (DataRow row in ViewBag.currency.Rows)
-                    {
-                        var currid = row["CurrID"].ToString();
-                        <option value="@currid">@currid</option>
-                    }
-                </select>
-            </div>
-                
-        </div>
-    </div>
-    @* cost revision and saving cost *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Cost Revision</div>
-            <div class="col-4">
-                <input id="tCostAfter" name="tCostAfter" type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
-            </div>
-            <div class="col-2">Saving Cost</div>
-            <div class="col-3">
-                <input id="tunitcost" name="tunitcost" type="text" class="col-3 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* saving cat *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Saving Cat</div>
-            <div class="col-4">
-                <select id="tsavingcostCat" name="tsavingcostCat" class="col-4 form-control form-control-sm">
-                    <option value=""></option>
-                    @foreach (DataRow row in ViewBag.tsavingcost.Rows)
-                    {
-                        var savingcostid = row["SavingCostCatID"].ToString();
-                        var savingcostcategory = row["SavingCostCategory"].ToString();
-                        <option value="@savingcostid">@savingcostcategory</option>
-                    }
-                </select>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-3">
-                <input id="tsavingcostCatID" name="tsavingcostCatID" type="text" class="col-3 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* add cost  *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Add Cost</div>
-                <div class="col-3">
-                    <select id="tAddCost" name="tAddCost" class="col-3 form-control form-control-sm">
-                        <option value=""></option>
-                        <option value="1">Y</option>
-                        <option value="2">N</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    @* cost rts and or number  *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Cost RTS</div>
-            <div class="col-3">
-                <input id="tRTSCost" name="tRTSCost" type="Text" class="col-3 form-control form-control-sm" />
-            </div>
-            <div class="col-1">USD</div>
-            <div class="col-2">OR Number</div>
-            <div class="col-3">
-                <input id="tORNo" name="tORNo" type="Text" class="col-3 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* op number *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">OP Number</div>
-            <div class="col-4">
-                <input id="tOPNo" name="tOPNo" type="text" class="col-4 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* op date and eiop  *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">OP Date</div>
-            <div class="col-4">
-                <input id="tOPDate" name="tOPDate" type="text" class="col-4 form-control form-control-sm datepicker-basic" />
-            </div>
-            <div class="col-2">EIOP</div>
-            <div class="col-3">
-                <input id="TEPOPDiff" name="TEPOPDiff" type="text" class="col-3 form-control form-control-sm" />
-            </div>
-                <div id="TEPOPKpi" name="TEPOPKpi" class="col-1">7</div>
-        </div>
-    </div>
-    @* exstore *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">EX Store</div>
-            <div class="col-4">
-                <select id="tStoreID" name="tStoreID" class="col-4 form-control form-control-sm">
-                    <option value=""></option>
-                    @foreach (DataRow row in ViewBag.fstore.Rows)
-                    {
-                        var storeid = row["StoreID"].ToString();
-                        var storename = row["StoreName"].ToString();
-                        <option value="@storeid">@storename</option>
-                    }
-                </select>
-            </div>
-            <div class="col-3">*calculation</div>
-            <div class="col-3">*calculation</div>
-        </div>
-    </div>
-        @* exstore and repair type *@
-        <div class="container overflow-hidden">
-            <div class="row align-items-center">
-                <div class="col-2">Repair Type</div>
-                <div class="col-3">
-                    <select id="tRepairTypeID" name="tRepairTypeID" class="col-4 form-control form-control-sm form-control form-control-sm">
-                        <option value=""></option>
-                        @foreach (DataRow row in ViewBag.repairType2.Rows)
-                        {
-                            var repairtypeid = row["ExrRepairtypeID"].ToString();
-                            var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
-                            var repairtype = row["ExrRepairtype"].ToString();
-                            <option value="@repairtypeid">@repairtypeabr | @repairtype</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-3">*calculation</div>
-            </div>
-        </div>
-    @* Change Chekbox Later *@
+	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+		<p class="fs-5">Component Details</p>
+		@* offsite wo *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Offsite WO*</div>
+				<div class="col-4">
+					<input id="TChildWo" name="TChildWo" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ChildWO"] : "")"
+						   type="Text" class="col-4 form-control form-control-sm" />
+				</div>
+				<div class="col-2"></div>
+				<div class="col-3">
+					<input id="tChildwo2" name="tChildwo2" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ChildWO"] : "")"
+						   type="Text" class="col-4 form-control form-control-sm d-none" />
+				</div>
+			</div>
+		</div>
+		@* cost before  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Cost Before</div>
+				<div class="col-4">
+					<input id="tCostBefore" name="tCostBefore" value="@formattedCostBefore"
+						   type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
+				</div>
+				<div class="col-2"></div>
+				<div class="col-3">
+					<select id="tCurrID" name="tCurrID" class="col-3 form-control form-control-sm form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.currency.Rows)
+						{
+							var tCurrID = row["CurrID"].ToString();
+							<option value="@tCurrID" selected="@(tCurrID == ViewBag.data?.Rows[0]?["CurrID"].ToString())">@tCurrID</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+		@* cost revision and saving cost *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Cost Revision</div>
+				<div class="col-4">
+					<input id="tCostAfter" name="tCostAfter" value="@formattedCostAfter"
+						type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
+				</div>
+				<div class="col-2">Saving Cost</div>
+				<div class="col-3">
+					<input id="tunitcost" name="tunitcost" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SavingCost"] : "")"
+						type="text" class="col-3 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* saving cat *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Saving Cat</div>
+				<div class="col-4">
+					<select id="tsavingcostCat" name="tsavingcostCat" class="col-4 form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.tsavingcost.Rows)
+						{
+							var savingcostid = row["SavingCostCatID"].ToString();
+							var savingcostcategory = row["SavingCostCategory"].ToString();
+							<option data-savingcost="@savingcostid" value="@savingcostid" selected="@(savingcostid == ViewBag.data?.Rows[0]?["SavingCostCatID"].ToString())">@savingcostcategory</option>
+						}
+					</select>
+				</div>
+				<div class="col-2"></div>
+				<div class="col-3">
+					<input id="tsavingcostCatID" name="tsavingcostCatID" type="text" class="col-3 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* add cost  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Add Cost</div>
+				<div class="col-3">
+					<select id="tAddCost" name="tAddCost" class="col-3 form-control form-control-sm select2">
+						@foreach (var option in optionsttAddCost)
+						{
+							var value = option.Value;
+							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["AddCost"].ToString())">@option.Text</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+		@* cost rts and or number  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Cost RTS</div>
+				<div class="col-3">
+					<input id="tRTSCost" name="tRTSCost" type="Text" value="@formattedCostRts" class="col-3 form-control form-control-sm" />
+				</div>
+				<div class="col-1">USD</div>
+				<div class="col-2">OR Number</div>
+				<div class="col-3">
+					<input id="tORNo" name="tORNo" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ORNo"] : "")"
+						type="Text" class="col-3 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* op number *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">OP Number</div>
+				<div class="col-4">
+					<input id="tOPNo" name="tOPNo" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPNo"] : "")"
+						type="text" class="col-4 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* op date and eiop  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">OP Date</div>
+				<div class="col-4">
+					<input id="tOPDate" name="tOPDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPDate"] : "")"
+						type="text" class="col-4 form-control form-control-sm datepicker-basic" />
+				</div>
+				<div class="col-2">EIOP</div>
+				<div class="col-3">
+					<input id="TEPOPDiff" name="TEPOPDiff" type="text" class="col-3 form-control form-control-sm" />
+				</div>
+				<div id="TEPOPKpi" name="TEPOPKpi" class="col-1">7</div>
+			</div>
+		</div>
+		@* exstore *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">EX Store</div>
+				<div class="col-4">
+					<select id="tStoreID" name="tStoreID" class="col-4 form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.fstore.Rows)
+						{
+							var storeid = row["StoreID"].ToString();
+							var storename = row["StoreName"].ToString();
+							<option value="@storeid" data-col1="@storeid" data-col2="@storename"
+								selected="@(storeid == ViewBag.data?.Rows[0]?["StoreID"].ToString())">@storename</option>
+						}
+					</select>
+				</div>
+				<div id="tStoreIDCol1" class="col-3"></div>
+				<div id="tStoreIDCol2" class="col-3"></div>
+			</div>
+		</div>
+		@* exstore and repair type *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Repair Type</div>
+				<div class="col-4">
+					<select id="tRepairTypeID" name="tRepairTypeID" class="col-4 form-control form-control-sm select2">
+						<option value=""></option>
+						@foreach (DataRow row in ViewBag.repairType2.Rows)
+						{
+							var repairtypeid = row["ExrRepairtypeID"].ToString();
+							var repairtypeabr = row["ExrRepairtypeAbr"].ToString();
+							var repairtype = row["ExrRepairtype"].ToString();
+							<option value="@repairtypeid" data-col1="@repairtypeabr"
+								selected="@(repairtypeid == ViewBag.data?.Rows[0]?["RepairTypeID"].ToString())">@repairtypeabr | @repairtype</option>
+						}
+					</select>
+				</div>
+				<div class="col-3" id="tRepairTypeIDCol1"></div>
+			</div>
+		</div>
+		@* Change Chekbox Later *@
 
-    @* req stand, req parts, doc.avail  *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Req Stand</div>
-            <input class="col-1" name="reqStand" type="radio" id="reqStandY" checked>
-            <label class="col-1 pt-1" for="reqStandY">Y</label>
-            <input class="col-1" name="reqStand" type="radio" id="reqStandN">
-            <label class="col-1 pt-1" for="reqStandN">N</label>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Req Parts</div>
-            <input class="col-1" name="reqParts" type="radio" id="reqPartsY" checked>
-            <label class="col-1 pt-1" for="reqPartsY">Y</label>
-            <input class="col-1" name="reqParts" type="radio" id="reqPartsN">
-            <label class="col-1 pt-1" for="reqPartsN">N</label>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Doc.Avail</div>
-            <input class="col-1" name="docAvail" type="radio" id="docAvailY" checked>
-            <label class="col-1 pt-1" for="docAvailY">Y</label>
-            <input class="col-1" name="docAvail" type="radio" id="docAvailN">
-            <label class="col-1 pt-1" for="docAvailN">N</label>
-            <div class="col-2"></div>
-            <div class="col-3">
-                <input id="tDocAvbDate" name="tDocAvbDate" type="text" class="col-3 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* etc date and support wo *@
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2">Etc Date</div>
-            <div class="col-4">
-                <input id="tetadate" name="tetadate" type="text" class="col-4 form-control form-control-sm datepicker-basic" />
-            </div>
-            <div class="col-2">Support WO</div>
-            <div class="col-3">
-                <input id="tWoJobCost" name="tWoJobCost" type="text" class="col-3 form-control form-control-sm" />
-            </div>
-        </div>
-    </div>
-    @* add order  *@
-    <div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
-        <div class="row align-items-center">
-            <div class="col-2 fw-bold">Add Order</div>
-            <div class="col-10 row" style="gap: 15px;">
-                <div class="col-3">
-                        <select id="CAddOrder1" name="CAddOrder1" class="col-3 form-control form-control-sm select2">
-                            <option value=""></option>
-                            <option value="1">Spare Part</option>
-                            <option value="2">Steel Stand</option>
-                            <option value="3">Wooden Box</option>
-                        </select>
-                </div>
-                <div class="col-3">
-                        <select id="CAddOrder2" name="CAddOrder2" class="col-3 form-control form-control-sm select2">
-                            <option value=""></option>
-                            <option value="1">Spare Part</option>
-                            <option value="2">Steel Stand</option>
-                            <option value="3">Wooden Box</option>
-                        </select>
-                </div>
-                <div class="col-3">
-                        <select id="CAddOrder3" name="CAddOrder3" class="col-3 form-control form-control-sm select2">
-                            <option value=""></option>
-                            <option value="1">Spare Part</option>
-                            <option value="2">Steel Stand</option>
-                            <option value="3">Wooden Box</option>
-                        </select>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-2 fw-bold"></div>
-            <div class="col-10 row" style="gap: 15px;">
-                <div class="col-3">
-                    <input id="taddOrderOther1" name="taddOrderOther1" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="taddOrderOther2" name="taddOrderOther2" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="taddOrderOther3" name="taddOrderOther3" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fw-bold">OR Number</div>
-            <div class="col-10 row" style="gap: 15px;">
-                <div class="col-3">
-                    <input id="tAddOrderORNo1" name="tAddOrderORNo1" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="tAddOrderORNo2" name="tAddOrderORNo2" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="tAddOrderORNo3" name="tAddOrderORNo3" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fw-bold">Received Date</div>
-            <div class="col-10 row" style="gap: 15px;">
-                <div class="col-3">
-                    <input id="taddOrderDate1" name="taddOrderDate1" type="text" class="col-3 form-control form-control-sm datepicker-basic" />
-                </div>
-                <div class="col-3">
-                    <input id="taddOrderDate2" name="taddOrderDate2" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="taddOrderDate3" name="taddOrderDate3" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fw-bold">DN Number</div>
-            <div class="col-10 row" style="gap: 15px;">
-                <div class="col-3">
-                    <input id="taddOrderDNNo1" name="taddOrderDNNo1" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="taddOrderDNNo2" name="taddOrderDNNo2" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="taddOrderDNNo3" name="taddOrderDNNo3" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-2 fw-bold">STOT-OldCore</div>
-            <div class="col-10 row" style="gap: 15px;">
-                <div class="col-3">
-                    <input id="tST" name="tST" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-                <div class="col-3">
-                    <input id="tOt" name="tOt" type="text" class="col-3 form-control form-control-sm" />
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+		@* req stand, req parts, doc.avail  *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Req Stand</div>
+				<input class="col-1" name="reqStand" type="radio" id="OptYReqStand"
+					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqStand"] : "0")">
+				<label class="col-1 pt-1" for="reqStandY">Y</label>
+				<input class="col-1" name="reqStand" type="radio" id="OptNoReqStand"
+					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqStand"] : "0")">
+				<label class="col-1 pt-1" for="reqStandN">N</label>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Req Parts</div>
+				<input class="col-1" name="reqParts" type="radio" id="OptYReqParts"
+					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqPart"] : "0")">
+				<label class="col-1 pt-1" for="reqPartsY">Y</label>
+				<input class="col-1" name="reqParts" type="radio" id="OptNReqPart"
+					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqPart"] : "0")">
+				<label class="col-1 pt-1" for="reqPartsN">N</label>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Doc.Avail</div>
+				<input class="col-1" name="docAvail" type="radio" id="optYDocAvb"
+					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvb"] : "0")">
+				<label class="col-1 pt-1" for="docAvailY">Y</label>
+				<input class="col-1" name="docAvail" type="radio" id="optNDocAvb"
+					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvb"] : "0")">
+				<label class="col-1 pt-1" for="docAvailN">N</label>
+				<div class="col-2"></div>
+				<div class="col-3">
+					<input id="tDocAvbDate" name="tDocAvbDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvbDate"] : "")"
+						type="text" class="col-3 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* etc date and support wo *@
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2">Etc Date</div>
+				<div class="col-4">
+					<input id="tetadate" name="tetadate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ETADate"] : "")"
+						type="text" class="col-4 form-control form-control-sm datepicker-basic" />
+				</div>
+				<div class="col-2">Support WO</div>
+				<div class="col-3">
+					<input id="tWoJobCost" name="tWoJobCost" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WoJobCost"] : "")"
+						type="text" class="col-3 form-control form-control-sm" />
+				</div>
+			</div>
+		</div>
+		@* add order  *@
+		<div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
+			<div class="row align-items-center">
+				<div class="col-2 fw-bold">Add Order</div>
+				<div class="col-10 row" style="gap: 15px;">
+					<div class="col-3">
+						<select id="CAddOrder1" name="CAddOrder1" class="col-3 form-control form-control-sm select2">
+							@foreach (var option in optionsCAddOrder)
+							{
+								var value = option.Value;
+								@if (ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0)
+								{
+									<option value="@value" selected="@(value == ViewBag.AddOrderEtc.Rows[0]?["AddOrder1"].ToString())">@option.Text</option>
+								}
+							}
+						</select>
+					</div>
+					<div class="col-3">
+						<select id="CAddOrder2" name="CAddOrder2" class="col-3 form-control form-control-sm select2">
+							@foreach (var option in optionsCAddOrder)
+							{
+								var value = option.Value;
+								@if (ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0)
+								{
+									<option value="@value" selected="@(value == ViewBag.AddOrderEtc.Rows[0]?["AddOrder2"].ToString())">@option.Text</option>
+								}
+							}
+						</select>
+					</div>
+					<div class="col-3">
+						<select id="CAddOrder3" name="CAddOrder3" class="col-3 form-control form-control-sm select2">
+							@foreach (var option in optionsCAddOrder)
+							{
+								var value = option.Value;
+								@if (ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0)
+								{
+									<option value="@value" selected="@(value == ViewBag.AddOrderEtc.Rows[0]?["AddOrder3"].ToString())">@option.Text</option>
+								}
+							}
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-2 fw-bold"></div>
+				<div class="col-10 row" style="gap: 15px;">
+					<div class="col-3">
+						<input id="taddOrderOther1" name="taddOrderOther1" type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="taddOrderOther2" name="taddOrderOther2" disabled type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="taddOrderOther3" name="taddOrderOther3" disabled type="text" class="col-3 form-control form-control-sm" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2 fw-bold">OR Number</div>
+				<div class="col-10 row" style="gap: 15px;">
+					<div class="col-3">
+						<input id="tAddOrderORNo1" name="tAddOrderORNo1" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderORNo1"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="tAddOrderORNo2" name="tAddOrderORNo2" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderORNo2"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="tAddOrderORNo3" name="tAddOrderORNo3" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderORNo3"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2 fw-bold">Received Date</div>
+				<div class="col-10 row" style="gap: 15px;">
+					<div class="col-3">
+						<input id="taddOrderDate1" name="taddOrderDate1" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderDate1"] : "")"
+							type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+					</div>
+					<div class="col-3">
+						<input id="taddOrderDate2" name="taddOrderDate2" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderDate2"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="taddOrderDate3" name="taddOrderDate3" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderDate3"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2 fw-bold">DN Number</div>
+				<div class="col-10 row" style="gap: 15px;">
+					<div class="col-3">
+						<input id="taddOrderDNNo1" name="taddOrderDNNo1" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["addOrderDNNo1"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="taddOrderDNNo2" name="taddOrderDNNo2" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["addOrderDNNo2"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="taddOrderDNNo3" name="taddOrderDNNo3" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["addOrderDNNo3"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container overflow-hidden">
+			<div class="row align-items-center">
+				<div class="col-2 fw-bold">STOT-OldCore</div>
+				<div class="col-10 row" style="gap: 15px;">
+					<div class="col-3">
+						<input id="tST" name="tST" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["STNo"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+					<div class="col-3">
+						<input id="tOt" name="tOt" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OTNo"] : "")"
+							type="text" class="col-3 form-control form-control-sm" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$('#tCostAfter').keypress(function (e) {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+
+				const inputValue = $('#tCostAfter').val().trim();
+				console.log(inputValue);
+				if (inputValue !== "") {
+					const costBefore = parseFloat($('#tCostBefore').val().replace(/,/g, ''));
+					const costAfter = parseFloat($('#tCostAfter').val().replace(/,/g, ''));
+
+					console.log(costBefore);
+					console.log(costAfter);
+
+					const unitCost = costBefore - costAfter;
+					const formattedUnitCost = unitCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+					console.log("Unit Cost:", formattedUnitCost);
+
+					$('#tunitcost').val(formattedUnitCost);
+					$('#tsavingcostCat').prop('disabled', false);
+				} else {
+					$('#tsavingcostCat').val("");
+					$("#tsavingcostCat").trigger("change");
+					$('#tsavingcostCat').prop('disabled', true);
+					$('#tunitcost').val("");
+					$('#tAddCost').val("");
+					$("#tAddCost").trigger("change");
+					$('#tAddCost').prop('disabled', true);
+				}
+			}
+		});
+
+		// get data from select option
+		function getTsavingCost() {
+			var selectedVal = $("#tsavingcostCat").find('option:selected').data('savingcost');
+			$('#tsavingcostCatID').val(selectedVal);
+		}
+
+		getTsavingCost();
+		$('#tsavingcostCat').change(function () {
+			getTsavingCost();
+		});
+
+		function gettStoreID() {
+			var col1Val = $("#tStoreID").find('option:selected').data('col1');
+			var col2Val = $("#tStoreID").find('option:selected').data('col2');
+			$('#tStoreIDCol1').text(col1Val);
+			$('#tStoreIDCol2').text(col2Val);
+		}
+
+		gettStoreID();
+		$('#tStoreID').change(function () {
+			gettStoreID();
+		});
+
+		function getRepairTypeId() {
+			var col1Val = $("#tRepairTypeID").find('option:selected').data('col1');
+			$('#tRepairTypeIDCol1').text(col1Val);
+		}
+
+		getRepairTypeId();
+		$('#tRepairTypeID').change(function () {
+			getRepairTypeId();
+		});
+
+		// date difference
+		function getCalcTEPOPDiff() {
+			if ($("#tEKEP").val() != "" && $("#tOPDate").val() != "") {
+				var datetEKEP = new Date($("#tEKEP").val());
+				var datettOPDate = new Date($("#tOPDate").val());
+
+				datetEKEP.setHours(0, 0, 0, 0);
+				datettOPDate.setHours(0, 0, 0, 0);
+
+				var oneDayInMillis = 24 * 60 * 60 * 1000;
+				var diffInDays = Math.round((datettOPDate - datetEKEP) / oneDayInMillis);
+
+				$("#TEPOPDiff").val(diffInDays);
+			}
+		}
+
+		getCalcTEPOPDiff();
+
+		$('#tEKEP').change(function () {
+			getCalcTEPOPDiff();
+		});
+
+		$('#tOPDate').change(function () {
+			getCalcTEPOPDiff();
+		});
+
+		//radio button
+		// req stand
+		var reqStand = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["reqStand"] : "0");
+
+		var reqStandY = $('#OptYReqStand');
+		var reqStandN = $('#OptNReqStand');
+
+		function handleReqStand() {
+			if (reqStand === -1) {
+				reqStandY.prop("checked", true);
+				reqStandY.val("-1");
+				reqStandN.val("0");
+			} else if (reqStand === 0) {
+				reqStandN.prop("checked", true);
+				reqStandN.val("-1");
+				reqStandY.val("0");
+			}
+		}
+
+		handleReqStand();
+
+		// req parts
+		var reqPart = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqPart"] : "0");
+
+		var reqPartY = $('#OptYReqParts');
+		var reqPartN = $('#OptNReqPart');
+
+		function handleReqPart() {
+			if (reqPart === -1) {
+				reqPartY.prop("checked", true);
+				reqPartY.val("-1");
+				reqPartN.val("0");
+			} else if (reqPart === 0) {
+				reqPartN.prop("checked", true);
+				reqPartN.val("-1");
+				reqPartY.val("0");
+			}
+		}
+
+		handleReqPart();
+
+		// DOC AVB
+		var docAvb = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvb"] : "0");
+
+		var docAvbY = $('#optYDocAvb');
+		var docAvbN= $('#optNDocAvb');
+
+		function handleDocAvb() {
+			if (docAvb === -1) {
+				docAvbY.prop("checked", true);
+				docAvbY.val("-1");
+				docAvbN.val("0");
+			} else if (docAvb === 0) {
+				docAvbN.prop("checked", true);
+				docAvbN.val("-1");
+				docAvbY.val("0");
+			}
+		}
+
+		handleDocAvb();
+
+	});
+
+
+	
+</script>

@@ -5,7 +5,7 @@
     @using System.Data;
 }
 
-<div class="col border">
+<div class="col border d-none">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Repair Status / Allocation</p>
         <div class="container overflow-hidden">
@@ -18,7 +18,7 @@
                         {
                             var location = row["Location"].ToString();
                             var locationName = row["LocationName"].ToString();
-                            <option value="@location">@locationName | @location</option>
+                            <option value="@location" selected="@(location == ViewBag.data?.Rows[0]?["SiteAlloc"].ToString())">@locationName | @location</option>
                         }
                     </select>
                 </div>
@@ -28,12 +28,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">WONO Alloc</div>
                 <div class="col-3">
-                    <input id="TWOAlloc" name="TWOAlloc" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="TWOAlloc" name="TWOAlloc" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WOAlloc"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">UnitNo Alloc</div>
                 <div class="col-3">
-                    <input id="tUnitAlloc" name="tUnitAlloc" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tUnitAlloc" name="tUnitAlloc" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["UnitAlloc"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
 
                 </div>
             </div>
@@ -42,12 +44,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Sched Start</div>
                 <div class="col-3">
-                    <input id="tSchedStartAlloc" name="tSchedStartAlloc" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSchedStartAlloc" name="tSchedStartAlloc" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["SchedStartAlloc"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Store Alloc</div>
                 <div class="col-3">
-                    <input id="tSuggestedStore" name="tSuggestedStore" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSuggestedStore" name="tSuggestedStore" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Allocation"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -55,12 +59,14 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Current SOH</div>
                 <div class="col-3">
-                    <input id="tSOHAlloc" name="tSOHAlloc" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tSOHAlloc" name="tSOHAlloc" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["SOHAlloc"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
                 <div class="col-2  ">Outsnd Req</div>
                 <div class="col-3">
-                    <input id="tOutReqAlloc" name="tOutReqAlloc" type="text" class="col-3 form-control form-control-sm" />
+                    <input id="tOutReqAlloc" name="tOutReqAlloc" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OutReqAlloc"] : "")"
+                        type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>

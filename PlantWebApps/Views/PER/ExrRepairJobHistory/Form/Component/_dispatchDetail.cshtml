@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
 }
 
 <div class="col border">
@@ -14,6 +15,32 @@
             <button type="button" class="btn btn-secondary" id="CANMainModule" name="CANMainModule">AN Dispatch</button>
             <button type="button" class="btn btn-secondary" id="CDispatchView" name="CDispatchView">View</button>
         </div>
-        <textarea id="LDispatch" name="LDispatch" class="form-control form-control-sm" rows="10"></textarea>
+        <div id="LDispatch" name="LDispatch" class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>ANNO</th>
+                        <th>Type</th>
+                        <th>Attention</th>
+                        <th>Status</th>
+                        <th>RegisterBy</th>
+                        <th>Registerdate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in ViewBag.ListDispatch.Rows)
+                    {
+                        <tr>
+                            <td>@row["ANNO"]</td>
+                            <td>@row["Type"]</td>
+                            <td>@row["Attention"]</td>
+                            <td>@row["Status"]</td>
+                            <td>@row["RegisterBy"]</td>
+                            <td>@row["Registerdate"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

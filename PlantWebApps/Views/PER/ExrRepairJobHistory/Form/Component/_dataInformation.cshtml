@@ -12,10 +12,12 @@
                 <div class="col-2  ">Register By</div>
                 <div class="col-10 row" style="gap: 10px;">
                     <div class="col-4">
-                        <input id="tRegisterDate" name="tRegisterDate" type="Text" class="col-4 datepicker-basic form-control form-control-sm" style="max-width: 280px;" />
+                        <input id="tRegisterDate" name="tRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")"
+                            type="Text" class="col-4 datepicker-basic form-control form-control-sm" style="max-width: 280px;" />
                     </div>
                     <div class="col-4">
-                        <input id="TRegisterBy" name="TRegisterBy" type="text" class="col-4 form-control form-control-sm" />
+                        <input id="TRegisterBy" name="TRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["registerBy"] : "")"
+                            type="text" class="col-4 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
@@ -25,10 +27,12 @@
                 <div class="col-2  ">Last Mod</div>
                 <div class="col-10 row" style="gap: 10px;">
                     <div class="col-4">
-                        <input id="tmoddate" name="tmoddate" type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                        <input id="tmoddate" name="tmoddate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")"
+                            type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
                     <div class="col-4">
-                        <input id="tmodby" name="tmodby" type="text" class="col-4 form-control form-control-sm" />
+                        <input id="tmodby" name="tmodby" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")"
+                            type="text" class="col-4 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
@@ -38,13 +42,14 @@
                 <div class="col-2  ">Closed By</div>
                 <div class="col-10 row" style="gap: 10px;">
                     <div class="col-4">
-                        <input id="tclosedDate" name="tclosedDate" type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                        <input id="tclosedDate" name="tclosedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ClosedDate"] : "")"
+                            type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
                     <div class="col-4">
-                        <input id="TClosedBy" name="TClosedBy" type="text" class="col-4 form-control form-control-sm" />
+                        <input id="TClosedBy" name="TClosedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ClosedBy"] : "")"
+                            type="text" class="col-4 form-control form-control-sm" />
                     </div>
-                    <div id="tTagging" name="tTagging" class="col-3">
-                        *calculation
+                    <div id="tTagging" name="tTagging" class="col-3 d-none">
                     </div>
                 </div>
             </div>
@@ -54,13 +59,14 @@
                 <div class="col-2  ">Tagged By</div>
                 <div class="col-10 row" style="gap: 10px;">
                     <div class="col-4">
-                        <input type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                        <input type="Text" id="TDTaggingDate" name="TDTaggingDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TaggingDate"] : "")"
+                               class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
                     <div class="col-4">
-                        <input type="text" class="col-4 form-control form-control-sm" />
+                        <input id="tTaggingBy" name="tTaggingBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TaggingBy"] : "")"
+                            type="text" class="col-4 form-control form-control-sm" />
                     </div>
-                    <div id="tTagging" name="tTagging" class="col-3">
-                        *calculation
+                    <div id="" name="" class="col-3 d-none">
                     </div>
                 </div>
             </div>
@@ -70,10 +76,12 @@
                 <div class="col-2  ">In Transit By</div>
                 <div class="col-10 row" style="gap: 10px;">
                     <div class="col-4">
-                        <input type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
+                        <input id="tInTransitDate" name="tInTransitDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["InTransitDate"] : "")"
+                            type="Text" class="col-4 form-control form-control-sm datepicker-basic" style="max-width: 280px;" />
                     </div>
                     <div class="col-4">
-                        <input type="text" class="col-4 form-control form-control-sm" />
+                        <input id="tInTransitBy" name="tInTransitBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["InTransitBy"] : "")"
+                            type="text" class="col-4 form-control form-control-sm" />
                     </div>
                 </div>
             </div>
