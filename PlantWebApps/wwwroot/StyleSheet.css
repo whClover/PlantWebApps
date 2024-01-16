@@ -1,0 +1,19 @@
+﻿#table1 {
+    page-break-inside: avoid !important;
+    page-break-after: always !important;
+}
+
+#table2 {
+    page-break-inside: avoid !important;
+    page-break-after: always !important;
+}
+
+#table3 {
+    page-break-inside: avoid !important;
+    page-break-after: always !important;
+}
+
+#table4 {
+    page-break-inside: avoid !important;
+    page-break-after: always !important;
+}

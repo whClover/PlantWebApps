@@ -20,6 +20,12 @@ namespace PlantWebApps.Helper
             return username;
         }
 
+        public static String ebyname() 
+        {
+            String username = Utility.Evar(GlobalString._username, 1);
+            return username;
+        }
+
         public static string GetCurrentUsername()
         {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();

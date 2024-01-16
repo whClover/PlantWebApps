@@ -47,6 +47,7 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\StyleSheet.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +62,6 @@
   <ItemGroup>
     <Folder Include="Controllers\Fabshop\" />
     <Folder Include="Controllers\TMRP\" />
-    <Folder Include="Controllers\TCRC\" />
     <Folder Include="Views\Auth\" />
   </ItemGroup>
 
