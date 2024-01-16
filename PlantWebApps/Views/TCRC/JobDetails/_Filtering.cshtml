@@ -1,0 +1,258 @@
+﻿@{
+    @using System.Data;
+}
+
+<!-- top offcanvas -->
+<div class="offcanvas offcanvas-top" tabindex="-1" id="offAdd" data-bs-scroll="true" aria-labelledby="offcanvasScrolling" style="height:520px">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasTopLabel">Filter Data</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form id="formfilter" method="post" enctype="multipart/form-data" action="#">
+            <div class="row mb-3">
+                <div class="col-md-3 border">
+                    <table class="table table-condensed table-sm">
+                        <tr>
+                            <td class="fw-bold">
+                                <select class="form-label2" name="swono" id="swono">
+                                    <option value="WONo">WONo</option>
+                                    <option value="ParentWO">Parent WO</option>
+                                    <option value="ID">Job ID</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="twono" id="twono" class="form-control form-control-sm" /></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">WO Desc.</td>
+                            <td><input type="text" name="twodesc" id="twodesc" class="form-control form-control-sm" /></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">
+                                <select class="form-label2" name="sdate" id="sdate">
+                                    <option value="docdate">WO Date</option>
+                                    <option value="ClosedDate">Closed Date</option>
+                                    <option value="JDECompletedDate">JDECompleted Date</option>
+                                    <option value="CompSupplyDate">SupplyDate</option>
+                                    <option value="ComponentReceiveDate">ReceiveDate</option>
+                                    <option value="CreatedDate">CreateDate</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" id="tdatestart" name="tdatestart" class="form-control form-control-sm datepicker-basic" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" id="tdateend" name="tdateend" class="form-control form-control-sm datepicker-basic" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">WO Status</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" id="twostat" name="twostat" multiple>
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.wostat.Rows)
+                                    {
+                                        var StatDesc = row["StatDesc"].ToString();
+                                        var Stat = row["Stat"].ToString();
+                                        <option value="@Stat">@Stat</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3 border">
+                    <table class="table table-condensed table-sm">
+                        <tr>
+                            <td class="fw-bold">Unit Desc</td>
+                            <td style="width:65%">
+                                <select class="form-control form-control-sm select2" id="tunitdesc" name="tunitdesc">
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.unitdesc.Rows)
+                                    {
+                                        var UnitDescription = row["UnitDescription"].ToString();
+                                        <option value="@UnitDescription">@UnitDescription</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Maint ID</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" style="width:100%" id="tmaintid" name="tmaintid">
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.maintid.Rows)
+                                    {
+                                        var MaintIDDesc = row["MaintIDDesc"].ToString();
+                                        var CompType = row["CompType"].ToString();
+                                        <option value="@CompType">@MaintIDDesc</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Job Priority</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" style="width:100%" id="tpriority" name="tpriority">
+                                    <option value="">-- Blank --</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Current Location</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" style="width:100%" id="tcurrentloc" name="tcurrentloc">
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.curloc.Rows)
+                                    {
+                                        var LocationName = row["LocationName"].ToString();
+                                        var Location = row["Location"].ToString();
+                                        <option value="@Location">@LocationName</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3 border">
+                    <table class="table table-condensed table-sm">
+                        <tr>
+                            <td class="fw-bold">PIC</td>
+                            <td style="width:65%">
+                                <select class="form-control form-control-sm select2" style="width:100%" id="tpic" name="tpic">
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.pic.Rows)
+                                    {
+                                        var EmailTypeID = row["EmailTypeID"].ToString();
+                                        var Description = row["Description"].ToString();
+                                        <option value="@EmailTypeID">@Description</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Type</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" style="width:100%" id="twotype" name="twotype">
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.worktype.Rows)
+                                    {
+                                        var WorkTypeName = row["WorkTypeName"].ToString();
+                                        var WorkTypeID = row["WorkTypeID"].ToString();
+                                        <option value="@WorkTypeID">@WorkTypeName</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Job Status</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" multiple style="width:100%" id="tjobstat" name="tjobstat">
+                                    <option value="">-- Blank --</option>
+                                    @{
+                                        var defaultValues = new List<string> { "RA", "RC", "RJ", "RP", "SA", "SJ", "SP", "CE", "CJ", "D", "ID", "JE", "NW", "P", "O" }; // Replace with your desired default values
+                                    }
+                                    @foreach (DataRow row in ViewBag.jobstatus.Rows)
+                                    {
+                                        var JobStatus = row["JobStatus"].ToString();
+                                        var JobStatusID = row["JobStatusID"].ToString();
+
+                                        var selectItem = new SelectListItem
+                                        {
+                                            Value = JobStatusID,
+                                            Text = JobStatus,
+                                            Selected = defaultValues.Contains(JobStatusID)
+                                        };
+
+                                        <option asp-for="tjobstat" value="@selectItem.Value" selected="@selectItem.Selected">@selectItem.Text</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Activity</td>
+                            <td>
+                                <select class="form-control form-control-sm select2" multiple style="width:100%" id="tactivity" name="tactivity">
+                                    <option value="">-- Blank --</option>
+                                    @foreach (DataRow row in ViewBag.activity.Rows)
+                                    {
+                                        var Description = row["Description"].ToString();
+                                        <option value="@Description">@Description</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3 border">
+                    <table class="table table-condensed table-sm">
+                        <tr>
+                            <td class="fw-bold">Sort By</td>
+                            <td style="width:65%">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <select class="form-control form-control-sm" id="tsortby" name="tsortby">
+                                            <option value="WONo">WONo</option>
+                                            <option value="ID">ID</option>
+                                            <option value="DocDate">Doc Date</option>
+                                            <option value="ArrivalDate">Arrival Date</option>
+                                            <option value="PromisedDate">Promised Date</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select class="form-control form-control-sm" id="tsorttype" name="tsorttype">
+                                            <option value="desc">Z-A</option>
+                                            <option value="asc">A-Z</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <button class="btn btn-primary btn-sm" type="button" id="bFilter">
+                        <i class="fa fa-search me-2"></i> Search
+                    </button>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-download me-2"></i>
+                            Export
+                            <i class="mdi mdi-chevron-down ms-2"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-file-excel me-2"></i>
+                                    All Job Details
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-file-excel me-2"></i>
+                                    Activity Labour Detail
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-file-excel me-2"></i>
+                                    Labour Efficiency
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

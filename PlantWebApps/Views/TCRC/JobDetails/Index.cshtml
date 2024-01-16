@@ -1,0 +1,136 @@
+﻿@{
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 ml-1">Job Details</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">TCRC</a></li>
+                    <li class="breadcrumb-item active">Index - Job Details</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div>
+                        <button id="badd" type="button" class="btn btn-primary btn-sm" onclick="editData()">
+                            <i class="fa fa-plus me-2"></i> Add
+                        </button>
+                        <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offAdd" aria-controls="offcanvasTop">
+                            <i class="fa fa-filter me-2"></i> Filter
+                        </button>
+                        <partial name="_Filtering.cshtml" />
+                        <button type="button" class="btn btn-primary btn-sm">
+                            <i class="fa fa-upload me-2"></i> Upload WO Details
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-sm fs-10 datatablenon">
+                                <thead class="fw-semibold bg-soft-secondary">
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            WONo <hr class="mb-0 mt-0" /> WO Descriptions
+                                        </th>
+                                        <th>Parent WO</th>
+                                        <th>Maint Type</th>
+                                        <th>Stand</th>
+                                        <th>WO Status</th>
+                                        <th>WO Age</th>
+                                        <th>
+                                            Approval <hr class="mb-0 mt-0" /> Last Activity <hr class="mb-0 mt-0" /> Last Sub Activity
+                                        </th>
+                                        <th>P</th>
+                                        <th>PIC</th>
+                                        <th>Repair Remark</th>
+                                        <th>Created Date</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="Form.cshtml" />
+
+<script>
+
+    function editData(id){
+        $.ajax({
+            method: "GET",
+            url: "JobDetails/loadDataByID",
+            dataType: 'json',
+            data: { id:id },
+        }).done(function (msg) { 
+            $("#mform").modal('show');
+        });
+    }
+
+    $(document).ready(function () {
+        loadData();
+        $('#bFilter').on("click", function () {
+            loadData();
+        });
+
+        function loadData() {
+            $('#loadingOverlay').show();
+            $.ajax({
+                method: "GET",
+                url: "JobDetails/LoadData",
+                dataType: 'json',
+                data: $("#formfilter").serialize()
+            }).done(function (msg) {
+                $('.datatablenon').DataTable().clear().destroy();
+                $('.datatablenon').DataTable({
+                    searching: false,
+                    lengthChange: false,
+                    sorting: false,
+                    responsive: true,
+                    pageLength: 10,
+                    data: msg,
+                    columns: [
+                        { "data": "editcmd" },
+                        { 
+                            "data": "wono",
+                            "render": function (data, type, row) {
+                                return row.wono + "<hr class='mb-0 mt-0'/>" + row.wodesc;
+                            }
+                        },
+                        { "data": "parentwo" },
+                        { "data": "mainttype" },
+                        { "data": "stand" },
+                        { "data": "wostatus" },
+                        { "data": "woage" },
+                        { 
+                            "data": "jobstatusdesc",
+                            "render": function (data, type, row) {
+                                return row.jobstatusdesc + "<hr class='mb-0 mt-0'/>" + row.lastactivity + "<hr class='mb-0 mt-0'/>" + row.subdescription;
+                            }
+                        },
+                        { "data": "jobpriority" },
+                        { "data": "jobstatuspic" },
+                        { "data": "remark" },
+                        { "data": "createddate" },
+                    ]
+                });
+
+                $("#offAdd").offcanvas("hide");
+                $('#loadingOverlay').hide();
+            });
+        }
+    });
+</script>

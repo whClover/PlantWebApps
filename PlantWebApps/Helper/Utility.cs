@@ -19,6 +19,13 @@ namespace PlantWebApps.Helper
             string username = Environment.UserName;
             return username;
         }
+
+        public static String ebyname() 
+        {
+            String username = Utility.Evar(GlobalString._username, 1);
+            return username;
+        }
+
         public static string getDate()
         {
             string date = DateTime.Now.ToString("yyyy-MM-dd");

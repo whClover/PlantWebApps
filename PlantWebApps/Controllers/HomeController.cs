@@ -23,6 +23,14 @@ namespace PlantWebApps.Controllers
             return View();
         }
 
+        public IActionResult tes2()
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views/Sample/tes2.html");
+            string contentType = "text/html";
+
+            return PhysicalFile(filePath, contentType);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
