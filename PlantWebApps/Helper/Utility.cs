@@ -40,6 +40,45 @@ namespace PlantWebApps.Helper
             return username;
         }
 
+        public static bool checkgranted(string formname, string useraction)
+        {
+            //check user-exists
+            string uexists = "select * from tbl_user where username=" + ebyname();
+            DataTable data = new DataTable();
+            data = SQLFunction.execQuery(uexists);
+
+            if(data.Rows.Count == 0)
+            {
+                return false;
+            }
+
+            string userid = data.Rows[0]["userid"].ToString();
+            string userpriv = data.Rows[0]["Previllege"].ToString();
+
+            if(userpriv == "Administrator")
+            {
+                return true;
+            }
+
+            string uform = "Select dbo.CheckGranted(" + userid + "," + Utility.Evar(formname, 1) + "," + useraction + ") as Granted";
+            DataTable data2 = new DataTable();
+            data2 = SQLFunction.execQuery(uform);
+            if (data.Rows.Count == 0)
+            {
+                return false;
+            }
+
+            string granted = data2.Rows[0]["Granted"].ToString();
+            if(granted == "1")
+            {
+                return true;
+            } 
+            else
+            {
+                return false;
+            }
+        }
+
         public static string Evar(object val, int valtype, int vallen = 255)
         {
             string eval;

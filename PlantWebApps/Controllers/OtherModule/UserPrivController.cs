@@ -32,6 +32,14 @@ namespace PlantWebApps.Controllers.OtherModule
 
         public IActionResult Edit(string id)
         {
+            bool priv = Utility.checkgranted("frm_UserPrevillage", "2");
+            if (priv == false)
+            {
+                Stat = "warning";
+                Msg = "You dont have access to this function";
+                return Redirect("/UserPriv");
+            }
+
             loadoption();
             loadAccess(id);
             string query = "select * from tbl_User where UserID=" + Utility.Evar(id,1);

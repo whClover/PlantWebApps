@@ -58,7 +58,6 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
                     jpdatetime = Utility.CheckNull(row["JPDateTime"]),
                     accepteddate = Utility.CheckNull(row["AcceptedDate"]),
                     quoteno = Utility.CheckNull(row["QuoteNo"]),
-                    quoteno = Utility.CheckNull(row["QuoteNo"]),
                 };
                 rows.Add(rowData);
             }
