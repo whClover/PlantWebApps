@@ -13,7 +13,9 @@
 				<h5 class="card-title">External Repair Job History Form</h5>
 				<div class="d-flex" style="gap: 10px;">
 					<div>Job ID :</div>
-					<div>@(ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["ID"] : "")</div>
+					<input type="text" class="border border-0" style="max-width: 100px;" id="tID"
+							value="@(ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["ID"] : "")" 
+					/>
 				</div>
 			</div>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -46,9 +48,31 @@
 				<a class="btn btn-primary" style="min-width: 85px;" id="Csave">SAVE</a>
 				<button type="button" class="btn btn-primary" style="min-width: 85px;">CLOSE</button>
 			</div>
+			@* uknown input *@
+			<input type="text" id="tDeliveryDate" name="tDeliveryDate" class="d-none"
+				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DeliveryDate"] : "")" />
+			<input type="text" id="TIssuedBy" name="TIssuedBy" class="d-none"
+				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IssuedBy"] : "")" />
+			<input type="text" id="tORRRNo" name="tORRRNo" class="d-none"
+				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ORRRNo"] : "")" />
+			<input type="text" id="tOPRRNo" name="tOPRRNo" class="d-none"
+				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPRRNo"] : "")" />
 		</div>
 	</div>
 </div>
+
+@if (TempData.Peek("Msg") != null)
+{
+	@section Scripts
+						{
+	<script>
+		Swal.fire({
+			title: '@TempData.Peek("Msg")',
+				icon: '@TempData.Peek("Stat")'
+			});
+		</script>
+	}
+}
 
 <script>
 	$(document).ready(function () {
@@ -114,24 +138,191 @@
 			}
 		});
 
+		console.log($("#tCostAfter").val());
+		console.log($("#tCostBefore").val());
+
+		//condition for csave
+		function checkEunitCost() { 
+			if ($("#tCostAfter").val() != "" && $("#tCostBefore").val() != "") {
+				var EunitCost = parseFloat($("#tCostAfter").val().replace(/,/g, '')) - parseFloat($("#tCostBefore").val().replace(/,/g, ''))
+			}
+			else { 
+				var EunitCost = "NULL"
+			}
+		}
+
+		function checkRepairAdvice() { 
+			if ($("#tRepairAdvice").val() == "SA") {
+				$("#tRepairAdvice").val("WA")
+			}
+		}
+
+
 		// Extract data from form
 		function extractData() {
 			var data = {};
 
-			data.eid = $("#tID").val();
-			data.eAddCost = $("#tID").val();
-			data.eChildWO = $("#TChildWO").val();
-			data.eCompDesc = $("#tCompDesc").val();
-			data.eCompQty = $("#TCompQty").val();
-			data.ID = $("#tID").val();
-			data.ID = $("#tID").val();
-			data.ID = $("#tID").val();
-			data.ID = $("#tID").val();
+			console.log("next status is", $("#tNextStatus").val())
 
+			var estatusid = ""
+			if ($("#tNextStatus").val() != "") {
+				estatusid = $("#tNextStatus").val();
+			} else {
+				estatusid = $("#tStatusID").val();
+			}
+
+			console.log("status id is", estatusid)
+
+			checkEunitCost();
+			checkRepairAdvice();
+
+			data.eID = $("#tID").val();
+			data.eAddCost = $("#tAddCost").val();
+			data.eChildWO = $("#TChildWo").val();
+			data.eCompDesc = $("#TCompDesc").val();
+			data.eCompQty = $("#TCompQty").val();
+			data.eCompTypeID = $("#tCompTypeID").val();
+			data.eCostAfter = $("#tCostAfter").val();
+			data.eCostBefore = $("#tCostBefore").val();
+			data.eCostRepair = $("#tCostRepair").val();
+			data.eCurrID = $("#tCurrID").val();
+			data.eDeliveryDate = $("#tDeliveryDate").val();
+			data.eIssuedBy = $("#TIssuedBy").val();
+			data.eDestination = $("#tDestination").val();
+			data.eDisputeCompletedBy = $("#tDisputeCompletedBy").val();
+			data.eDisputeCompletedBy2 = $("#tDisputeCompletedBy2").val();
+			data.eDisputeCompletedDate = $("#TDispCompDate").val();
+			data.eDisputeCompletedDate2 = $("#tDComplDispDate").val();
+			data.eDnNumber = $("#tDnNumber").val();
+			data.eDocAvb = $("#docAvail").val();
+			data.eST = $("#tST").val();
+			data.eOt = $("#tOt").val();
+			data.eDocDate = $("#tDocDate").val();
+			data.eDocTypeID = $("#tDocTypeID").val();
+			data.eEGEI = $("#tEGEI").val();
+			data.eEIEK = $("#tEIEK").val();
+			data.eEKEP = $("#tEKEP").val();
+			data.eEquipClass = "Null";
+			data.eetadate = $("#tetadate").val();
+			data.eFitToUnit = $("#tFitToUnit").val();
+			data.eIntWO = $("#tIntWO").val();
+			data.eIntWOPrevious = $("#tIntWOPrevious").val();
+			data.eJobNo = $("#tJobNo").val();
+			data.eSerialNumberOEM = $("#tSerialNumberOEM").val();
+			data.eTCICoreFitTo = $("#tTCICoreFitTo").val();
+			data.eExtWO = $("#tExtWO").val();
+			data.eLocationHold = $("#CLocationHold").val();
+			data.eLogANReceivedBy = $("#tLogANReceivedBy").val();
+			data.eDlogAnDate = $("#tDlogAnDate").val();
+			data.eDlogAnNo = $("#tDlogAnNo").val();
+			data.eDPerAnDate = $("#tDPerAnDate").val();
+			data.eMaintType = $("#tMaintType").val();
+			data.eMeterRun = $("#tMeterRun").val();
+			data.eMeterToRun = $("#tMeterToRun").val();
+			data.eOemCost = $("#tOemCost").val();
+			data.eORRequestDate = $("#tORRequestDate").val();
+			data.eORCompletedDAte = $("#tORCompletedDAte").val();
+			data.eORRRNo = $("#tORRRNo").val();
+			data.eOPRRNo = $("#tOPRRNo").val();
+			data.eOffSiteWO = $("#tOffSiteWO").val();
+			data.eOPDate = $("#tOPDate").val();
+			data.eOPNo = $("#tOPNo").val();
+			data.eOPPrevious = $("#tOPPrevious").val();
+			data.eORNo = $("#tORNo").val();
+			data.eOt = $("#tOt").val();
+			data.eQuoteApprovedBy = $("#tQuoteApprovedBy").val();
+			data.eQuoteDate = $("#tQuoteDate").val();
+			data.eQuoteNo = $("#tQuoteNo").val();
+			data.eQuotePrintBy = $("#tQuotePrintBy").val();
+			data.eQuoteProcessBy = $("#tQuoteProcessBy").val();
+			data.eQuoteRevDate = $("#tQuoteRevDate").val();
+			data.eQuoteRevNo = $("#tQuoteRevNo").val();
+			data.eReasonType = $("#tReasonType").val();
+			data.eReceivedBy = $("#TreceivedBy").val();
+			data.eReceivedByName = $("#tReceivedByName").val();
+			data.eReceivedDate = $("#tReceivedDate").val();
+			data.eremark = $("#tRemark").val();
+			data.eRepairTypeID = $("#tRepairTypeID").val();
+			data.eReqStand = $("#reqStand").val();
+			data.eReqPart = $("#reqPart").val();
+			data.eRequestP1 = $("#tRequestP1").val();
+			data.eRTSCost = $("#tRTSCost").val();
+			data.esavingcostCatID = $("#tsavingcostCatID").val();
+			data.eSitetoLogAN = $("#tSitetoLogAN").val();
+			data.eSitetoLogDate = $("#tSitetoLogDate").val();
+			data.estatusid = estatusid;
+			data.eStoreID = $("#tStoreID").val();
+			data.eSTOtNo = $("#tSTOtNo").val();
+			data.eSpvID = $("#tSpvID").val();
+			data.eSuppForRepairAN = $("#tSuppForRepairAN").val();
+			data.eRepairByID = $("#tRepairByID").val();
+			data.eSuppReceiveANBy = $("#tSuppReceiveANBy").val();
+			data.eSuppReceiveANDate = $("#tSuppReceiveANDate").val();
+			data.eTaggingBy = $("#tTaggingBy").val();
+			data.eDTaggingDate = $("#TDTaggingDate").val();
+			data.eTCICost = $("#tTCICost").val();
+			data.eTCIPartID = $("#tTCIPartID").val();
+			data.eTCIPartNo = $("#tTCIPartNo").val();
+			data.ebWarrantyResult = $("#cbWarrantyResult").val();
+			data.eWCSDate = $("#tWCSDate").val();
+			data.eWOFitToUnit = $("#tWOFitToUnit").val();
+			data.eWoJobCost = $("#tWoJobCost").val();
+			data.eWOPrevious = $("#tWOPrevious").val();
+			data.eDecisionDate = $("#tDecisionDate").val();
+			data.eEmailDate = $("#tEmailDate").val();
+			data.eRepairAdvice = $("#tRepairAdvice").val();
+			data.edata = "Null";
+			data.eRequestP1 = $("#tRequestP1").val();
+			data.eRepairAdvice = $("#tRepairAdvice").val();
+			data.eSuggestedStore = $("#tSuggestedStore").val();
+			data.eRemarkAdvice = $("#tRemarkAdvice").val();
+			data.eSiteAlloc = $("#tSiteAlloc").val();
+			data.eWOAlloc = $("#TWOAlloc").val();
+			data.eUnitAlloc = $("#tUnitAlloc").val();
+			data.eSchedStartAlloc = $("#tSchedStartAlloc").val();
+			data.eSOHAlloc = $("#tSOHAlloc").val();
+			data.eOutReqAlloc = $("#tOutReqAlloc").val();
 
 			return data;
 		}
 
+		function saveRequest(extractedData) {
+			console.log(extractedData);
+
+			$.ajax({
+				method: "GET",
+				url: "/ExrRepairJobHistory/CheckHub",
+				dataType: 'json',
+				data: {
+					formName: "Mod_ExrRepair",
+					accessType: "2"
+				},
+				success: function (response) {
+					console.log(response);
+					if (response.isGranted) {
+						$.ajax({
+							method: "POST",
+							url: "/ExrRepairJobHistory/TSave",
+							dataType: 'json',
+							data: extractedData
+						});
+					} else {
+						Swal.fire("You dont have access to this function", "", "Warning");
+						location.reload();
+					}
+				}
+			});
+		}
+
+		function handleSave() {
+			var extractedData = extractData();
+			saveRequest(extractedData);
+			Swal.fire("Data Has Been Inserted", "", "success");
+		}
+
+		$("#Csave").on("click", function () {
+			handleSave();
+		});
 
 	});
 </script>

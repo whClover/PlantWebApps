@@ -97,7 +97,6 @@ namespace PlantWebApps.Helper
                 return false;
             }
         }
-
         public static string Evar(object val, int valtype, int vallen = 255)
         {
             string eval;

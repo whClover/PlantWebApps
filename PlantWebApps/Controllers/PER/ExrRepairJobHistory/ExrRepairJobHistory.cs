@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using PlantWebApps.Helper;
 using System;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing.Printing;
 using System.Globalization;
 
@@ -15,38 +16,150 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public String Msg { get; set; }
         [TempData]
         public String Stat { get; set; }
-        public IActionResult CheckAccess(string formName, string actionName)
-        {
-
-            Console.WriteLine("form is" + formName);
-            Console.WriteLine("action is" + actionName);
-
-            (bool IsGranted, bool ModEdit, bool ModAdd, bool ModDelete) privilege = Checking.CheckPrivilege(formName);
-            ViewBag.IsGranted = privilege.IsGranted;
-            Console.WriteLine("it is" + ViewBag.IsGranted);
-
-            if (privilege.IsGranted)
-            {
-                ViewBag.ModEdit = privilege.ModEdit;
-                ViewBag.ModAdd = privilege.ModAdd;
-                ViewBag.ModDelete = privilege.ModDelete;
-                return RedirectToAction(actionName); ;
-            }
-            else 
-            {
-                string errorQuery = $"Select isnull(GRName,'UnKnown') as GRName from tbl_UserGrantedModule Where GRForm={Utility.Evar(formName, 1)}";
-                var result = SQLFunction.execQuery(errorQuery);
-                ViewBag.NameForm = result.Rows.Count > 0 ? result.Rows[0]["GRName"].ToString() : "Unknown";
-
-                return View("~/Views/Shared/Error/NoAccess.cshtml");
-            }
-        }
-        public IActionResult Index()
+		public IActionResult CheckHub(string formName, string accessType)
+		{
+			bool isGranted = Utility.checkgranted(formName, accessType);
+			return Json(new { isGranted });
+		}
+		public IActionResult Index()
         {
             loadoption();
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
         }
-        public IActionResult LoadData(
+		public IActionResult TSave(string eID, string eAddCost, string eChildWO, string eCompDesc, string eCompQty, 
+            string eCompTypeID, string eCostAfter, string eCostBefore, string eCostRepair, string eCurrID, 
+            string eDeliveryDate, string eIssuedBy, string eDestination, string eDisputeCompletedBy, 
+            string eDisputeCompletedBy2, string eDispCompDate, string eDComplDispDate, string eDnNumber, 
+            string eptYDocAvb, string eST, string eOt, string eDocDate, string eDocTypeID, string eEGEI, 
+            string eEIEK, string eEKEP, string eULL, string eetadate, string eFitToUnit, string eIntWO, 
+            string eIntWOPrevious, string eJobNo, string eSerialNumberOEM, string eTCICoreFitTo, 
+            string eExtWO, string eLocationHold, string eLogANReceivedBy, string eDlogAnDate, string eDlogAnNo, 
+            string eDPerAnDate, string eMaintType, string eMeterRun, string eMeterToRun, string eOemCost, 
+            string eORRequestDate, string eORCompletedDAte, string eORRRNo, string eOPRRNo, string eOffSiteWO, string eOPDate, 
+            string eOPNo, string eOPPrevious, string eORNo, string eQuoteApprovedBy, string eQuoteDate, string eQuoteNo, 
+            string eQuotePrintBy, string eQuoteProcessBy, string eQuoteRevDate, string eQuoteRevNo, string eReasonType, 
+            string eReceivedBy, string eReceivedByName, string eReceivedDate, string eremark, string eRepairTypeID, 
+            string eReqStand, string eReqPart, string eRequestP1, string eRTSCost, string esavingcostCatID, 
+            string eSitetoLogAN, string eSitetoLogDate, string eNextStatus, string eStoreID, string eSTOtNo, 
+            string eSpvID, string eSuppForRepairAN, string eRepairByID, string eSuppReceiveANBy, string eSuppReceiveANDate, 
+            string eTaggingBy, string eDTaggingDate, string eTCICost, string eTCIPartID, string eTCIPartNo, string eUnitNo, 
+            string ebWarrantyResult, string eWCSDate, string eWOFitToUnit, string eWoJobCost, string eWOPrevious, 
+            string eDecisionDate, string eEmailDate, string eRepairAdvice, string eSuggestedStore, string eRemarkAdvice, 
+            string eSiteAlloc, string eWOAlloc, string eUnitAlloc, string eSchedStartAlloc, string eSOHAlloc, string eOutReqAlloc)
+		{
+			Console.WriteLine("1 " + eID);
+			Console.WriteLine("2 " + eAddCost);
+			Console.WriteLine("3 " + eChildWO);
+			Console.WriteLine("4 " + eCompDesc);
+			Console.WriteLine("5 " + eCompQty);
+			Console.WriteLine("6 " + eCompTypeID);
+			Console.WriteLine("7 " + eCostAfter);
+			Console.WriteLine("8 " + eCostBefore);
+			Console.WriteLine("9 " + eCostRepair);
+			Console.WriteLine("10 " + eCurrID);
+			Console.WriteLine("11 " + eDeliveryDate);
+			Console.WriteLine("12 " + eIssuedBy);
+			Console.WriteLine("13 " + eDestination);
+			Console.WriteLine("14 " + eDisputeCompletedBy);
+			Console.WriteLine("15 " + eDisputeCompletedBy2);
+			Console.WriteLine("16 " + eDispCompDate);
+			Console.WriteLine("17 " + eDComplDispDate);
+			Console.WriteLine("18 " + eDnNumber);
+			Console.WriteLine("19 " + eptYDocAvb);
+			Console.WriteLine("20 " + eST);
+			Console.WriteLine("21 " + eOt);
+			Console.WriteLine("22 " + eDocDate);
+			Console.WriteLine("23 " + eDocTypeID);
+			Console.WriteLine("24 " + eEGEI);
+			Console.WriteLine("25 " + eEIEK);
+			Console.WriteLine("26 " + eEKEP);
+			Console.WriteLine("27 " + eULL);
+			Console.WriteLine("28 " + eetadate);
+			Console.WriteLine("29 " + eFitToUnit);
+			Console.WriteLine("30 " + eIntWO);
+			Console.WriteLine("31 " + eIntWOPrevious);
+			Console.WriteLine("32 " + eJobNo);
+			Console.WriteLine("33 " + eSerialNumberOEM);
+			Console.WriteLine("34 " + eTCICoreFitTo);
+			Console.WriteLine("35 " + eExtWO);
+			Console.WriteLine("36 " + eLocationHold);
+			Console.WriteLine("37 " + eLogANReceivedBy);
+			Console.WriteLine("38 " + eDlogAnDate);
+			Console.WriteLine("39 " + eDlogAnNo);
+			Console.WriteLine("40 " + eDPerAnDate);
+			Console.WriteLine("41 " + eMaintType);
+			Console.WriteLine("42 " + eMeterRun);
+			Console.WriteLine("43 " + eMeterToRun);
+			Console.WriteLine("44 " + eOemCost);
+			Console.WriteLine("45 " + eORRequestDate);
+			Console.WriteLine("46 " + eORCompletedDAte);
+			Console.WriteLine("47 " + eORRRNo);
+			Console.WriteLine("48 " + eOPRRNo);
+			Console.WriteLine("49 " + eOffSiteWO);
+			Console.WriteLine("50 " + eOPDate);
+			Console.WriteLine("51 " + eOPNo);
+			Console.WriteLine("52 " + eOPPrevious);
+			Console.WriteLine("53 " + eORNo);
+			Console.WriteLine("54 " + eOt);
+			Console.WriteLine("55 " + eQuoteApprovedBy);
+			Console.WriteLine("56 " + eQuoteDate);
+			Console.WriteLine("57 " + eQuoteNo);
+			Console.WriteLine("58 " + eQuotePrintBy);
+			Console.WriteLine("59 " + eQuoteProcessBy);
+			Console.WriteLine("60 " + eQuoteRevDate);
+			Console.WriteLine("61 " + eQuoteRevNo);
+			Console.WriteLine("62 " + eReasonType);
+			Console.WriteLine("63 " + eReceivedBy);
+			Console.WriteLine("64 " + eReceivedByName);
+			Console.WriteLine("65 " + eReceivedDate);
+			Console.WriteLine("66 " + eremark);
+			Console.WriteLine("67 " + eRepairTypeID);
+			Console.WriteLine("68 " + eReqStand);
+			Console.WriteLine("69 " + eReqPart);
+			Console.WriteLine("70 " + eRequestP1);
+			Console.WriteLine("71 " + eRTSCost);
+			Console.WriteLine("72 " + esavingcostCatID);
+			Console.WriteLine("73 " + eSitetoLogAN);
+			Console.WriteLine("74 " + eSitetoLogDate);
+			Console.WriteLine("75 " + eNextStatus);
+			Console.WriteLine("76 " + eStoreID);
+			Console.WriteLine("77 " + eSTOtNo);
+			Console.WriteLine("78 " + eSpvID);
+			Console.WriteLine("79 " + eSuppForRepairAN);
+			Console.WriteLine("80 " + eRepairByID);
+			Console.WriteLine("81 " + eSuppReceiveANBy);
+			Console.WriteLine("82 " + eSuppReceiveANDate);
+			Console.WriteLine("83 " + eTaggingBy);
+			Console.WriteLine("84 " + eDTaggingDate);
+			Console.WriteLine("85 " + eTCICost);
+			Console.WriteLine("86 " + eTCIPartID);
+			Console.WriteLine("87 " + eTCIPartNo);
+			Console.WriteLine("88 " + eUnitNo);
+			Console.WriteLine("89 " + ebWarrantyResult);
+			Console.WriteLine("90 " + eWCSDate);
+			Console.WriteLine("91 " + eWOFitToUnit);
+			Console.WriteLine("92 " + eWoJobCost);
+			Console.WriteLine("93 " + eWOPrevious);
+			Console.WriteLine("94 " + eDecisionDate);
+			Console.WriteLine("95 " + eEmailDate);
+			Console.WriteLine("96 " + eRepairAdvice);
+			Console.WriteLine("97 " + eRequestP1);
+			Console.WriteLine("98 " + eNextStatus);
+			Console.WriteLine("99 " + eRepairAdvice);
+			Console.WriteLine("100 " + eSuggestedStore);
+			Console.WriteLine("101 " + eRemarkAdvice);
+			Console.WriteLine("102 " + eSiteAlloc);
+			Console.WriteLine("103 " + eWOAlloc);
+			Console.WriteLine("104 " + eUnitAlloc);
+			Console.WriteLine("105 " + eSchedStartAlloc);
+			Console.WriteLine("106 " + eSOHAlloc);
+			Console.WriteLine("107 " + eOutReqAlloc);
+			Console.WriteLine("108 " + eRequestP1);
+
+			loadoption();
+			return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
+		}
+		public IActionResult LoadData(
             string repairType, string compType, string statusInput, string supervisorId,
             string supplierId, string cwoType, string cwoTypeValue, string fdocType,
             string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
@@ -391,6 +504,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             // general data query
             string query = $"SELECT * from v_ExrJobDetail WHERE ID = '{id}'";
+            Console.WriteLine(query);
 
             // v_ExrJobDetailRev1 data query
             //string queryDetail = @$"SELECT *,dbo.GetExrInspectResult(ID,'OLD') as resultOldCoreInspect,

@@ -188,10 +188,12 @@
 			<div class="row align-items-center">
 				<div class="col-2  ">Dispute Date</div>
 				<div class="col-2">
-					<input type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+					<input id="TDispCompDate" name="TDispCompDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate"] : "")"
+							type="text" class="col-2 form-control form-control-sm datepicker-basic" />
 				</div>
 				<div class="col-2">
-					<input id="TEKEPKPI" name="TEKEPKPI" type="text" class="col-2 ms-2 form-control form-control-sm" />
+					<input id="tDisputeCompletedBy" name="tDisputeCompletedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy"] : "")"
+						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
 				</div>
 			</div>
 		</div>
@@ -199,11 +201,11 @@
 			<div class="row align-items-center">
 				<div class="col-2  ">Disp Comp.Date</div>
 				<div class="col-2">
-					<input id="TDispCompDate" name="TDispCompDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate"] : "")"
+					<input id="tDComplDispDate" name="tDComplDispDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate2"] : "")"
 						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
 				</div>
 				<div class="col-2">
-					<input id="tDisputeCompletedBy" name="tDisputeCompletedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy"] : "")"
+					<input id="tDisputeCompletedBy2" name="tDisputeCompletedBy2" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy2"] : "")"
 						   type="text" class="col-2 ms-2 form-control form-control-sm" />
 				</div>
 			</div>
@@ -221,7 +223,7 @@
 			<div class="row align-items-center">
 				<div class="col-2  ">Current Status</div>
 				<div class="col-3">
-					<input id="tStatusID" name="tStatusID" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["Status"] : "")"
+					<input id="tStatusID" name="tStatusID" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["StatusID"] : "")"
 						   type="text" class="col-3 form-control form-control-sm" />
 				</div>
 			</div>

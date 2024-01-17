@@ -208,10 +208,11 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">Req Stand</div>
+				<input type="text" id="reqStand" class="d-none" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqStand"] : "0")" />
 				<input class="col-1" name="reqStand" type="radio" id="OptYReqStand"
 					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqStand"] : "0")">
 				<label class="col-1 pt-1" for="reqStandY">Y</label>
-				<input class="col-1" name="reqStand" type="radio" id="OptNoReqStand"
+				<input class="col-1" name="reqStand" type="radio" id="OptNReqStand"
 					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqStand"] : "0")">
 				<label class="col-1 pt-1" for="reqStandN">N</label>
 			</div>
@@ -219,6 +220,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">Req Parts</div>
+				<input type="text" id="reqPart" class="d-none" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqPart"] : "0")" />
 				<input class="col-1" name="reqParts" type="radio" id="OptYReqParts"
 					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqPart"] : "0")">
 				<label class="col-1 pt-1" for="reqPartsY">Y</label>
@@ -230,6 +232,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">Doc.Avail</div>
+				<input type="text" id="docAvail" class="d-none" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvb"] : "0")" />
 				<input class="col-1" name="docAvail" type="radio" id="optYDocAvb"
 					   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvb"] : "0")">
 				<label class="col-1 pt-1" for="docAvailY">Y</label>
@@ -490,6 +493,7 @@
 
 		var reqStandY = $('#OptYReqStand');
 		var reqStandN = $('#OptNReqStand');
+		var eReqStand = $('#reqStand');
 
 		function handleReqStand() {
 			if (reqStand === -1) {
@@ -504,12 +508,20 @@
 		}
 
 		handleReqStand();
+		$('#OptYReqStand').on("click", function () {
+			eReqStand.val("-1");
+		});
+
+		$('#OptNReqStand').on("click", function () {
+			eReqStand.val("0");
+		});
 
 		// req parts
 		var reqPart = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqPart"] : "0");
 
 		var reqPartY = $('#OptYReqParts');
 		var reqPartN = $('#OptNReqPart');
+		var eReqPart = $('#reqPart');
 
 		function handleReqPart() {
 			if (reqPart === -1) {
@@ -524,12 +536,20 @@
 		}
 
 		handleReqPart();
+		$('#OptYReqParts').on("click", function () {
+			eReqPart.val("-1");
+		});
+
+		$('#OptNReqPart').on("click", function () {
+			eReqPart.val("0");
+		});
 
 		// DOC AVB
 		var docAvb = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocAvb"] : "0");
 
 		var docAvbY = $('#optYDocAvb');
 		var docAvbN= $('#optNDocAvb');
+		var eDocAvail = $('#docAvail');
 
 		function handleDocAvb() {
 			if (docAvb === -1) {
@@ -544,6 +564,13 @@
 		}
 
 		handleDocAvb();
+		$('#optYDocAvb').on("click", function () {
+			eDocAvail.val("-1");
+		});
+
+		$('#optNDocAvb').on("click", function () {
+			eDocAvail.val("0");
+		});
 
 	});
 
