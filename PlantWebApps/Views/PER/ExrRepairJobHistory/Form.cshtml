@@ -43,7 +43,7 @@
 				<button type="button" class="btn btn-primary" disabled style="min-width: 85px;">PRF</button>
 				<button type="button" class="btn btn-primary" style="min-width: 85px;">CE</button>
 				<button type="button" class="btn btn-primary" style="min-width: 85px;">TAG</button>
-				<button type="button" class="btn btn-primary" style="min-width: 85px;">SAVE</button>
+				<a class="btn btn-primary" style="min-width: 85px;" id="Csave">SAVE</a>
 				<button type="button" class="btn btn-primary" style="min-width: 85px;">CLOSE</button>
 			</div>
 		</div>
@@ -112,8 +112,26 @@
 					});
 				}
 			}
-
-			
 		});
+
+		// Extract data from form
+		function extractData() {
+			var data = {};
+
+			data.eid = $("#tID").val();
+			data.eAddCost = $("#tID").val();
+			data.eChildWO = $("#TChildWO").val();
+			data.eCompDesc = $("#tCompDesc").val();
+			data.eCompQty = $("#TCompQty").val();
+			data.ID = $("#tID").val();
+			data.ID = $("#tID").val();
+			data.ID = $("#tID").val();
+			data.ID = $("#tID").val();
+
+
+			return data;
+		}
+
+
 	});
 </script>

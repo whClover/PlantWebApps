@@ -4,6 +4,11 @@
 @{
     @using System.Data;
     // viewdata["title"] = "external repair job history";
+    bool isModEdit = ViewBag.ModEdit != null && (bool)ViewBag.ModEdit;
+    string isEdit = isModEdit ? "" : "disabled";
+
+    bool isModAdd = ViewBag.ModAdd != null && (bool)ViewBag.ModAdd;
+    string isAdd = isModAdd ? "" : "disabled";
 }
 
 <script type="text/javascript">
@@ -109,7 +114,7 @@
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas"  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="fa fa-filter me-2"></i> FILTER
                         </button>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add">
+                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add" @isAdd>
                             <i class="fa fa-plus me-2"></i> ADD
                         </button>
                         <div>
@@ -226,6 +231,7 @@
         </div>
     </div>
 </form>
+
 
 <script>
     $(document).ready(function () {

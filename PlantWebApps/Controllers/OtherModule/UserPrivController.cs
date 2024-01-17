@@ -23,7 +23,6 @@ namespace PlantWebApps.Controllers.OtherModule
             loadoption();
             return View("~/Views/OtherModule/userpriv/Index.cshtml");
         }
-
         public IActionResult Add() {
             loadoption();
             ViewBag.Stat = "Add";

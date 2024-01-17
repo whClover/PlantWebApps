@@ -15,6 +15,32 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public String Msg { get; set; }
         [TempData]
         public String Stat { get; set; }
+        public IActionResult CheckAccess(string formName, string actionName)
+        {
+
+            Console.WriteLine("form is" + formName);
+            Console.WriteLine("action is" + actionName);
+
+            (bool IsGranted, bool ModEdit, bool ModAdd, bool ModDelete) privilege = Checking.CheckPrivilege(formName);
+            ViewBag.IsGranted = privilege.IsGranted;
+            Console.WriteLine("it is" + ViewBag.IsGranted);
+
+            if (privilege.IsGranted)
+            {
+                ViewBag.ModEdit = privilege.ModEdit;
+                ViewBag.ModAdd = privilege.ModAdd;
+                ViewBag.ModDelete = privilege.ModDelete;
+                return RedirectToAction(actionName); ;
+            }
+            else 
+            {
+                string errorQuery = $"Select isnull(GRName,'UnKnown') as GRName from tbl_UserGrantedModule Where GRForm={Utility.Evar(formName, 1)}";
+                var result = SQLFunction.execQuery(errorQuery);
+                ViewBag.NameForm = result.Rows.Count > 0 ? result.Rows[0]["GRName"].ToString() : "Unknown";
+
+                return View("~/Views/Shared/Error/NoAccess.cshtml");
+            }
+        }
         public IActionResult Index()
         {
             loadoption();
@@ -160,8 +186,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     orNo = Utility.CheckNull(row["ORNo"]),
                     opDate = Utility.CheckNull(row["OPDate"]),
                     receivedDate = Utility.CheckNull(row["ReceivedDate"]),
-					edit = "<a class='btn btn-link btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "'><i class='fa fa-edit'></i></a>",
-                    delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["id"]})'><i class='fa fa-trash text-danger'></i></button>"
+					edit = "<a class='btn btn-link btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "' @isEdit><i class='fa fa-edit'></i></a>",
+                    delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["id"]})' @isEdit><i class='fa fa-trash text-danger'></i></button>"
                 };
                 rows.Add(rowData);
             }

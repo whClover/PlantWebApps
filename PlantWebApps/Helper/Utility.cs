@@ -31,7 +31,21 @@ namespace PlantWebApps.Helper
             string date = DateTime.Now.ToString("yyyy-MM-dd");
             return date;
         }
-        public static string GetCurrentUsername()
+		public static string GetUserId()
+		{
+			string userId = string.Empty;
+			string userName = ebyname();
+			string query = $"SELECT UserID FROM vw_TCRPUserInformation WHERE UserName = {userName}";
+			DataTable userIdTable = SQLFunction.execQuery(query);
+
+			if (userIdTable.Rows.Count > 0)
+			{
+				userId = userIdTable.Rows[0]["UserID"].ToString();
+			}
+
+			return userId;
+		}
+		public static string GetCurrentUsername()
         {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
