@@ -31,7 +31,7 @@
 						{
 							var JobStatusID = row["JobStatusID"].ToString();
 							var JobStatus = row["JobStatus"].ToString();
-							<option value="@JobStatusID" data-jobstatus="@JobStatus" selected="@(JobStatusID == ViewBag.data?.Rows[0]?["RepairAdvice"].ToString())">@JobStatusID | @JobStatus</option>
+							<option value="@JobStatusID" data-jobstatus="@JobStatus">@JobStatusID | @JobStatus</option>
 						}
 					</select>
 				</div>

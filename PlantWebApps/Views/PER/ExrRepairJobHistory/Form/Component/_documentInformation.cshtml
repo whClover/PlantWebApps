@@ -26,7 +26,7 @@
 				<div class="col-1"></div>
 				<div class="col-2  ">FAR/CCR Date</div>
 				<div class="col-3">
-					<input id="tDocDate" name="tDocDate" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DocDate"] : "")"
+					<input id="tDocDate" name="tDocDate" type="text" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocDate"] : "")"
 						   class="col-3 form-control form-control-sm datepicker-basic" />
 				</div>
 			</div>
@@ -156,7 +156,7 @@
 						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
 				</div>
 				<div class="col-2">
-					<input id="tQuoteApprovedBy" name="tQuoteApprovedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteApprovedBy"] : "")"
+					<input id="tQuoteApprovedBy" name="tQuoteApprovedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["QuoteApprovedBy"] : "")"
 						   type="text" class="col-2 ms-2 form-control form-control-sm" />
 				</div>
 				<div class="col-2">EIEK</div>
@@ -174,7 +174,7 @@
 						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
 				</div>
 				<div class="col-2">
-					<input id="tQuoteProcessBy" name="tQuoteProcessBy" value=" @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteProcessBy"] : "")"
+					<input id="tQuoteProcessBy" name="tQuoteProcessBy" value=" @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["QuoteProcessBy"] : "")"
 						   type="text" class="col-2 ms-2 form-control form-control-sm" />
 				</div>
 				<div class="col-2">EKEP</div>

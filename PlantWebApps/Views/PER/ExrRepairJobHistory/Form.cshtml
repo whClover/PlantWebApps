@@ -78,11 +78,13 @@
 	$(document).ready(function () {
 		// getting data to text from select option
 		function getjRepairAlloc() {
-			var selectedVal = $("#tRepairAdvice").val();
-			var selectedOptionText = $("#tRepairAdvice").find('option:selected').text();
-			var dataValue = selectedOptionText.split('|')[1].trim();
+			if ($('#tRepairAdvice').val() != "") {
+				var selectedVal = $("#tRepairAdvice").val();
+				var selectedOptionText = $("#tRepairAdvice").find('option:selected').text();
+				var dataValue = selectedOptionText.split('|')[1].trim();
 
-			$('#jRepairAllocCalc').text(dataValue);
+				$('#jRepairAllocCalc').text(dataValue);
+			}
 		};
 
 		function getJobDetailRepairBy() {
@@ -138,9 +140,6 @@
 			}
 		});
 
-		console.log($("#tCostAfter").val());
-		console.log($("#tCostBefore").val());
-
 		//condition for csave
 		function checkEunitCost() { 
 			if ($("#tCostAfter").val() != "" && $("#tCostBefore").val() != "") {
@@ -157,12 +156,9 @@
 			}
 		}
 
-
 		// Extract data from form
 		function extractData() {
 			var data = {};
-
-			console.log("next status is", $("#tNextStatus").val())
 
 			var estatusid = ""
 			if ($("#tNextStatus").val() != "") {
@@ -171,12 +167,11 @@
 				estatusid = $("#tStatusID").val();
 			}
 
-			console.log("status id is", estatusid)
-
 			checkEunitCost();
 			checkRepairAdvice();
 
 			data.eID = $("#tID").val();
+			data.ejobid = $("#tID").val();
 			data.eAddCost = $("#tAddCost").val();
 			data.eChildWO = $("#TChildWo").val();
 			data.eCompDesc = $("#TCompDesc").val();
@@ -202,7 +197,7 @@
 			data.eEGEI = $("#tEGEI").val();
 			data.eEIEK = $("#tEIEK").val();
 			data.eEKEP = $("#tEKEP").val();
-			data.eEquipClass = "Null";
+			data.eEquipClass = "";
 			data.eetadate = $("#tetadate").val();
 			data.eFitToUnit = $("#tFitToUnit").val();
 			data.eIntWO = $("#tIntWO").val();
@@ -213,9 +208,9 @@
 			data.eExtWO = $("#tExtWO").val();
 			data.eLocationHold = $("#CLocationHold").val();
 			data.eLogANReceivedBy = $("#tLogANReceivedBy").val();
-			data.eDlogAnDate = $("#tDlogAnDate").val();
-			data.eDlogAnNo = $("#tDlogAnNo").val();
-			data.eDPerAnDate = $("#tDPerAnDate").val();
+			data.eLogANReceivedDate = $("#tDlogAnDate").val();
+			data.eLogANReceivedNo = $("#tDlogAnNo").val();
+			data.eLogANSentDate = $("#tDPerAnDate").val();
 			data.eMaintType = $("#tMaintType").val();
 			data.eMeterRun = $("#tMeterRun").val();
 			data.eMeterToRun = $("#tMeterToRun").val();
@@ -256,6 +251,7 @@
 			data.eSpvID = $("#tSpvID").val();
 			data.eSuppForRepairAN = $("#tSuppForRepairAN").val();
 			data.eRepairByID = $("#tRepairByID").val();
+			data.esupplierid = $("#tRepairByID").val();
 			data.eSuppReceiveANBy = $("#tSuppReceiveANBy").val();
 			data.eSuppReceiveANDate = $("#tSuppReceiveANDate").val();
 			data.eTaggingBy = $("#tTaggingBy").val();
@@ -271,7 +267,7 @@
 			data.eDecisionDate = $("#tDecisionDate").val();
 			data.eEmailDate = $("#tEmailDate").val();
 			data.eRepairAdvice = $("#tRepairAdvice").val();
-			data.edata = "Null";
+			data.edata = "";
 			data.eRequestP1 = $("#tRequestP1").val();
 			data.eRepairAdvice = $("#tRepairAdvice").val();
 			data.eSuggestedStore = $("#tSuggestedStore").val();
@@ -282,12 +278,14 @@
 			data.eSchedStartAlloc = $("#tSchedStartAlloc").val();
 			data.eSOHAlloc = $("#tSOHAlloc").val();
 			data.eOutReqAlloc = $("#tOutReqAlloc").val();
+			data.eUnitNumber = $("#tunitno").val();
+			data.eHoldUntil = $("#tHoldUntil").val();
+			data.eCurrentStatus = $("#tCurrentStatus").val();
 
 			return data;
 		}
 
 		function saveRequest(extractedData) {
-			console.log(extractedData);
 
 			$.ajax({
 				method: "GET",
@@ -305,10 +303,12 @@
 							url: "/ExrRepairJobHistory/TSave",
 							dataType: 'json',
 							data: extractedData
+						}).done(function (response) {
+							window.location.href = response.redirectToUrl;
 						});
 					} else {
-						Swal.fire("You dont have access to this function", "", "Warning");
-						location.reload();
+						Swal.fire("You dont have access to this function", "", "warning");
+						window.location.href = response.redirectToUrl;
 					}
 				}
 			});
@@ -317,11 +317,19 @@
 		function handleSave() {
 			var extractedData = extractData();
 			saveRequest(extractedData);
-			Swal.fire("Data Has Been Inserted", "", "success");
 		}
 
 		$("#Csave").on("click", function () {
-			handleSave();
+			if ($("#tID").val() == "") { 
+				wal.fire("No ID Information.Cannot Save Approval", "", "warning");
+				return
+			}
+			else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
+				Swal.fire("please Fill Hold Untill", "", "warning");
+				return
+			} else {
+				handleSave();
+			}
 		});
 
 	});

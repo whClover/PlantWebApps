@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics.Metrics;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.Xml.Linq;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 { 
@@ -27,14 +28,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
         }
 		public IActionResult TSave(string eID, string eAddCost, string eChildWO, string eCompDesc, string eCompQty, 
-            string eCompTypeID, string eCostAfter, string eCostBefore, string eCostRepair, string eCurrID, 
+            string eCompTypeID, string eEquipClass, string eCostAfter, string eCostBefore, string eCostRepair, string eCurrID, 
             string eDeliveryDate, string eIssuedBy, string eDestination, string eDisputeCompletedBy, 
             string eDisputeCompletedBy2, string eDispCompDate, string eDComplDispDate, string eDnNumber, 
             string eptYDocAvb, string eST, string eOt, string eDocDate, string eDocTypeID, string eEGEI, 
             string eEIEK, string eEKEP, string eULL, string eetadate, string eFitToUnit, string eIntWO, 
-            string eIntWOPrevious, string eJobNo, string eSerialNumberOEM, string eTCICoreFitTo, 
-            string eExtWO, string eLocationHold, string eLogANReceivedBy, string eDlogAnDate, string eDlogAnNo, 
-            string eDPerAnDate, string eMaintType, string eMeterRun, string eMeterToRun, string eOemCost, 
+            string eIntWOPrevious, string eJobNo, string eSerialNumberOEM, string eTCICoreFitTo, string eUnitNumber,
+			string eExtWO, string eLocationHold, string eLogANReceivedBy, string eLogANReceivedDate, string eLogANReceivedNo, 
+            string eLogANSentDate, string eMaintType, string eMeterRun, string eMeterToRun, string eOemCost, 
             string eORRequestDate, string eORCompletedDAte, string eORRRNo, string eOPRRNo, string eOffSiteWO, string eOPDate, 
             string eOPNo, string eOPPrevious, string eORNo, string eQuoteApprovedBy, string eQuoteDate, string eQuoteNo, 
             string eQuotePrintBy, string eQuoteProcessBy, string eQuoteRevDate, string eQuoteRevNo, string eReasonType, 
@@ -45,119 +46,157 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string eTaggingBy, string eDTaggingDate, string eTCICost, string eTCIPartID, string eTCIPartNo, string eUnitNo, 
             string ebWarrantyResult, string eWCSDate, string eWOFitToUnit, string eWoJobCost, string eWOPrevious, 
             string eDecisionDate, string eEmailDate, string eRepairAdvice, string eSuggestedStore, string eRemarkAdvice, 
-            string eSiteAlloc, string eWOAlloc, string eUnitAlloc, string eSchedStartAlloc, string eSOHAlloc, string eOutReqAlloc)
+            string eSiteAlloc, string eWOAlloc, string eUnitAlloc, string eSchedStartAlloc, string eSOHAlloc, string eOutReqAlloc,
+            string eDisputeCompletedDate, string eDisputeCompletedDate2, string estatusid, string esupplierid, string eDocAvb,
+            string edata, string eHoldUntil, string ejobid, string eCurrentStatus)
 		{
-			Console.WriteLine("1 " + eID);
-			Console.WriteLine("2 " + eAddCost);
-			Console.WriteLine("3 " + eChildWO);
-			Console.WriteLine("4 " + eCompDesc);
-			Console.WriteLine("5 " + eCompQty);
-			Console.WriteLine("6 " + eCompTypeID);
-			Console.WriteLine("7 " + eCostAfter);
-			Console.WriteLine("8 " + eCostBefore);
-			Console.WriteLine("9 " + eCostRepair);
-			Console.WriteLine("10 " + eCurrID);
-			Console.WriteLine("11 " + eDeliveryDate);
-			Console.WriteLine("12 " + eIssuedBy);
-			Console.WriteLine("13 " + eDestination);
-			Console.WriteLine("14 " + eDisputeCompletedBy);
-			Console.WriteLine("15 " + eDisputeCompletedBy2);
-			Console.WriteLine("16 " + eDispCompDate);
-			Console.WriteLine("17 " + eDComplDispDate);
-			Console.WriteLine("18 " + eDnNumber);
-			Console.WriteLine("19 " + eptYDocAvb);
-			Console.WriteLine("20 " + eST);
-			Console.WriteLine("21 " + eOt);
-			Console.WriteLine("22 " + eDocDate);
-			Console.WriteLine("23 " + eDocTypeID);
-			Console.WriteLine("24 " + eEGEI);
-			Console.WriteLine("25 " + eEIEK);
-			Console.WriteLine("26 " + eEKEP);
-			Console.WriteLine("27 " + eULL);
-			Console.WriteLine("28 " + eetadate);
-			Console.WriteLine("29 " + eFitToUnit);
-			Console.WriteLine("30 " + eIntWO);
-			Console.WriteLine("31 " + eIntWOPrevious);
-			Console.WriteLine("32 " + eJobNo);
-			Console.WriteLine("33 " + eSerialNumberOEM);
-			Console.WriteLine("34 " + eTCICoreFitTo);
-			Console.WriteLine("35 " + eExtWO);
-			Console.WriteLine("36 " + eLocationHold);
-			Console.WriteLine("37 " + eLogANReceivedBy);
-			Console.WriteLine("38 " + eDlogAnDate);
-			Console.WriteLine("39 " + eDlogAnNo);
-			Console.WriteLine("40 " + eDPerAnDate);
-			Console.WriteLine("41 " + eMaintType);
-			Console.WriteLine("42 " + eMeterRun);
-			Console.WriteLine("43 " + eMeterToRun);
-			Console.WriteLine("44 " + eOemCost);
-			Console.WriteLine("45 " + eORRequestDate);
-			Console.WriteLine("46 " + eORCompletedDAte);
-			Console.WriteLine("47 " + eORRRNo);
-			Console.WriteLine("48 " + eOPRRNo);
-			Console.WriteLine("49 " + eOffSiteWO);
-			Console.WriteLine("50 " + eOPDate);
-			Console.WriteLine("51 " + eOPNo);
-			Console.WriteLine("52 " + eOPPrevious);
-			Console.WriteLine("53 " + eORNo);
-			Console.WriteLine("54 " + eOt);
-			Console.WriteLine("55 " + eQuoteApprovedBy);
-			Console.WriteLine("56 " + eQuoteDate);
-			Console.WriteLine("57 " + eQuoteNo);
-			Console.WriteLine("58 " + eQuotePrintBy);
-			Console.WriteLine("59 " + eQuoteProcessBy);
-			Console.WriteLine("60 " + eQuoteRevDate);
-			Console.WriteLine("61 " + eQuoteRevNo);
-			Console.WriteLine("62 " + eReasonType);
-			Console.WriteLine("63 " + eReceivedBy);
-			Console.WriteLine("64 " + eReceivedByName);
-			Console.WriteLine("65 " + eReceivedDate);
-			Console.WriteLine("66 " + eremark);
-			Console.WriteLine("67 " + eRepairTypeID);
-			Console.WriteLine("68 " + eReqStand);
-			Console.WriteLine("69 " + eReqPart);
-			Console.WriteLine("70 " + eRequestP1);
-			Console.WriteLine("71 " + eRTSCost);
-			Console.WriteLine("72 " + esavingcostCatID);
-			Console.WriteLine("73 " + eSitetoLogAN);
-			Console.WriteLine("74 " + eSitetoLogDate);
-			Console.WriteLine("75 " + eNextStatus);
-			Console.WriteLine("76 " + eStoreID);
-			Console.WriteLine("77 " + eSTOtNo);
-			Console.WriteLine("78 " + eSpvID);
-			Console.WriteLine("79 " + eSuppForRepairAN);
-			Console.WriteLine("80 " + eRepairByID);
-			Console.WriteLine("81 " + eSuppReceiveANBy);
-			Console.WriteLine("82 " + eSuppReceiveANDate);
-			Console.WriteLine("83 " + eTaggingBy);
-			Console.WriteLine("84 " + eDTaggingDate);
-			Console.WriteLine("85 " + eTCICost);
-			Console.WriteLine("86 " + eTCIPartID);
-			Console.WriteLine("87 " + eTCIPartNo);
-			Console.WriteLine("88 " + eUnitNo);
-			Console.WriteLine("89 " + ebWarrantyResult);
-			Console.WriteLine("90 " + eWCSDate);
-			Console.WriteLine("91 " + eWOFitToUnit);
-			Console.WriteLine("92 " + eWoJobCost);
-			Console.WriteLine("93 " + eWOPrevious);
-			Console.WriteLine("94 " + eDecisionDate);
-			Console.WriteLine("95 " + eEmailDate);
-			Console.WriteLine("96 " + eRepairAdvice);
-			Console.WriteLine("97 " + eRequestP1);
-			Console.WriteLine("98 " + eNextStatus);
-			Console.WriteLine("99 " + eRepairAdvice);
-			Console.WriteLine("100 " + eSuggestedStore);
-			Console.WriteLine("101 " + eRemarkAdvice);
-			Console.WriteLine("102 " + eSiteAlloc);
-			Console.WriteLine("103 " + eWOAlloc);
-			Console.WriteLine("104 " + eUnitAlloc);
-			Console.WriteLine("105 " + eSchedStartAlloc);
-			Console.WriteLine("106 " + eSOHAlloc);
-			Console.WriteLine("107 " + eOutReqAlloc);
-			Console.WriteLine("108 " + eRequestP1);
+			var xID = Utility.Evar(eID, 0);
+			var xOffSiteWO = Utility.Evar(eOffSiteWO, 1);
+			var xCompQty = Utility.Evar(eCompQty, 0);
+			var xDocTypeID = Utility.Evar(eDocTypeID, 0);
+			var xDocDate = Utility.Evar(eDocDate, 2);
+			var xTCIPartNo = Utility.Evar(eTCIPartNo, 1);
+			var xEquipClass = Utility.Evar(eEquipClass, 1);
+			var xUnitNumber = Utility.Evar(eUnitNumber, 1);
+			var xLogANReceivedDate = Utility.Evar(eLogANReceivedDate, 2);
+			var xLogANSentDate = Utility.Evar(eLogANSentDate, 2);
+			var xLogANReceivedBy = Utility.Evar(eLogANReceivedBy, 1);
+			var xLogANReceivedNo = Utility.Evar(eLogANReceivedNo, 1);
+			var xSitetoLogAN = Utility.Evar(eSitetoLogAN, 1);
+			var xSitetoLogDate = Utility.Evar(eSitetoLogDate, 2);
+			var xCompTypeID = Utility.Evar(eCompTypeID, 0);
+			var xCompDesc = Utility.Evar(eCompDesc, 1);
+			var xTCIPartID = Utility.Evar(eTCIPartID, 1);
+			var xOPNo = Utility.Evar(eOPNo, 1);
+			var xOPDate = Utility.Evar(eOPDate, 2);
+			var xORNo = Utility.Evar(eORNo, 1);
+			var xMeterRun = Utility.Evar(eMeterRun, 0);
+			var xMeterToRun = Utility.Evar(eMeterToRun, 0);
+			var xDnNumber = Utility.Evar(eDnNumber, 1);
+			var xDTaggingDate = Utility.Evar(eDTaggingDate, 2);
+			var xTaggingBy = Utility.Evar(eTaggingBy, 1);
+			var xStoreID = Utility.Evar(eStoreID, 1);
+			var xSTOtNo = Utility.Evar(eSTOtNo, 1);
+			var xFitToUnit = Utility.Evar(eFitToUnit, 1);
+			var xWOFitToUnit = Utility.Evar(eWOFitToUnit, 1);
+			var xDestination = Utility.Evar(eDestination, 1);
+			var xDeliveryDate = Utility.Evar(eDeliveryDate, 2);
+			var xIssuedBy = Utility.Evar(eIssuedBy, 1);
+			var xDisputeCompletedDate = Utility.Evar(eDisputeCompletedDate, 2);
+			var xDisputeCompletedBy = Utility.Evar(eDisputeCompletedBy, 1);
+			var xDisputeCompletedDate2 = Utility.Evar(eDisputeCompletedDate2, 2);
+			var xDisputeCompletedBy2 = Utility.Evar(eDisputeCompletedBy2, 1);
+			var xSuppForRepairAN = Utility.Evar(eSuppForRepairAN, 1);
+			var xSuppReceiveANDate = Utility.Evar(eSuppReceiveANDate, 2);
+			var xSuppReceiveANBy = Utility.Evar(eSuppReceiveANBy, 1);
+			var xRepairTypeID = Utility.Evar(eRepairTypeID, 0);
+			var xReceivedDate = Utility.Evar(eReceivedDate, 1);
+			var xReceivedBy = Utility.Evar(eReceivedBy, 1);
+			var xReceivedByName = Utility.Evar(eReceivedByName, 1);
+			var xQuoteRevDate = Utility.Evar(eQuoteRevDate, 1);
+			var xQuoteRevNo = Utility.Evar(eQuoteRevNo, 1);
+			var xReasonTypeID = Utility.Evar(eReasonType, 0);
+			var xQuoteNo = Utility.Evar(eQuoteNo, 1);
+			var xQuoteDate = Utility.Evar(eQuoteDate, 1);
+			var xJobNo = Utility.Evar(eJobNo, 1);
+			var xSerialNumberOEM = Utility.Evar(eSerialNumberOEM, 1);
+			var xEGEI = Utility.Evar(eEGEI, 1);
+			var xQuotePrintBy = Utility.Evar(eQuotePrintBy, 1);
+			var xEIEK = Utility.Evar(eEIEK, 1);
+			var xQuoteApprovedBy = Utility.Evar(eQuoteApprovedBy, 1);
+			var xEKEP = Utility.Evar(eEKEP, 1);
+			var xQuoteProcessBy = Utility.Evar(eQuoteProcessBy, 1);
+			var xCostBefore = Utility.Evar(eCostBefore, 0);
+			var xCostAfter = Utility.Evar(eCostAfter, 0);
+			var xCurrID = Utility.Evar(eCurrID, 0);
+			var xAddCost = Utility.Evar(eAddCost, 1);
+			var xstatusid = Utility.Evar(estatusid, 1);
+			var xRepairAdvice = Utility.Evar(eRepairAdvice, 1);
+			var xremark = eremark;
+			var xetadate = Utility.Evar(eetadate, 2);
+			var xsupplierid = Utility.Evar(esupplierid, 0);
+			var xsupervisorid = Utility.Evar(eSpvID, 0);
+			var xChildWO = Utility.Evar(eChildWO, 1);
+			var xmainttype = Utility.Evar(eMaintType, 1);
+			var xIntWO = Utility.Evar(eIntWO, 1);
+			var xReqStand = Utility.Evar(eReqStand, 0);
+			var xReqPart = Utility.Evar(eReqPart, 0);
+			var xWOJobCost = Utility.Evar(eWoJobCost, 1);
+			var xWCSDate = Utility.Evar(eWCSDate, 2);
+			var xWarrantyResult = Utility.Evar(ebWarrantyResult, 1);
+			var xCostRepair = Utility.Evar(eCostRepair, 1);
+			var xOemCost = Utility.Evar(eOemCost, 1);
+			var xORRequestDate = Utility.Evar(eORRequestDate, 2);
+			var xORCompletedDAte = Utility.Evar(eORCompletedDAte, 2);
+			var xORRRNo = Utility.Evar(eORRRNo, 1);
+			var xOPRRNo = Utility.Evar(eOPRRNo, 1);
+			var xRequestP1 = Utility.Evar(eRequestP1, 1);
+			var xLocationHold = Utility.Evar(eLocationHold, 1);
+			var xTCICoreFitTo = Utility.Evar(eTCICoreFitTo, 0);
+			var xExtWO = Utility.Evar(eExtWO, 0);
+			var xDocAvb = Utility.Evar(eDocAvb, 0);
+			var xST = Utility.Evar(eST, 0);
+			var xOt = Utility.Evar(eOt, 0);
+			var xsavingcostCatID = Utility.Evar(esavingcostCatID, 0);
+			var xTCICost = Utility.Evar(eTCICost, 1);
+			var xRTSCost = Utility.Evar(eRTSCost, 1);
+			var xWOPrevious = Utility.Evar(eWOPrevious, 1);
+			var xOPPrevious = Utility.Evar(eOPPrevious, 1);
+			var xIntWOPrevious = Utility.Evar(eIntWOPrevious, 1);
+			var xDecisionDate = Utility.Evar(eDecisionDate, 2);
+			var xEmailDate = Utility.Evar(eEmailDate, 2);
+			var xHoldUntil = Utility.Evar(eHoldUntil, 1);
+			var xdata = Utility.Evar(edata, 1);
 
-			loadoption();
-			return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
+			var xjobid = Utility.Evar(ejobid, 0);
+			var xSuggestedStore = Utility.Evar(eSuggestedStore, 1);
+			var xRemarkAdvice = Utility.Evar(eRemarkAdvice, 1);
+			var xSiteAlloc = Utility.Evar(eSiteAlloc, 1);
+			var xWOAlloc = Utility.Evar(eWOAlloc, 1);
+			var xSchedStartAlloc = Utility.Evar(eSchedStartAlloc, 1);
+			var xSOHAlloc = Utility.Evar(eSOHAlloc, 1);
+			var xUnitAlloc = Utility.Evar(eUnitAlloc, 1);
+			var xOutReqAlloc = Utility.Evar(eOutReqAlloc, 1);
+
+			var xCurrentStatus = Utility.Evar(eCurrentStatus, 1);
+
+			string queryJobRegisterRev1 = @$"exec dbo.ExrJobRegisterRev1 {xID}, {xOffSiteWO}, {xCompQty}, {xDocTypeID}, {xDocDate}, {xTCIPartNo}
+            , {xEquipClass}, {xUnitNumber}, {xLogANReceivedDate}, {xLogANSentDate}, {xLogANReceivedBy}, {xLogANReceivedNo}
+            , {xSitetoLogAN}, {xSitetoLogDate}, {xCompTypeID}, {xCompDesc}, {xTCIPartID}, {xOPNo}, {xOPDate}, {xORNo}, {xMeterRun}
+            , {xMeterToRun}, {xDnNumber}, {xDTaggingDate}, {xTaggingBy}, {xStoreID}, {xSTOtNo}, {xFitToUnit}
+            , {xWOFitToUnit}, {xDestination}, {xDeliveryDate}, {xIssuedBy}, {xDisputeCompletedDate}, {xDisputeCompletedBy}
+            , {xDisputeCompletedDate2}, {xDisputeCompletedBy2}, {xSuppForRepairAN}, {xSuppReceiveANDate}, {xSuppReceiveANBy}
+            , {xRepairTypeID}, {xReceivedDate}, {xReceivedBy}, {xReceivedByName}, {xQuoteRevDate}, {xQuoteRevNo}, {xReasonTypeID}
+            , {xQuoteNo}, {xQuoteDate}, {xJobNo}, {xSerialNumberOEM}, {xEGEI}, {xQuotePrintBy}, {xEIEK}, {xQuoteApprovedBy}
+            , {xEKEP}, {xQuoteProcessBy}, {xCostBefore}, {xCostAfter}
+            , {xCurrID}, {xAddCost}, {xstatusid}, {xRepairAdvice}, '{xremark}', {xetadate}, {xsupplierid} 
+            , {xsupervisorid}, {xChildWO}, {xmainttype}, {xIntWO}, {xReqStand}, {xReqPart}, {xWOJobCost}, {xWCSDate}
+            , {xWarrantyResult}, {xCostRepair}, {xOemCost}, {xORRequestDate}, {xORCompletedDAte},{xORRRNo}, {xOPRRNo}
+            , {xRequestP1}, {xLocationHold}, {xTCICoreFitTo}, {xExtWO}, {xDocAvb}, {xST}, {xOt}, {xsavingcostCatID}
+            , {xTCICost}, {xRTSCost}, {xWOPrevious}, {xOPPrevious}, {xIntWOPrevious}, {xDecisionDate}, {xEmailDate}, {xHoldUntil}
+            , {xdata}, {Utility.ebyname(), 1}";
+
+            //Console.WriteLine(queryJobRegisterRev1);
+            //SQLFunction.execQuery(queryJobRegisterRev1);
+
+            string queryAdviceUpdate = $@"exec dbo.ExrRepairAdviceUpdate {xjobid}, {xSuggestedStore}, {xRemarkAdvice},
+			{xSiteAlloc}, {xWOAlloc}, {xSchedStartAlloc}, {xSOHAlloc}, {xUnitAlloc}, {xOutReqAlloc}, {xRequestP1},
+            {xRepairAdvice}, {Utility.ebyname(), 1}";
+
+            //Console.WriteLine(queryAdviceUpdate);
+            //SQLFunction.execQuery(queryAdviceUpdate);
+
+            if (eCurrentStatus == "OH" || eRepairAdvice == "OH") 
+            {
+                string queryOnHold = $"exec dbo.EXRJobOnHold {xjobid}, 'OH', {xHoldUntil}";
+                Console.WriteLine(queryOnHold);
+                //SQLFunction.execQuery(queryOnHold);
+            }
+
+			Stat = "success";
+			Msg = "Data Has Been Inserted";
+
+			return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + eID });
 		}
 		public IActionResult LoadData(
             string repairType, string compType, string statusInput, string supervisorId,
