@@ -262,6 +262,7 @@
 			data.ebWarrantyResult = $("#cbWarrantyResult").val();
 			data.eWCSDate = $("#tWCSDate").val();
 			data.eWOFitToUnit = $("#tWOFitToUnit").val();
+			data.eWOFitToUnitID = $("#tWOFitToUnitID").val();
 			data.eWoJobCost = $("#tWoJobCost").val();
 			data.eWOPrevious = $("#tWOPrevious").val();
 			data.eDecisionDate = $("#tDecisionDate").val();
@@ -281,6 +282,33 @@
 			data.eUnitNumber = $("#tunitno").val();
 			data.eHoldUntil = $("#tHoldUntil").val();
 			data.eCurrentStatus = $("#tCurrentStatus").val();
+			data.eApp1 = $("#tApp1").val();
+			data.eApp1By = $("#tApp1By").val();
+			data.eApp1Date = $("#tApp1Date").val();
+			data.eApp2 = $("#tApp2").val();
+			data.eApp2By = $("#tApp2By").val();
+			data.eApp2Date = $("#tApp2Date").val();
+			data.eApp3 = $("#tApp3").val();
+			data.eApp3By = $("#tApp3By").val();
+			data.eApp3Date = $("#tApp3Date").val();
+			data.eAppSentDate = $("#tAppSentDate").val();
+			data.eJobID = $("#tID").val();
+			data.eBuyerName = $("#tBuyerName").val();
+			data.tcApp1 = $("#tApp1").val();
+			data.tcApp2 = $("#tApp2").val();
+			data.tcApp3 = $("#tApp3").val();
+			data.eAddOrder1 = $("#CAddOrder1").val();
+			data.eAddOrder2 = $("#CAddOrder2").val();
+			data.eAddOrder3 = $("#CAddOrder3").val();
+			data.eAddOrderORNo1 = $("#tAddOrderORNo1").val();
+			data.eAddOrderORNo2 = $("#tAddOrderORNo2").val();
+			data.eAddOrderORNo3 = $("#tAddOrderORNo3").val();
+			data.eaddOrderDate1 = $("#taddOrderDate1").val();
+			data.eaddOrderDate2 = $("#taddOrderDate2").val();
+			data.eaddOrderDate3 = $("#taddOrderDate3").val();
+			data.eaddOrderDNNo1 = $("#taddOrderDNNo1").val();
+			data.eaddOrderDNNo2 = $("#taddOrderDNNo2").val();
+			data.eaddOrderDNNo3 = $("#taddOrderDNNo3").val();
 
 			return data;
 		}
@@ -323,10 +351,31 @@
 			if ($("#tID").val() == "") { 
 				wal.fire("No ID Information.Cannot Save Approval", "", "warning");
 				return
-			}
-			else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
+			} else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
 				Swal.fire("please Fill Hold Untill", "", "warning");
 				return
+			} else if ($("#tWOFitToUnit").val() !=  $("#tWOFitToUnitID").val()) {
+				Swal.fire({
+					title: 'Are you sure?',
+					html: `
+								<div style="font-size: 16px; text-align: center;">
+									<div style="margin-bottom: 10px;">
+											Do you want to register this WOFitToUnit as Outstanding Job? ?
+									</div>
+								</div>
+							`,
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#008000',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, i do!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						handleSave();
+					} else { 
+						return
+					}
+				});
 			} else {
 				handleSave();
 			}

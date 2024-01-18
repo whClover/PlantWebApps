@@ -40,15 +40,19 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string eOPNo, string eOPPrevious, string eORNo, string eQuoteApprovedBy, string eQuoteDate, string eQuoteNo, 
             string eQuotePrintBy, string eQuoteProcessBy, string eQuoteRevDate, string eQuoteRevNo, string eReasonType, 
             string eReceivedBy, string eReceivedByName, string eReceivedDate, string eremark, string eRepairTypeID, 
-            string eReqStand, string eReqPart, string eRequestP1, string eRTSCost, string esavingcostCatID, 
-            string eSitetoLogAN, string eSitetoLogDate, string eNextStatus, string eStoreID, string eSTOtNo, 
+            string eReqStand, string eReqPart, string eRequestP1, string eRTSCost, string esavingcostCatID, string eWOFitToUnitID,
+			string eSitetoLogAN, string eSitetoLogDate, string eNextStatus, string eStoreID, string eSTOtNo, 
             string eSpvID, string eSuppForRepairAN, string eRepairByID, string eSuppReceiveANBy, string eSuppReceiveANDate, 
             string eTaggingBy, string eDTaggingDate, string eTCICost, string eTCIPartID, string eTCIPartNo, string eUnitNo, 
             string ebWarrantyResult, string eWCSDate, string eWOFitToUnit, string eWoJobCost, string eWOPrevious, 
             string eDecisionDate, string eEmailDate, string eRepairAdvice, string eSuggestedStore, string eRemarkAdvice, 
             string eSiteAlloc, string eWOAlloc, string eUnitAlloc, string eSchedStartAlloc, string eSOHAlloc, string eOutReqAlloc,
             string eDisputeCompletedDate, string eDisputeCompletedDate2, string estatusid, string esupplierid, string eDocAvb,
-            string edata, string eHoldUntil, string ejobid, string eCurrentStatus)
+            string edata, string eHoldUntil, string ejobid, string eCurrentStatus, string eApp1, string eApp1By, string eApp1Date,
+            string eApp2, string eApp2By, string eApp2Date, string eApp3, string eApp3By, string eApp3Date, string eAppSentDate,
+            string eJobID, string eBuyerName, string tcApp1, string tcApp2, string tcApp3, string eAddOrder1, string eAddOrder2,
+            string eAddOrder3, string eAddOrderORNo1, string eAddOrderORNo2, string eAddOrderORNo3, string eaddOrderDate1,
+            string eaddOrderDate2, string eaddOrderDate3, string eaddOrderDNNo1, string eaddOrderDNNo2, string eaddOrderDNNo3)
 		{
 			var xID = Utility.Evar(eID, 0);
 			var xOffSiteWO = Utility.Evar(eOffSiteWO, 1);
@@ -147,7 +151,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			var xEmailDate = Utility.Evar(eEmailDate, 2);
 			var xHoldUntil = Utility.Evar(eHoldUntil, 1);
 			var xdata = Utility.Evar(edata, 1);
-
 			var xjobid = Utility.Evar(ejobid, 0);
 			var xSuggestedStore = Utility.Evar(eSuggestedStore, 1);
 			var xRemarkAdvice = Utility.Evar(eRemarkAdvice, 1);
@@ -157,8 +160,35 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			var xSOHAlloc = Utility.Evar(eSOHAlloc, 1);
 			var xUnitAlloc = Utility.Evar(eUnitAlloc, 1);
 			var xOutReqAlloc = Utility.Evar(eOutReqAlloc, 1);
-
 			var xCurrentStatus = Utility.Evar(eCurrentStatus, 1);
+			var xApp1 = Utility.Evar(eApp1, 1);
+			var xApp1By = Utility.Evar(eApp1By, 1);
+			var xApp1Date = Utility.Evar(eApp1Date, 2);
+			var xApp2 = Utility.Evar(eApp2, 1);
+			var xApp2By = Utility.Evar(eApp2By, 1);
+			var xApp2Date = Utility.Evar(eApp2Date, 2);
+			var xApp3 = Utility.Evar(eApp3, 1);
+			var xApp3By = Utility.Evar(eApp3By, 1);
+			var xApp3Date = Utility.Evar(eApp3Date, 2);
+			var xAppSentDate = Utility.Evar(eAppSentDate, 2);
+			var xJobID = Utility.Evar(eJobID, 1);
+			var xBuyerName = Utility.Evar(eBuyerName, 0);
+			var xcApp1 = Utility.Evar(tcApp1, 1);
+			var xcApp2 = Utility.Evar(tcApp2, 1);
+			var xcApp3 = Utility.Evar(tcApp3, 1);
+			var xAddOrder1 = Utility.Evar(eAddOrder1, 1);
+			var xAddOrder2 = Utility.Evar(eAddOrder2, 1);
+			var xAddOrder3 = Utility.Evar(eAddOrder3, 2);
+			var xAddOrderORNo1 = Utility.Evar(eAddOrderORNo1, 1);
+			var xAddOrderORNo2 = Utility.Evar(eAddOrderORNo2, 1);
+			var xAddOrderORNo3 = Utility.Evar(eAddOrderORNo3, 1);
+			var xaddOrderDate1 = Utility.Evar(eaddOrderDate1, 2);
+			var xaddOrderDate2 = Utility.Evar(eaddOrderDate2, 2);
+			var xaddOrderDate3 = Utility.Evar(eaddOrderDate3, 2);
+			var xaddOrderDNNo1 = Utility.Evar(eaddOrderDNNo1, 1);
+			var xaddOrderDNNo2 = Utility.Evar(eaddOrderDNNo2, 1);
+			var xaddOrderDNNo3 = Utility.Evar(eaddOrderDNNo3, 1);
+            var xRegisterDate = Utility.Evar(DateTime.Now.ToString("yyyy-MM-dd"), 2);
 
 			string queryJobRegisterRev1 = @$"exec dbo.ExrJobRegisterRev1 {xID}, {xOffSiteWO}, {xCompQty}, {xDocTypeID}, {xDocDate}, {xTCIPartNo}
             , {xEquipClass}, {xUnitNumber}, {xLogANReceivedDate}, {xLogANSentDate}, {xLogANReceivedBy}, {xLogANReceivedNo}
@@ -189,8 +219,50 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             if (eCurrentStatus == "OH" || eRepairAdvice == "OH") 
             {
                 string queryOnHold = $"exec dbo.EXRJobOnHold {xjobid}, 'OH', {xHoldUntil}";
-                Console.WriteLine(queryOnHold);
+                //Console.WriteLine(queryOnHold);
                 //SQLFunction.execQuery(queryOnHold);
+            }
+
+            string queryJob2Add = @$"exec dbo.EXRJob2Add {xJobID}, {xApp1}, {xApp1By}, {xApp1Date}, {xApp2}, {xApp2By}, {xApp2Date},
+            {xApp3}, {xApp3By}, {xApp3Date}, '{xBuyerName}', {xAppSentDate}, {xAddOrder1}, {xAddOrder2}, {xAddOrder3},
+            {xAddOrderORNo1}, {xAddOrderORNo2}, {xAddOrderORNo3}, {xaddOrderDate1}, {xAddOrder2}, {xaddOrderDate3},
+            {xaddOrderDNNo1}, {xaddOrderDNNo2}, {xaddOrderDNNo3}, {xdata}, {xdata}, {xdata}, {Utility.ebyname()}";
+
+            //Console.WriteLine(queryJob2Add);
+            //SQLFunction.execQuery(queryJob2Add);
+
+            Console.WriteLine(xTCIPartID);
+
+            if (eTCIPartID != "" && eID != "")
+            {
+                string queryUpdateCompId = $"UPDATE tbl_ExrComponentID SET JobID={xID} WHERE TCIPartID={xTCIPartID}";
+                //Console.WriteLine(queryUpdateCompId);
+                //SQLFunction.execQuery(queryJob2Add);
+            }
+
+            string queryPDFID = $"select PRFID from tbl_ExrJobDetail where ID={xID} AND PRFID is Not Null";
+            Console.WriteLine(queryPDFID);
+
+            var ePDFID = SQLFunction.execQuery(queryPDFID);
+            if (ePDFID.Rows.Count > 0)
+            {
+                string pdfID = ePDFID.Rows[0]["PRFID"].ToString();
+                string queryUpdatePartRequest = $"UPDATE tbl_PartRequest SET WOBin={xWOJobCost} WHERE PRFID={Utility.Evar(pdfID, 1)}";
+                //Console.WriteLine(queryUpdatePartRequest);
+                //SQLFunction.execQuery(queryPDF);
+            }
+
+            Console.WriteLine(eWOFitToUnit);
+            Console.WriteLine(eWOFitToUnitID);
+
+            if (eWOFitToUnit != "" || eWOFitToUnitID != "")
+            {
+                string queryInsertJobDetail = @$"INSERT INTO tbl_ExrjobDetail(OffSiteWO,StatusID,UnitNumber,
+                CompDesc,RegisterDate,RegisterBy) VALUES ({xWOFitToUnit}, 2, {xFitToUnit}, {xCompDesc}, {xRegisterDate},
+                {Utility.ebyname()})";
+
+                Console.WriteLine(queryInsertJobDetail);
+                //SQLFunction.execQuery(queryInsertJobDetail);
             }
 
 			Stat = "success";

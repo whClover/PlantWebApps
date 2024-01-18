@@ -35,7 +35,7 @@
                 <div class="col-2 d-flex align-items-center" style="gap: 10px;">
                     <div class="fw-bold">1st</div>
                     <input id="tApp1" name="tApp1" class="form-check-input mt-0" type="checkbox"
-                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc.Rows[0]["App1"] : "")"
+                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? (ViewBag.AddOrderEtc.Rows[0]["App1"].ToString().ToLower() == "true" ? "true" : "") : "")"
                             @(ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0 && ViewBag.AddOrderEtc.Rows[0]["App1"].ToString().ToLower() == "true" ? "checked" : "") />
                 </div>
                 <div class="col-10 row" style="gap: 15px;">
@@ -58,7 +58,7 @@
                 <div class="col-2 d-flex align-items-center" style="gap: 10px;">
                     <div class="fw-bold">2nd</div>
                     <input id="tApp2" name="tApp2" class="form-check-input mt-0" type="checkbox"
-                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App2"] : "")"
+                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? (ViewBag.AddOrderEtc.Rows[0]["App2"].ToString().ToLower() == "true" ? "true" : "") : "")"
                             @(ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0 && ViewBag.AddOrderEtc.Rows[0]["App2"].ToString().ToLower() == "true" ? "checked" : "") />
                 </div>
                 <div class="col-10 row" style="gap: 15px;">
@@ -81,7 +81,7 @@
                 <div class="col-2 d-flex align-items-center" style="gap: 10px;">
                     <div class="fw-bold">3rd</div>
                     <input id="tApp3" name="tApp3" class="form-check-input mt-0" type="checkbox"
-                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["App3"] : "")"
+                           value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? (ViewBag.AddOrderEtc.Rows[0]["App3"].ToString().ToLower() == "true" ? "true" : "") : "")"
                             @(ViewBag.AddOrderEtc != null && ViewBag.AddOrderEtc.Rows.Count > 0 && ViewBag.AddOrderEtc.Rows[0]["App3"].ToString().ToLower() == "true" ? "checked" : "")>
                 </div>
                 <div class="col-10 row" style="gap: 15px;">
@@ -202,6 +202,30 @@
 
         $('#tApp2Date').change(function () {
             gett3rddiff();
+        });
+
+        $('#tApp1').on("click", function () {
+            if ($('#tApp1').val() == "true") {
+                $('#tApp1').val("")
+            } else { 
+                $('#tApp1').val("true")
+            }
+        });
+
+        $('#tApp2').on("click", function () {
+            if ($('#tApp2').val() == "true") {
+                $('#tApp2').val("")
+            } else {
+                $('#tApp2').val("true")
+            }
+        });
+
+        $('#tApp3').on("click", function () {
+            if ($('#tApp3').val() == "true") {
+                $('#tApp3').val("")
+            } else {
+                $('#tApp3').val("true")
+            }
         });
 
     });
