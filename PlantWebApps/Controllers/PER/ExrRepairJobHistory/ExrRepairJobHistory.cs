@@ -19,11 +19,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public String Msg { get; set; }
         [TempData]
         public String Stat { get; set; }
-		public IActionResult CheckHub(string formName, string accessType)
-		{
-			bool isGranted = Utility.checkgranted(formName, accessType);
-			return Json(new { isGranted });
-		}
 		public IActionResult Index()
         {
             loadoption();
@@ -424,8 +419,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryAdviceUpdate = $@"exec dbo.ExrRepairAdviceUpdate {xjobid}, {xSuggestedStore}, {xRemarkAdvice},
 			{xSiteAlloc}, {xWOAlloc}, {xSchedStartAlloc}, {xSOHAlloc}, {xUnitAlloc}, {xOutReqAlloc}, {xRequestP1},
             {xRepairAdvice}, {Utility.ebyname(), 1}";
-
-            SQLFunction.execQuery(queryAdviceUpdate);
+			SQLFunction.execQuery(queryAdviceUpdate);
 
             if (eCurrentStatus == "OH" || eRepairAdvice == "OH") 
             {
@@ -440,40 +434,29 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             SQLFunction.execQuery(queryJob2Add);
 
-            Console.WriteLine(xTCIPartID);
-
-            if (eTCIPartID != "" && eID != "")
-            {
-                string queryUpdateCompId = $"UPDATE tbl_ExrComponentID SET JobID={xID} WHERE TCIPartID={xTCIPartID}";
-                SQLFunction.execQuery(queryJob2Add);
+			if (!string.IsNullOrEmpty(eTCIPartID) || !string.IsNullOrEmpty(eID))
+			{
+            string queryUpdateCompId = $"UPDATE tbl_ExrComponentID SET JobID={xID} WHERE TCIPartID={xTCIPartID}";
+			SQLFunction.execQuery(queryUpdateCompId);
             }
 
             string queryPDFID = $"select PRFID from tbl_ExrJobDetail where ID={xID} AND PRFID is Not Null";
-            Console.WriteLine(queryPDFID);
-
             var ePDFID = SQLFunction.execQuery(queryPDFID);
+
             if (ePDFID.Rows.Count > 0)
             {
                 string pdfID = ePDFID.Rows[0]["PRFID"].ToString();
                 string queryUpdatePartRequest = $"UPDATE tbl_PartRequest SET WOBin={xWOJobCost} WHERE PRFID={Utility.Evar(pdfID, 1)}";
-                SQLFunction.execQuery(queryUpdatePartRequest);
+				SQLFunction.execQuery(queryUpdatePartRequest);
             }
 
-            Console.WriteLine(eWOFitToUnit);
-            Console.WriteLine(eWOFitToUnitID);
-
-            if (eWOFitToUnit != "" || eWOFitToUnitID != "")
-            {
+			if (!string.IsNullOrEmpty(eWOFitToUnit) || !string.IsNullOrEmpty(eWOFitToUnitID))
+			{
                 string queryInsertJobDetail = @$"INSERT INTO tbl_ExrjobDetail(OffSiteWO,StatusID,UnitNumber,
                 CompDesc,RegisterDate,RegisterBy) VALUES ({xWOFitToUnit}, 2, {xFitToUnit}, {xCompDesc}, {xRegisterDate},
                 {Utility.ebyname()})";
-
-                Console.WriteLine(queryInsertJobDetail);
-                SQLFunction.execQuery(queryInsertJobDetail);
+				SQLFunction.execQuery(queryInsertJobDetail);
             }
-
-			Stat = "success";
-			Msg = "Data Has Been Inserted";
 
 			return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + eID });
 		}

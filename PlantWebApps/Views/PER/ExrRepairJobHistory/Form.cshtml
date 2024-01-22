@@ -371,7 +371,7 @@
 		function saveRequest(extractedData) {
 			$.ajax({
 				method: "GET",
-				url: "/ExrRepairJobHistory/CheckHub",
+				url: "/General/CheckGranted",
 				dataType: 'json',
 				data: {
 					formName: "Mod_ExrRepair",
@@ -379,7 +379,7 @@
 				},
 				success: function (response) {
 					console.log(response);
-					if (response.isGranted) {
+					if (response == true) {
 						$.ajax({
 							method: "POST",
 							url: "/ExrRepairJobHistory/TSave",

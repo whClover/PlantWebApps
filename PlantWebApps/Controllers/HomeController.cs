@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PlantWebApps.Helper;
 using PlantWebApps.Models;
+using System.Data;
 using System.Diagnostics;
 
 namespace PlantWebApps.Controllers
@@ -22,7 +24,6 @@ namespace PlantWebApps.Controllers
         {
             return View();
         }
-
         public IActionResult tes2()
         {
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views/Sample/tes2.html");
