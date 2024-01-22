@@ -419,21 +419,18 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             , {xTCICost}, {xRTSCost}, {xWOPrevious}, {xOPPrevious}, {xIntWOPrevious}, {xDecisionDate}, {xEmailDate}, {xHoldUntil}
             , {xdata}, {Utility.ebyname(), 1}";
 
-            //Console.WriteLine(queryJobRegisterRev1);
-            //SQLFunction.execQuery(queryJobRegisterRev1);
+            SQLFunction.execQuery(queryJobRegisterRev1);
 
             string queryAdviceUpdate = $@"exec dbo.ExrRepairAdviceUpdate {xjobid}, {xSuggestedStore}, {xRemarkAdvice},
 			{xSiteAlloc}, {xWOAlloc}, {xSchedStartAlloc}, {xSOHAlloc}, {xUnitAlloc}, {xOutReqAlloc}, {xRequestP1},
             {xRepairAdvice}, {Utility.ebyname(), 1}";
 
-            //Console.WriteLine(queryAdviceUpdate);
-            //SQLFunction.execQuery(queryAdviceUpdate);
+            SQLFunction.execQuery(queryAdviceUpdate);
 
             if (eCurrentStatus == "OH" || eRepairAdvice == "OH") 
             {
                 string queryOnHold = $"exec dbo.EXRJobOnHold {xjobid}, 'OH', {xHoldUntil}";
-                //Console.WriteLine(queryOnHold);
-                //SQLFunction.execQuery(queryOnHold);
+                SQLFunction.execQuery(queryOnHold);
             }
 
             string queryJob2Add = @$"exec dbo.EXRJob2Add {xJobID}, {xApp1}, {xApp1By}, {xApp1Date}, {xApp2}, {xApp2By}, {xApp2Date},
@@ -441,16 +438,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             {xAddOrderORNo1}, {xAddOrderORNo2}, {xAddOrderORNo3}, {xaddOrderDate1}, {xAddOrder2}, {xaddOrderDate3},
             {xaddOrderDNNo1}, {xaddOrderDNNo2}, {xaddOrderDNNo3}, {xdata}, {xdata}, {xdata}, {Utility.ebyname()}";
 
-            //Console.WriteLine(queryJob2Add);
-            //SQLFunction.execQuery(queryJob2Add);
+            SQLFunction.execQuery(queryJob2Add);
 
             Console.WriteLine(xTCIPartID);
 
             if (eTCIPartID != "" && eID != "")
             {
                 string queryUpdateCompId = $"UPDATE tbl_ExrComponentID SET JobID={xID} WHERE TCIPartID={xTCIPartID}";
-                //Console.WriteLine(queryUpdateCompId);
-                //SQLFunction.execQuery(queryJob2Add);
+                SQLFunction.execQuery(queryJob2Add);
             }
 
             string queryPDFID = $"select PRFID from tbl_ExrJobDetail where ID={xID} AND PRFID is Not Null";
@@ -461,8 +456,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             {
                 string pdfID = ePDFID.Rows[0]["PRFID"].ToString();
                 string queryUpdatePartRequest = $"UPDATE tbl_PartRequest SET WOBin={xWOJobCost} WHERE PRFID={Utility.Evar(pdfID, 1)}";
-                //Console.WriteLine(queryUpdatePartRequest);
-                //SQLFunction.execQuery(queryPDF);
+                SQLFunction.execQuery(queryUpdatePartRequest);
             }
 
             Console.WriteLine(eWOFitToUnit);
@@ -475,7 +469,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 {Utility.ebyname()})";
 
                 Console.WriteLine(queryInsertJobDetail);
-                //SQLFunction.execQuery(queryInsertJobDetail);
+                SQLFunction.execQuery(queryInsertJobDetail);
             }
 
 			Stat = "success";

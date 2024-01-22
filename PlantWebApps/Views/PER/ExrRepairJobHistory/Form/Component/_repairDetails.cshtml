@@ -16,7 +16,6 @@
 <partial name="Modal/frm_ExrCompIDAddJob.cshtml" />
 <partial name="Modal/sfrm_listbox3.cshtml" />
 
-
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Repair Details</p>
@@ -177,7 +176,9 @@
 <Script>
     $(document).ready(function () {
         $('.CIntAttachment').on("click", function () { 
-            window.location.href = "";
+            if ($('#tIntWO').val() != "") {
+                window.location.href = "";
+            }
         })
 	});
 </Script>
