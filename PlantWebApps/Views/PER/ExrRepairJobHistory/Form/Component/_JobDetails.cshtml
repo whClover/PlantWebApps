@@ -22,6 +22,8 @@
 	};
 }
 
+<partial name="Modal/sfrm_WoDouble.cshtml" />
+
 <div class="col border">
 	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
 		<p class="fs-5">Job Details</p>
@@ -38,6 +40,7 @@
 						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
 					</svg>
 				</button>
+				<div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
 				<div class="col-2">Comp.Desc</div>
 				<div class="col-3">
 					<input id="TCompDesc" name="TCompDesc" type="Text" class="col-3 form-control form-control-sm"
@@ -134,7 +137,7 @@
 			<div class="row">
 				<div class="col-2">TCI Desc 2</div>
 				<div class="col-9">
-					<input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
+					<input id="tPartDesc2" name="tPartDesc2" class="col-9 form-control form-control-sm border border-0"
 						   value="@ViewBag.data.Rows[0]["Description2"].ToString()" disabled />
 				</div>
 			</div>
@@ -261,5 +264,36 @@
 		$('#tSpvID').change(function () {
 			getjdSpvCalc()
 		});
+
+		$('#CFindWO').on("click", function () {
+			var OffSiteWO = $("#tOffSiteWO").val();
+			$.ajax({
+				method: "GET",
+				url: "/ExrRepairJobHistory/CfindWo?offsiteWo=" + OffSiteWO,
+				dataType: 'json',
+				success: function (response) {
+					if (response.message === "DoubleWo") {
+						$('.datatableDoubleWo').DataTable().clear().destroy();
+						$('.datatableDoubleWo').DataTable({
+							searching: false,
+							lengthChange: false,
+							responsive: true,
+							pageLength: 20,
+							data: response.rows,
+							columns: [
+								{ "data": "select" },
+								{ "data": "id" },
+								{ "data": "parentWo" },
+								{ "data": "woOffsite" },
+								{ "data": "statusId" }
+							]
+						});
+						$('#sfrm_WoDouble').modal('show');
+					} else { 
+						window.location.href = response.redirectToUrl;
+					}
+				},
+			})
+		})
 	});
 </script>

@@ -1,0 +1,151 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="modal fade" id="frm_ExrCompIDAddJob" tabindex="-1" aria-labelledby="frm_ExrCompIDAddJob" aria-hidden="true" >
+    <div class="modal-dialog modal-dialog-centered" style="font-size: 12px;">>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Component ID ADD</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container overflow-hidden  d-flex flex-column" style=" gap: 10px;">
+                    <div class="row align-items-center">
+                        <div class="col-3 ">TCI Part No*</div>
+                        <div class="col-9">
+                            <input id="ttcipartno" name="ttcipartno" type="Text" class="col-3 form-control form-control-sm"
+                                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartNo"] : "")" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">TCI Part ID*</div>
+                        <div class="col-9">
+                            <input id="ttCIPartID" name="ttCIPartID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")"
+                                   type="text" class="col-3 form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">EQ Class</div>
+                        <div class="col-4">
+                            <select id="tequipclasss" name="tequipclasss" class="col-3 form-control form-control-sm">
+                                <option value=""></option>
+                                @foreach (DataRow row in ViewBag.EquipClass.Rows)
+                                {
+                                    var EquipClass = row["EquipClass"].ToString();
+                                    var EquipClassDesc = row["EquipClassDesc"].ToString();
+                                    <option data-test="@EquipClassDesc" value="@EquipClass" selected="@(EquipClass == ViewBag.data?.Rows[0]?["EquipClass"].ToString())">@EquipClass | @EquipClassDesc</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <input id="tEquipClassCol" name="tEquipClassCol" type="text" class="col-3 form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">Shock Item No</div>
+                        <div class="col-4">
+                            <input id="tStockItemNox" name="tStockItemNox" type="Text" class="col-3 form-control form-control-sm"
+                                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StockItemNo"] : "")" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center d-none">
+                        <div class="col-3 ">Maint Type</div>
+                        <div class="col-4">
+                            <select id="" name="" class="col-3 form-control form-control-sm">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <input type="text" class="col-3 form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">Serial Number</div>
+                        <div class="col-9">
+                            <input id="tSerialNumberx" name="tSerialNumberx" type="text" class="col-3 form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">Arr Number</div>
+                        <div class="col-9">
+                            <input id="tArrNumberx" name="tArrNumberx" type="text" class="col-3 form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">Part Desc 1</div>
+                        <div class="col-9">
+                            <input id="tPartDesc1x" name="tPartDesc1x" class="col-9 form-control form-control-sm"
+                                   value="@ViewBag.data.Rows[0]["Description1"].ToString()"  />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">Part Desc 2</div>
+                        <div class="col-9">
+                            <input id="tPartDesc2x" name="tPartDesc2x" class="col-9 form-control form-control-sm"
+                                   value="@ViewBag.data.Rows[0]["Description2"].ToString()"  />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3 ">Remark</div>
+                        <div class="col-9">
+                            <input id="tremarkx" name="tremarkx" type="text" class="col-3 form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-end" style="gap: 10px;">
+                    <a class="btn btn-primary" style="min-width: 85px;" id="saveCompIDAddJob">SAVE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function getEquipClass() {
+            var selectedVal = $("#tequipclasss").find('option:selected').data('test');
+            $('#tEquipClassCol').val(selectedVal);
+        }
+
+        getEquipClass();
+        $('#tequipclasss').change(function () {
+            getEquipClass();
+        });
+
+        // save
+        $('#saveCompIDAddJob').on("click", function () {
+            if ($('#ttcipartno').val() != "" && $('#ttCIPartID').val() != "") {
+                $.ajax({
+                    url: '@Url.Action("saveCompIDAddJob", "ExrRepairJobHistory")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        tciPartNo: $('#ttcipartno').val(),
+                        tciPartID: $('#ttCIPartID').val(),
+                        equipClass: $('#tequipclasss').val(),
+                        stockItemNo: $('#tStockItemNox').val(),
+                        serialNumber: $('#tSerialNumberx').val(),
+                        arrNumber: $('#tArrNumberx').val(),
+                        partDesc1: $('#tPartDesc1x').val(),
+                        partDesc2: $('#tPartDesc2x').val(),
+                        remark: $('#tremarkx').val(),
+                    }
+                }).done(function (response) {
+                    if (response === "true") {
+                        Swal.fire("The data was saved successfully.", "", "success");
+                    } else if (response === "already") {
+                        Swal.fire("The part number already exist", "", "warning");
+                    } else { 
+                        Swal.fire("The part id not exist", "", "warning");
+                    }
+                });
+            }
+        });
+    });
+</script>

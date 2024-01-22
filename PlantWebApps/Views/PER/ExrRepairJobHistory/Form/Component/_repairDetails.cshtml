@@ -13,6 +13,10 @@
     };
 }
 
+<partial name="Modal/frm_ExrCompIDAddJob.cshtml" />
+<partial name="Modal/sfrm_listbox3.cshtml" />
+
+
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Repair Details</p>
@@ -32,7 +36,7 @@
                     <input id="tDnNumber" name="tDnNumber" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DnNumber"] : "")"
                         type="text" class="col-3 form-control form-control-sm" />
                 </div>
-                <button id="CRepairAN" name="CRepairAN" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                <button id="CRepairAN" name="CRepairAN" type="button" class="d-none btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                     </svg>
@@ -46,11 +50,12 @@
                     <input id="tTCIPartID" name="tTCIPartID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")"
                         type="text" class="col-3 form-control form-control-sm" />
                 </div>
-                <button id="CCreateID" name="CCreateID" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save-fill" viewBox="0 0 16 16">
-                        <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v7.793L4.854 6.646a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l3.5-3.5a.5.5 0 0 0-.708-.708L8.5 9.293z" />
+                <a style="max-height: 30px; max-width: 40px;" id="CCreateID" name="CCreateID" data-bs-toggle="modal"
+                   class="btn btn-sm btn-primary col-1 ms-2 d-flex align-items-center"   data-bs-target="#frm_ExrCompIDAddJob">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill ms-1" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                     </svg>
-                </button>
+               </a>
                 <div class="col-2  ">Store</div>
                 <div class="col-3">
                     <select id="tDestination" name="tDestination" class="col-3 form-control form-control-sm select2">
@@ -87,14 +92,15 @@
                     <input id="tIntWO" name="tIntWO" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IntWO"] : "")"
                         type="text" class="col-3 form-control form-control-sm" />
                 </div>
-                <button id="cFindIntWO" name="cFindIntWO" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
+                <a  id="cFindIntWO" name="cFindIntWO" class="btn btn-primary col-1 ms-2 d-flex align-items-center" 
+                    style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
-                </button>
+                </a>
                 <button id="CIntAttachment" name="CIntAttachment" type="button" class="btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
-                        <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z" />
                     </svg>
                 </button>
             </div>
@@ -167,3 +173,11 @@
         </div>
     </div>
 </div>
+
+<Script>
+    $(document).ready(function () {
+        $('.CIntAttachment').on("click", function () { 
+            window.location.href = "";
+        })
+	});
+</Script>

@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PlantWebApps.Helper;
 using System;
+using System.Diagnostics;
 using System.Data;
 using System.Diagnostics.Metrics;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
@@ -27,6 +29,217 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             loadoption();
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
         }
+        public IActionResult checkUpload(string id)
+        {
+            string filetypeid = "1";
+
+            string query = @$"select * from tbl_Exrjobattachment Where fileid={Utility.Evar(filetypeid, 0)}
+            and jobid = {Utility.Evar(id, 0)} and active = 1";
+
+            var data = SQLFunction.execQuery(query);
+            if (data.Rows.Count > 0)
+            {
+                return new JsonResult("exist");
+            }
+            else
+            {
+                return new JsonResult("new");
+            }
+        }
+        public async Task<IActionResult> UploadFile(IFormFile fileData, string id)
+        {
+            string strname = "ANForRepair";
+            string fileName = "";
+            var filePath = "";
+            string fileExtension = "";
+            var targetDirectory = "";
+            string newPath = "";
+            string eFilePath = "";
+            string fileName1 = "";
+            string dirname = @$"\dbattachPER\{Utility.Evar(id, 0)}\";
+            string[] allowedExtensions = { ".png", ".PNG", ".jpeg", ".JPEG", ".jpg", ".JPG", ".gif", ".GIF" };
+
+            if (fileData != null && fileData.Length > 0)
+            {
+                fileExtension = Path.GetExtension(fileData.FileName); // nama file dengan ekstensi
+                fileName = Path.GetFileNameWithoutExtension(fileData.FileName); // Mengambil nama file tanpa ekstensi
+                fileName = fileName.Replace(" ", "");
+                if (!allowedExtensions.Contains(fileExtension))
+                {
+                    return Json(new { edirectToUrl = "/ExrRepairJobHistory/Edit/" + id, Massage = "cancel" });
+                }
+
+                fileName1 = $"{fileName}{fileExtension}";
+                string enewname = $"{Utility.Evar(id, 0)}_1_{strname}.{fileName1}";
+
+                //targetDirectory = $"{dirname}"; server
+                targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
+
+                newPath = $@"{dirname}\{enewname}";
+                eFilePath = $@"{id}\{enewname}";
+
+                filePath = Path.Combine(targetDirectory, fileName1);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await fileData.CopyToAsync(stream);
+                }
+
+                string query = @$"exec dbo.EXRAttachmentUpdate {Utility.Evar(id, 0)}, 
+			    1, {Utility.Evar(eFilePath, 1)}, {Utility.Evar(fileName1, 1)}, NULL, {Utility.ebyname()}";
+                Console.WriteLine(query);
+            }
+            return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + id, Massage = "success" });
+        }
+        public IActionResult CfindWo(string OffSiteWO)
+        {
+            string query = $"SELECT ID,OffSiteWO as ParentWO,ChildWO as WOOffSite,StatusID from tbl_ExrJobDetail WHERE OffSiteWO= '{OffSiteWO}'";
+            var data = SQLFunction.execQuery(query);
+            if (data.Rows.Count > 1)
+            {
+				var rows = new List<object>();
+
+				foreach (DataRow row in data.Rows)
+                {
+                    var rowData = new
+                    {
+						select = "<a class='btn btn-primary btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "'>Select</a>",
+						id = Utility.CheckNull(row["ID"]),
+                        parentWo = Utility.CheckNull(row["ParentWO"]),
+                        woOffsite = Utility.CheckNull(row["WOOffSite"]),
+                        statusId = Utility.CheckNull(row["StatusID"])
+                    };
+                    rows.Add(rowData);
+                }
+				return new JsonResult(new { rows, Message = "DoubleWo" });
+			}
+            else 
+            {
+                var id = data.Rows[0]["ID"].ToString();
+                Console.WriteLine(id);
+				return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + id });
+			}
+		}
+        public IActionResult CfindIntWO(string eoffsitewo, string eWOJobCost)
+        {
+            Console.WriteLine(eoffsitewo);
+            Console.WriteLine(eWOJobCost);
+
+            string queryParentWO = $"SELECT ParentWO , Section, WONO as IntWO, WoDesc, Qty as CompQty From v_WorkOrderJobDetail where ParentWO = '{eoffsitewo}' ORDER BY WONO";
+            Console.WriteLine(queryParentWO);
+            var isParentWo = SQLFunction.execQuery(queryParentWO);
+
+            if (isParentWo.Rows.Count > 0)
+            {
+				var rows = new List<object>();
+
+				foreach (DataRow row in isParentWo.Rows)
+				{
+					var rowData = new
+					{
+						section = Utility.CheckNull(row["Section"]),
+						intWo = Utility.CheckNull(row["IntWO"]),
+						woDesc = Utility.CheckNull(row["WoDesc"]),
+						compQty = Utility.CheckNull(row["CompQty"])
+					};
+					rows.Add(rowData);
+				}
+				return new JsonResult(rows);
+			}
+            else
+            {
+				string queryJobCost = $"SELECT ParentWO , Section, WONO as IntWO, WoDesc, Qty as CompQty From v_WorkOrderJobDetail where ParentWO = '{eWOJobCost}' ORDER BY WONO";
+				Console.WriteLine(queryJobCost);
+				var isJobCost = SQLFunction.execQuery(queryJobCost);
+
+				var rows = new List<object>();
+
+				foreach (DataRow row in isJobCost.Rows)
+				{
+					var rowData = new
+					{
+						section = Utility.CheckNull(row["Section"]),
+						intWo = Utility.CheckNull(row["IntWO"]),
+						woDesc = Utility.CheckNull(row["WoDesc"]),
+						compQty = Utility.CheckNull(row["CompQty"])
+					};
+					rows.Add(rowData);
+				}
+				return new JsonResult(rows);
+			}
+		}
+        public IActionResult saveCompIDAddJob(string tciPartNo, string tciPartID, string equipClass, string stockItemNo,
+        string partDesc1, string partDesc2, string remark, string serialNumber, string arrNumber) 
+        {
+            Console.WriteLine(tciPartID);
+            var eTciPartNo = Utility.Evar(tciPartNo, 1);
+            var eTciPartID = Utility.Evar(tciPartID, 1);
+            var eEquipClass = Utility.Evar(equipClass, 1);
+            var eStockItemNo = Utility.Evar(stockItemNo, 1);
+            var ePartDesc1 = Utility.Evar(partDesc1, 1);
+            var ePartDesc2 = Utility.Evar(partDesc2, 1);
+            var eRemark = Utility.Evar(remark, 1);
+            var eSerialNumber = Utility.Evar(serialNumber, 1);
+            var eArrNumber = Utility.Evar(arrNumber, 1);
+            var eStatusID = 0;
+            var etciid = Utility.Evar("", 1); ;
+            var eMaintType = Utility.Evar("", 1); ;
+
+            string queryCheck = $"SELECT * FROM tbl_ExrComponentID where TCIPartID={eTciPartID}";
+            Console.WriteLine(queryCheck);
+            var isExist = SQLFunction.execQuery(queryCheck);
+
+            if (isExist.Rows.Count > 0)
+            {
+                if (tciPartNo == isExist.Rows[0]["TCIPartNo"].ToString())
+                {
+                    return new JsonResult("already");
+                }
+                else
+                {
+                    string query = @$"INSERT INTO tbl_ExrComponentID (TCIPartID,Remark,StatusID,SerialNumber
+                    ,ArrNumber,TCIPartNo,StockItemNo,EquipClass,TCIID,MaintType) VALUES ({eTciPartID}, {eRemark},
+                    {eStatusID}, {eSerialNumber}, {eArrNumber}, {eTciPartNo}, {eStockItemNo}, {eEquipClass},
+                    {etciid}, {eMaintType})";
+
+                    Console.WriteLine(query);
+                    return new JsonResult("true");
+                }
+            }
+            else 
+            {
+                return new JsonResult("not");
+            }
+        }
+        public IActionResult Cfind(string TTCIPartNo)
+        {
+            string query = $"Select * from v_PartNoDetail Where TCIPartno={Utility.Evar(TTCIPartNo, 1)}";
+            Console.WriteLine(query);
+
+            var data = SQLFunction.execQuery(query);
+
+            if (data.Rows.Count > 0)
+            {
+				var rows = new List<object>();
+
+				foreach (DataRow row in data.Rows)
+				{
+					var rowData = new
+					{
+						PartDesc1 = Utility.CheckNull(row["Description1"]),
+						PartDesc2 = Utility.CheckNull(row["Description2"]),
+						RoutableStock = Utility.CheckNull(row["RoutableStock"]),
+						MeterRun = Utility.CheckNull(row["MeterRun"]),
+						MeterToRun = Utility.CheckNull(row["MeterToRun"])
+					};
+					rows.Add(rowData);
+				}
+				return new JsonResult(rows);
+			}
+            else 
+            {
+				return new JsonResult("");
+			}
+		}
 		public IActionResult TSave(string eID, string eAddCost, string eChildWO, string eCompDesc, string eCompQty, 
             string eCompTypeID, string eEquipClass, string eCostAfter, string eCostBefore, string eCostRepair, string eCurrID, 
             string eDeliveryDate, string eIssuedBy, string eDestination, string eDisputeCompletedBy, 
@@ -816,6 +1029,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             // tnextstatus
             string queryrepairadvice = "Select JobStatusID,JobStatus from dbo.JobStatusEXR('ALL') order by StatusOrder";
             ViewBag.repairadvice = SQLFunction.execQuery(queryrepairadvice);
+
+            // tEquipClass
+            string queryEquipClass = "select * from tbl_Equipclass";
+            ViewBag.EquipClass = SQLFunction.execQuery(queryEquipClass);
 
             // tAttentionTo for CreateAN
             string queryTattentionTo = "SELECT isnull(SupplierName,SupplierID) as SupplierName, SupplierID FROM tbl_SupplierList ORDER BY SupplierName";

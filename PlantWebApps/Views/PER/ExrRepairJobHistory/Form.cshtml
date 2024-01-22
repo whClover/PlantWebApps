@@ -6,6 +6,7 @@
 	// viewdata["title"] = "external repair job history";
 }
 
+
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -137,6 +138,60 @@
 						}
 					});
 				}
+			}
+		});
+
+		// cfind for tcipartno
+		$('#cfind').on("click", function () {
+			var TTCIPartNo = $("#tTCIPartNo").val();
+			if (TTCIPartNo != "") {
+				$.ajax({
+					method: "GET",
+					url: "/ExrRepairJobHistory/Cfind?TTCIPartNo=" + TTCIPartNo,
+					dataType: 'json',
+				}).done(function (response) {
+					$("#tPartDesc1").val(response[0].partDesc1);
+					$("#tPartDesc2").val(response[0].partDesc2);
+					$("#tRoutableStock").val(response[0].routableStock);
+					$("#tMeterRun").val(response[0].meterRun);
+					$("#tMeterToRun").val(response[0].meterToRun);
+				});
+			} else {
+				Swal.fire("PartNumber is not register/deleted. Open Part Number Form to Upload", "", "warning");
+			}
+		});
+
+		// cFindIntWO for int wo
+		$('#cFindIntWO').on("click", function () {
+			console.log("clicked");
+			if ($('#tOffSiteWO').val() != "" || $('#tWoJobCost').val() != "") {
+				$.ajax({
+					url: '@Url.Action("CfindIntWO", "ExrRepairJobHistory")',
+					method: 'POST',
+					dataType: 'json',
+					data: {
+						eoffsitewo: $('#tOffSiteWO').val(),
+						eWOJobCost: $('#tWoJobCost').val(),
+					},
+					success: function (response) {
+						$('.datatable').DataTable().clear().destroy();
+						$('.datatable').DataTable({
+							searching: false,
+							lengthChange: false,
+							responsive: true,
+							pageLength: 20,
+							data: response,
+							columns: [
+								{ "data": "section" },
+								{ "data": "intWo" },
+								{ "data": "woDesc" },
+								{ "data": "compQty" }
+							]
+						});
+						$('#sfrm_listbox3').modal('show');
+						$('#loadingOverlay').hide();
+					},
+				});
 			}
 		});
 
@@ -314,7 +369,6 @@
 		}
 
 		function saveRequest(extractedData) {
-
 			$.ajax({
 				method: "GET",
 				url: "/ExrRepairJobHistory/CheckHub",
