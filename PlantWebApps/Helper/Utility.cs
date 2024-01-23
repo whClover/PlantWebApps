@@ -19,7 +19,6 @@ namespace PlantWebApps.Helper
             string username = Environment.UserName;
             return username;
         }
-
         public static String ebyname() 
         {
             String username = Utility.Evar(GlobalString._username, 1);
@@ -308,10 +307,15 @@ namespace PlantWebApps.Helper
                 };
             }
         }
-
         public static string CheckNull(object value)
         {
             return value != null ? value.ToString() : "";
+        }
+        public static long FileCountB(string path)
+        {
+            DirectoryInfo directory = new DirectoryInfo(path);
+            FileInfo[] files = directory.GetFiles();
+            return files.Length;
         }
     }
 }

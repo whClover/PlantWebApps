@@ -565,8 +565,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string sortOrder = string.IsNullOrEmpty(sort) ? "desc" : sort;
 
             _tempfilter = Utility.VarFilter(tempfilter);
-            string dataQuery = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {_tempfilter} AND StatusID != '9' order by id {sortOrder}";
-            Console.WriteLine(dataQuery);
+            string dataQuery = $"SELECT TOP 59 * FROM v_ExrJobDetailRev1 {_tempfilter} AND StatusID != '9' order by id {sortOrder}";
             var data = SQLFunction.execQuery(dataQuery);
             var rows = new List<object>();
 

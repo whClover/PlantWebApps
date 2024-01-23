@@ -1,0 +1,319 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    ViewData["Title"] = "Detail Attachment";
+}
+
+<script>
+    function viewAttachment(id) {
+        if (id != "") {
+            $.ajax({
+                method: "POST",
+                url: "/TCRP/ViewAttachment",
+                dataType: 'json',
+                data: {
+                    id: id,
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.message == "exist") {
+                        Swal.fire({
+                            title: 'Open the following file?',
+                            html: `
+                                <div style="font-size: 16px; text-align: center;">
+                                    <div class="d-flex flex-column">
+                                        <div>WONo : <b>${response.wono}</b></div>
+                                        <div>Category : <b>${response.category}</b></div>
+                                        <div>Name : <b>${response.name}</b></div>
+                                    </div>
+                                </div>
+                            `,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#0BDA51',
+                            cancelButtonColor: '#808080',
+                            confirmButtonText: 'Yes'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: "/TCRP/OpenAttachment",
+                                    dataType: 'json',
+                                    data: {
+                                        tempfile: response.tempfile,
+                                    },
+                                    success: function (response) {
+                                        console.log(response);
+                                    }
+                                });
+                            } else { 
+                                return
+                            }
+                        });
+                    } else {
+                        Swal.fire("Files does not exist", "", "warning");
+                        return
+                    }
+                }
+            });
+        } else {
+            return;
+        }
+    }
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="filterstatusmodal" tabindex="-1" aria-labelledby="filterstatusmodal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Status</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select class="form-select" multiple aria-label="status select" style="min-height: 250px;" id="statusSelect">
+                    @foreach (DataRow row in ViewBag.qeuryJstat.Rows)
+                    {
+                        var JobStatusID = row["JobStatusID"].ToString();
+                        var JobStatus = row["JobStatus"].ToString();
+                        <option value="@JobStatusID">@JobStatusID | @JobStatus</option>
+                    }
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" asp-controller="TCRP">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Detail Attachment Detail</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <button type="button" class="btn btn-sm btn-primary" id="cfilter" name="cfilter"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvasRight">
+                            <i class="fa fa-filter me-2"></i> FILTER
+                        </button>
+                    </div>
+                    <!-- right offcanvas -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <span id="offcanvasRightLabel" class="form-label">
+                                <i class="fa fa-filter"></i> Filter
+                            </span>
+                            <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="row">
+                                @* Eval by and Wo Number *@
+                                <div class="row">
+                                    @* wo number *@
+                                    <div class="mb-2">
+                                        <label class="form-label">Wo No</label>
+                                        <div class="d-flex flex-row" style="gap: 10px;">
+                                            <input type="Text" class="form-control form-control-sm" id="fWONo"
+                                                   name="fWONo" value="@ViewBag.wono" />
+                                        </div>
+                                    </div>
+                                </div>
+                                @* job number  *@
+                                <div class="mb-2">
+                                    <label class="form-label">Job Number</label>
+                                    <select class="form-control form-control-sm select2" id="fJobNumber" name="fJobNumber">
+                                        <option value=""></option>
+                                        @foreach (DataRow row in ViewBag.queryWorkType.Rows)
+                                        {
+                                            var JobNumber = row["JobNumber"].ToString();
+                                            var WorkTypeName = row["WorkTypeName"].ToString();
+                                            <option value="@JobNumber">@JobNumber | @WorkTypeName</option>
+                                        }
+                                    </select>
+                                </div>
+                                @* jstat *@
+                                <div class="mb-2">
+                                    <label class="form-label">J Stat</label>
+                                    <div class="d-flex flex-row" style="gap: 10px;">
+                                        <input type="Text" class="form-control form-control-sm" id="statusInput"
+                                               value="@ViewBag.statusValue" name="statusValue" style="height: 40px;" />
+                                        <div class="d-flex flex-row mb-2" style="gap: 10px;">
+                                            <button type="button" class="btn btn-primary" style="min-width: 50px;"
+                                                    data-bs-toggle="modal" data-bs-target="#filterstatusmodal">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" id="statusRemove" style="min-width: 50px;">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="mb-2">
+                                <div>
+                                    <button type="submit" id="filterButton" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tableContainer" class="table-responsive">
+                        <table id="myTable" class="table datatable mb-0 table-sm table-striped table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th rowspan="2" style="width: 20%" class="text-center align-middle "></th>
+                                    <th rowspan="2" class="text-center align-middle">ID</th>
+                                    <th rowspan="2" class="text-center align-middle">Section</th>
+                                    <th rowspan="2" class="text-center align-middle">Wo No</th>
+                                    <th rowspan="2" class="text-center align-middle">Wo Desc</th>
+                                    <th rowspan="2" class="text-center align-middle">Wo Stat</th>
+                                    <th rowspan="2" class="text-center align-middle">Current Job Status</th>
+                                    <th rowspan="2" class="text-center align-middle">Last Activity</th>
+                                    <th colspan="2" class="text-center">Attachment</th>
+                                    <th rowspan="2" class="text-center align-middle">Created Date</th>
+                                    <th rowspan="2" class="text-center align-middle">Created By</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center align-middle">Cat</th>
+                                    <th class="text-center align-middle">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="dispatchTypeModal" tabindex="-1" aria-labelledby="dispatchTypeModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="statusModal">Status</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <select class="form-select" multiple aria-label="status select" style="min-height: 150px;" id="dispatchTypeSelect">
+                                    <option value="For Repair">For Repair</option>
+                                    <option value="Spare Part">Spare Part</option>
+                                    <option value="Stand">Stand</option>
+                                    <option value="After Repair">After Repair</option>
+                                    <option value="Patch Dispatch">Patch Dispatch</option>
+                                    <option value="Return To Site">Return To Site</option>
+                                    <option value="Part For Repair">Part For Repair</option>
+                                    <option value="For Trial">For Trial</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (TempData.Peek("Msg") != null)
+                {
+                    @section Scripts
+                {
+                    <script>
+                        Swal.fire({
+                            title: '@TempData.Peek("Msg")',
+                                icon: '@TempData.Peek("Stat")'
+                            });
+                        </script>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+
+        loadData();
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
+            loadData();
+        });
+
+        function loadData() {
+            var wono = $('#fWONo').val();
+            var jobNumber = $('#fJobNumber').val();
+            var statusInput = $('#statusInput').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadData", "TCRP")',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    wono: wono,
+                    jobNumber: jobNumber,
+                    statusInput: statusInput
+                },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "viewAttachment" },
+                            { "data": "id" },
+                            { "data": "section" },
+                            { "data": "wono" },
+                            { "data": "woDesc" },
+                            { "data": "woStatus" },
+                            { "data": "jobStatusDesc" },
+                            { "data": "lastActivity" },
+                            { "data": "idJobStatus" },
+                            { "data": "name" },
+                            { "data": "createdDate" },
+                            { "data": "createdBy" },
+                        ]
+                    });
+
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        var statusInput = $('#statusInput');
+        var statusSelect = $('#statusSelect');
+
+        $('#saveStatusBtn').click(function () {
+            var selectedOptions = $.map(statusSelect.find('option:selected'), function (option) {
+                return option.value;
+            });
+
+            statusInput.val(selectedOptions.join(','));
+        });
+
+        $('#statusRemove').click(function () {
+            statusInput.val('');
+        });
+
+    });
+</script>

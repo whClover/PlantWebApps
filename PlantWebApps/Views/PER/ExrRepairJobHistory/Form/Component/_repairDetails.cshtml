@@ -175,9 +175,10 @@
 
 <Script>
     $(document).ready(function () {
-        $('.CIntAttachment').on("click", function () { 
+        $('#CIntAttachment').on("click", function () { 
+            var WoNo = $('#tIntWO').val();
             if ($('#tIntWO').val() != "") {
-                window.location.href = "";
+                window.location.href = "/TCRP/DetailAttachment?wono=" + WoNo;
             }
         })
 	});
