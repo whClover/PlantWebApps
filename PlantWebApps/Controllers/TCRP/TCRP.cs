@@ -81,11 +81,6 @@ namespace PlantWebApps.Controllers.TCRP
                 var efilename = Utility.CheckNull(data.Rows[0]["Name"]);
                 var eCategory = Utility.CheckNull(data.Rows[0]["Category"]);
 
-                Console.WriteLine(ePath);
-                Console.WriteLine(ewono);
-                Console.WriteLine(efilename);
-                Console.WriteLine(eCategory);
-
                 string[] FileData = ePath.Split('\\');
                 string lfile = FileData[FileData.Length - 1];
                 string etemp = Environment.GetEnvironmentVariable("temp");
