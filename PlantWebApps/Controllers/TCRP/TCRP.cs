@@ -17,6 +17,7 @@ namespace PlantWebApps.Controllers.TCRP
         {
             LoadOption();
             ViewBag.wono = wono;
+
             return View("~/Views/TCRP/DetailAttachment/Index.cshtml");
         }
         public IActionResult LoadData(string wono, string jobNumber, string statusInput)

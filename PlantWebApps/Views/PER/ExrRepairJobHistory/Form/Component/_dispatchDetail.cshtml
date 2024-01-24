@@ -5,20 +5,65 @@
     @using System.Data;
 }
 
+<script>
+    function dispatchDetail(anno) {
+        console.log(anno);
+        $.ajax({
+            method: "POST",
+            url: "/ExrRepairJobHistory/DispatchDetail",
+            dataType: 'json',
+            data: {
+                anno: anno
+            },
+            success: function (response) {
+                console.log(response)
+                $('#TID').val(response[0].id);
+                $('#TStatusID').val(response[0].statusID);
+                $('#TDispatchID').val(response[0].dispatchID);
+                $('#TType').val(response[0].dispatchType);
+                $('#anDetailSection').val(response[0].sectionID);
+                $('#TJobID').val(response[0].jobID);
+                $('#anDetailWono').val(response[0].wono);
+                $('#anDetailChildWo').val(response[0].childwo);
+                $('#TItem').val(response[0].item);
+                $('#TQty').val(response[0].qty);
+                $('#TTUOM').val(response[0].uom);
+                $('#anDetailDescription').val(response[0].itemDesc);
+                $('#TPONo').val(response[0].prNo);
+                $('#TPRNo').val(response[0].prNo);
+                $('#TRemarks').val(response[0].remarks);
+                $('#TRegisterBy').val(response[0].registerBy);
+                $('#TRegisterDate').val(response[0].registerdate);
+                $('#TModBy').val(response[0].modBy);
+                $('#TModDate').val(response[0].modDate);
+                $('#TDeletedBy').val(response[0].modBy);
+                $('#DeletedDate').val(response[0].modDate);
+
+                $('#anDetailModal').modal('show');
+            }
+        });
+    };
+</script>
+
 <div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-        <p class="fs-5">Dispatch Detail</p>
-        <div class="d-flex justify-content-around" style="gap: 10px;">
-            <button type="button" class="btn btn-secondary" id="CDispatchAdd" name="CDispatchAdd">Add</button>
-            <button type="button" class="btn btn-secondary" id="CDispatchEdit" name="CDispatchEdit">Edit</button>
-            <button type="button" class="btn btn-secondary" id="CDispatchDel" name="CDispatchDel">Delete</button>
-            <button type="button" class="btn btn-secondary" id="CANMainModule" name="CANMainModule">AN Dispatch</button>
-            <button type="button" class="btn btn-secondary" id="CDispatchView" name="CDispatchView">View</button>
+        <div class="d-flex justify-content-between" style="gap: 10px;">
+            <p class="fs-5">Dispatch Detail</p>
+            <div class="d-flex" style="gap: 10px;">
+                <button type="button" class="btn btn-primary" id="CDispatchAdd" name="CDispatchAdd">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                </button>
+                <a type="button" class="btn btn-primary" id="CANMainModule" name="CANMainModule" href="/jobdispatch">AN Dispatch</a>
+            </div>
         </div>
         <div id="LDispatch" name="LDispatch" class="table-responsive">
             <table class="table table-sm table-hover">
                 <thead class="table-light">
                     <tr>
+                        <th></th>
+                        <th></th>
                         <th>ANNO</th>
                         <th>Type</th>
                         <th>Attention</th>
@@ -32,7 +77,14 @@
                     {
                         <tr>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#anDetailModal">
+                                <button type="button" class="btn btn-sm btn-link" id="btnDeleteDispatch">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                                    </svg>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-link" id="btnDispatchEdit" onclick="dispatchDetail(@row["DetailID"])">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
@@ -54,3 +106,76 @@
 </div>
 
 <partial name="~/Views/JobDispatch/_modalAnDetail.cshtml" />
+
+<script>
+    $(document).ready(function () {
+
+        var id = $('#tID').val();
+
+        $('#btnDeleteDispatch').on('click', function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                html: `
+                                    <div style="font-size: 16px; text-align: center;">
+                                        <div style="margin-bottom: 10px;">
+                                                Do You Really Want To Delete This Data?
+                                        </div>
+                                    </div>
+                                            `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#008000',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "POST",
+                        url: "/ExrRepairJobHistory/DeleteDispatch",
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                        },
+                        success: function (response) {
+                            if (response == "ok") {
+                                Swal.fire("Data Has Been Deleted", "", "success");
+                            } else {
+                                Swal.fire("Data Not Deleted", "", "warning");
+                            }
+                        }
+                    });
+                } else {
+                    Swal.fire("Data Not Deleted", "", "warning");
+                }
+            });
+        });
+
+        $('#CDispatchAdd').on('click', function () {
+
+            $('#TID').val("");
+            $('#TStatusID').val("");
+            $('#TDispatchID').val("");
+            $('#TType').val("");
+            $('#anDetailSection').val("");
+            $('#TJobID').val("");
+            $('#anDetailWono').val("");
+            $('#anDetailChildWo').val("");
+            $('#TItem').val("");
+            $('#TQty').val("");
+            $('#TTUOM').val("");
+            $('#anDetailDescription').val("");
+            $('#TPONo').val("");
+            $('#TPRNo').val("");
+            $('#TRemarks').val("");
+            $('#TRegisterBy').val("");
+            $('#TRegisterDate').val("");
+            $('#TModBy').val("");
+            $('#DeletedDate').val("");
+            $('#TModDate').val("");
+            $('#TDeletedBy').val("");
+
+            $('#anDetailModal').modal('show');
+        });
+
+    });
+</script>

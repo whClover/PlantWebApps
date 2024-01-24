@@ -42,8 +42,13 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             ViewBag.id = id;
             ViewBag.isEdit = true;
+
             string query = "select * from v_DispatchJob where ID =" + Utility.Evar(id, 1);
             ViewBag.data = SQLFunction.execQuery(query);
+
+            string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
+            ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
+
             return View("~/Views/JobDispatch/Form.cshtml");
         }
         public IActionResult SearchWonoDetail(string id, string wono)
@@ -52,11 +57,14 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             ViewBag.id = id;
             ViewBag.isEdit = true;
+
             string query = "select * from v_DispatchJob where ID =" + Utility.Evar(id, 1);
             ViewBag.data = SQLFunction.execQuery(query);
 
+            string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
+            ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
+
             string dataQuery = $@"SELECT * from tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 1)} AND WONO = '{wono}' AND StatusID != 'del'";
-            Console.WriteLine(dataQuery);
             var result = SQLFunction.execQuery(dataQuery);
             if (result.Rows.Count > 0)
             {

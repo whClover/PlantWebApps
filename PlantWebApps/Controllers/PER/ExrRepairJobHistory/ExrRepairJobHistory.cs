@@ -24,6 +24,19 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             loadoption();
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
         }
+        public IActionResult DeleteDispatch(string id)
+        {
+            var eID = (Utility.Evar(id, 1));
+            var eRegisterDate = (Utility.Evar(DateTime.Now.ToString(), 1));
+            var eByName = (Utility.Evar((Utility.GetCurrentUsername().Split('\\')[1]), 1)); ;
+
+            var query = $"UPDATE tbl_DispatchJobDetail SET StatusID = 'del', DeletedDate = {eRegisterDate},DeletedBy = {eByName}  Where ID = {eID}";
+            Console.WriteLine(query);
+
+            SQLFunction.execQuery(query);
+
+            return new JsonResult("ok");
+        }
         public IActionResult checkUpload(string id)
         {
             string filetypeid = "1";
@@ -820,13 +833,13 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryListStatus = $"SELECT id,itemchange,descchange,moddate,modby,src from v_ExrJobChangeHistory  Where JobID = {id}";
 
             string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
-            Status ,DispatchTypeID,RegisterBy,Registerdate  from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id}";
+            Status ,DispatchTypeID,RegisterBy,Registerdate  from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id} AND StatusID != 'del'";
 
             string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where id={id}";
 
             string queryHoldUntil = $"select top 1 TargetDate from tbl_ExrJobChangeHistory where JobID={id} and JobStatus='OH' order by ModDate desc";
 
-			ViewBag.data = SQLFunction.execQuery(query);
+            ViewBag.data = SQLFunction.execQuery(query);
             ViewBag.detail = SQLFunction.execQuery(queryDetail);
             ViewBag.AddOrderEtc = SQLFunction.execQuery(queryAddOrderEtc);
             ViewBag.ListStatus = SQLFunction.execQuery(queryListStatus);
@@ -836,9 +849,67 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             ViewBag.by = Utility.eusername();
             ViewBag.date = Utility.getDate();
 
+            //string queryDispatchDetail = $@"SELECT * from tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 1)} AND StatusID != 'del'";
+            //Console.WriteLine(queryDispatchDetail);
+            //var result = SQLFunction.execQuery(queryDispatchDetail);
+            //if (result.Rows.Count > 0)
+            //{
+            //    Console.WriteLine("ada data");
+            //    ViewBag.dataaccess = result;
+            //}
+
+            //string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
+
+            //ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
+            //ViewBag.id = id;
+
             return View("~/Views/PER/ExrRepairJobHistory/Form.cshtml");
 		}
-		public IActionResult CreateAN()
+        public IActionResult DispatchDetail(string anno)
+        {
+            string queryDispatchDetail = $@"SELECT * from v_DispatchJobDetail WHERE DetailID = {Utility.Evar(anno, 1)} AND StatusID != 'del'";
+            Console.WriteLine(queryDispatchDetail);
+            var result = SQLFunction.execQuery(queryDispatchDetail);
+
+            if (result.Rows.Count > 0)
+            {
+                var rows = new List<object>();
+
+                foreach (DataRow row in result.Rows)
+                {
+                    var rowData = new
+                    {
+                        id = anno,
+                        StatusID = Utility.CheckNull(row["StatusID"]),
+                        DispatchID = Utility.CheckNull(row["DispatchID"]),
+                        dispatchType = Utility.CheckNull(row["DispatchType"]),
+                        SectionID = Utility.CheckNull(row["SectionID"]),
+                        JobID = Utility.CheckNull(row["JobID"]),
+                        WONO = Utility.CheckNull(row["WONO"]),
+                        childwo = Utility.CheckNull(row["ChildWO"]),
+                        item = Utility.CheckNull(row["Item"]),
+                        Qty = Utility.CheckNull(row["Qty"]),
+                        UOM = Utility.CheckNull(row["UOM"]),
+                        ItemDesc = Utility.CheckNull(row["ItemDesc"]),
+                        PRNo = Utility.CheckNull(row["PRNo"]),
+                        Remarks = Utility.CheckNull(row["Remarks"]),
+                        RegisterBy = Utility.CheckNull(row["RegisterBy"]),
+                        registerdate = Utility.CheckNull(row["RegisterDate"]),
+                        ModBy = Utility.CheckNull(row["ModBy"]),
+                        ModDate = Utility.CheckNull(row["ModDate"]),
+                    };
+                    rows.Add(rowData);
+                }
+                return new JsonResult(rows);
+            }
+
+            //string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(anno, 1)} ";
+
+            //ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
+
+            return new JsonResult("ok");
+        }
+        public IActionResult CreateAN()
         {
             loadoption();
             var eSpv = ViewBag.spvdesc;
