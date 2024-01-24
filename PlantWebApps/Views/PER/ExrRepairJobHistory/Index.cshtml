@@ -67,12 +67,12 @@
         Swal.fire({
             title: 'Are you sure?',
             html: `
-                            <div style="font-size: 16px; text-align: center;">
-                                <div style="margin-bottom: 10px;">
-                                    Are you sure to delete the following data?
+                                <div style="font-size: 16px; text-align: center;">
+                                    <div style="margin-bottom: 10px;">
+                                        Are you sure to delete the following data?
+                                    </div>
                                 </div>
-                            </div>
-                        `,
+                            `,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -111,7 +111,7 @@
                         </blockquote>
                     </div>
                     <div class="d-flex mb-2 align-items-center" style="gap: 5px">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas"  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="fa fa-filter me-2"></i> FILTER
                         </button>
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add" @isAdd>
@@ -271,6 +271,7 @@
             var pCam = $('#pcam').val();
             var sortBy = $('#sortby').val();
             var ascDesc = $('#ascdsc').val();
+            var unitnumber = $('#unitnumber').val();
 
             // Tampilkan loading overlay
             $('#loadingOverlay').show();
@@ -290,6 +291,7 @@
                     fdocType: fdocType,
                     fdocTypeValue: fdocTypeValue,
                     ccompIdType: ccompIdType,
+                    ccompIdValue: ccompIdValue,
                     sDate: sDate,
                     startDate: startDate,
                     endDate: endDate,
@@ -306,7 +308,8 @@
                     fissNull: fissNull,
                     pCam: pCam,
                     sortBy: sortBy,
-                    ascDesc: ascDesc
+                    ascDesc: ascDesc,
+                    unitnumber: unitnumber
                 },
                 success: function (test) {
                     //console.log(test);
