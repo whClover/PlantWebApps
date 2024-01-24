@@ -106,25 +106,37 @@
 
         $('#fileupload').on('change', function () {
             var id = $("#tID").val();
-
+            var intWo = $("#tSuppForRepairAN").val();
             var files = $(this).get(0).files;
 
-            function sendUpload(fileData, id) {
+            function sendUpload(fileData, id, intWo) {
                 var formData = new FormData();
                 formData.append("fileData", fileData);
 
                 $.ajax({
-                    url: '/ExrRepairJobHistory/UploadFile?id=' + id,
+                    url: `/ExrRepairJobHistory/UploadFile?id=${id}&intWo=${intWo}`,
                     type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function (response) {
                         if (response.massage == "success") {
-                            window.location.href = response.redirectToUrl;
+                            console.log(response);
+                            $('.attachTable').DataTable().clear().destroy();
+                            $('.attachTable').DataTable({
+                                searching: false,
+                                lengthChange: false,
+                                responsive: true,
+                                pageLength: 20,
+                                data: response.data,
+                                columns: [
+                                    { "data": "attachmenttype" },
+                                    { "data": "filepath" },
+                                ]
+                            });
                             Swal.fire("File Has Been Uploaded", "", "success");
                         } else { 
-                            window.location.href = response.redirectToUrl;
+                            // window.location.href = response.redirectToUrl;
                             Swal.fire("File Not Uploaded", "", "warning");
                         }
                     },
@@ -157,7 +169,8 @@
                                 confirmButtonText: 'Yes'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    sendUpload(file, id);
+                                    console.log("masuk ajx");
+                                    sendUpload(file, id, intWo);
                                 } else {
                                     return;
                                 }

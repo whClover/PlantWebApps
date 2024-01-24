@@ -54,8 +54,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 return new JsonResult("new");
             }
         }
-        public async Task<IActionResult> UploadFile(IFormFile fileData, string id)
+        public async Task<IActionResult> UploadFile(IFormFile fileData, string id, string intWo)
         {
+            Console.WriteLine("masuk");
             string strname = "ANForRepair";
             string fileName = "";
             var filePath = "";
@@ -78,7 +79,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 }
 
                 fileName1 = $"{fileName}{fileExtension}";
-                string enewname = $"{Utility.Evar(id, 0)}_1_{strname}.{fileName1}";
+                string enewname = $"{Utility.Evar(id, 0)}_1_{strname}{intWo}.{fileName1}";
 
                 //targetDirectory = $"{dirname}"; server
                 targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
@@ -94,9 +95,28 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
                 string query = @$"exec dbo.EXRAttachmentUpdate {Utility.Evar(id, 0)}, 
 			    1, {Utility.Evar(eFilePath, 1)}, {Utility.Evar(fileName1, 1)}, NULL, {Utility.ebyname()}";
-                Console.WriteLine(query);
+                SQLFunction.execQuery(query);
+
+                string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where JobID={id}";
+                var listData = SQLFunction.execQuery(queryListAttachment);
+
+                var rows = new List<object>();
+
+                foreach (DataRow row in listData.Rows)
+                {
+                    var rowData = new
+                    {
+                        attachmenttype = Utility.CheckNull(row["AttachmentType"]),
+                        filepath = Utility.CheckNull(row["FilePath"]),
+                    };
+                    rows.Add(rowData);
+                }
+                return Json(new { Massage = "success", data = rows });
             }
-            return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + id, Massage = "success" });
+            else
+            {
+                return Json(new { Massage = "not"});
+            }
         }
         public IActionResult CfindWo(string OffSiteWO)
         {
@@ -495,6 +515,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             tempfilter = ApplyFilterCategory(fdocTypeCategory, fdocTypeValue, tempfilter);
 
             var ccompIdTypeCategory = FilterHelper.SelectCCompIdTypeFilter(ccompIdType);
+            tempfilter = ApplyFilterCategory(ccompIdTypeCategory, ccompIdValue, tempfilter);
 
             var lmodByCategory = FilterHelper.SelectImodByFilter(lmodBy);
             tempfilter = ApplyFilterCategory(lmodByCategory, lmodByValue, tempfilter);
@@ -836,7 +857,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
             Status ,DispatchTypeID,RegisterBy,Registerdate  from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id} AND StatusID != 'del'";
 
-            string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where id={id}";
+            string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where JobID={id}";
 
             string queryHoldUntil = $"select top 1 TargetDate from tbl_ExrJobChangeHistory where JobID={id} and JobStatus='OH' order by ModDate desc";
 

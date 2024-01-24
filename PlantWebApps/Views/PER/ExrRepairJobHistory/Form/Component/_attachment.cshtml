@@ -5,15 +5,15 @@
     @using System.Data;
 }
 
-<div class="col border" >
+<div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Attachment</p>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
+        <div id="tableContainer" class="table-responsive">
+            <table id="myTable" class="table attachTable mb-0 table-sm table-striped table-bordered">
                 <thead class="table-light">
                     <tr>
-                        <th>Attachment Type</th>
-                        <th>File Path</th>
+                        <th>AttachmentType</th>
+                        <th>FilePath</th>
                     </tr>
                 </thead>
                 <tbody>
