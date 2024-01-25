@@ -9,6 +9,7 @@ using System.Drawing.Printing;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -23,6 +24,21 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         {
             loadoption();
             return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
+        }
+        public FileResult ViewAttachment(string filepath)
+        {
+            Console.WriteLine("masuk");
+            Console.WriteLine(filepath);
+            string fileName = Path.GetFileName(filepath);
+
+            var contentTypeProvider = new FileExtensionContentTypeProvider();
+
+            if (!contentTypeProvider.TryGetContentType(fileName, out string contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+
+            return PhysicalFile(filepath, contentType, fileName);
         }
         public IActionResult DeleteDispatch(string id)
         {
@@ -56,7 +72,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public async Task<IActionResult> UploadFile(IFormFile fileData, string id, string intWo)
         {
-            Console.WriteLine("masuk");
+            Console.WriteLine("int wo is " + intWo);
             string strname = "ANForRepair";
             string fileName = "";
             var filePath = "";
@@ -65,7 +81,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string newPath = "";
             string eFilePath = "";
             string fileName1 = "";
-            string dirname = @$"\dbattachPER\{Utility.Evar(id, 0)}\";
+            string dirname = @$"{Utility.Evar(id, 0)}\";
             string[] allowedExtensions = { ".png", ".PNG", ".jpeg", ".JPEG", ".jpg", ".JPG", ".gif", ".GIF" };
 
             if (fileData != null && fileData.Length > 0)
@@ -81,20 +97,28 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 fileName1 = $"{fileName}{fileExtension}";
                 string enewname = $"{Utility.Evar(id, 0)}_1_{strname}{intWo}.{fileName1}";
 
-                //targetDirectory = $"{dirname}"; server
-                targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
+                targetDirectory = $@"{dirname}";
+                //targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
 
-                newPath = $@"{dirname}\{enewname}";
-                eFilePath = $@"{id}\{enewname}";
+                eFilePath = Path.Combine(targetDirectory, enewname);
 
-                filePath = Path.Combine(targetDirectory, fileName1);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                Console.WriteLine("upload file path" + eFilePath);
+
+                if (!Directory.Exists(targetDirectory))
+                {
+                    Directory.CreateDirectory(targetDirectory);
+                }
+
+                using (var stream = new FileStream(eFilePath, FileMode.Create))
                 {
                     await fileData.CopyToAsync(stream);
                 }
 
                 string query = @$"exec dbo.EXRAttachmentUpdate {Utility.Evar(id, 0)}, 
 			    1, {Utility.Evar(eFilePath, 1)}, {Utility.Evar(fileName1, 1)}, NULL, {Utility.ebyname()}";
+
+                Console.WriteLine(query);
+
                 SQLFunction.execQuery(query);
 
                 string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where JobID={id}";
@@ -106,8 +130,15 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 {
                     var rowData = new
                     {
+                        button = $@"<button type='button' class='btn btn-link btn-sm' onclick='viewAttachment(""{row["FullPath"]}"")'>
+                                        <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-file-earmark-arrow-down-fill' viewBox='0 0 16 16'>
+                                            <path d='M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0' />
+                                        </svg>        
+                                   </button>",
+                    id = Utility.CheckNull(row["ID"]),
                         attachmenttype = Utility.CheckNull(row["AttachmentType"]),
                         filepath = Utility.CheckNull(row["FilePath"]),
+                        fullpath = Utility.CheckNull(row["FullPath"]),
                     };
                     rows.Add(rowData);
                 }
@@ -115,7 +146,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             else
             {
-                return Json(new { Massage = "not"});
+                return Json(new { Massage = "not" });
             }
         }
         public IActionResult CfindWo(string OffSiteWO)
