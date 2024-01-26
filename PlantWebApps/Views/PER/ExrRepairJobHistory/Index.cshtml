@@ -395,14 +395,12 @@
         }
 
         $('#uploadWo').on('change', function () {
-            console.log("clicked");
 
             var file = this.files[0];
-
             var formData = new FormData();
             formData.append("fileData", file);
 
-            console.log("file data is", formData);
+            Swal.fire("Upload WO Process Is Running", "", "info");
 
             $.ajax({
                 method: "POST",
@@ -412,10 +410,14 @@
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    if (response == "ok") {
-                        Swal.fire("Upload WO Process Is Running", "", "info");
-                    } else if (response == "error") { 
+                    if (response == "error") {
                         Swal.fire("Upload Wo Failed", "", "error");
+                    } else if (response == "invalid") {
+                        Swal.fire("Invalid Input File. Please Ensure You are downloading the JDE data right format", "", "error");
+                    } else if (response == "finish") { 
+                        Swal.fire("Upload WO Completed", "", "success");
+                    } else if (response == "not found") {
+                        Swal.fire("File Not Found", "", "error");
                     }
                 },
                 error: function (error) {

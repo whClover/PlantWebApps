@@ -28,29 +28,38 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 await fileData.CopyToAsync(stream);
             }
 
-            await UploadWo(filePath);
+			FileInfo fileInfo = new FileInfo(filePath);
+			if (fileInfo.Exists)
+			{
+				string upload = await UploadWo(filePath);
 
-            return new JsonResult("ok");
+
+                if (upload == "invalid")
+                {
+                    return new JsonResult("invalid");
+                }
+
+                if (upload == "finish")
+                {
+                    return new JsonResult("finish");
+                }
+
+                if (upload == "error")
+                {
+                    return new JsonResult("error");
+                }
+                return RedirectToAction(nameof(DownloadExcelFile));
+			}
+			else
+			{
+				return new JsonResult("not found"); ;
+			}
         }
-        private async Task UploadWo(string filePath)
+        private async Task<string> UploadWo(string filePath)
         {
             Console.WriteLine("UploadWO");
             try
             {
-
-                FileInfo fileInfo = new FileInfo(filePath);
-                if (fileInfo.Exists)
-                {
-                    Stat = "warning";
-                    Msg = "Process Reading & Update";
-                }
-                else
-                {
-                    Stat = "error";
-                    Msg = "File Not Found On:" + filePath;
-                    return;
-                }
-
                 int estatusid = 1;
                 int er = 0;
                 int up = 0;
@@ -183,7 +192,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                 {
                                     Stat = "warning";
                                     Msg = "Invalid Input File. Please Ensure You are downloading the JDE data right format";
-                                    return;
+                                    return "invalid";
                                 }
                             }
                             else
@@ -288,6 +297,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                                     WoUpdateDate = {eWoUpdateDate}, AddressNo = {eAddressNo}, LastUpdate = {Utility.Evar(Utility.getDate(), 2)},
                                                     LastUpdateBy = {Utility.ebyname()} WHERE WONO= {eChildWO}";
 
+                                    Console.WriteLine(query);
+
                                     SQLFunction.execQuery(query);
                                 }
                                 else
@@ -303,6 +314,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                                     , {eManager}, {esupervisorid}, {eAssignedTo}, {eDocDate}, {eStatusComment}, 
                                                     {eStoreID}, {eUserID}, {eWoUpdateDate}, {eAddressNo}, 
                                                     {Utility.Evar(Utility.getDate(), 2)}, {Utility.ebyname()})";
+
+                                    Console.WriteLine(query);
 
                                     SQLFunction.execQuery(query);
                                 }
@@ -433,21 +446,30 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                         }
                         catch (Exception ex)
                         {
-                            Stat = "error";
-                            Msg = "Upload Failed 1";
-                            return;
+                            return "error";
                         }
                     }
                 }
-                Stat = "error";
-                Msg = "Wo Uploaded";
+                return "finish";
             }
             catch (Exception ex)
             {
-                Stat = "error";
-                Msg = "Upload Failed 2";
-                return;
+                return "error";
             }
+        }
+        private ActionResult DownloadExcelFile()
+        {
+            string tempPath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string filePath = Path.Combine(tempPath, "output.xlsx");
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            return File(filePath, contentType, "output.xlsx");
         }
     }
 }
