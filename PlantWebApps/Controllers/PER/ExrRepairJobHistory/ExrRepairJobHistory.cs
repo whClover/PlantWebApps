@@ -720,7 +720,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 Msg = "Not Available";
                 return RedirectToAction(nameof(Index));
             }
-            if (fdocType != "3" && fdocTypeValue == "")
+            if (creportType == "2" && fdocType != "3" && fdocTypeValue == "")
             {
                 Stat = "error";
                 Msg = "Please Select DN Number And Its Value";
@@ -734,6 +734,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             tempfilter = ApplyFilterCategory(cwoCategory, cwoTypeValue, tempfilter);
 
             var fdocTypeCategory = FilterHelper.SelectFdocTypeFilter(fdocType);
+            tempfilter = ApplyFilterCategory(fdocType, ccompIdValue, tempfilter);
 
             var ccompIdTypeCategory = FilterHelper.SelectCCompIdTypeFilter(ccompIdType);
             tempfilter = ApplyFilterCategory(ccompIdTypeCategory, ccompIdValue, tempfilter);
@@ -816,10 +817,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
 
             var cReportTypeValue = FilterHelper.SelectCreportType(creportType);
-            cReportTypeQuery = ApplyCreportTypeQuery(cReportTypeValue, fdocTypeCategory, Utility.Evar(fdocTypeValue, 1));
+            _tempfilter = Utility.VarFilter(tempfilter);
+            cReportTypeQuery = ApplyCreportTypeQuery(cReportTypeValue, _tempfilter);
             var plusFilter = $"{cReportTypeQuery}{tempfilter})";
 
             string dataQuery = $"{plusFilter}";
+            Console.WriteLine(dataQuery);
             DataTable data = SQLFunction.execQuery(dataQuery);
             string fileName = "External Repair Job History.xlsx";
 
@@ -964,26 +967,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult CreateAN()
         {
-            loadoption();
-            var eSpv = ViewBag.spvdesc;
-            var eRepairBy = ViewBag.repairby;
-
-            ViewBag.Project = "BSF";
-            ViewBag.JobNo = "503002";
-            ViewBag.ShipmentDate = DateTime.Now;
-            ViewBag.AttentionTo = eRepairBy;
-
-            //string tempstring = $"select displayName from v_AddressBook ";
-            //var rst2 = SQLFunction.execQuery(tempstring);
-
-            //foreach (DataRow row in rst2.Rows)
-            //{
-            //    string eName = row["DisplayName"].ToString();
-            //    ViewBag.cHandledBy = eName;
-            //    ViewBag.DetailVisible = false;
-            //}
-
-            return View("~/Views/PER/ExrRepairJobHistory/CreateAN/CreateAN.cshtml");
+            return Redirect("/JobDispatch/Add");
         }
         public IActionResult CSave()
         {
@@ -1174,11 +1158,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return currentFilter;
         }
-        private string ApplyCreportTypeQuery(string value, string fdoc, string fdocTypeValue)
+        private string ApplyCreportTypeQuery(string value, string filter)
         {
-            if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(fdoc) && !string.IsNullOrEmpty(fdocTypeValue))
+            if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(filter))
             {
-                return $"{value} WHERE {fdoc} = {fdocTypeValue}";
+                return $"{value}{filter}";
             }
             return value + ")";
         }

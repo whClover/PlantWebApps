@@ -252,28 +252,6 @@ namespace PlantWebApps.Helper
             else
                 return string.Empty;
         }
-		//private static bool IsNumeric(object value)
-		//{
-		//	double temp;
-		//	return double.TryParse(value.ToString(), out temp);
-		//}
-		//public static object CalcVar(object value1, object value2)
-		//{
-		//	object result = "";
-
-		//	if (!IsNumeric(value1))
-		//	{
-		//		return result;
-		//	}
-		//	else if (!IsNumeric(value2))
-		//	{
-		//		return result;
-		//	}
-
-		//	result = Convert.ToDouble(value1) - Convert.ToDouble(value2);
-
-		//	return result;
-		//}
 		public static IActionResult ExportDataTableToExcel(DataTable dataTable, string fileName)
         {
             // Create a new Excel package
@@ -305,6 +283,44 @@ namespace PlantWebApps.Helper
                 {
                     FileDownloadName = fileName
                 };
+            }
+        }
+        public static void LaunchArrayToExcel(object[] arrerr)
+        {
+            int rowCount = arrerr.Length;
+            if (rowCount <= 0)
+                return;
+
+            string[] firstRowData = arrerr[0].ToString().Split(',');
+            int colCount = firstRowData.Length;
+
+            if (colCount <= 0)
+                return;
+
+            using (ExcelPackage excelPackage = new ExcelPackage())
+            {
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+                for (int iRow = 0; iRow < rowCount; iRow++)
+                {
+                    string[] rowData = arrerr[iRow].ToString().Split(',');
+                    for (int iCol = 0; iCol < colCount; iCol++)
+                    {
+                        worksheet.Cells[iRow + 1, iCol + 1].Value = rowData[iCol];
+                    }
+                }
+
+                using (ExcelRange headerRange = worksheet.Cells[1, 1, 1, colCount])
+                {
+                    headerRange.Style.Font.Bold = true;
+                    headerRange.Style.Font.Color.SetColor(Color.White);
+                    headerRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    headerRange.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 104, 186));
+                }
+
+                worksheet.Cells.AutoFitColumns();
+
+                excelPackage.SaveAs(new System.IO.FileInfo("output.xlsx"));
             }
         }
         public static string CheckNull(object value)

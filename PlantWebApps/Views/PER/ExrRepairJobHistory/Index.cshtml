@@ -145,6 +145,10 @@
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/CreateAN">
                             CREATE AN
                         </button>
+                        <div class="btn btn-primary btn-file col-1 d-flex align-items-center justify-content-center" id="btnUploadWo" name="CANFPUpload" style="max-height: 32px;">
+                            Upload WO
+                            <input type="file" id="uploadWo" name="uploadWo" accept=".txt, .tsv">
+                        </div>
                     </div>
 
                     <!-- right offcanvas -->
@@ -237,6 +241,28 @@
         </div>
     </div>
 </form>
+
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
+        }
+</style>
 
 
 <script>
@@ -367,5 +393,37 @@
                 }
             });
         }
+
+        $('#uploadWo').on('change', function () {
+            console.log("clicked");
+
+            var file = this.files[0];
+
+            var formData = new FormData();
+            formData.append("fileData", file);
+
+            console.log("file data is", formData);
+
+            $.ajax({
+                method: "POST",
+                url: "/UploadWO/Index",
+                dataType: 'json',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response == "ok") {
+                        Swal.fire("Upload WO Process Is Running", "", "info");
+                    } else if (response == "error") { 
+                        Swal.fire("Upload Wo Failed", "", "error");
+                    }
+                },
+                error: function (error) {
+                    // Handle error response here
+                }
+            });
+        });
+
+
     });
 </script>
