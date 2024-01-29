@@ -1,0 +1,100 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="modal fade" id="frm_uploadIMGExrJob" tabindex="-1" aria-labelledby="frm_uploadIMGExrJob" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Upload Exr Job Inspection IMG</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div>Before Uploading:</div>
+                    <div>1. Ensure The Image's Name Format (WO Number_Image Name)</div>
+                    <div>2. Max Size Per File Is 1.5 MB</div>
+                    <div class="col-12 mt-2">
+                        <div class="col-5">
+                            <label for="selectType" class="form-label">Select Inspection Type</label>
+                            <select class="form-select" id="selectType">
+                                <option></option>
+                                <option value="OldCoreInspect">Old Core Inspection</option>
+                                <option value="FinalInspect">Final Inspection</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <div class="btn btn-primary btn-file col-4 d-flex align-items-center justify-content-center">
+                            Upload Image
+                            <input class="form-control form-control-sm" type="file" id="uploadImage" name="uploadImage" accept="image/*" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
+        }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#uploadImage').on('change', function () {
+            var eType = $('#selectType').val();
+
+            var file = this.files[0];
+            var formData = new FormData();
+            formData.append("formData", file);
+
+            $.ajax({
+                method: "POST",
+                url: `/ExrRepairJobHistoryInspection/UploadIndexImage?type=${eType}`,
+                dataType: 'json',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response == "invalid format") {
+                        Swal.fire("File Must Be An Image", "", "error");
+                    } else if (response == "not exist") {
+                        Swal.fire("Not Uploaded. This WO Is Not Registered At Exr Job Detail", "", "error");
+                    } else if (response == "ok") { 
+                        Swal.fire("Image Uploaded", "", "success");
+                    }
+                },
+                error: function (error) {
+                    // Handle error response here
+                }
+            });
+        });
+    });
+</script>

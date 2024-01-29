@@ -1,19 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantWebApps.Helper;
-using System.Data;
-using System.Drawing;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
-    public class UploadWO : Controller
+    public class Upload : Controller
     {
-        [TempData]
-        public String Msg { get; set; }
-        [TempData]
-        public String Stat { get; set; }
-        public async Task<ActionResult> Index(IFormFile fileData)
+        public async Task<ActionResult> WO(IFormFile fileData)
         {
-            //await DelayAsync(10000);
             var fileName = Path.GetFileName(fileData.FileName);
             var directory = Path.Combine(Directory.GetCurrentDirectory(), "temp"); // local
             var filePath = Path.Combine(directory, fileName);
@@ -48,16 +41,58 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 {
                     return new JsonResult("error");
                 }
-                return RedirectToAction(nameof(DownloadExcelFile));
-			}
+                return new JsonResult("ok");
+            }
 			else
 			{
 				return new JsonResult("not found"); ;
 			}
         }
+        public async Task<ActionResult> OP(IFormFile fileData)
+        {
+            var fileName = Path.GetFileName(fileData.FileName);
+            var directory = Path.Combine(Directory.GetCurrentDirectory(), "temp"); // local
+            var filePath = Path.Combine(directory, fileName);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await fileData.CopyToAsync(stream);
+            }
+
+            FileInfo fileInfo = new FileInfo(filePath);
+            if (fileInfo.Exists)
+            {
+                string upload = await UploadOP(filePath);
+
+
+                if (upload == "invalid")
+                {
+                    return new JsonResult("invalid");
+                }
+
+                if (upload == "finish")
+                {
+                    return new JsonResult("finish");
+                }
+
+                if (upload == "error")
+                {
+                    return new JsonResult("error");
+                }
+                return new JsonResult("ok");
+            }
+            else
+            {
+                return new JsonResult("not found"); ;
+            }
+        }
         private async Task<string> UploadWo(string filePath)
         {
-            Console.WriteLine("UploadWO");
             try
             {
                 int estatusid = 1;
@@ -144,12 +179,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     {
                         try
                         {
-                            Console.WriteLine("i is" + i);
                             string eLineInput = reader.ReadLine();
                             string eLa = eLineInput;
                             if (i == 0)
                             {
-                                Console.WriteLine("fill header");
                                 string[] hea = eLa.Split('\t');
                                 for (int h = 0; h < hea.Length; h++)
                                 {
@@ -190,14 +223,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                 }
                                 if (kUnitNumber == -1 || kWONo == -1 || kParentWO == -1 || kSupervisor == -1 || kAddressNo == -1 || kStatusComment == -1 || kMaintType == -1 || kRequestedDate == -1)
                                 {
-                                    Stat = "warning";
-                                    Msg = "Invalid Input File. Please Ensure You are downloading the JDE data right format";
                                     return "invalid";
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("fill data");
                                 string[] data = eLa.Split('\t');
 
                                 string[] arrerr = new string[1];
@@ -280,7 +310,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                 }
 
                                 string generalQuery = $"Select * from tbl_WODetail Where WONo= {eChildWO}";
-                                Console.WriteLine(generalQuery);
 
                                 var generalData = SQLFunction.execQuery(generalQuery);
 
@@ -297,8 +326,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                                     WoUpdateDate = {eWoUpdateDate}, AddressNo = {eAddressNo}, LastUpdate = {Utility.Evar(Utility.getDate(), 2)},
                                                     LastUpdateBy = {Utility.ebyname()} WHERE WONO= {eChildWO}";
 
-                                    Console.WriteLine(query);
-
                                     SQLFunction.execQuery(query);
                                 }
                                 else
@@ -314,8 +341,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                                     , {eManager}, {esupervisorid}, {eAssignedTo}, {eDocDate}, {eStatusComment}, 
                                                     {eStoreID}, {eUserID}, {eWoUpdateDate}, {eAddressNo}, 
                                                     {Utility.Evar(Utility.getDate(), 2)}, {Utility.ebyname()})";
-
-                                    Console.WriteLine(query);
 
                                     SQLFunction.execQuery(query);
                                 }
@@ -338,7 +363,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                     string query = $@"INSERT INTO dbo_tbl_Supervisor (SupervisorID,SupervisorDesc) VALUES ({esupervisorid},
                                                     {eSupervisorDesc})";
 
-                                    Console.WriteLine(query);
                                     SQLFunction.execQuery(query);
                                 }
 
@@ -353,7 +377,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                         string query = $@"INSERT INTO tbl_SupplierList (SupplierID,SupplierName) VALUES ({eAssigned},
                                                     {eAssignedDesc})";
 
-                                        Console.WriteLine(query);
                                         SQLFunction.execQuery(query);
                                     }
                                 }
@@ -369,7 +392,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                         string query = $@"INSERT INTO tbl_MaintType (MaintType,MaintDesc) VALUES ({emainttype},
                                                     {eMaintDesc})";
 
-                                        Console.WriteLine(query);
                                         SQLFunction.execQuery(query);
                                     }
                                 }
@@ -422,7 +444,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                     {eReasonTypeID}, {Utility.ebyname()}, {Utility.Evar(Utility.getDate(), 2)}, 0, {Utility.Evar(Utility.getDate(), 2)},
                                     {Utility.ebyname()})";
 
-                                    Console.WriteLine(query);
 
                                     it += 1;
                                 }
@@ -457,7 +478,71 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 return "error";
             }
         }
-        private ActionResult DownloadExcelFile()
+        private async Task<string> UploadOP(string filePath)
+        {
+            try
+            {
+                int i = 0;
+                int kORNo = -1;
+                int kOPNO = -1;
+                int kDocDate = -1;
+
+                string eORNo = "";
+                string eOPNo = "";
+                string eDocDate = "";
+
+                using (var reader = new StreamReader(new FileStream(filePath, FileMode.Open)))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        try
+                        {
+                            string eLineInput = reader.ReadLine();
+                            string eLa = eLineInput;
+                            if (i == 0)
+                            {
+                                string[] hea = eLa.Split('\t');
+                                for (int h = 0; h < hea.Length; h++)
+                                {
+                                    if (hea[h] == "Orig Doc No. [F4311]") kORNo = h;
+                                    if (hea[h] == "Doc No. [F4311]") kOPNO = h;
+                                    if (hea[h] == "Doc Date [F4311]") kDocDate = h;
+
+                                }
+                                if (kORNo == -1 || kOPNO == -1)
+                                {
+                                    return "invalid";
+                                }
+                            }
+                            else
+                            {
+                                string[] data = eLa.Split('\t');
+
+                                eORNo = Utility.Evar(data[kORNo], 1);
+                                eOPNo = Utility.Evar(data[kOPNO], 1);
+                                eDocDate = Utility.Evar(data[kDocDate], 1);
+
+                                string query = @$"update tbl_ExrJobDetail set OPNo={eOPNo}, OPDate={eDocDate}, 
+                                                where ORNo={eORNo} and OPNo is null";
+                                Console.WriteLine(query);
+                                //SQLFunction.execQuery(query);
+                            }
+                            i++;
+                        }
+                        catch (Exception ex)
+                        {
+                            return "error";
+                        }
+                    }
+                }
+                return "finish";
+            }
+            catch (Exception ex)
+            {
+                return "error";
+            }
+        }
+        public ActionResult DownloadExcelFile()
         {
             string tempPath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
             string filePath = Path.Combine(tempPath, "output.xlsx");
@@ -468,8 +553,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
-            return File(filePath, contentType, "output.xlsx");
+            return PhysicalFile(filePath, contentType, "output.xlsx");
         }
     }
 }

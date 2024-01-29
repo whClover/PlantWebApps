@@ -97,6 +97,7 @@
     }
 </script>
 
+
 <form method="post" enctype="multipart/form-data" asp-controller="ExrRepairJobHistory">
     <div class="row">
         <div class="col-12">
@@ -145,9 +146,17 @@
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/CreateAN">
                             CREATE AN
                         </button>
-                        <div class="btn btn-primary btn-file col-1 d-flex align-items-center justify-content-center" id="btnUploadWo" name="CANFPUpload" style="max-height: 32px;">
-                            Upload WO
-                            <input type="file" id="uploadWo" name="uploadWo" accept=".txt, .tsv">
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                data-bs-target="#frm_uploadWOExrJob">
+                                Upload WO
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#frm_uploadIMGExrJob">
+                            Upload Image
+                        </button>
+                        <div class="btn btn-primary btn-sm btn-file d-flex align-items-center justify-content-center">
+                            Upload OP
+                            <input class="form-control form-control-sm" type="file" id="uploadOP" name="uploadOP" accept=".txt, .tsv">
                         </div>
                     </div>
 
@@ -242,28 +251,8 @@
     </div>
 </form>
 
-<style>
-    .btn-file {
-        position: relative;
-        overflow: hidden;
-    }
-
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 100%;
-            min-height: 100%;
-            font-size: 100px;
-            text-align: right;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            outline: none;
-            cursor: inherit;
-            display: block;
-        }
-</style>
-
+<partial name="Form/Component/Modal/frm_uploadWOExrJob.cshtml" />
+<partial name="Form/Component/Modal/frm_uploadIMGExrJob.cshtml" />
 
 <script>
     $(document).ready(function () {
@@ -394,30 +383,30 @@
             });
         }
 
-        $('#uploadWo').on('change', function () {
+        $('#uploadOP').on('change', function () {
 
             var file = this.files[0];
             var formData = new FormData();
             formData.append("fileData", file);
 
-            Swal.fire("Upload WO Process Is Running", "", "info");
+            Swal.fire("Upload OP Process Is Running", "", "info");
 
             $.ajax({
                 method: "POST",
-                url: "/UploadWO/Index",
+                url: "/Upload/OP",
                 dataType: 'json',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function (response) {
                     if (response == "error") {
-                        Swal.fire("Upload Wo Failed", "", "error");
+                        Swal.fire("Upload OP Failed", "", "error");
                     } else if (response == "invalid") {
                         Swal.fire("Invalid Input File. Please Ensure You are downloading the JDE data right format", "", "error");
-                    } else if (response == "finish") { 
-                        Swal.fire("Upload WO Completed", "", "success");
                     } else if (response == "not found") {
                         Swal.fire("File Not Found", "", "error");
+                    } else if (response == "finish") {
+                        Swal.fire("Upload OP Completed", "", "success");
                     }
                 },
                 error: function (error) {
@@ -425,7 +414,6 @@
                 }
             });
         });
-
 
     });
 </script>
