@@ -1,0 +1,94 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="modal fade" id="frm_uploadWOExrJob" tabindex="-1" aria-labelledby="frm_uploadWOExrJob" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Upload WO To Exr Job</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div>Before Uploading:</div>
+                    <div>1. Download All Data From JDE (Show All Column)</div>
+                    <div>2. Copy to Microsoft Excel Files</div>
+                    <div>3. Save File as Type : Text(Tab Delimited) (*.TXT)</div>
+                    <div class="btn btn-primary btn-file d-flex align-items-center justify-content-center mt-2 ms-2">
+                        Upload Work Order
+                        <input type="file" id="uploadWo" name="uploadWo" accept=".txt, .tsv">
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
+        }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#uploadWo').on('change', function () {
+
+            var file = this.files[0];
+            var formData = new FormData();
+            formData.append("fileData", file);
+
+            Swal.fire("Upload WO Process Is Running", "", "info");
+
+            $.ajax({
+                method: "POST",
+                url: "/Upload/WO",
+                dataType: 'json',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response == "error") {
+                        Swal.fire("Upload Wo Failed", "", "error");
+                    } else if (response == "invalid") {
+                        Swal.fire("Invalid Input File. Please Ensure You are downloading the JDE data right format", "", "error");
+                    } else if (response == "not found") {
+                        Swal.fire("File Not Found", "", "error");
+                    } else if (response == "finish") {
+                        Swal.fire("Upload WO Completed", "", "success");
+                        window.open("/Upload/DownloadExcelFile", "_blank");
+                    }
+                },
+                error: function (error) {
+                    // Handle error response here
+                }
+            });
+        });
+    });
+</script>

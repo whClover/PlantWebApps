@@ -11,7 +11,7 @@
         if (id != "") {
             $.ajax({
                 method: "POST",
-                url: "/TCRP/ViewAttachment",
+                url: "/TCRC_Attachment/ViewAttachment",
                 dataType: 'json',
                 data: {
                     id: id,
@@ -39,7 +39,7 @@
                             if (result.isConfirmed) {
                                 $.ajax({
                                     method: "POST",
-                                    url: "/TCRP/OpenAttachment",
+                                    url: "/TCRC_Attachment/OpenAttachment",
                                     dataType: 'json',
                                     data: {
                                         tempfile: response.tempfile,
@@ -90,7 +90,7 @@
     </div>
 </div>
 
-<form method="post" enctype="multipart/form-data" asp-controller="TCRP">
+<form method="post" enctype="multipart/form-data" asp-controller="TCRC_Attachment">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -256,7 +256,7 @@
             $('#loadingOverlay').show();
 
             $.ajax({
-                url: '@Url.Action("LoadData", "TCRP")',
+                url: '@Url.Action("LoadData", "TCRC_Attachment")',
                 type: 'GET',
                 dataType: 'json',
                 data: {

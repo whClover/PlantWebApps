@@ -5,34 +5,56 @@
     @using System.Data;
 }
 
-<div class="col border" >
+<script>
+    function viewAttachment(path) {
+        window.location.href = "/ExrRepairJobHistory/ViewAttachment?filepath=" + path;
+    };
+
+    function testFunction () {
+        console.log("test");
+    }
+
+</script>
+
+<div class="col border">
     <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
         <p class="fs-5">Attachment</p>
-        <div class="d-flex justify-content-around" style="gap: 10px;">
-            <button id="Command4496" name="Command4496" type="button" class="btn btn-secondary">Add</button>
-            <button id="Command4497" name="Command4497" type="button" class="btn btn-secondary">Edit</button>
-            <button id="Command4498" name="Command4498" type="button" class="btn btn-secondary">Delete</button>
-            <button id="Command4499" name="Command4499" type="button" class="btn btn-secondary">AN Dispatch</button>
-            <button id="Command4500" name="Command4500" type="button" class="btn btn-secondary">View</button>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
+        <div id="tableContainer" class="table-responsive">
+            <table id="myTable" class="table attachTable mb-0 table-sm table-striped table-bordered">
                 <thead class="table-light">
                     <tr>
-                        <th>Attachment Type</th>
-                        <th>File Path</th>
+                        <th></th>
+                        <th>ID</th>
+                        <th>AttachmentType</th>
+                        <th>FilePath</th>
+                        <th class="d-none">FullPath</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (DataRow row in ViewBag.ListAttachment.Rows)
+                    @* @foreach (DataRow row in ViewBag.ListAttachment.Rows)
                     {
                         <tr>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="viewAttachment('@row["FullPath"].ToString().Replace("\\", "\\\\")')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0" />
+                                    </svg>
+                                </button>
+                            </td>
+                            <td>@row["ID"]</td>
                             <td>@row["AttachmentType"]</td>
-                            <td>@row["FilePath"]</td>
+                            <td style="width: 10%">@row["FilePath"]</td>
+                            <td class="d-none">@row["FullPath"]</td>
                         </tr>
-                    }
+                    } *@
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script>
+        $('#btnDeleteDetail').on("click", function () {
+            console.log("clicked");
+        });
+</script>

@@ -4,20 +4,21 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 
-namespace PlantWebApps.Controllers.TCRP
+namespace PlantWebApps.Controllers.TCRC.Attachment
 {
-    public class TCRP : Controller
+    public class TCRC_Attachment : Controller
     {
         private string _tempfilter;
         [TempData]
-        public String Msg { get; set; }
+        public string Msg { get; set; }
         [TempData]
-        public String Stat { get; set; }
+        public string Stat { get; set; }
         public IActionResult DetailAttachment(string wono)
         {
             LoadOption();
             ViewBag.wono = wono;
-            return View("~/Views/TCRP/DetailAttachment/Index.cshtml");
+
+            return View("~/Views/TCRC/Attachment/Index.cshtml");
         }
         public IActionResult LoadData(string wono, string jobNumber, string statusInput)
         {
@@ -67,8 +68,8 @@ namespace PlantWebApps.Controllers.TCRP
             }
             return new JsonResult(rows);
         }
-        public IActionResult ViewAttachment(string id) 
-        { 
+        public IActionResult ViewAttachment(string id)
+        {
             Console.WriteLine(id);
 
             string query = $@"Select * from v_IntJobPackageAttachmentRev where ID= {Utility.Evar(id, 0)}";
@@ -89,8 +90,9 @@ namespace PlantWebApps.Controllers.TCRP
                 //string tempfile = $@"{xtemp}{Utility.FileCountB(xtemp)}{lfile}"; //server
                 string localTest = $@"C:\Users\trahayu\AppData\Local\Temp\855915046_1_InternalWOSheet.pdf"; //local
 
-                return new JsonResult(new { 
-                    message = "exist", 
+                return new JsonResult(new
+                {
+                    message = "exist",
                     tempfile = localTest,
                     wono = ewono,
                     category = eCategory,
@@ -104,13 +106,13 @@ namespace PlantWebApps.Controllers.TCRP
         }
         public IActionResult OpenAttachment(string tempfile)
         {
-			Process.Start(new ProcessStartInfo
-			{
-				FileName = tempfile,
-				UseShellExecute = true
-			});
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = tempfile,
+                UseShellExecute = true
+            });
             return new JsonResult("ok");
-		}
+        }
         private void LoadOption()
         {
             string queryWorkType = "SELECT JobNumber, WorkTypeName FROM tbl_WorkType;";

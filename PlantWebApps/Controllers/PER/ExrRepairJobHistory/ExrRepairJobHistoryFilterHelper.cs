@@ -167,7 +167,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     ccompIdTypeCategory = "TCIPARTID";
                 break;
                 case 3:
-                    ccompIdTypeCategory = "ID = ";
+                    ccompIdTypeCategory = "ID";
                     break;
                 case 4:
                     ccompIdTypeCategory = "UnitNumber";
