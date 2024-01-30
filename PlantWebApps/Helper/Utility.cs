@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Principal;
+using System.IO;
 
 namespace PlantWebApps.Helper
 {
@@ -252,28 +253,6 @@ namespace PlantWebApps.Helper
             else
                 return string.Empty;
         }
-		//private static bool IsNumeric(object value)
-		//{
-		//	double temp;
-		//	return double.TryParse(value.ToString(), out temp);
-		//}
-		//public static object CalcVar(object value1, object value2)
-		//{
-		//	object result = "";
-
-		//	if (!IsNumeric(value1))
-		//	{
-		//		return result;
-		//	}
-		//	else if (!IsNumeric(value2))
-		//	{
-		//		return result;
-		//	}
-
-		//	result = Convert.ToDouble(value1) - Convert.ToDouble(value2);
-
-		//	return result;
-		//}
 		public static IActionResult ExportDataTableToExcel(DataTable dataTable, string fileName)
         {
             // Create a new Excel package
@@ -307,6 +286,94 @@ namespace PlantWebApps.Helper
                 };
             }
         }
+        public static void LaunchArrayToExcel(object[] arrerr)
+        {
+            int rowCount = arrerr.Length;
+            if (rowCount <= 0)
+                return;
+
+            string[] firstRowData = arrerr[0].ToString().Split(',');
+            int colCount = firstRowData.Length;
+
+            if (colCount <= 0)
+                return;
+
+            using (ExcelPackage excelPackage = new ExcelPackage())
+            {
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+                for (int iRow = 0; iRow < rowCount; iRow++)
+                {
+                    string[] rowData = arrerr[iRow].ToString().Split(',');
+                    for (int iCol = 0; iCol < colCount; iCol++)
+                    {
+                        worksheet.Cells[iRow + 1, iCol + 1].Value = rowData[iCol];
+                    }
+                }
+
+                using (ExcelRange headerRange = worksheet.Cells[1, 1, 1, colCount])
+                {
+                    headerRange.Style.Font.Bold = true;
+                    headerRange.Style.Font.Color.SetColor(Color.White);
+                    headerRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    headerRange.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 104, 186));
+                }
+
+                worksheet.Cells.AutoFitColumns();
+
+                string directory = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                string filePath = Path.Combine(directory, "output.xlsx");
+                excelPackage.SaveAs(new FileInfo(filePath));
+            }
+        }
+        //public static IActionResult LaunchArrayToExcel(object[] arrerr)
+        //{
+        //    int rowCount = arrerr.Length;
+        //    if (rowCount <= 0)
+        //        return new EmptyResult();
+
+        //    string[] firstRowData = arrerr[0].ToString().Split(',');
+        //    int colCount = firstRowData.Length;
+
+        //    if (colCount <= 0)
+        //        return new EmptyResult();
+
+        //    using (ExcelPackage excelPackage = new ExcelPackage())
+        //    {
+        //        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+        //        for (int iRow = 0; iRow < rowCount; iRow++)
+        //        {
+        //            string[] rowData = arrerr[iRow].ToString().Split(',');
+        //            for (int iCol = 0; iCol < colCount; iCol++)
+        //            {
+        //                worksheet.Cells[iRow + 1, iCol + 1].Value = rowData[iCol];
+        //            }
+        //        }
+
+        //        using (ExcelRange headerRange = worksheet.Cells[1, 1, 1, colCount])
+        //        {
+        //            headerRange.Style.Font.Bold = true;
+        //            headerRange.Style.Font.Color.SetColor(Color.White);
+        //            headerRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+        //            headerRange.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 104, 186));
+        //        }
+
+        //        worksheet.Cells.AutoFitColumns();
+
+        //        byte[] fileBytes = excelPackage.GetAsByteArray();
+        //        return new FileContentResult(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        //        {
+        //            FileDownloadName = "output.xlsx"
+        //        };
+        //    }
+        //}
         public static string CheckNull(object value)
         {
             return value != null ? value.ToString() : "";
