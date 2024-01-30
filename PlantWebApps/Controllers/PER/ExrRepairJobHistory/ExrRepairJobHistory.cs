@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Data.SqlClient;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -524,16 +525,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + eID });
         }
-        public IActionResult LoadData(
-            string repairType, string compType, string statusInput, string supervisorId,
+        private string BuildTempFilter(string repairType, string compType, string statusInput, string supervisorId,
             string supplierId, string cwoType, string cwoTypeValue, string fdocType,
             string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
             string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
             string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
             string repairAdvice, string toCatDesc, string requestP1, string fissNull,
-            string pCam, string sortBy, string ascDesc, string unitnumber)
+            string pCam, string sortBy, string ascDesc, string unitnumber) 
         {
-            loadoption();
             string tempfilter = string.Empty;
 
             var sortByValue = FilterHelper.SelectSortBy(sortBy);
@@ -625,13 +624,30 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 }
             }
 
+            return tempfilter;
+        }
+        public IActionResult LoadData(
+            string repairType, string compType, string statusInput, string supervisorId,
+            string supplierId, string cwoType, string cwoTypeValue, string fdocType,
+            string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
+            string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
+            string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
+            string repairAdvice, string toCatDesc, string requestP1, string fissNull,
+            string pCam, string sortBy, string ascDesc, string unitnumber)
+        {
+            loadoption();
+
+            string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
+                     fdocTypeValue, ccompIdType, ccompIdValue, sDate, startDate, endDate, lmodBy, lmodByValue, reasonTypeId,
+                     freasonType, freasonValue, cbDelay, cbDelayValue, repairAdvice, toCatDesc, requestP1, fissNull, pCam,
+                     sortBy, ascDesc, unitnumber);
+
             var sort = ascDesc;
             string sortOrder = string.IsNullOrEmpty(sort) ? "desc" : sort;
 
-            _tempfilter = Utility.VarFilter(tempfilter);
-            Console.WriteLine(_tempfilter);
+            _tempfilter = Utility.VarFilter(filter);
             string dataQuery = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {_tempfilter} AND StatusID != '9' order by id {sortOrder}";
-            Console.WriteLine(dataQuery);
+            Console.WriteLine("Load Data " + dataQuery);
             var data = SQLFunction.execQuery(dataQuery);
             var rows = new List<object>();
 
@@ -1050,6 +1066,44 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult FinalInspection()
         {
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/FinalInvestigation.cshtml");
+        }
+        public IActionResult IndexPrintOldCore(string repairType, string compType, string statusInput, string supervisorId,
+            string supplierId, string cwoType, string cwoTypeValue, string fdocType,
+            string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
+            string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
+            string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
+            string repairAdvice, string toCatDesc, string requestP1, string fissNull,
+            string pCam, string sortBy, string ascDesc, string unitnumber) 
+        {
+            Console.WriteLine("repair type" + repairType);
+            string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
+                     fdocTypeValue, ccompIdType, ccompIdValue, sDate, startDate, endDate, lmodBy, lmodByValue, reasonTypeId,
+                     freasonType, freasonValue, cbDelay, cbDelayValue, repairAdvice, toCatDesc, requestP1, fissNull, pCam,
+                     sortBy, ascDesc, unitnumber);
+
+            Console.WriteLine("Filter " + filter);
+
+            _tempfilter = Utility.VarFilter(filter);
+            string query = $"SELECT TOP 10 * FROM v_ExrJobDetailRev1 {_tempfilter} AND ResultEOI is not null";
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            Console.WriteLine("Load Data " + query);
+
+            if (data.Rows.Count > 0)
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var ID = Utility.CheckNull(row["ID"]);
+                    rows.Add("/ExrRepairJobHistoryInspection/OldReport/" + ID);
+                }
+            }
+            else 
+            { 
+                return new JsonResult("not found");
+            }
+            return new JsonResult(rows);
         }
         // load option for dropdown
         private void loadoption()

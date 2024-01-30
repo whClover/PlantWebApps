@@ -413,27 +413,7 @@
 				Swal.fire("please Fill Hold Untill", "", "warning");
 				return
 			} else if ($("#tWOFitToUnit").val() !=  $("#tWOFitToUnitID").val()) {
-				Swal.fire({
-					title: 'Are you sure?',
-					html: `
-								<div style="font-size: 16px; text-align: center;">
-									<div style="margin-bottom: 10px;">
-											Do you want to register this WOFitToUnit as Outstanding Job? ?
-									</div>
-								</div>
-							`,
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#008000',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, i do!'
-				}).then((result) => {
-					if (result.isConfirmed) {
-						handleSave();
-					} else { 
-						return
-					}
-				});
+				
 			} else {
 				handleSave();
 			}
