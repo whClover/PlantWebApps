@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Principal;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PlantWebApps.Helper
 {

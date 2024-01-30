@@ -402,24 +402,46 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        $('#CPrintOldCore').on('click', async function () {
-            var index = 0;
-            var extractedData = extractData();
-            try {
-                var response = await $.ajax({
-                    method: "POST",
-                    url: "/ExrRepairJobHistory/IndexPrintOldCore",
-                    data: extractedData,
-                });
+        // $('#CPrintOldCore').on('click', async function () {
+        //     var index = 0;
+        //     var extractedData = extractData();
+        //     try {
+        //         var response = await $.ajax({
+        //             method: "POST",
+        //             url: "/ExrRepairJobHistory/IndexPrintOldCore",
+        //             data: extractedData,
+        //         });
 
-                for (const item of response) {
-                    console.log("item is", item);
-                    window.open(item, "_self");
-                    await delay(4000); // Delay in milliseconds between each item opening
+        //         for (const item of response) {
+        //             console.log("item is", item);
+        //             window.open(item, "_self");
+        //             await delay(4000); // Delay in milliseconds between each item opening
+        //         }
+        //     } catch (error) {
+        //         // Handle error response here
+        //     }
+        // });
+
+        $('#CPrintOldCore').on('click', function () {
+            var extractedData = extractData();
+            $.ajax({
+                method: "POST",
+                url: "/ExrRepairJobHistory/IndexPrintOldCore",
+                data: extractedData,
+                success: function (response) {
+                    var length = response.length;
+
+                    for (var i = 0; i < length; i++) {
+                        var item = response[i];
+                        var newTab = window.open(item, "_blank");
+                        newTab.blur();
+                        window.focus();
+                    }
+                },
+                error: function (error) {
+                    // Handle error response here
                 }
-            } catch (error) {
-                // Handle error response here
-            }
+            });
         });
 
     });
