@@ -5,63 +5,340 @@
 <div id="mform" class="modal fade exampleModalFullscreen" tabindex="-1"
      aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header justify-content-between d-flex align-items-center">
-                <h4 class="modal-title">WO Subject</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5>Overflowing text to show scroll behavior</h5>
-                <p>
-                    Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in,
-                    egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
-                </p>
-                <p>
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Vivamus sagittis lacus vel
-                    augue laoreet rutrum faucibus dolor auctor.
-                </p>
-                <p>
-                    Aenean lacinia bibendum nulla sed consectetur.
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Donec sed odio dui. Donec
-                    ullamcorper nulla non metus auctor
-                    fringilla.
-                </p>
-                <p>
-                    Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in,
-                    egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
-                </p>
-                <p>
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Vivamus sagittis lacus vel
-                    augue laoreet rutrum faucibus dolor auctor.
-                </p>
-                <p>
-                    Aenean lacinia bibendum nulla sed consectetur.
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Donec sed odio dui. Donec
-                    ullamcorper nulla non metus auctor
-                    fringilla.
-                </p>
-                <p>
-                    Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in,
-                    egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary ">Save changes</button>
-            </div>
-        </div><!-- /.modal-content -->
+        <form id="formfilter" method="post" enctype="multipart/form-data" action="#">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between d-flex align-items-center">
+                    <h6>WO Subject</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3 border p-0">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td colspan="2" class="bg-soft-secondary fw-bold">
+                                        Job Information
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Int.WO <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="wono" name="wono" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Component Qty</td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="compqty" name="compqty" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Parent WO <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="parentwo" name="parentwo" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Job Desc</td>
+                                    <td>
+                                        <textarea class="form-control form-control-sm" id="jobdesc" name="jobdesc" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Work Type <span class="text-danger">*</span></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="worktype" name="worktype">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Unit No</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="unitno" name="unitno">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Unit Desc <span class="text-danger">*</span></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="unitno" name="unitno">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Maint Type</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" id="parentwo" name="parentwo" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Stand Req</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="standreq" name="standreq">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Priority</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="priority" name="priority">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Current Loc</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="currentloc" name="currentloc">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ex Store <span class="text-danger">*</span></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="exstore" name="exstore">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Reason Type <span class="text-danger">*</span></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="reasontype" name="reasontype">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Repair Type <span class="text-danger">*</span></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="repairtype" name="repairtype">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Previous WO</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" id="prevwo" name="prevwo" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Comp.Hour <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" id="comphour" name="comphour" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Life</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="life" name="life">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Current WDV <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" id="comphour" name="comphour" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>JP type <span class="text-danger">*</span></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="life" name="life">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="bg-soft-secondary fw-bold">
+                                        JP Receival Information
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date/Time <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="jpdatetime" name="jpdatetime" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Received By <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="receivedby" name="receivedby" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>AN No <span class="text-danger">*</span></td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="anno" name="anno" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Job SourceID</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" id="jobsourceid" name="jobsourceid">
+                                            <option value="">--blank--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Source PIC</td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="sourcepic" name="sourcepic" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="bg-soft-secondary fw-bold">
+                                        Component Information
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TCI Part No</td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="tcipartno" name="tcipartno" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Desc</td>
+                                    <td>
+                                        <textarea class="form-control form-control-sm" id="tcidesc" name="tcidesc" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>EQ Class</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <select class="form-control form-control-sm"></select>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control form-control-sm" readonly />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-3 border p-0">
+                            <table class="table table-condensed table-sm mb-0">
+                                <tr>
+                                    <td colspan="2" class="bg-soft-secondary fw-bold">
+                                        Promised Date Information
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Original Promised Date</td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="oripromisedDate" name="oripromisedDate" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Revised Promised Date</td>
+                                    <td>
+                                        <input class="form-control form-control-sm" id="revpromisedDate" name="oripromisedDate" />
+                                    </td>
+                                </tr>                               
+                            </table>
+                            <table class="table table-bordered table-sm mb-0">
+                                <tr>
+                                    <td colspan="4" class="bg-soft-secondary fw-bold">
+                                        Schedule Information
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="bg-soft-secondary text-center fw-bold">Promised</td>
+                                    <td class="bg-soft-secondary text-center fw-bold">Actual</td>
+                                    <td class="bg-soft-secondary text-center fw-bold">Overrun</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">Received</td>
+                                    <td></td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Starting</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Completion</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Work Hour</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table table-bordered table-sm">
+                                <tr>
+                                    <td colspan="4" class="bg-soft-secondary fw-bold">
+                                        Labour Information
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="bg-soft-secondary text-center fw-bold">Estimate</td>
+                                    <td class="bg-soft-secondary text-center fw-bold">Actual</td>
+                                    <td class="bg-soft-secondary text-center fw-bold">Var</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">Lab Hour</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" readonly />
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary ">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
