@@ -1089,8 +1089,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             var rows = new List<object>();
 
-            Console.WriteLine("Load Data " + query);
-
             if (data.Rows.Count > 0)
             {
                 foreach (DataRow row in data.Rows)
@@ -1101,6 +1099,40 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             else 
             { 
+                return new JsonResult("not found");
+            }
+            return new JsonResult(rows);
+        }
+        public IActionResult IndexPrintFinalInspection(string repairType, string compType, string statusInput, string supervisorId,
+            string supplierId, string cwoType, string cwoTypeValue, string fdocType,
+            string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
+            string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
+            string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
+            string repairAdvice, string toCatDesc, string requestP1, string fissNull,
+            string pCam, string sortBy, string ascDesc, string unitnumber)
+        {
+            string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
+                     fdocTypeValue, ccompIdType, ccompIdValue, sDate, startDate, endDate, lmodBy, lmodByValue, reasonTypeId,
+                     freasonType, freasonValue, cbDelay, cbDelayValue, repairAdvice, toCatDesc, requestP1, fissNull, pCam,
+                     sortBy, ascDesc, unitnumber);
+
+            _tempfilter = Utility.VarFilter(filter);
+            string query = $"SELECT * FROM v_ExrJobDetailRev1 {_tempfilter} AND ResultSFI is not null";
+            Console.WriteLine(query);
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            if (data.Rows.Count > 0)
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var ID = Utility.CheckNull(row["ID"]);
+                    rows.Add("/ExrRepairJobHistoryInspection/Report/" + ID);
+                }
+            }
+            else
+            {
                 return new JsonResult("not found");
             }
             return new JsonResult(rows);

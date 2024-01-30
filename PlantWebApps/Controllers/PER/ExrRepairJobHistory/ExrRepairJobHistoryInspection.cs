@@ -263,7 +263,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult OldReport(string ID)
         {
-            Console.WriteLine(ID);
             string jobId = ID;
             string servername = "https://localhost:5001/";
             string namafile;
@@ -477,6 +476,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string namafile;
             string namafile2;
             string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
             if (!Directory.Exists(savePath))
             {
@@ -486,14 +486,13 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             ProcessStartInfo psi = new ProcessStartInfo
             {
                 FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportFooter" +
-                   "\" --footer-spacing 3  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportHeader" +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
-
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"\"https://{host}/ExrRepairJobHistoryInspection/FinalReportBody/{ID}\" " +
+                            $"--footer-html \"https://{host}/ExrRepairJobHistoryInspection/FinalReportFooter\" " +
+                            $"--footer-spacing 3 --header-html \"https://{host}/ExrRepairJobHistoryInspection/FinalReportHeader\" " +
+                            $"--header-spacing 3 \"{namafile}\""
             };
+
             Process p = new Process { StartInfo = psi };
             p.Start();
             p.WaitForExit();

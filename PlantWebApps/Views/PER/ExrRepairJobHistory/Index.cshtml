@@ -111,59 +111,69 @@
                             @* <small>Total Records: @ViewBag.TotalRecords Rows</small> *@
                         </blockquote>
                     </div>
-                    <div class="d-flex mb-2 align-items-center" style="gap: 5px">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <i class="fa fa-filter me-2"></i> FILTER
-                        </button>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add" @isAdd>
-                            <i class="fa fa-plus me-2"></i> ADD
-                        </button>
-                        <div>
-                            <select name="creportype" class="form-select" style="width: 160px;">
-                                <option value="">*Select Export Type*</option>
-                                <option value="1">Job Detail</option>
-                                <option value="2">OR Request TCI</option>
-                                <option value="3">OR Request LCI</option>
-                                <option value="4">Inspection Detail</option>
-                                <option value="5">Core Component</option>
-                                <option value="6">Main Component</option>
-                                <option value="7">Unit Job Detail</option>
-                                <option value="8">Complete Component</option>
-                                <option value="9">Warranty Report</option>
-                                <option value="10">WIP Report</option>
-                                <option value="11">Variance Analysis</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
-                            <i class="fa fa-download me-2"></i> EXPORT
-                        </button>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/Index">
-                            CE
-                        </button>
-                        <button type="submit" class="btn d-none btn-sm btn-primary" formaction="/JournalDetail/Index">
-                            DISPATCH
-                        </button>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/CreateAN">
-                            CREATE AN
-                        </button>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-                                data-bs-target="#frm_uploadWOExrJob">
+                    <div class="d-flex flex-column">
+                        <div class="d-flex mb-2 align-items-center" style="gap: 5px">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                <i class="fa fa-filter me-2"></i> FILTER
+                            </button>
+                            <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add" @isAdd>
+                                <i class="fa fa-plus me-2"></i> ADD
+                            </button>
+                            <div>
+                                <select name="creportype" class="form-select" style="width: 160px;">
+                                    <option value="">*Select Export Type*</option>
+                                    <option value="1">Job Detail</option>
+                                    <option value="2">OR Request TCI</option>
+                                    <option value="3">OR Request LCI</option>
+                                    <option value="4">Inspection Detail</option>
+                                    <option value="5">Core Component</option>
+                                    <option value="6">Main Component</option>
+                                    <option value="7">Unit Job Detail</option>
+                                    <option value="8">Complete Component</option>
+                                    <option value="9">Warranty Report</option>
+                                    <option value="10">WIP Report</option>
+                                    <option value="11">Variance Analysis</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
+                                <i class="fa fa-download me-2"></i> EXPORT
+                            </button>
+                            <button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/Index">
+                                CE
+                            </button>
+                            <button type="submit" class="btn d-none btn-sm btn-primary" formaction="/JournalDetail/Index">
+                                DISPATCH
+                            </button>
+                            <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/CreateAN">
+                                CREATE AN
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#frm_uploadWOExrJob">
                                 Upload WO
-                        </button>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#frm_uploadIMGExrJob">
-                            Upload Image
-                        </button>
-                        <div class="btn btn-primary btn-sm btn-file d-flex align-items-center justify-content-center">
-                            Upload OP
-                            <input class="form-control form-control-sm" type="file" id="uploadOP" name="uploadOP" accept=".txt, .tsv">
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#frm_uploadIMGExrJob">
+                                Upload Image
+                            </button>
+                            <div class="btn btn-primary btn-sm btn-file d-flex align-items-center justify-content-center">
+                                Upload OP
+                                <input class="form-control form-control-sm" type="file" id="uploadOP" name="uploadOP" accept=".txt, .tsv">
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm" id="CPrintOldCore" name="CPrintOldCore">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf-fill" viewBox="0 0 16 16">
-                                <path d="M5.523 10.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 4.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
-                                <path fill-rule="evenodd" d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.6 11.6 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103" />
-                            </svg> Old Core Inspection
-                        </button>
+                        <div class="d-flex mb-2 align-items-center" style="gap: 5px">
+                            <button type="button" class="btn btn-primary btn-sm" id="CPrintOldCore" name="CPrintOldCore">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf-fill" viewBox="0 0 16 16">
+                                    <path d="M5.523 10.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 4.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
+                                    <path fill-rule="evenodd" d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.6 11.6 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103" />
+                                </svg> Old Core Inspection
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" id="CPrintFinalInspection" name="CPrintFinalInspection">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf-fill" viewBox="0 0 16 16">
+                                    <path d="M5.523 10.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 4.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
+                                    <path fill-rule="evenodd" d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.6 11.6 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103" />
+                                </svg> Final Inspection
+                            </button>
+                        </div>
                     </div>
 
                     <!-- right offcanvas -->
@@ -398,51 +408,120 @@
             });
         });
 
+
+        // batch print pdf first way
         function delay(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        // $('#CPrintOldCore').on('click', async function () {
-        //     var index = 0;
-        //     var extractedData = extractData();
-        //     try {
-        //         var response = await $.ajax({
-        //             method: "POST",
-        //             url: "/ExrRepairJobHistory/IndexPrintOldCore",
-        //             data: extractedData,
-        //         });
+        $('#CPrintOldCore').on('click', async function () {
+            Swal.fire({
+                title: "Attention",
+                html: `
+                        <div style="font-size: 16px; text-align: center;">
+                            <div class='d-flex align-items-center flex-column'>
+                                <div>
+                                    Maximum File Process Is 50
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    Please Wait Until All File Processed
+                                </div>
+                            </div>
+                        </div>
+                            `,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Okay"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var index = 0;
+                    var extractedData = extractData();
+                    try {
+                        var response = await $.ajax({
+                            method: "POST",
+                            url: "/ExrRepairJobHistory/IndexPrintOldCore",
+                            data: extractedData,
+                        });
 
-        //         for (const item of response) {
-        //             console.log("item is", item);
-        //             window.open(item, "_self");
-        //             await delay(4000); // Delay in milliseconds between each item opening
-        //         }
-        //     } catch (error) {
-        //         // Handle error response here
-        //     }
-        // });
-
-        $('#CPrintOldCore').on('click', function () {
-            var extractedData = extractData();
-            $.ajax({
-                method: "POST",
-                url: "/ExrRepairJobHistory/IndexPrintOldCore",
-                data: extractedData,
-                success: function (response) {
-                    var length = response.length;
-
-                    for (var i = 0; i < length; i++) {
-                        var item = response[i];
-                        var newTab = window.open(item, "_blank");
-                        newTab.blur();
-                        window.focus();
+                        for (const item of response) {
+                            console.log("item is", item);
+                            window.open(item, "_self");
+                            await delay(4000);
+                        }
+                    } catch (error) {
+                        // Handle error response here
                     }
-                },
-                error: function (error) {
-                    // Handle error response here
                 }
             });
         });
+
+        $('#CPrintFinalInspection').on('click', async function () {
+            Swal.fire({
+                title: "Attention",
+                html: `
+                        <div style="font-size: 16px; text-align: center;">
+                            <div class='d-flex align-items-center flex-column'>
+                                    <div>
+                                    Maximum File Process Is 50
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    Please Wait Until All File Processed
+                                </div>
+                            </div>
+                        </div>
+                            `,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Okay"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var index = 0;
+                    var extractedData = extractData();
+                    try {
+                        var response = await $.ajax({
+                            method: "POST",
+                            url: "/ExrRepairJobHistory/IndexPrintFinalInspection",
+                            data: extractedData,
+                        });
+
+                        for (const item of response) {
+                            console.log("item is", item);
+                            window.open(item, "_self");
+                            await delay(4000);
+                        }
+                    } catch (error) {
+                        // Handle error response here
+                    }
+                }
+            });
+        });
+
+        // batch print pdf second way
+        // $('#CPrintOldCore').on('click', function () {
+        //     var extractedData = extractData();
+        //     $.ajax({
+        //         method: "POST",
+        //         url: "/ExrRepairJobHistory/IndexPrintOldCore",
+        //         data: extractedData,
+        //         success: function (response) {
+        //             var length = response.length;
+
+        //             for (var i = 0; i < length; i++) {
+        //                 var item = response[i];
+        //                 var newTab = window.open(item, "_blank");
+        //                 newTab.blur();
+        //                 window.focus();
+        //             }
+        //         },
+        //         error: function (error) {
+        //             // Handle error response here
+        //         }
+        //     });
+        // });
 
     });
 </script>
