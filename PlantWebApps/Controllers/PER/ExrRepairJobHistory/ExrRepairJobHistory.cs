@@ -28,8 +28,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public FileResult ViewAttachment(string filepath)
         {
-            Console.WriteLine("masuk");
-            Console.WriteLine(filepath);
             string fileName = Path.GetFileName(filepath);
 
             var contentTypeProvider = new FileExtensionContentTypeProvider();
@@ -273,8 +271,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult Cfind(string TTCIPartNo)
         {
             string query = $"Select * from v_PartNoDetail Where TCIPartno={Utility.Evar(TTCIPartNo, 1)}";
-            Console.WriteLine(query);
-
             var data = SQLFunction.execQuery(query);
 
             if (data.Rows.Count > 0)

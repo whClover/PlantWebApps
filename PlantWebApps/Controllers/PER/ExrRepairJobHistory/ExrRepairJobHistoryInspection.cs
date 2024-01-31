@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -277,12 +278,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                //FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
                 Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
-                            $"\"https://{host}/ExrRepairJobHistoryInspection/OldReportBody/{ID}\" " +
-                            $"--footer-html \"https://{host}/ExrRepairJobHistoryInspection/OldReportFooter\" " +
-                            $"--footer-spacing 3 --header-html \"https://{host}/ExrRepairJobHistoryInspection/OldReportHeader\" " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/OldReportBody/{jobId} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/OldReportFooter " +
+                            $"--footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/OldReportHeader " +
                             $"--header-spacing 3 \"{namafile}\""
+
             };
             Process p = new Process { StartInfo = psi };
             p.Start();
@@ -410,6 +413,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string namafile;
             string namafile2;
             string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
             if (!Directory.Exists(savePath))
             {
@@ -418,14 +422,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, ID + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 20mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictFooter" +
-                   "\" --footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictHeader/" + ID +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
-
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/FinalReportPictBody/{ID} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/FinalReportPictFooter " +
+                            $"--footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/FinalReportPictHeader/{ID} " +
+                            $"--header-spacing 3 \"{namafile}\""
             };
             Process p = new Process { StartInfo = psi };
             p.Start();
@@ -443,6 +445,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string namafile;
             string namafile2;
             string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
             if (!Directory.Exists(savePath))
             {
@@ -451,13 +454,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, ID + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 20mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictFooter\"" +
-                   " --footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictHeader/" + ID +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/OldReportPictBody/{ID} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/OldReportPictFooter " +
+                            $"--footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/OldReportPictHeader/{ID} " +
+                            $"--header-spacing 3 \"{namafile}\""
             };
             Process p = new Process { StartInfo = psi };
             p.Start();
@@ -485,11 +487,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                ////FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
                 Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
-                            $"\"https://{host}/ExrRepairJobHistoryInspection/FinalReportBody/{ID}\" " +
-                            $"--footer-html \"https://{host}/ExrRepairJobHistoryInspection/FinalReportFooter\" " +
-                            $"--footer-spacing 3 --header-html \"https://{host}/ExrRepairJobHistoryInspection/FinalReportHeader\" " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/FinalReportBody/{jobId} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/FinalReportFooter " +
+                            $"--footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/FinalReportHeader " +
                             $"--header-spacing 3 \"{namafile}\""
             };
 
