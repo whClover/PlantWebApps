@@ -1133,6 +1133,43 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return new JsonResult(rows);
         }
+        public IActionResult SingleTag(string repairType, string compType, string statusInput, string supervisorId,
+            string supplierId, string cwoType, string cwoTypeValue, string fdocType,
+            string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
+            string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
+            string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
+            string repairAdvice, string toCatDesc, string requestP1, string fissNull,
+            string pCam, string sortBy, string ascDesc, string unitnumber)
+        {
+            string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
+                     fdocTypeValue, ccompIdType, ccompIdValue, sDate, startDate, endDate, lmodBy, lmodByValue, reasonTypeId,
+                     freasonType, freasonValue, cbDelay, cbDelayValue, repairAdvice, toCatDesc, requestP1, fissNull, pCam,
+                     sortBy, ascDesc, unitnumber);
+
+            _tempfilter = Utility.VarFilter(filter);
+            string query = $"SELECT * FROM v_ExrJobDetailRev1 {_tempfilter}";
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            if (data.Rows.Count > 0)
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var ID = Utility.CheckNull(row["ID"]);
+                    //string queryQr = $@"INSERT Into tbl_ExrTag (ID,StockItemNo,TCIPartNo,Description1,SearchText,IntWO,
+                    //WoJobCost,OffSiteWO,UnitNumber,UnitDescription,OPNONew,MeterToRun,MeterRun,TCIPartID,ExrRepairtype,
+                    //ANReceivedFrom,ANReceivedDate,ReceivedBy,RRANNo,StoreName,SupplierName,ReceivedDate,DnNumber,WOAlloc,
+                    //UnitAlloc,CompDesc,QR) VALUES ()";
+                    rows.Add("/ExrRepairJobHistoryInspection/Report/" + ID);
+                }
+            }
+            else
+            {
+                return new JsonResult("not found");
+            }
+            return new JsonResult("ok");
+        }
         // load option for dropdown
         private void loadoption()
         {

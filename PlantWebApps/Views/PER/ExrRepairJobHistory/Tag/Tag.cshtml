@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div>This is tag</div>
+@* <a class="btn btn-sm btn-primary" href="/Tag/GenerateQRCodeImage"> Generate Qr Code</a> *@
+<button type="button" id="btnTag" class="btn btn-sm btn-primary">Generate Qr Code</button>
+<div id="test"></div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnTag').click(function () {
+            var data = {
+                "wo": "123",
+                "intwo": "321",
+            };
+
+            $.ajax({
+                url: '/Tag/GenerateQRCodeImage',
+                data: data,
+                type: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (response) {
+                    var imageUrl = URL.createObjectURL(response);
+                    var img = $('<img>').attr('src', imageUrl);
+                    $('#test').append(img);
+                }
+            });
+        });
+    });
+</script>
