@@ -61,15 +61,22 @@ namespace PlantWebApps.Controllers.PER.OutstandingInternalWo
         }
         public IActionResult BulkConfirm(string fParentWO, string fSection, string fwono, string fdocstart, string fdocend)
         {
+            int totalRecords;
+
             string filter = BuildTempFilter(fParentWO, fSection, fwono, fdocstart, fdocend);
             _tempfilter = Utility.VarFilter(filter);
 
-            string query = $"SELECT COUNT(*) from v_ExrJobDetailIntWoOut {_tempfilter} ";
-            Console.WriteLine(query);
+            string countQuery = $"SELECT COUNT(*) FROM v_ExrJobDetailIntWoOut {_tempfilter}";
+            int.TryParse(SQLFunction.ExecuteScalar(countQuery).ToString(), out totalRecords);
 
-            var number = SQLFunction.ExecCountQuery(query);
+            Console.WriteLine("total records" + totalRecords);
 
-            return new JsonResult(number);
+            //string query = $"SELECT COUNT(*) from v_ExrJobDetailIntWoOut {_tempfilter} ";
+            //Console.WriteLine(query);
+
+            //var number = SQLFunction.ExecCountQuery(query);
+
+            return new JsonResult(totalRecords);
         }
         public IActionResult BulkUpdateIntWo(string fParentWO, string fSection, string fwono, string fdocstart, string fdocend)
         {
