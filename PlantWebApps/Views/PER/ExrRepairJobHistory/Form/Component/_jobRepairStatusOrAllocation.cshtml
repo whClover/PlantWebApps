@@ -58,7 +58,7 @@
 				<div class="col-2">Remark</div>
 				<div class="col-9">
 					<input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
-						   value="@ViewBag.data.Rows[0]["RemarkAdvice"].ToString()" disabled />
+						   value="@(ViewBag.HoldUntil?.Rows.Count > 0 ? ViewBag.HoldUntil?.Rows[0]?["RemarkAdvice"] : "")" disabled />
 				</div>
 			</div>
 		</div>

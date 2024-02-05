@@ -6,6 +6,8 @@
 	// viewdata["title"] = "external repair job history";
 }
 
+<partial name="Form/Component/Modal/frm_ExrJobDetailEditWO.cshtml" />
+
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -41,7 +43,10 @@
 				</div>
 			</div>
 			<div class="d-flex justify-content-end m-3" style="gap: 10px;">
-				<button type="button" class="btn btn-primary" style="min-width: 85px;">Change WO</button>
+				<button type="button" class="btn btn-primary" style="min-width: 85px;" data-bs-toggle="modal"
+						data-bs-target="#frm_ExrJobDetailEditWO">
+					Change WO
+				</button>
 				<button type="button" class="btn btn-primary" disabled style="min-width: 85px;">PRF</button>
 				<button type="button" class="btn btn-primary" id="btnFormCe" style="min-width: 85px;">CE</button>
 				<button type="button" class="btn btn-primary" style="min-width: 85px;">TAG</button>
@@ -76,10 +81,6 @@
 
 <script>
 	$(document).ready(function () {
-
-		$('#btnFormCe').on('click', function () {
-			window.location.href = "/ComponentEvaluation/Index";
-        });
 
 		// getting data to text from select option
 		function getjRepairAlloc() {
@@ -406,8 +407,9 @@
 		}
 
 		$("#Csave").on("click", function () {
+			console.log("id is", $("#tID").val())
 			if ($("#tID").val() == "") { 
-				wal.fire("No ID Information.Cannot Save Approval", "", "warning");
+				Swal.fire("No ID Information.Cannot Save Approval", "", "warning");
 				return
 			} else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
 				Swal.fire("please Fill Hold Untill", "", "warning");
@@ -417,6 +419,16 @@
 			} else {
 				handleSave();
 			}
+		});
+
+		$('#btnFormCe').on('click', function () {
+			var test = $('#tID').val();
+			console.log("id", test)
+			// if (id == "") {
+			// 	window.location.href = "/ComponentEvaluation/Index";
+			// } else {
+			// 	window.location.href = "/ComponentEvaluation/edit/" + id;
+			// }
 		});
 
 	});

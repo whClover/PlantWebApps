@@ -5,10 +5,12 @@
     @using System.Data;
     // viewdata["title"] = "external repair job history";
     bool isModEdit = ViewBag.ModEdit != null && (bool)ViewBag.ModEdit;
-    string isEdit = isModEdit ? "" : "disabled";
+    string isEdit = isModEdit ? "" : "";
+    // string isEdit = isModEdit ? "" : "disabled";
 
     bool isModAdd = ViewBag.ModAdd != null && (bool)ViewBag.ModAdd;
-    string isAdd = isModAdd ? "" : "disabled";
+    string isAdd = isModAdd ? "" : "";
+    // string isAdd = isModAdd ? "" : "disabled";
 }
 
 <script type="text/javascript">
@@ -233,8 +235,8 @@
                         <table id="myTable" class="table datatable mb-0 table-sm table-hover">
                             <thead class="table-light">
                                 <tr>
-                                    <th>DELETE</th>
-                                    <th>EDIT</th>
+                                    <th></th>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>Prio</th>
                                     <th>Total AGE WO</th>
