@@ -10,7 +10,7 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Old Core Inspection</div>
-                <input type="text" id="reqStand" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
+                <input type="text" id="resultOld" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
                 <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionY" disabled
                        value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")">
                 <label class="col-2 pt-1" for="oCoreInspection">Accept</label>
@@ -28,7 +28,7 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Final Inspection</div>
-                <input type="text" id="reqStand" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
+                <input type="text" id="resultFinal" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
                 <input class="col-1" name="finalInspection" type="radio" id="finalInspectionY" disabled
                        value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultFinalInspect"] : "0")">
                 <label class="col-2 pt-1" for="finalInspection">Accept</label>
@@ -55,7 +55,7 @@
         $("#btnOldCore").attr("href", "/ExrRepairJobHistoryInspection/OldCore/" + id);
         $("#btnFinalInspection").attr("href", "/ExrRepairJobHistoryInspection/FinalInspection/" + id);
 
-        var oCoreInspection = @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0");
+        var oCoreInspection = $('#resultOld').val();
 
         var oCoreInspectionY = $('#oCoreInspectionY');
         var oCoreInspectionN = $('#oCoreInspectionN');
@@ -74,7 +74,7 @@
 
         handleOcoreStand();
 
-        var finalInspection = @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0");
+        var finalInspection = $('#resultFinal').val();
 
         var finalInspectionY = $('#finalInspectionY');
         var finalInspectionN = $('#finalInspectionN');

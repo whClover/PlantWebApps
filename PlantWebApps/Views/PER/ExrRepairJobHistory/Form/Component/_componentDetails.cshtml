@@ -489,7 +489,7 @@
 
 		//radio button
 		// req stand
-		var reqStand = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["reqStand"] : "0");
+		var reqStand = $('#reqStand').val();
 
 		var reqStandY = $('#OptYReqStand');
 		var reqStandN = $('#OptNReqStand');
