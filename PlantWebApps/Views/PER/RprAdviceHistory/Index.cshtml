@@ -53,9 +53,6 @@
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="fa fa-filter me-2"></i> FILTER
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary">
-                            <i class="fa fa-plus me-2"></i> ADD
-                        </button>
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/RprAdviceHistory/Export" OnClick="return showOverlay();">
                                 <i class="fa fa-download me-2"></i> EXPORT
                             </button>
@@ -110,7 +107,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table mb-0 table-sm table-hover">
+                        <table class="table mb-0 table-sm table-hover ">
                             <thead class="table-light">
                                 <tr>
                                     <th>ID</th>
@@ -129,7 +126,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            <a class="btn btn-link btn-sm">
+                                            <a class="btn btn-sm">
                                                 @row["ID"]
                                             </a>
                                         </td>

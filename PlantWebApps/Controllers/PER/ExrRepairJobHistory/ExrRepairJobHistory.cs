@@ -1173,6 +1173,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult ChangeWO (string ParentWONew, string ID)
         {
             string query = $"Update tbl_ExrJobDetail Set OffSiteWO= {Utility.Evar(ParentWONew, 0)} WHERE ID = {Utility.Evar(ID, 0)}";
+            Console.WriteLine(query);
             SQLFunction.execQuery(query);
 
             return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + ID });

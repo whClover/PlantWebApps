@@ -6,8 +6,6 @@
 	// viewdata["title"] = "external repair job history";
 }
 
-<partial name="Form/Component/Modal/frm_ExrJobDetailEditWO.cshtml" />
-
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -66,6 +64,8 @@
 	</div>
 </div>
 
+<partial name="Form/Component/Modal/frm_ExrJobDetailEditWO.cshtml" />
+
 @if (TempData.Peek("Msg") != null)
 {
 	@section Scripts
@@ -81,6 +81,15 @@
 
 <script>
 	$(document).ready(function () {
+
+		$('#btnFormCe').on('click', function () {
+			var id = $("#tID").val();
+			if (id == "") {
+				window.location.href = "/ComponentEvaluation/Index";
+			} else {
+				window.location.href = "/ComponentEvaluation/edit/" + id;
+			}
+		});
 
 		// getting data to text from select option
 		function getjRepairAlloc() {
@@ -109,7 +118,7 @@
 			getjRepairAlloc();
 			getJobDetailRepairBy();
 			getJobDetailReasonType()
-			
+
 
 			if ($('#tRepairAdvice').val() == "CR") {
 				var repairType = $("#tReasonType").find('option:selected').data('reasontype');
@@ -120,14 +129,14 @@
 				var swalOptions = {
 					title: "Are you sure?",
 					html: `
-						<div style="font-size: 16px; text-align: center;">
-							<div class="d-flex flex-column">
-								<div>Repair Type: ${repairType}</div>
-								<div>Supplier: ${repairByIdCurrentVal}</div>
-								<div>Are you sure you want to change to ${repairAdvice}?</div>
+							<div style="font-size: 16px; text-align: center;">
+								<div class="d-flex flex-column">
+									<div>Repair Type: ${repairType}</div>
+									<div>Supplier: ${repairByIdCurrentVal}</div>
+									<div>Are you sure you want to change to ${repairAdvice}?</div>
+								</div>
 							</div>
-						</div>
-					`,
+						`,
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
@@ -201,16 +210,16 @@
 		});
 
 		//condition for csave
-		function checkEunitCost() { 
+		function checkEunitCost() {
 			if ($("#tCostAfter").val() != "" && $("#tCostBefore").val() != "") {
 				var EunitCost = parseFloat($("#tCostAfter").val().replace(/,/g, '')) - parseFloat($("#tCostBefore").val().replace(/,/g, ''))
 			}
-			else { 
+			else {
 				var EunitCost = "NULL"
 			}
 		}
 
-		function checkRepairAdvice() { 
+		function checkRepairAdvice() {
 			if ($("#tRepairAdvice").val() == "SA") {
 				$("#tRepairAdvice").val("WA")
 			}
@@ -407,28 +416,20 @@
 		}
 
 		$("#Csave").on("click", function () {
-			console.log("id is", $("#tID").val())
-			if ($("#tID").val() == "") { 
+			var test = $("#tID").val()
+
+			console.log("id is", test)
+			if ($("#tID").val() == "") {
 				Swal.fire("No ID Information.Cannot Save Approval", "", "warning");
 				return
 			} else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
 				Swal.fire("please Fill Hold Untill", "", "warning");
 				return
-			} else if ($("#tWOFitToUnit").val() !=  $("#tWOFitToUnitID").val()) {
-				
+			} else if ($("#tWOFitToUnit").val() != $("#tWOFitToUnitID").val()) {
+
 			} else {
 				handleSave();
 			}
-		});
-
-		$('#btnFormCe').on('click', function () {
-			var test = $('#tID').val();
-			console.log("id", test)
-			// if (id == "") {
-			// 	window.location.href = "/ComponentEvaluation/Index";
-			// } else {
-			// 	window.location.href = "/ComponentEvaluation/edit/" + id;
-			// }
 		});
 
 	});

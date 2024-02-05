@@ -197,28 +197,34 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					pcamStatus = Utility.CheckNull(row["PCAMStatusID"]),
 					pcamID = Utility.CheckNull(row["PCAMID"]),
 					psDate = Utility.CheckNull(row["PSDate"]),
-					edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["ID"] + "'><i class='fa fa-edit'></i></button>",
+					edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["jobID"] + "'><i class='fa fa-edit'></i></button>",
 					delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["ID"]})'><i class='fa fa-trash text-danger'></i></button>"
 				};
 				rows.Add(rowData);
 			}
 			return new JsonResult(rows);
 		}
-		public IActionResult Edit(string id, string tWono)
-		{
-			LoadOption();
+        public IActionResult Edit(string jobID, string tWono)
+        {
+            LoadOption();
 
-			// general data query
-			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{id}'";
-			ViewBag.data = SQLFunction.execQuery(query);
+            string query = $"SELECT * from v_ExrCEDetail WHERE JobID = '{jobID}'";
+			Console.WriteLine("test" + query);
+            ViewBag.data = SQLFunction.execQuery(query);
 
-			// PCAM Required query
-			string queryPcamRequired = @ViewBag.data.Rows[0]["PCAMRequired"].ToString();
-			ViewBag.PCAMRequired = queryPcamRequired;
+            if (ViewBag.data.Rows.Count > 0)
+            {
+                string queryPcamRequired = ViewBag.data.Rows[0]["PCAMRequired"].ToString();
+                ViewBag.PCAMRequired = queryPcamRequired;
+            }
+            else
+            {
+                ViewBag.PCAMRequired = string.Empty;
+            }
 
-			return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
-		}
-		public IActionResult Delete(string id)
+            return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
+        }
+        public IActionResult Delete(string id)
 		{
 			LoadOption();
 
