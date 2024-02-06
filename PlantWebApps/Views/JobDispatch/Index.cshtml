@@ -57,6 +57,37 @@
             statusInput.value = '';
         });
     });
+
+    function confirmDelete(id) {
+        console.log("clicked", id);
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `
+                        <div style="font-size: 16px; text-align: center;">
+                            <div style="margin-bottom: 10px;">
+                                Are you sure to delete the following data?
+                            </div>
+                        </div>
+                    `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("delete", id);
+                $.ajax({
+                    method: "POST",
+                    url: "/JobDispatch/Delete",
+                    data: { id: id }
+                }).done(function (response) {
+                    Swal.fire("Data Has Been Deleted", "", "success");
+                    location.reload();
+                });
+            }
+        });
+    }
 </script>
 
 <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
@@ -73,9 +104,6 @@
                         </button>
                         <button type="submit" class="btn btn-sm btn-primary" formaction="/JobDispatch/Add">
                             <i class="fa fa-plus me-2"></i> ADD
-                        </button>
-                        <button type="submit" class="btn btn-sm btn-primary" formaction="/JobDispatch/Export" >
-                            <i class="fa fa-download me-2"></i> EXPORT
                         </button>
                         <a class="btn btn-sm btn-primary" id="btnPrint">
                             PRINT
@@ -292,8 +320,8 @@
 
     btnPrint.addEventListener('click', function () {
         var selectedRow = $('.datatable').DataTable().row(0).data();
-        var idValue = selectedRow.id;
-        window.location.href = '/jobdispatch/report/' + encodeURIComponent(idValue);
+        var id = selectedRow.id;
+        window.location.href = '/jobdispatch/Report/' + encodeURIComponent(id);
     });
 
     var tableCell = document.querySelector('#myTable tbody tr td');

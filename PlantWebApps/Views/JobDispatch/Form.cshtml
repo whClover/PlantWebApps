@@ -6,6 +6,55 @@
     bool isEdit = ViewBag.isEdit ?? false;
 }
 
+<script>
+    function editDetail(id, wono) {
+        $.ajax({
+            method: "GET",
+            url: "/JobDispatch/searchwonodetail",
+            data: {
+                id: id,
+                wono: wono
+            },
+            success: function (response) {
+                console.log("response is", response.massage)
+                if (response.massage == "empty") {
+                    Swal.fire("WO Not Exist", "", "error");
+                    return
+                } else {
+                    var data = JSON.parse(response.json);
+
+                    $('#TStatusID').val(data[0]?.StatusID);
+                    $('#TType').val(data[0]?.DispatchType);
+                    $('#TDispatchID').val(data[0]?.DispatchID);
+                    $('#TID').val(data[0]?.ID);
+                    $('#TSectionID').val(data[0]?.SectionID);
+                    $('#anDetailJobId').val(data[0]?.JobID);
+                    $('#anDetailWono').val(data[0]?.WONO);
+                    $('#anDetailChildWo').val(data[0]?.ChildWO);
+                    $('#TItem').val(data[0]?.Item);
+                    $('#TQty').val(data[0]?.Qty);
+                    $('#TTUOM').val(data[0]?.UOM);
+                    $('#anDetailDescription').text(data[0]?.ItemDesc);
+                    $('#TPONo').text(data[0]?.PRNo);
+                    $('#TPRNo').val(data[0]?.PRNo);
+                    $('#TRemarks').val(data[0]?.Remarks);
+                    $('#TRegisterBy').val(data[0]?.RegisterBy);
+                    $('#TRegisterDate').val(data[0]?.RegisterDate);
+                    $('#TModBy').val(data[0]?.ModBy);
+                    $('#TModDate').val(data[0]?.ModDate);
+                    $('#TDeletedBy').val(data[0]?.ModBy);
+                    $('#DeletedDate').val(data[0]?.ModDate);
+
+                    $('#anDetailModal').modal('show');
+                }
+            },
+            error: function (error) {
+                // Handle error response here
+            }
+        });
+    }
+</script>
+
 <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
     <div class="row">
         <div class="col-12">
@@ -27,7 +76,7 @@
                             CONTINOUS FORM
                         </button>
                         <a class="btn btn-sm btn-primary" id="btnA4Print" formaction="/JobDispatch/Report">
-                                A4 PRINT
+                            A4 PRINT
                         </a>
                         <a class="btn btn-sm btn-primary" id="btnf4Print" formaction="/JobDispatch/Report">
                             F4 PRINT
@@ -42,15 +91,15 @@
 
                     @* save form *@
                     <form method="post" action="/JobDispatch/Save">
-                    <div class="d-flex flex-column">
-                        <div class="d-flex">
-                            <div class="col-3 border">
-                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Dispatch Type*</div>
-                                            <div class="col-7">
-                                                    <select name="tDispatchType" class="select2">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex">
+                                <div class="col-3 border">
+                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Dispatch Type*</div>
+                                                <div class="col-7 fw-normal">
+                                                    <select name="tDispatchType" class="form-control form-control-sm select2">
                                                         <option value=""></option>
                                                         @foreach (DataRow row in ViewBag.tDispatchType.Rows)
                                                         {
@@ -60,21 +109,21 @@
                                                             <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
                                                         }
                                                     </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
-                                            <div class="col-7">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
+                                                <div class="col-7 fw-normal">
                                                     <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Consigned TO*</div>
-                                            <div class="col-5">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Consigned TO*</div>
+                                                <div class="col-5 fw-normal">
                                                     <select name="tAttentionTo" class="select2" id="tAttentionTo">
                                                         <option value=""></option>
                                                         @foreach (DataRow row in ViewBag.tAatentionTo.Rows)
@@ -85,22 +134,22 @@
                                                             <option value="@tAttentionToId" selected="@(tAttemtionToName == selectedAttentionTo ? "selected" : "")">@tAttemtionToName | @tAttentionToId</option>
                                                         }
                                                     </select>
-                                            </div>
-                                            <input type="text" class="col-2 ms-2" style="max-width: 30px;" />
-                                        </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Attention Address</div>
-                                            <div class="col-7">
-                                                <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ConsignedTo"] : "")" />
+                                                </div>
+                                                <input type="text" class="col-2 ms-2" style="max-width: 30px;" />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Attention Name</div>
-                                            <div class="col-7">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Attention Address</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ConsignedTo"] : "")" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Attention Name</div>
+                                                <div class="col-7 fw-normal">
                                                     <select name="tAttentionName" id="tAttentionName" class="select2">
                                                         <option value=""></option>
                                                         @foreach (DataRow row in ViewBag.tAttentionName.Rows)
@@ -111,74 +160,74 @@
                                                             <option value="@tAttentionNameEmail" selected="@(ViewBag.data?.Rows.Count > 0 && tAttentionNameDisplayName == ViewBag.data.Rows[0]["AttentionName"].ToString() ? "selected" : "")">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
                                                         }
                                                     </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Attention Email</div>
-                                            <div class="col-7">
-                                                <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AttentionEmail"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Attention Email</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AttentionEmail"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @* 2 section *@
+                                @* 2 section *@
                                 <div class="col-3 border">
-                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Project</div>
-                                            <div class="col-7">
+                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Project</div>
+                                                <div class="col-7 fw-normal">
                                                     <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Project"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Job No</div>
-                                            <div class="col-7">
-                                                <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["JobNo"] : "")"/>
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Job No</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["JobNo"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Manifest No</div>
-                                            <div class="col-7">
-                                                 <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ManifestNo"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Manifest No</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ManifestNo"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Transport Mode</div>
-                                            <div class="col-7">
-                                                <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TransportMode"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Transport Mode</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TransportMode"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Dispatch From*</div>
-                                            <div class="col-7">
-                                                <select name="tSectionId" class="select2" >
-                                                <option value=""></option>
-                                                @foreach (DataRow row in ViewBag.tSectionId.Rows)
-                                                {
-                                                    var tSectionId = row["JobSourceID"].ToString();
-                                                    var tSectionIdJobSource = row["JobSource"].ToString();
-                                                    <option value="@tSectionId" selected="@(ViewBag.data?.Rows.Count > 0 && tSectionId == ViewBag.data.Rows[0]["SectionID"].ToString() ? "selected" : "")">@tSectionIdJobSource</option>
-                                                }
-                                            </select>
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Dispatch From*</div>
+                                                <div class="col-7 fw-normal">
+                                                    <select name="tSectionId" class="select2">
+                                                        <option value=""></option>
+                                                        @foreach (DataRow row in ViewBag.tSectionId.Rows)
+                                                        {
+                                                            var tSectionId = row["JobSourceID"].ToString();
+                                                            var tSectionIdJobSource = row["JobSource"].ToString();
+                                                            <option value="@tSectionId" selected="@(ViewBag.data?.Rows.Count > 0 && tSectionId == ViewBag.data.Rows[0]["SectionID"].ToString() ? "selected" : "")">@tSectionIdJobSource</option>
+                                                        }
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Dispatch By</div>
-                                            <div class="col-7">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Dispatch By</div>
+                                                <div class="col-7 fw-normal">
                                                     <select name="tDispatchBy" id="tDispatchBy" class="col-7 select2">
                                                         <option value=""></option>
                                                         @foreach (DataRow row in ViewBag.tDispatchBy.Rows)
@@ -190,34 +239,34 @@
                                                             <option value="@tDispatchByDisplayName" selected="@(ViewBag.data?.Rows.Count > 0 && tDispatchByDisplayName == ViewBag.data.Rows[0]["DispatchBy"].ToString() ? "selected" : "")">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
                                                         }
                                                     </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @* 3 section *@
+                                @* 3 section *@
                                 <div class="col-3 border">
-                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Dispatch Email</div>
-                                            <div class="col-7">
-                                                <input type="text" name="tDispatchValue" id="tDispatchValue" value="" class="col-7 form-control form-control-sm" />
+                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Dispatch Email</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" name="tDispatchValue" id="tDispatchValue" value="" class="col-7 form-control form-control-sm" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DispatchDate"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DispatchDate"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Handled By</div>
-                                            <div class="col-7">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Handled By</div>
+                                                <div class="col-7 fw-normal">
                                                     <select name="cHandledBy" class="col-7 select2">
                                                         <option value=""></option>
                                                         @foreach (DataRow row in ViewBag.cHandledBy.Rows)
@@ -229,132 +278,131 @@
                                                             <option value="@cHandledByEmailAddress" selected="@(ViewBag.data?.Rows.Count > 0 && cHandledByEmailAddress == ViewBag.data.Rows[0]["HandledBy"].ToString() ? "selected" : "")">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
                                                         }
                                                     </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Handled Date</div>
-                                            <div class="col-7">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Handled Date</div>
+                                                <div class="col-7 fw-normal">
                                                     <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["HandledDate"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Received By</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedBy"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Received By</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedBy"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Received Date</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Received Date</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @* 4 section *@
+                                @* 4 section *@
                                 <div class="col-3 border">
-                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">StatusID</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StatusID"] : "New")" />
+                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">StatusID</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StatusID"] : "New")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">Advice Note</div>
-                                            <div class="col-4">
-                                                <input type="text" class="col-4 form-control form-control-sm" name="tID" id="tID" value="@ViewBag.id" />
-                                            </div>
-                                            <a class="btn btn-primary col-3 ms-2 " id="cFind" style="max-width: 50px; font-size: 12px;">
-                                                find
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">RegisterBy</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">Advice Note</div>
+                                                <div class="col-4 fw-normal">
+                                                    <input type="text" class="col-4 form-control form-control-sm" name="tID" id="tID" value="@ViewBag.id" />
+                                                </div>
+                                                <a class="btn btn-primary col-3 ms-2 " id="cFind" style="max-width: 50px; font-size: 12px;">
+                                                    find
+                                                </a>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">RegisterBy</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 form-control form-control-sm" name="tRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5" style="font-size: 12px;">ModBy</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container overflow-hidden">
-                                        <div class="row align-items-center">
-                                            <div class="col-5 " style="font-size: 12px;">ModDate</div>
-                                            <div class="col-7">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5" style="font-size: 12px;">ModBy</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 form-control form-control-sm" name="tModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container overflow-hidden">
+                                            <div class="row align-items-center">
+                                                <div class="col-5 " style="font-size: 12px;">ModDate</div>
+                                                <div class="col-7 fw-normal">
+                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="align-self-end my-3 d-flex" style="gap: 10px;">
-                            <button type="submit" class="btn btn-sm btn-primary" formaction="/jobdispatch/save">
-                                SAVE
-                            </button>
-                            <a class="btn btn-sm btn-primary" href="/JobDispatch">
-                                CLOSE
-                            </a>
-                        </div>
-                        </form>
-                        @* close save form *@
-
-                        @if (TempData.Peek("Msg") != null)
-                        {
-                            @section Scripts
-                        {
-                            <script>
-                                Swal.fire({
-                                    title: '@TempData.Peek("Msg")',
-                                        icon: '@TempData.Peek("Stat")'
-                                    });
-                                </script>
-                            }
-                        }
-                    </div>
-
-                    @if (isEdit)
-                    {
-                        <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
-                            <div class="d-flex flex-row align-items-center mb-2" style="gap: 10px;">
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addJobDetailModal">
-                                    ADD
+                            <div class="align-self-end my-3 d-flex" style="gap: 10px;">
+                                <button type="submit" class="btn btn-sm btn-primary" formaction="/jobdispatch/save">
+                                    SAVE
                                 </button>
-                                <div class="fw-semibold">WONO</div>
-                                <input type="text" class="form-control form-control-sm" style="max-width: 150px;" name="eWono"/>
-                                <a class="btn btn-sm btn-primary" id="btnSearchWonoDetail">
-                                    SEARCH
+                                <a class="btn btn-sm btn-primary" href="/JobDispatch">
+                                    CLOSE
                                 </a>
                             </div>
-                        </form>
+                    </form>
+                    @* close save form *@
+
+                    @if (TempData.Peek("Msg") != null)
+                    {
+                        @section Scripts
+                    {
+                        <script>
+                            Swal.fire({
+                                title: '@TempData.Peek("Msg")',
+                                    icon: '@TempData.Peek("Stat")'
+                                });
+                            </script>
+                        }
                     }
+                </div>
+
+                @if (isEdit)
+                {
+                    <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
+                        <div class="d-flex flex-row align-items-center mb-2" style="gap: 10px;">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addJobDetailModal">
+                                ADD
+                            </button>
+                            <div class="fw-semibold">WONO</div>
+                            <input type="text" class="form-control form-control-sm" style="max-width: 150px;" name="eWono" />
+                            <a class="btn btn-sm btn-primary" id="btnSearchWonoDetail">
+                                SEARCH
+                            </a>
+                        </div>
+                    </form>
 
                     <div id="tableContainer" class="table-responsive">
                         <table id="myTable" class="table datatable mb-0 table-sm table-hover">
@@ -383,31 +431,38 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" id="btnDeleteDetail" href="/JobDispatch/DeleteDetail/@row["ID"]">
-                                                    DELETE
+                                                <a id="btnDeleteDetail" class="btn btn-link" href="/JobDispatch/DeleteDetail/@row["ID"]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="RED" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                                                    </svg>
                                                 </a>
                                             </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#anDetailModal">EDIT</button>
-                                        </td>
-                                            <td>@row["ID"]</td>
-                                            <td>@row["WONO"]</td>
-                                            <td>@row["ChildWO"]</td>
-                                            <td>@row["JobID"]</td>
-                                            <td>@row["Item"]</td>
-                                            <td>@row["Qty"]</td>
-                                            <td>@row["ItemDesc"]</td>
-                                            <td>@row["PRNo"]</td>
-                                            <td>@row["PONo"]</td>
-                                            <td>@row["Remarks"]</td>
-                                            <td>@row["StatusID"]</td>
+                                            <td>
+                                                <button type="button" class="btn btn-link" onclick='editDetail(@row["ID"], @row["wono"])'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                            <td class="align-middle">@row["ID"]</td>
+                                            <td class="align-middle">@row["WONO"]</td>
+                                            <td class="align-middle">@row["ChildWO"]</td>
+                                            <td class="align-middle">@row["JobID"]</td>
+                                            <td class="align-middle">@row["Item"]</td>
+                                            <td class="align-middle">@row["Qty"]</td>
+                                            <td class="align-middle">@row["ItemDesc"]</td>
+                                            <td class="align-middle">@row["PRNo"]</td>
+                                            <td class="align-middle">@row["PONo"]</td>
+                                            <td class="align-middle">@row["Remarks"]</td>
+                                            <td class="align-middle">@row["StatusID"]</td>
                                         </tr>
                                     }
                                 }
                             </tbody>
                         </table>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -509,41 +564,88 @@
             btnA4Print.href = '/jobdispatch/report/' + encodeURIComponent(tIDValue);
         });
 
+
+
         // search wono detail
         $('#btnSearchWonoDetail').on('click', function (e) {
             e.preventDefault();
-            var tIDValue = tIDInput.value;
-            var eWonoValue = $('input[name="eWono"]').val();
-            window.location.href = '/JobDispatch/searchwonodetail/' + tIDValue + '/' + eWonoValue;
+            var id = tIDInput.value;
+            var wono = $('input[name="eWono"]').val();
+            // window.location.href = '/JobDispatch/searchwonodetail/' + tIDValue + '/' + eWonoValue;
+            $.ajax({
+                method: "GET",
+                url: "/JobDispatch/searchwonodetail",
+                data: {
+                    id: id,
+                    wono: wono
+                },
+                success: function (response) {
+                    if (response.massage == "empty") {
+                        Swal.fire("WO Not Exist", "", "error");
+                        return
+                    } else {
+                        $.ajax({
+                            url: '@Url.Action("LoadDetailAnData", "JobDispatch")',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                wono: wono,
+                            },
+                            success: function (test) {
+                                //console.log(test);
+                                $('.detailTable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                                $('.detailTable').DataTable({
+                                    searching: false,
+                                    lengthChange: false,
+                                    responsive: true,
+                                    data: test, // The data received from the AJAX request
+                                    columns: [
+                                        { "data": "select" },
+                                        { "data": "sectionid" },
+                                        { "data": "section" },
+                                        { "data": "jobid" },
+                                        { "data": "wonodata" },
+                                        { "data": "childwo" },
+                                        { "data": "extwo" },
+                                        { "data": "compdesc" },
+                                        { "data": "mainttype" },
+                                        { "data": "compqty" }
+                                    ]
+                                });
+                                // Sembunyikan loading overlay setelah data dimuat
+                                $("#offcanvas").offcanvas("hide");
+                                $('#loadingOverlay').hide();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+
+                        $('#addJobDetailModal').modal('show');
+                    }
+                },
+                error: function (error) {
+                    // Handle error response here
+                }
+            });
         });
 
-        var tableCell = document.querySelector('#myTable tbody tr td');
         btnDeleteDetail.addEventListener('click', function (e) {
-            console.log('btnDeleteDetail clicked');
             e.preventDefault();
-            if (tableCell && tableCell.textContent.trim() !== '') {
-                console.log('Showing confirmation dialog');
-                Swal.fire({
-                    title: 'Are you sure to delete this data?',
-                    showDenyButton: true,
-                    icon: "warning",
-                    confirmButtonText: 'Yes',
-                    denyButtonText: 'No'
-                }).then((result) => {
-                    console.log('User response:', result);
-                    if (result.isConfirmed) {
-                        window.location.href = btnDeleteDetail.href;
-                    } else if (result.isDenied) {
-                        Swal.fire("Data Not Deleted", "", "success");
-                    }
-                });
-            }
-            else {
-                Swal.fire({
-                    icon: "error",
-                    title: "There Is No Data To Be Deleted",
-                });
-            }
+            Swal.fire({
+                title: 'Are you sure to delete this data?',
+                showDenyButton: true,
+                icon: "warning",
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No'
+            }).then((result) => {
+                console.log('User response:', result);
+                if (result.isConfirmed) {
+                    window.location.href = btnDeleteDetail.href;
+                } else if (result.isDenied) {
+                    Swal.fire("Data Not Deleted", "", "success");
+                }
+            });
         });
 
     });

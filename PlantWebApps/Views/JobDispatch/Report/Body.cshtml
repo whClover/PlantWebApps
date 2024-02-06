@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<div class="d-flex flex-column">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td class="w-25">Date :</td>
+                    <td class="w-25">@ViewBag.report?.Rows[0]?["ShipmentDate"]</td>
+                    <td class="w-25">Project :</td>
+                    <td class="w-25">@ViewBag.report?.Rows[0]?["Project"]</td>
+                </tr>
+                <tr>
+                    <td class="w-25">Good Consigned to :</td>
+                    <td class="w-25">@ViewBag.report?.Rows[0]?["ConsignedTo"]</td>
+                    <td class="w-25"></td>
+                    <td class="w-25"></td>
+                </tr>
+                <tr>
+                    <td class="w-25">Attention :</td>
+                    <td class="w-25"></td>
+                    <td class="w-25">Job No :</td>
+                    <td class="w-25"></td>
+                </tr>
+                <tr>
+                    <td class="w-25">Mode Of Transport :</td>
+                    <td class="w-25">@ViewBag.report?.Rows[0]?["TransportMode"]</td>
+                    <td class="w-25">Carrier :</td>
+                    <td class="w-25"></td>
+                </tr>
+                <tr>
+                    <td class="w-25">C/Note Or Manifest No :</td>
+                    <td class="w-25">@ViewBag.report?.Rows[0]?["ManifestNo"]</td>
+                    <td class="w-25">Dispatched From :</td>
+                    <td class="w-25"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Unit</th>
+                    <th>Description</th>
+                    <th>WO / OFF SITE / OP/ OR</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (DataRow row in ViewBag.detail.Rows)
+                    {
+                        var item = row["Item"].ToString();
+                        var qty = row["Qty"].ToString();
+                        var uom = row["UOM"].ToString();
+                        var itemDesc = row["ItemDesc"].ToString();
+                        var pono = row["PONo"].ToString();
+                        var remarks = row["Remarks"].ToString();
+
+                        <td>@item</td>
+                        <td>@qty</td>
+                        <td>@uom</td>
+                        <td>@itemDesc</td>
+                        <td>@pono</td>
+                        <td>@remarks</td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

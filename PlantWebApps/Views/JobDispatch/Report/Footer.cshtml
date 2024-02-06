@@ -1,0 +1,78 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<div class="d-flex flex-column">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td style="height: 100px;">
+                        <div>Dispatch By:</div>
+                        <div>@ViewBag.report?.Rows[0]?["DispatchBy"]</div>
+                    </td>
+                    <td style="height: 100px;">
+                        <div>Approved By:</div>
+                        <div>@ViewBag.report?.Rows[0]?["HandledBy"]</div>
+                    </td>
+                    <td style="height: 100px;">
+                        <div>Checked By:</div>
+                        <div></div>
+                    </td>
+                    <td style="height: 100px;">
+                        <div>Carrier By:</div>
+                        <div></div>
+                    </td>
+                    <td style="height: 100px;">
+                        <div>Receipt By:</div>
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div class="col-2">Distribution</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Original With Goods</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Yellow / Kuning</div>
+            <div class="col-10">:<span class="ms-2">Copy sent to consignee-sign and return to originator / kirim ke supplier dan kembali ke pengirim (LOG)</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Red / Merah</div>
+            <div class="col-10">:<span class="ms-2">Copy-file to consignee</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Red / Merah</div>
+            <div class="col-10">:<span class="ms-2">Copy-file to dispatcher</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Red / Merah</div>
+            <div class="col-10">:<span class="ms-2">Copy-file to security</span></div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row mt-2 justify-content-between">
+        <div>2014-09</div>
+        <div>1 of 1</div>
+        <div>503000-PRO-FO-008</div>
+    </div>
+</div>

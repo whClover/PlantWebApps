@@ -17,14 +17,14 @@
                 <div class="modal-body row" style="gap: 10px">
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
-                            <div class="col-3" style="font-size: 12px;" >
+                            <div class="col-3" style="font-size: 12px;">
                                 Status
                             </div>
                             <div class="col-4">
                                 <input type="text" class="col-4 form-control form-control-sm" name="TStatusID" id="TStatusID"
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["StatusID"] : "")" />
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="container overflow-hidden">
@@ -51,7 +51,7 @@
                                 <input type="text" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DispatchID"] : null)"
                                        class="col-4 form-control form-control-sm" name="TDispatchID" id="TDispatchID" />
                             </div>
-                            <div class="col-1" style="font-size: 12px;" >
+                            <div class="col-1" style="font-size: 12px;">
                                 ID
                             </div>
                             <div class="col-3">
@@ -77,7 +77,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">WONO</div>
                             <div class="col-4">
-                                <input type="text" id="anDetailWono" name="TWONo" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["WONO"] : null)"
+                                <input type="text" id="anDetailWono" name="TWONo" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["WONO"] : string.Empty)"
                                        class="col-4 form-control form-control-sm" required />
                             </div>
                             <div class="col-1 text-nowrap" style="font-size: 12px;">ChWO</div>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
-                            <div class="col-3" style="font-size: 12px;" >
+                            <div class="col-3" style="font-size: 12px;">
                                 Description
                             </div>
                             <div class="col-8">
@@ -172,7 +172,7 @@
                             </div>
                             <div class="col-4">
                                 <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm"
-                                        name="TModDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                                       name="TModDate" id="TModDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Deleted</div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TDeletedBy"
+                                <input type="text" class="col-4 form-control form-control-sm" name="TDeletedBy" id="TDeletedBy"
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModBy"] : null)" />
                             </div>
                             <div class="col-4">
@@ -192,8 +192,10 @@
                 </div>
                 <div class="modal-footer">
                     <p>Note : If AN Number is Not Found, register first using Module Job Dispatch</p>
-                    <button type="submit" class="btn btn-primary" id="saveStatusBtn" formaction="/JobDispatch/AddDetail">Select</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="d-flex" style="gap: 10px;">
+                        <button type="submit" class="btn btn-primary" id="saveStatusBtn" formaction="/JobDispatch/AddDetail">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
