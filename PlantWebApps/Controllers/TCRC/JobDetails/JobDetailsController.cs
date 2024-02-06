@@ -17,13 +17,13 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
             return View("~/Views/TCRC/JobDetails/Index.cshtml");
         }
 
-        public IActionResult Edit()
+        public IActionResult add()
         {
             return View("~/Views/TCRC/JobDetails/Form.cshtml");
         }
 
         [HttpGet]
-        public IActionResult loadDataByID(String id)
+        public IActionResult edit(String id)
         {
             string query = "select * from tbl_intJobDetailx where wono=" + Utility.Evar(id, 1);
             var data = SQLFunction.execQuery(query);
@@ -33,31 +33,60 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
             {
                 var rowData = new
                 {
+                    //column-1
                     id = Utility.CheckNull(row["ID"]),
-                    storeid = Utility.CheckNull(row["StoreID"]),
-                    jobstatusid = Utility.CheckNull(row["JobStatusID"]),
+                    wono = Utility.CheckNull(row["WONo"]),
+                    qtycomponent = Utility.CheckNull(row["QtyComponent"]),
                     parentwo = Utility.CheckNull(row["ParentWO"]),
-                    currentlocation = Utility.CheckNull(row["CurrentLocation"]),
+                    jobdesc = Utility.CheckNull(row["JobDesc"]),
+                    worktypeid = Utility.CheckNull(row["WorkTypeID"]),
                     unitnumber = Utility.CheckNull(row["UnitNumber"]),
                     unitdesc = Utility.CheckNull(row["UnitDescription"]),
+                    stand = Utility.CheckNull(row["Stand"]),
+                    jobpriority = Utility.CheckNull(row["JobPriority"]),
+                    currentlocation = Utility.CheckNull(row["CurrentLocation"]),
+                    storeid = Utility.CheckNull(row["StoreID"]),
+                    reasontypeid = Utility.CheckNull(row["ReasonTypeID"]),
+                    repairtype = Utility.CheckNull(row["RepairType"]),
+                    previouswO = Utility.CheckNull(row["PreviousWO"]),
+                    comphour = Utility.CheckNull(row["CompHour"]),
+                    lifetype = Utility.CheckNull(row["Lifetype"]),
+                    currentwdv = Utility.CheckNull(row["currentwdv"]),
+                    jptype = Utility.CheckNull(row["JPType"]),
+                    jpdatetime = Utility.CheckNull(row["JPDateTime"]),
+                    jpreceiveby = Utility.CheckNull(row["JPReceiveBy"]),
+                    arrivalan = Utility.CheckNull(row["ArrivalAN"]),
+                    jobsourceid = Utility.CheckNull(row["JobSourceID"]),
+                    jobsourcepic = Utility.CheckNull(row["JobSourcePIC"]),
+                    tcipartno = Utility.CheckNull(row["TCIPartNo"]),
+
+                    jobstatusid = Utility.CheckNull(row["JobStatusID"]),
                     location = Utility.CheckNull(row["Location"]),
                     exunit = Utility.CheckNull(row["ExUnit"]),
-                    worktypeid = Utility.CheckNull(row["WorkTypeID"]),
-                    jobpriority = Utility.CheckNull(row["JobPriority"]),
-                    tcipartno = Utility.CheckNull(row["TCIPartNo"]),
+                    
                     equipclass = Utility.CheckNull(row["EquipClass"]),
-                    stand = Utility.CheckNull(row["Stand"]),
                     tagremark = Utility.CheckNull(row["TagRemark"]),
-                    jobdesc = Utility.CheckNull(row["JobDesc"]),
-                    repairtype = Utility.CheckNull(row["RepairType"]),
-                    lifetype = Utility.CheckNull(row["Lifetype"]),
+                    
                     lifecost = Utility.CheckNull(row["lifeCost"]),
-                    currentwdv = Utility.CheckNull(row["currentwdv"]),
+                    
                     datesendan = Utility.CheckNull(row["DateSendAN"]),
-                    arrivalan = Utility.CheckNull(row["ArrivalAN"]),
-                    jpdatetime = Utility.CheckNull(row["JPDateTime"]),
+                    
+                    
                     accepteddate = Utility.CheckNull(row["AcceptedDate"]),
                     quoteno = Utility.CheckNull(row["QuoteNo"]),
+                };
+                rows.Add(rowData);
+            }
+
+            string query2 = "select * from v_WOJDETimeLine where wono=" + Utility.Evar(id, 1);
+            var data2 = SQLFunction.execQuery(query2);
+
+            foreach (DataRow row in data2.Rows)
+            {
+                var rowData = new 
+                {
+                    //column-1
+                    mainttype = Utility.CheckNull(row["MaintType"]),
                 };
                 rows.Add(rowData);
             }
@@ -72,6 +101,9 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
 
             string queryunitdesc = "SELECT DISTINCT UnitDescription FROM v_WorkOrderJObDetail Where UnitDescription is Not NULL ORDER BY UnitDescription";
             ViewBag.unitdesc = SQLFunction.execQuery(queryunitdesc);
+
+            string queryunitno = "Select UnitNumber,UnitDescription,Location,LocationName from  v_UnitNumber order by UnitNumber";
+            ViewBag.unitno = SQLFunction.execQuery(queryunitno);
 
             string queryprio = "Select * from tbl_IntRepairPriority";
             ViewBag.prio = SQLFunction.execQuery(queryprio);
@@ -93,6 +125,36 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
 
             string querywostat = "select Stat,StatDesc from tbl_WOStatus Where left(Stat,1)='M'";
             ViewBag.wostat = SQLFunction.execQuery(querywostat);
+
+            string querystoreid = "SELECT StoreID, StoreName FROM tbl_Store";
+            ViewBag.storeid = SQLFunction.execQuery(querystoreid);
+
+            string queryreasontypeid = "Select ReasonTypeID,ReasonType,ReasonTypeDesc from tbl_ExRReasonType";
+            ViewBag.reasontypeid = SQLFunction.execQuery(queryreasontypeid);
+
+            string queryrepairtypeid = "Select RepairType from tbv_RepairType(13)";
+            ViewBag.repaittypeid = SQLFunction.execQuery(queryrepairtypeid);
+
+            string queryjobsourceid = "SELECT JobSourceID, JobSource, JobSourceDesc, JobSourceResp FROM tbl_JobSource";
+            ViewBag.jobsourceid = SQLFunction.execQuery(queryjobsourceid);
+        }
+
+        [HttpGet]
+        public IActionResult searchtcipn(String tcipn)
+        {
+            string query = "select * from v_PartNoDetailAll where TCIPartno=" + Utility.Evar(tcipn, 1);
+            var data = SQLFunction.execQuery(query);
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    tcidesc = Utility.CheckNull(row["Description1"]),
+                };
+                rows.Add(rowData);
+            }
+            return new JsonResult(rows);
         }
 
         [HttpGet]
@@ -150,7 +212,7 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
             {
                 var rowData = new
                 {
-                    editcmd = "<a class='btn btn-soft-light btn-sm' onclick=\"editData()\"><i class='fa fa-edit'></i></a>",
+                    editcmd = "<a class='btn btn-soft-light btn-sm' onclick=\"editData('" + row["WONo"] + "')\"><i class='fa fa-edit'></i></a>",
                     id = Utility.CheckNull(row["ID"]),
                     worktypeabr = Utility.CheckNull(row["WorkTypeAbr"]),
                     wono = Utility.CheckNull(row["WONo"]),

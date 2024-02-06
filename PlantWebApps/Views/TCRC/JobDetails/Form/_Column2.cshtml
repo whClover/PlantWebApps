@@ -1,0 +1,317 @@
+﻿@{
+}
+
+<div class="col-md-3 border p-0">
+    <table class="table table-condensed table-sm mb-0">
+        <tr>
+            <td colspan="2" class="table-light fw-bold">
+                Promised Date Information
+            </td>
+        </tr>
+        <tr>
+            <td>Original Promised Date</td>
+            <td>
+                <input class="form-control form-control-sm" id="oripromisedDate" name="oripromisedDate" />
+            </td>
+        </tr>
+        <tr>
+            <td>Revised Promised Date</td>
+            <td>
+                <input class="form-control form-control-sm" id="revpromisedDate" name="oripromisedDate" />
+            </td>
+        </tr>
+    </table>
+    <table class="table table-bordered table-sm mb-0">
+        <tr>
+            <td colspan="4" class="table-light fw-bold">
+                Schedule Information
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="bg-soft-secondary text-center fw-bold">Promised</td>
+            <td class="bg-soft-secondary text-center fw-bold">Actual</td>
+            <td class="bg-soft-secondary text-center fw-bold">Overrun</td>
+        </tr>
+        <tr>
+            <td style="width:20%">Received</td>
+            <td></td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Starting</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+        </tr>
+        <tr>
+            <td>Completion</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+        </tr>
+        <tr>
+            <td>Work Hour</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+        </tr>
+    </table>
+    <table class="table table-bordered table-sm mb-0">
+        <tr>
+            <td colspan="4" class="table-light fw-bold">
+                Labour Information
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="bg-soft-secondary text-center fw-bold">Estimate</td>
+            <td class="bg-soft-secondary text-center fw-bold">Actual</td>
+            <td class="bg-soft-secondary text-center fw-bold">Var</td>
+        </tr>
+        <tr>
+            <td style="width:20%">Lab Hour</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" readonly />
+            </td>
+        </tr>
+    </table>
+    <table class="table table-condensed table-sm">
+        <tr>
+            <td class="table-light fw-bold">
+                Job Package (Document Support)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
+                                New
+                            </button>
+                        </h6>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td class="text-center fs-6">1</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Internal WO Sheet*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">2</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Copy of Received A/N*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">3</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Scope of Work Checklist*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">4</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">CFI</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">5</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Written Instuction</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">6</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Photo (If Applicable)</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">7</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">WCS</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="flush-headingTwo">
+                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                Identification
+                            </button>
+                        </h6>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td class="text-center fs-6">1</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Inspection Sheet*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">2</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Preins</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">3</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Part Request Form*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">4</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">NDT Inspect*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">5</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Teardown Report</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="flush-headingThree">
+                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                Estimation
+                            </button>
+                        </h6>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td class="text-center fs-6">1</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Estimate Quotation*</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="flush-headingfour">
+                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefour" aria-expanded="false" aria-controls="flush-collapsefour">
+                                Execution
+                            </button>
+                        </h6>
+                        <div id="flush-collapsefour" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td class="text-center fs-6">1</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Control Processing & QC *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">2</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Photos of Completion *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">3</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Final Inspection & Quality *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">4</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">FAR & CR Report *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">5</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">WCS Report *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">6</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Internal WO Sheet Complete *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center fs-6">7</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Other Related Document</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="flush-headingfive">
+                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefive" aria-expanded="false" aria-controls="flush-collapsefive">
+                                Reconciliation
+                            </button>
+                        </h6>
+                        <div id="flush-collapsefive" class="accordion-collapse collapse" aria-labelledby="flush-headingfive" data-bs-parent="#accordionFlushExample">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td class="text-center fs-6">1</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">WO Reconcilation Journal *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="flush-headingsix">
+                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsesix" aria-expanded="false" aria-controls="flush-collapsesix">
+                                Closing
+                            </button>
+                        </h6>
+                        <div id="flush-collapsesix" class="accordion-collapse collapse" aria-labelledby="flush-headingsix" data-bs-parent="#accordionFlushExample">
+                            <table class="table table-condensed table-sm">
+                                <tr>
+                                    <td class="text-center fs-6">1</td>
+                                    <td><a class="btn btn-sm btn-link fs-6">Copy of Send AN *</a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
+                                    <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

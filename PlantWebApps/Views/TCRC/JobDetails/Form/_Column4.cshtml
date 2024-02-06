@@ -1,0 +1,166 @@
+﻿@{
+}
+
+<div class="col-md-3 border p-0">
+    <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" data-bs-toggle="tab" href="#home2" role="tab" aria-selected="true">
+                <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                <span class="d-none d-sm-block">Status</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" href="#profile2" role="tab" aria-selected="false" tabindex="-1">
+                <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                <span class="d-none d-sm-block">Allocation</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content p-0 text-muted">
+        <div class="tab-pane active" id="home2" role="tabpanel">
+            <table class="table table-condensed table-sm mb-0">
+                <tr>
+                    <td colspan="4" class="table-light fw-bold">
+                        Status Information
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="width:50%">Created By</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Identification
+                        <select class="form-control form-control-sm">
+                            <option value="0">--blank--</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Cost Estimate</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">SPT Approval</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">SPT Approved</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">SPT Rejected</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Execution
+                        <select class="form-control form-control-sm">
+                            <option value="0">--blank--</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Doc. Check</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Reconciliation
+                        <select class="form-control form-control-sm">
+                            <option value="0">--blank--</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Recon.Approval
+                        <select class="form-control form-control-sm">
+                            <option value="0">--blank--</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Recon Approved</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Recon Rejected</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Closed
+                        <select class="form-control form-control-sm">
+                            <option value="0">--blank--</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Last Mod</td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                    <td><input type="text" class="form-control form-control-sm" readonly /></td>
+                </tr>
+            </table>
+        </div><!-- end tab pane -->
+        <div class="tab-pane" id="profile2" role="tabpanel">
+            
+        </div><!-- end tab pane -->
+    </div>
+    <table class="table table-condensed table-sm mb-0">
+        <tr>
+            <td colspan="4" class="table-light fw-bold">
+                Dispatch Detail
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ANNo</th>
+                            <th>Type</th>
+                            <th>Attention</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table class="table table-condensed table-sm mb-0">
+        <tr>
+            <td colspan="2" class="table-light fw-bold">
+                Teardown Information
+            </td>
+        </tr>
+        <tr>
+            <td>Component ID</td>
+            <td><input type="text" class="form-control form-control-sm" readonly /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <textarea class="form-control form-control-sm" rows="5"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>
