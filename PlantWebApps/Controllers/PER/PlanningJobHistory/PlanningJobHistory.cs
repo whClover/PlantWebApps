@@ -20,17 +20,11 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
             string CbTOCategory, string CbPriority, string fisnull)
         {
             string tempfilter = string.Empty;
-            Console.WriteLine("test is" + fDocType);
-            Console.WriteLine("test is" + fdocno);
-            Console.WriteLine("test is" + fstoretype);
-            Console.WriteLine("test is" + fstore);
-            // this
             if (!string.IsNullOrEmpty(fDocType) && !string.IsNullOrEmpty(fdocno))
             {
                 tempfilter = $"AND {fDocType} = {Utility.Evar(fdocno, 0)}" + tempfilter;
             }
 
-            //this
             if (!string.IsNullOrEmpty(fstoretype) && !string.IsNullOrEmpty(fstore))
             {
                 tempfilter = $"AND {fstoretype} = {Utility.Evar(fstore, 0)}" + tempfilter;
@@ -94,17 +88,11 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
             string fswo, string fsrepairby, string fsort, string fasc, string fdocno, string TPartID, string fstart, string fend, string feqclass, string freason, string fstore,
             string CbTOCategory, string CbPriority, string fisnull)
         {
-            Console.WriteLine("test z is" + fDocType);
-            Console.WriteLine("test zis" + fdocno);
-            Console.WriteLine("test zis" + fstoretype);
-            Console.WriteLine("testz is" + fstore);
 
             string filter = BuildTempFilter(fDocType, CWOType, CCompIDType, fstoretype, CbRepairAdvice, tMaintType, fstatusid, 
                                             fswo, fsrepairby, fsort, fdocno,
                                             fstart, fend, fstore, fasc, TPartID, 
                                             feqclass, freason, CbTOCategory, CbPriority, fisnull);
-
-            Console.WriteLine("filter is" + filter);
 
             string sortOrder = string.IsNullOrEmpty(fsort) ? "RegisterDate" : fsort;
             string ascdsc = string.IsNullOrEmpty(fasc) ? "desc" : fasc;
@@ -113,8 +101,6 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
 
             string dataQuery = $"SELECT TOP 20 * from v_ExrJobDetail {_tempfilter} ORDER BY {sortOrder} {ascdsc}";
             var data = SQLFunction.execQuery(dataQuery);
-
-            Console.WriteLine(dataQuery);
 
             var rows = new List<object>();
 
