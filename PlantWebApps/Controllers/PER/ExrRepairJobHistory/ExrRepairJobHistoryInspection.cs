@@ -313,8 +313,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 {
                     id = Utility.CheckNull(row["ID"]),
                     pictureCaption = Utility.CheckNull(row["PictureCaption"]),
-                    //picturePath = @"http:\\bpnaps07:3355\wwwroot\img\PictInspection\ExrJobInspection\OldCoreInspect\6887356\WO6887356(2)_20230621175845.JPG",
-                    picturePath = $"{dataPath2}",
+                    picturePath = @"http:\\bpnaps07:3355\wwwroot\img\PictInspection\ExrJobInspection\OldCoreInspect\6887356\WO6887356(2)_20230621175845.JPG",
+                    //picturePath = "..\\img\\PictInspection\\ExrJobInspection\\OldCoreInspect\\6887356\\WO6887356(2)_20230621175845.JPG",
+                    //picturePath = $"{dataPath2}",
                     open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
                     $"data-bs-target='#openFinalInvestigationPicture'><svg xmlns=\"http://www.w3.org/2000/svg\" " +
                     $"width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  " +
