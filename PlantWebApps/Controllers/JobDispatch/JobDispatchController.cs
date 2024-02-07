@@ -325,6 +325,8 @@ namespace PlantWebApps.Controllers.JobDispatch
             var tempfolder = $@"C:\Users\trahayu\source\repos\PlantWebApps\PlantWebApps\src\export\{tempAnno}";
             tempName = Path.Combine(tempfolder, "rpt_Dispatch_Detail.pdf");
 
+            Console.WriteLine("tempanno" + tempAnno);
+
             if (eChkAttach == "on")
             {
                 string servername = "https://localhost:7056/";
@@ -344,19 +346,19 @@ namespace PlantWebApps.Controllers.JobDispatch
                 p.WaitForExit();
             }
 
-            //var eFileName = (Utility.Evar(tempName, 1));
+            var eFileName = (Utility.Evar(tempName, 1));
 
-            // sent email query
-            // query = $@"exec dbo.dispatchsupplieremail {eAnno},{eRecipientEmail},{eSenderEmail}
-            // ,{eCcEmail},{eSubject},{eBodyText},null,{eBy}";
+             //sent email query
+             query = $@"exec dbo.dispatchsupplieremail {eAnno},{eRecipientEmail},{eSenderEmail}
+             ,{eCcEmail},{eSubject},{eBodyText},null,{eBy}";
 
-            // Console.WriteLine(query);
-            // SQLFunction.execQuery(query);
+             Console.WriteLine(query);
+             SQLFunction.execQuery(query);
 
             Stat = "success";
             Msg = "Email Has Been Sent";
 
-            return View("~/Views/JobDispatch/Index.cshtml");
+            return Redirect("/JobDispatch/Edit/" + tempAnno);
         }
 
         public IActionResult Report(string id)

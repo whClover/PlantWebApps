@@ -299,12 +299,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult OldLstPict(string tWono)
         {
             string queryLstPict = $@"Select ID,Picturecaption,PicturePath from tbl_ExrOldCoreInspAttachPic WHERE InspectType='OldCoreInspect' AND WONO={Utility.Evar(tWono, 1)} and Active != 0";
-
             Console.WriteLine(queryLstPict);
 
             var data = SQLFunction.execQuery(queryLstPict);
 
-            var rows = new List<object>();
+			var rows = new List<object>();
 
             foreach (DataRow row in data.Rows)
             {
@@ -312,8 +311,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 {
                     id = Utility.CheckNull(row["ID"]),
                     pictureCaption = Utility.CheckNull(row["PictureCaption"]),
-                    picturePath = "https://placekitten.com/200/300",
-                    open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
+                    picturePath = "..\\img\\PictInspection\\ExrJobInspection\\OldCoreInspect\\6887356\\WO6887356(2)_20230621175845.JPG",
+					open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
                     $"data-bs-target='#openFinalInvestigationPicture'><svg xmlns=\"http://www.w3.org/2000/svg\" " +
                     $"width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  " +
                     $"<path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 " +

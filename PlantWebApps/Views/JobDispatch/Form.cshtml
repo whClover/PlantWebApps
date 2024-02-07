@@ -84,294 +84,290 @@
                         <button type="button" class="btn btn-sm btn-primary" disabled>
                             UPDATE RECEIVED
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary">
-                            CLOSE
-                        </button>
                     </div>
 
                     @* save form *@
                     <form method="post" action="/JobDispatch/Save">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex">
-                                <div class="col-3 border">
-                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Dispatch Type*</div>
-                                                <div class="col-7 fw-normal">
-                                                    <select name="tDispatchType" class="form-control form-control-sm select2">
-                                                        <option value=""></option>
-                                                        @foreach (DataRow row in ViewBag.tDispatchType.Rows)
-                                                        {
-                                                            var tDispatchTypeId = row["DispatchTypeID"].ToString();
-                                                            var tDispatchTypeType = row["DispatchType"].ToString();
-                                                            var selectedDispatchType = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["DispatchType"].ToString() : null;
-                                                            <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Consigned TO*</div>
-                                                <div class="col-5 fw-normal">
-                                                    <select name="tAttentionTo" class="select2" id="tAttentionTo">
-                                                        <option value=""></option>
-                                                        @foreach (DataRow row in ViewBag.tAatentionTo.Rows)
-                                                        {
-                                                            var tAttentionToId = row["SupplierID"].ToString();
-                                                            var tAttemtionToName = row["SupplierName"].ToString();
-                                                            var selectedAttentionTo = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["AttentionTo"].ToString() : null;
-                                                            <option value="@tAttentionToId" selected="@(tAttemtionToName == selectedAttentionTo ? "selected" : "")">@tAttemtionToName | @tAttentionToId</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <input type="text" class="col-2 ms-2" style="max-width: 30px;" />
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Attention Address</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ConsignedTo"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Attention Name</div>
-                                                <div class="col-7 fw-normal">
-                                                    <select name="tAttentionName" id="tAttentionName" class="select2">
-                                                        <option value=""></option>
-                                                        @foreach (DataRow row in ViewBag.tAttentionName.Rows)
-                                                        {
-                                                            var tAttentionNameDisplayName = row["DisplayName"].ToString();
-                                                            var tAttentionNameDepartment = row["Department"].ToString();
-                                                            var tAttentionNameEmail = row["EmailAddress"].ToString();
-                                                            <option value="@tAttentionNameEmail" selected="@(ViewBag.data?.Rows.Count > 0 && tAttentionNameDisplayName == ViewBag.data.Rows[0]["AttentionName"].ToString() ? "selected" : "")">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Attention Email</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AttentionEmail"] : "")" />
-                                                </div>
+                        <div class="d-flex">
+                            <div class="col-3 border">
+                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Dispatch Type*</div>
+                                            <div class="col-7 fw-normal">
+                                                <select name="tDispatchType" class="form-control form-control-sm select2">
+                                                    <option value=""></option>
+                                                    @foreach (DataRow row in ViewBag.tDispatchType.Rows)
+                                                    {
+                                                        var tDispatchTypeId = row["DispatchTypeID"].ToString();
+                                                        var tDispatchTypeType = row["DispatchType"].ToString();
+                                                        var selectedDispatchType = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["DispatchType"].ToString() : null;
+                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                @* 2 section *@
-                                <div class="col-3 border">
-                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Project</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Project"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Job No</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["JobNo"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Manifest No</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ManifestNo"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Transport Mode</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TransportMode"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Dispatch From*</div>
-                                                <div class="col-7 fw-normal">
-                                                    <select name="tSectionId" class="select2">
-                                                        <option value=""></option>
-                                                        @foreach (DataRow row in ViewBag.tSectionId.Rows)
-                                                        {
-                                                            var tSectionId = row["JobSourceID"].ToString();
-                                                            var tSectionIdJobSource = row["JobSource"].ToString();
-                                                            <option value="@tSectionId" selected="@(ViewBag.data?.Rows.Count > 0 && tSectionId == ViewBag.data.Rows[0]["SectionID"].ToString() ? "selected" : "")">@tSectionIdJobSource</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Dispatch By</div>
-                                                <div class="col-7 fw-normal">
-                                                    <select name="tDispatchBy" id="tDispatchBy" class="col-7 select2">
-                                                        <option value=""></option>
-                                                        @foreach (DataRow row in ViewBag.tDispatchBy.Rows)
-                                                        {
-                                                            var tDispatchByDisplayName = row["DisplayName"].ToString();
-                                                            var tDispatchByAccount = row["Account"].ToString();
-                                                            var tDispatchByDepartment = row["Department"].ToString();
-                                                            var tDispatchByEmailAddress = row["EmailAddress"].ToString();
-                                                            <option value="@tDispatchByDisplayName" selected="@(ViewBag.data?.Rows.Count > 0 && tDispatchByDisplayName == ViewBag.data.Rows[0]["DispatchBy"].ToString() ? "selected" : "")">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
-                                                        }
-                                                    </select>
-                                                </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                @* 3 section *@
-                                <div class="col-3 border">
-                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Dispatch Email</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" name="tDispatchValue" id="tDispatchValue" value="" class="col-7 form-control form-control-sm" />
-                                                </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Consigned TO*</div>
+                                            <div class="col-5 fw-normal">
+                                                <select name="tAttentionTo" class="select2" id="tAttentionTo">
+                                                    <option value=""></option>
+                                                    @foreach (DataRow row in ViewBag.tAatentionTo.Rows)
+                                                    {
+                                                        var tAttentionToId = row["SupplierID"].ToString();
+                                                        var tAttemtionToName = row["SupplierName"].ToString();
+                                                        var selectedAttentionTo = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["AttentionTo"].ToString() : null;
+                                                        <option value="@tAttentionToId" selected="@(tAttemtionToName == selectedAttentionTo ? "selected" : "")">@tAttemtionToName | @tAttentionToId</option>
+                                                    }
+                                                </select>
                                             </div>
+                                            <input type="text" class="col-2 ms-2" style="max-width: 30px;" />
                                         </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DispatchDate"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Handled By</div>
-                                                <div class="col-7 fw-normal">
-                                                    <select name="cHandledBy" class="col-7 select2">
-                                                        <option value=""></option>
-                                                        @foreach (DataRow row in ViewBag.cHandledBy.Rows)
-                                                        {
-                                                            var cHandledByDisplayName = row["DisplayName"].ToString();
-                                                            var cHandledByByAccount = row["Account"].ToString();
-                                                            var cHandledByDepartment = row["Department"].ToString();
-                                                            var cHandledByEmailAddress = row["EmailAddress"].ToString();
-                                                            <option value="@cHandledByEmailAddress" selected="@(ViewBag.data?.Rows.Count > 0 && cHandledByEmailAddress == ViewBag.data.Rows[0]["HandledBy"].ToString() ? "selected" : "")">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Handled Date</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["HandledDate"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Received By</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedBy"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Received Date</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")" />
-                                                </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Attention Address</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ConsignedTo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                @* 4 section *@
-                                <div class="col-3 border">
-                                    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">StatusID</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StatusID"] : "New")" />
-                                                </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Attention Name</div>
+                                            <div class="col-7 fw-normal">
+                                                <select name="tAttentionName" id="tAttentionName" class="select2">
+                                                    <option value=""></option>
+                                                    @foreach (DataRow row in ViewBag.tAttentionName.Rows)
+                                                    {
+                                                        var tAttentionNameDisplayName = row["DisplayName"].ToString();
+                                                        var tAttentionNameDepartment = row["Department"].ToString();
+                                                        var tAttentionNameEmail = row["EmailAddress"].ToString();
+                                                        <option value="@tAttentionNameEmail" selected="@(ViewBag.data?.Rows.Count > 0 && tAttentionNameDisplayName == ViewBag.data.Rows[0]["AttentionName"].ToString() ? "selected" : "")">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">Advice Note</div>
-                                                <div class="col-4 fw-normal">
-                                                    <input type="text" class="col-4 form-control form-control-sm" name="tID" id="tID" value="@ViewBag.id" />
-                                                </div>
-                                                <a class="btn btn-primary col-3 ms-2 " id="cFind" style="max-width: 50px; font-size: 12px;">
-                                                    find
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">RegisterBy</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 form-control form-control-sm" name="tRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5" style="font-size: 12px;">ModBy</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 form-control form-control-sm" name="tModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container overflow-hidden">
-                                            <div class="row align-items-center">
-                                                <div class="col-5 " style="font-size: 12px;">ModDate</div>
-                                                <div class="col-7 fw-normal">
-                                                    <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
-                                                </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Attention Email</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AttentionEmail"] : "")" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="align-self-end my-3 d-flex" style="gap: 10px;">
-                                <button type="submit" class="btn btn-sm btn-primary" formaction="/jobdispatch/save">
-                                    SAVE
-                                </button>
-                                <a class="btn btn-sm btn-primary" href="/JobDispatch">
-                                    CLOSE
-                                </a>
+                            @* 2 section *@
+                            <div class="col-3 border">
+                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Project</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Project"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Job No</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["JobNo"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Manifest No</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ManifestNo"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Transport Mode</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TransportMode"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Dispatch From*</div>
+                                            <div class="col-7 fw-normal">
+                                                <select name="tSectionId" class="select2">
+                                                    <option value=""></option>
+                                                    @foreach (DataRow row in ViewBag.tSectionId.Rows)
+                                                    {
+                                                        var tSectionId = row["JobSourceID"].ToString();
+                                                        var tSectionIdJobSource = row["JobSource"].ToString();
+                                                        <option value="@tSectionId" selected="@(ViewBag.data?.Rows.Count > 0 && tSectionId == ViewBag.data.Rows[0]["SectionID"].ToString() ? "selected" : "")">@tSectionIdJobSource</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Dispatch By</div>
+                                            <div class="col-7 fw-normal">
+                                                <select name="tDispatchBy" id="tDispatchBy" class="col-7 select2">
+                                                    <option value=""></option>
+                                                    @foreach (DataRow row in ViewBag.tDispatchBy.Rows)
+                                                    {
+                                                        var tDispatchByDisplayName = row["DisplayName"].ToString();
+                                                        var tDispatchByAccount = row["Account"].ToString();
+                                                        var tDispatchByDepartment = row["Department"].ToString();
+                                                        var tDispatchByEmailAddress = row["EmailAddress"].ToString();
+                                                        <option value="@tDispatchByDisplayName" selected="@(ViewBag.data?.Rows.Count > 0 && tDispatchByDisplayName == ViewBag.data.Rows[0]["DispatchBy"].ToString() ? "selected" : "")">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            @* 3 section *@
+                            <div class="col-3 border">
+                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 12px;">
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Dispatch Email</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" name="tDispatchValue" id="tDispatchValue" value="" class="col-7 form-control form-control-sm" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DispatchDate"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Handled By</div>
+                                            <div class="col-7 fw-normal">
+                                                <select name="cHandledBy" class="col-7 select2">
+                                                    <option value=""></option>
+                                                    @foreach (DataRow row in ViewBag.cHandledBy.Rows)
+                                                    {
+                                                        var cHandledByDisplayName = row["DisplayName"].ToString();
+                                                        var cHandledByByAccount = row["Account"].ToString();
+                                                        var cHandledByDepartment = row["Department"].ToString();
+                                                        var cHandledByEmailAddress = row["EmailAddress"].ToString();
+                                                        <option value="@cHandledByEmailAddress" selected="@(ViewBag.data?.Rows.Count > 0 && cHandledByEmailAddress == ViewBag.data.Rows[0]["HandledBy"].ToString() ? "selected" : "")">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Handled Date</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["HandledDate"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Received By</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedBy"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Received Date</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* 4 section *@
+                            <div class="col-3 border">
+                                <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">StatusID</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StatusID"] : "New")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">Advice Note</div>
+                                            <div class="col-4 fw-normal">
+                                                <input type="text" class="col-4 form-control form-control-sm" name="tID" id="tID" value="@ViewBag.id" />
+                                            </div>
+                                            <a class="btn btn-primary col-3 ms-2 " id="cFind" style="max-width: 50px; font-size: 12px;">
+                                                find
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">RegisterBy</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 form-control form-control-sm" name="tRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5" style="font-size: 12px;">ModBy</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 form-control form-control-sm" name="tModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container overflow-hidden">
+                                        <div class="row align-items-center">
+                                            <div class="col-5 " style="font-size: 12px;">ModDate</div>
+                                            <div class="col-7 fw-normal">
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="justify-content-end my-3 d-flex" style="gap: 10px;">
+                            <button type="submit" class="btn btn-sm btn-primary" formaction="/jobdispatch/save">
+                                SAVE
+                            </button>
+                            <a class="btn btn-sm btn-primary" href="/JobDispatch">
+                                CLOSE
+                            </a>
+                        </div>
                     </form>
                     @* close save form *@
 
@@ -392,7 +388,7 @@
                 @if (isEdit)
                 {
                     <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
-                        <div class="d-flex flex-row align-items-center mb-2" style="gap: 10px;">
+                        <div class="d-flex flex-row align-items-center mb-2 mx-2" style="gap: 10px;">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addJobDetailModal">
                                 ADD
                             </button>
