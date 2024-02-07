@@ -28,8 +28,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public FileResult ViewAttachment(string filepath)
         {
-            Console.WriteLine("masuk");
-            Console.WriteLine(filepath);
             string fileName = Path.GetFileName(filepath);
 
             var contentTypeProvider = new FileExtensionContentTypeProvider();
@@ -273,8 +271,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult Cfind(string TTCIPartNo)
         {
             string query = $"Select * from v_PartNoDetail Where TCIPartno={Utility.Evar(TTCIPartNo, 1)}";
-            Console.WriteLine(query);
-
             var data = SQLFunction.execQuery(query);
 
             if (data.Rows.Count > 0)
@@ -1089,8 +1085,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             var rows = new List<object>();
 
-            Console.WriteLine("Load Data " + query);
-
             if (data.Rows.Count > 0)
             {
                 foreach (DataRow row in data.Rows)
@@ -1104,6 +1098,85 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 return new JsonResult("not found");
             }
             return new JsonResult(rows);
+        }
+        public IActionResult IndexPrintFinalInspection(string repairType, string compType, string statusInput, string supervisorId,
+            string supplierId, string cwoType, string cwoTypeValue, string fdocType,
+            string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
+            string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
+            string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
+            string repairAdvice, string toCatDesc, string requestP1, string fissNull,
+            string pCam, string sortBy, string ascDesc, string unitnumber)
+        {
+            string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
+                     fdocTypeValue, ccompIdType, ccompIdValue, sDate, startDate, endDate, lmodBy, lmodByValue, reasonTypeId,
+                     freasonType, freasonValue, cbDelay, cbDelayValue, repairAdvice, toCatDesc, requestP1, fissNull, pCam,
+                     sortBy, ascDesc, unitnumber);
+
+            _tempfilter = Utility.VarFilter(filter);
+            string query = $"SELECT * FROM v_ExrJobDetailRev1 {_tempfilter} AND ResultSFI is not null";
+            Console.WriteLine(query);
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            if (data.Rows.Count > 0)
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var ID = Utility.CheckNull(row["ID"]);
+                    rows.Add("/ExrRepairJobHistoryInspection/Report/" + ID);
+                }
+            }
+            else
+            {
+                return new JsonResult("not found");
+            }
+            return new JsonResult(rows);
+        }
+        public IActionResult SingleTag(string repairType, string compType, string statusInput, string supervisorId,
+            string supplierId, string cwoType, string cwoTypeValue, string fdocType,
+            string fdocTypeValue, string ccompIdType, string ccompIdValue, string sDate, string startDate,
+            string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
+            string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
+            string repairAdvice, string toCatDesc, string requestP1, string fissNull,
+            string pCam, string sortBy, string ascDesc, string unitnumber)
+        {
+            string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
+                     fdocTypeValue, ccompIdType, ccompIdValue, sDate, startDate, endDate, lmodBy, lmodByValue, reasonTypeId,
+                     freasonType, freasonValue, cbDelay, cbDelayValue, repairAdvice, toCatDesc, requestP1, fissNull, pCam,
+                     sortBy, ascDesc, unitnumber);
+
+            _tempfilter = Utility.VarFilter(filter);
+            string query = $"SELECT * FROM v_ExrJobDetailRev1 {_tempfilter}";
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            if (data.Rows.Count > 0)
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var ID = Utility.CheckNull(row["ID"]);
+                    //string queryQr = $@"INSERT Into tbl_ExrTag (ID,StockItemNo,TCIPartNo,Description1,SearchText,IntWO,
+                    //WoJobCost,OffSiteWO,UnitNumber,UnitDescription,OPNONew,MeterToRun,MeterRun,TCIPartID,ExrRepairtype,
+                    //ANReceivedFrom,ANReceivedDate,ReceivedBy,RRANNo,StoreName,SupplierName,ReceivedDate,DnNumber,WOAlloc,
+                    //UnitAlloc,CompDesc,QR) VALUES ()";
+                    rows.Add("/ExrRepairJobHistoryInspection/Report/" + ID);
+                }
+            }
+            else
+            {
+                return new JsonResult("not found");
+            }
+            return new JsonResult("ok");
+        }
+        public IActionResult ChangeWO (string ParentWONew, string ID)
+        {
+            string query = $"Update tbl_ExrJobDetail Set OffSiteWO= {Utility.Evar(ParentWONew, 0)} WHERE ID = {Utility.Evar(ID, 0)}";
+            Console.WriteLine(query);
+            SQLFunction.execQuery(query);
+
+            return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + ID });
         }
         // load option for dropdown
         private void loadoption()

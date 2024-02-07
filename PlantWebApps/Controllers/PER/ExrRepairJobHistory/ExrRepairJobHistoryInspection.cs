@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -263,7 +264,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult OldReport(string ID)
         {
-            Console.WriteLine(ID);
             string jobId = ID;
             string servername = "https://localhost:5001/";
             string namafile;
@@ -278,12 +278,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                //FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
                 Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
-                            $"\"https://{host}/ExrRepairJobHistoryInspection/OldReportBody/{ID}\" " +
-                            $"--footer-html \"https://{host}/ExrRepairJobHistoryInspection/OldReportFooter\" " +
-                            $"--footer-spacing 3 --header-html \"https://{host}/ExrRepairJobHistoryInspection/OldReportHeader\" " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/OldReportBody/{jobId} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/OldReportFooter " +
+                            $"--footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/OldReportHeader " +
                             $"--header-spacing 3 \"{namafile}\""
+
             };
             Process p = new Process { StartInfo = psi };
             p.Start();
@@ -297,21 +299,19 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult OldLstPict(string tWono)
         {
             string queryLstPict = $@"Select ID,Picturecaption,PicturePath from tbl_ExrOldCoreInspAttachPic WHERE InspectType='OldCoreInspect' AND WONO={Utility.Evar(tWono, 1)} and Active != 0";
-
             Console.WriteLine(queryLstPict);
 
             var data = SQLFunction.execQuery(queryLstPict);
 
-            var rows = new List<object>();
-
+			var rows = new List<object>();
             foreach (DataRow row in data.Rows)
             {
                 var rowData = new
                 {
                     id = Utility.CheckNull(row["ID"]),
                     pictureCaption = Utility.CheckNull(row["PictureCaption"]),
-                    picturePath = "https://placekitten.com/200/300",
-                    open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
+                    picturePath = "..\\img\\PictInspection\\ExrJobInspection\\OldCoreInspect\\6887356\\WO6887356(2)_20230621175845.JPG",
+					open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
                     $"data-bs-target='#openFinalInvestigationPicture'><svg xmlns=\"http://www.w3.org/2000/svg\" " +
                     $"width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  " +
                     $"<path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 " +
@@ -411,6 +411,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string namafile;
             string namafile2;
             string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
             if (!Directory.Exists(savePath))
             {
@@ -419,14 +420,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, ID + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 20mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictFooter" +
-                   "\" --footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportPictHeader/" + ID +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
-
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/FinalReportPictBody/{ID} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/FinalReportPictFooter " +
+                            $"--footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/FinalReportPictHeader/{ID} " +
+                            $"--header-spacing 3 \"{namafile}\""
             };
             Process p = new Process { StartInfo = psi };
             p.Start();
@@ -444,6 +443,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string namafile;
             string namafile2;
             string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
             if (!Directory.Exists(savePath))
             {
@@ -452,13 +452,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, ID + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 20mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictFooter\"" +
-                   " --footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/OldReportPictHeader/" + ID +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/OldReportPictBody/{ID} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/OldReportPictFooter " +
+                            $"--footer-center \"Page [page] of [topage]\" --footer-font-size 11 --footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/OldReportPictHeader/{ID} " +
+                            $"--header-spacing 3 \"{namafile}\""
             };
             Process p = new Process { StartInfo = psi };
             p.Start();
@@ -477,6 +476,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string namafile;
             string namafile2;
             string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
             if (!Directory.Exists(savePath))
             {
@@ -485,15 +485,15 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm " +
-                   "\"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportBody/" + ID +
-                   "\" --footer-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportFooter" +
-                   "\" --footer-spacing 3  --header-html \"https://localhost:7235/ExrRepairJobHistoryInspection/FinalReportHeader" +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
-
+                ////FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
+                FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"http://{host}/ExrRepairJobHistoryInspection/FinalReportBody/{jobId} " +
+                            $"--footer-html http://{host}/ExrRepairJobHistoryInspection/FinalReportFooter " +
+                            $"--footer-spacing 3 --header-html http://{host}/ExrRepairJobHistoryInspection/FinalReportHeader " +
+                            $"--header-spacing 3 \"{namafile}\""
             };
+
             Process p = new Process { StartInfo = psi };
             p.Start();
             p.WaitForExit();

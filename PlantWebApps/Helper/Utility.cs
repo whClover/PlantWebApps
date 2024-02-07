@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Principal;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using QRCoder;
+using System.Drawing.Imaging;
 
 namespace PlantWebApps.Helper
 {
@@ -333,48 +335,6 @@ namespace PlantWebApps.Helper
                 excelPackage.SaveAs(new FileInfo(filePath));
             }
         }
-        //public static IActionResult LaunchArrayToExcel(object[] arrerr)
-        //{
-        //    int rowCount = arrerr.Length;
-        //    if (rowCount <= 0)
-        //        return new EmptyResult();
-
-        //    string[] firstRowData = arrerr[0].ToString().Split(',');
-        //    int colCount = firstRowData.Length;
-
-        //    if (colCount <= 0)
-        //        return new EmptyResult();
-
-        //    using (ExcelPackage excelPackage = new ExcelPackage())
-        //    {
-        //        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
-
-        //        for (int iRow = 0; iRow < rowCount; iRow++)
-        //        {
-        //            string[] rowData = arrerr[iRow].ToString().Split(',');
-        //            for (int iCol = 0; iCol < colCount; iCol++)
-        //            {
-        //                worksheet.Cells[iRow + 1, iCol + 1].Value = rowData[iCol];
-        //            }
-        //        }
-
-        //        using (ExcelRange headerRange = worksheet.Cells[1, 1, 1, colCount])
-        //        {
-        //            headerRange.Style.Font.Bold = true;
-        //            headerRange.Style.Font.Color.SetColor(Color.White);
-        //            headerRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-        //            headerRange.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 104, 186));
-        //        }
-
-        //        worksheet.Cells.AutoFitColumns();
-
-        //        byte[] fileBytes = excelPackage.GetAsByteArray();
-        //        return new FileContentResult(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        //        {
-        //            FileDownloadName = "output.xlsx"
-        //        };
-        //    }
-        //}
         public static string CheckNull(object value)
         {
             return value != null ? value.ToString() : "";
@@ -384,6 +344,24 @@ namespace PlantWebApps.Helper
             DirectoryInfo directory = new DirectoryInfo(path);
             FileInfo[] files = directory.GetFiles();
             return files.Length;
+        }
+        public static Bitmap GenerateQRCode(string data)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(10);
+
+            return qrCodeImage;
+        }
+        public static byte[] BitmapToByteArray(Bitmap bitmap)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bitmap.Save(stream, ImageFormat.Png);
+                return stream.ToArray();
+            }
         }
     }
 }

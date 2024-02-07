@@ -24,7 +24,19 @@ namespace PlantWebApps.Helper
                 return dataTable;
             }
         }
+        public static int ExecCountQuery(string commandText)
+        {
+            using (SqlConnection conn = new SqlConnection(GlobalString.conString()))
+            {
+                conn.Open();
 
+                using (SqlCommand cmd = new SqlCommand(commandText, conn))
+                {
+                    int count = (int)cmd.ExecuteScalar();
+                    return count;
+                }
+            }
+        }
         public static object ExecuteScalar(string query)
         {
             using (SqlConnection connection = new SqlConnection(GlobalString.conString()))

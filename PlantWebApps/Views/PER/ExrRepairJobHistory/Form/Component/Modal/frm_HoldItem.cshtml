@@ -1,0 +1,89 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="modal fade" id="frm_HoldItem" tabindex="-1" aria-labelledby="frm_HoldItem" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Hold Item Sticker</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column" style="gap: 15px;">
+                    <div class="fs-6 fw-bold">
+                        Fill the id (s) to be printed. Ensure Paper Setting is A4
+                    </div>
+                    <div class="row" style="gap: 10px;">
+                        <div class="row col-12">
+                            <div class="col-3">ID - 1</div>
+                            <div class="col-4">
+                                <input type="text" class="form-control form-control-sm" id="tId1" />
+                            </div>
+                        </div>
+                        <div class="row col-12">
+                            <div class="col-3">ID - 2</div>
+                            <div class="col-4">
+                                <input type="text" class="form-control form-control-sm" id="tId2" />
+                            </div>
+                        </div>
+                        <div class="row col-12">
+                            <div class="col-3">ID - 3</div>
+                            <div class="col-4">
+                                <input type="text" class="form-control form-control-sm" id="tId3" />
+                            </div>
+                        </div>
+                        <div class="row col-12">
+                            <div class="col-3">ID - 4</div>
+                            <div class="col-4">
+                                <input type="text" class="form-control form-control-sm" id="tId4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnHoldItem">View</button>
+                <a class="btn btn-primary" href="/PrintItem/TestPrintHoldItem">Check Test</a>
+                <a class="btn btn-primary" href="/PrintItem/TestPrint">Print Test</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+    $("#btnHoldItem").click(function () {
+        var ListID = [];
+
+        for (var i = 1; i <= 4; i++) {
+            var id = $("#tId" + i).val();
+            if (id) {
+                ListID.push(id);
+            }
+        }
+
+        listID = ListID.join(",");
+        console.log("ListID is: " + listID);
+
+        if (ListID.length > 0) {
+            $.ajax({
+                method: "POST",
+                url: "/PrintItem/Index",
+                data: { data: listID },
+                success: function (response) {
+                    // Handle success response here
+                },
+                error: function (error) {
+                    // Handle error response here
+                }
+            });
+        } else {
+            Swal.fire("Please fill at least one ID", "", "error");
+        }
+    });
+});
+</script>

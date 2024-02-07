@@ -127,7 +127,7 @@
 				<div class="col-2">TCI Desc</div>
 				<div class="col-9">
 					<input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
-						   value="@ViewBag.data.Rows[0]["Description1"].ToString()" disabled />
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Description1"] : "")" disabled />
 				</div>
 			</div>
 		</div>
@@ -137,7 +137,7 @@
 				<div class="col-2">TCI Desc 2</div>
 				<div class="col-9">
 					<input id="tPartDesc2" name="tPartDesc2" class="col-9 form-control form-control-sm border border-0"
-						   value="@ViewBag.data.Rows[0]["Description2"].ToString()" disabled />
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Description2"] : "")" disabled />
 				</div>
 			</div>
 		</div>
