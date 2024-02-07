@@ -59,12 +59,13 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
                     jobsourceid = Utility.CheckNull(row["JobSourceID"]),
                     jobsourcepic = Utility.CheckNull(row["JobSourcePIC"]),
                     tcipartno = Utility.CheckNull(row["TCIPartNo"]),
+                    equipclass = Utility.CheckNull(row["EquipClass"]),
 
                     jobstatusid = Utility.CheckNull(row["JobStatusID"]),
                     location = Utility.CheckNull(row["Location"]),
                     exunit = Utility.CheckNull(row["ExUnit"]),
                     
-                    equipclass = Utility.CheckNull(row["EquipClass"]),
+                    
                     tagremark = Utility.CheckNull(row["TagRemark"]),
                     
                     lifecost = Utility.CheckNull(row["lifeCost"]),
@@ -151,6 +152,25 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
                 var rowData = new
                 {
                     tcidesc = Utility.CheckNull(row["Description1"]),
+                };
+                rows.Add(rowData);
+            }
+            return new JsonResult(rows);
+        }
+
+        [HttpGet]
+        public IActionResult loadeqclass(String tcipartno)
+        {
+            string query = "SELECT EquipClass, EquipClassDesc FROM v_PartNoDetailAll Where EquipClass IS NOT NULL AND TCIPartno=" + Utility.Evar(tcipartno,1);
+            var data = SQLFunction.execQuery(query);
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    equipclass = Utility.CheckNull(row["EquipClass"]),
+                    equipclassdesc = Utility.CheckNull(row["EquipClassDesc"]),
                 };
                 rows.Add(rowData);
             }

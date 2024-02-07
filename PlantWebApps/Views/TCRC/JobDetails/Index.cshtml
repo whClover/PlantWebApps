@@ -106,6 +106,8 @@
             $("#sourcepic").val(msg[0].sourcepic);
             $("#tcipartno").val(msg[0].tcipartno);
             searchtcipn();
+            loadeqclass($("#tcipartno").val());
+            $("#equipclass").val(msg[0].equipclass);
         });
     }
 
@@ -127,12 +129,43 @@
         });
     }
 
+    function loadeqclass(tcipartno) {
+        if (tcipartno === "") {
+            return; // Menghentikan proses jika tcipn kosong
+        }
+        $.ajax({
+            url: 'JobDetails/loadeqclass',
+            dataType: 'json',
+            data: { tcipartno: tcipartno },
+            success: function (response) {
+                var selectElement = document.getElementById('equipclass');
+                selectElement.innerHTML = '';
+
+                response.forEach(function (item) {
+                    var option = document.createElement('option');
+                    option.value = item.equipclass;
+                    option.text = item.equipclassdesc;
+
+                    selectElement.appendChild(option);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
     $("#btcisearch").on("click", function () {
         searchtcipn();
     });
 
     $(document).ready(function () {
         loadData();
+
+        $("#equipclass").on("change", function () {
+            equipclassdesc();
+        });
+
         $('#bFilter').on("click", function () {
             loadData();
         });
