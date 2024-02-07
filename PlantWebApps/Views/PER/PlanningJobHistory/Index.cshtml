@@ -1,0 +1,499 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<script>
+    // status modal
+    document.addEventListener('DOMContentLoaded', function () {
+        var statusInput = document.getElementById('statusInput');
+        var statusSelect = document.getElementById('statusSelect');
+
+        document.getElementById('saveStatusBtn').addEventListener('click', function () {
+            var selectedOptions = Array.from(statusSelect.selectedOptions).map(option => option.value);
+
+            statusInput.value = selectedOptions.join(', ');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var btnDanger = document.getElementById('statusRemove');
+        var statusInput = document.getElementById('statusInput');
+
+        btnDanger.addEventListener('click', function () {
+            statusInput.value = '';
+        });
+    });
+
+    // repair modal
+    document.addEventListener('DOMContentLoaded', function () {
+        var repairInput = document.getElementById('repairInput');
+        var repairSelect = document.getElementById('repairSelect');
+
+        document.getElementById('saveRepairBtn').addEventListener('click', function () {
+            var selectedOptions = Array.from(repairSelect.selectedOptions).map(option => option.value);
+
+            repairInput.value = selectedOptions.join(', ');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var btnDanger = document.getElementById('repairRemove');
+        var repairInput = document.getElementById('repairInput');
+
+        btnDanger.addEventListener('click', function () {
+            repairInput.value = '';
+        });
+    });
+</script>
+
+<!-- filter status Modal -->
+<div class="modal fade" id="filterStatusModal" tabindex="-1" aria-labelledby="filterStatusModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Maint Type</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select class="form-select" multiple aria-label="status select" style="min-height: 300px;" id="statusSelect">
+                    @foreach (DataRow row in ViewBag.MaintType.Rows)
+                    {
+                        var MaintType = row["MaintType"].ToString();
+                        var Description = row["Description"].ToString();
+                        <option value="@MaintType">@MaintType | @Description</option>
+                    }
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- filter repair adv Modal -->
+<div class="modal fade" id="filterRepairAdv" tabindex="-1" aria-labelledby="filterRepairAdv" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="repairModal">Status Repair Advice</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select class="form-select" multiple aria-label="repair select" style="min-height: 100px;" id="repairSelect">
+                    <option value="CR">Continue Repair</option>
+                    <option value="OH">On Hold</option>
+                    <option value="SC">Scrapepd/Dispose</option>
+                    <option value="WA">Waiting Advice</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveRepairBtn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" asp-controller="OutstandingInternalWo">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">PER Job Internal WO</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <button type="button" class="btn btn-sm btn-primary" id="cfilter" name="cfilter"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvasRight">
+                            <i class="fa fa-filter me-2"></i> FILTER
+                        </button>
+                    </div>
+                    <!-- right offcanvas -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <span id="offcanvasRightLabel" class="form-label">
+                                <i class="fa fa-filter"></i> Filter
+                            </span>
+                            <button type="button" class="btn-close text-reset btn-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="row">
+                                <div class="mb-2">
+                                    <label class="form-label">Maint Type</label>
+                                    <div class="d-flex flex-row" style="gap: 10px;">
+                                        <input type="Text" class="form-control form-control-sm" id="statusInput"
+                                               value="@ViewBag.MaintType" name="statusValue" style="height: 40px;" />
+                                        <div class="d-flex flex-row mb-2" style="gap: 10px;">
+                                            <button type="button" class="btn btn-primary" style="min-width: 50px;"
+                                                    data-bs-toggle="modal" data-bs-target="#filterStatusModal">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" id="statusRemove" style="min-width: 50px;">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Repair Adv</label>
+                                    <div class="d-flex flex-row" style="gap: 10px;">
+                                        <input type="Text" class="form-control form-control-sm" id="repairInput"
+                                               value="@ViewBag.RepairAdvice" name="repairValue" style="height: 40px;" />
+                                        <div class="d-flex flex-row mb-2" style="gap: 10px;">
+                                            <button type="button" class="btn btn-primary" style="min-width: 50px;"
+                                                    data-bs-toggle="modal" data-bs-target="#filterRepairAdv">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" id="repairRemove" style="min-width: 50px;">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @* job stat *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Job Stat</label>
+                                        <select class="form-control form-control-sm select2" id="fstatusid" name="fstatusid">
+                                            <option value=""></option>
+                                            @foreach (DataRow row in ViewBag.StatusId.Rows)
+                                            {
+                                                var ExrJobStatusID = row["ExrJobStatusID"].ToString();
+                                                var ExrJobStatus = row["ExrJobStatus"].ToString();
+                                                var ExrJobStatusDesc = row["ExrJobStatusDesc"].ToString();
+                                                <option value="@ExrJobStatusID">@ExrJobStatus | @ExrJobStatusDesc</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @* fswo  *@
+                                    <div class="mb-2 col">
+                                        <select class="form-label2" name="CWOType" id="CWOType">
+                                            <option value="OffsiteWO">Parent WO</option>
+                                            <option value="WOFitToUnit">WO to Unit</option>
+                                            <option value="ChildWO">OffSite WO</option>
+                                            <option value="IntWO">Internal WO</option>
+                                            <option value="WOJobCost">WO Job Cost</option>
+                                            <option value="WoAlloc">WO Alloc</option>
+                                        </select>
+                                        <input type="text" name="fswo" class="form-control form-control-sm" id="fswo" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @* is empty *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Is Empty</label>
+                                        <select class="form-control form-control-sm select2" id="fisnull" name="fisnull">
+                                            <option value=""></option>
+                                            <option value="DNNo">DNNo</option>
+                                            <option value="EGEI">EGEI</option>
+                                            <option value="EIEK">EIEK</option>
+                                            <option value="EKEP">EKEP</option>
+                                            <option value="STOTNo">STOTNo</option>
+                                            <option value="JobNo">JobNo</option>
+                                            <option value="RegisterDate">Register Date</option>
+                                            <option value="ReceivedDate">Received Date</option>
+                                            <option value="DocDate">Doc Date</option>
+                                            <option value="QuoteDate">Quote Date</option>
+                                            <option value="OPDate">OP Date</option>
+                                            <option value="ORDate">OR Date</option>
+                                            <option value="DisputeCompletedDate">Dispute Completed Date</option>
+                                            <option value="PRFID">PRFID</option>
+                                        </select>
+                                    </div>
+                                    @* sort by  *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Sort By</label>
+                                        <select class="form-control form-control-sm select2" id="fsort" name="fsort">
+                                            <option value=""></option>
+                                            <option value="ID">ID</option>
+                                            <option value="RegisterDate">Register Date</option>
+                                            <option value="DeliveryDate">Delivery Date</option>
+                                            <option value="ReceivedDate">Received Date</option>
+                                            <option value="DisputeCompletedDate">Dispute Completed Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @* asc dsc *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Asc/Dsc</label>
+                                        <select class="form-control form-control-sm select2" id="fasc" name="fasc">
+                                            <option value=""></option>
+                                            <option value="ASC">ASC</option>
+                                            <option value="DESC">DESC</option>
+                                        </select>
+                                    </div>
+                                    @* op no  *@
+                                    <div class="mb-2 col">
+                                        <select class="form-label2" name="fDocType" id="fDocType">
+                                            <option value="OPNo">OPNo</option>
+                                            <option value="ORNo">ORNo</option>
+                                            <option value="DNNumber">DNNumber</option>
+                                            <option value="STOTNo">STOTNo</option>
+                                            <option value="JObNo">JObNo</option>
+                                            <option value="JObNo2nd">JObNo2nd</option>
+                                            <option value="QuoteNo">QuoteNo</option>
+                                            <option value="ORRRNo">ORRRNo</option>
+                                            <option value="OPRRNo">OPRRNo</option>
+                                        </select>
+                                        <input type="text" name="fdocno" class="form-control form-control-sm" id="fdocno" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @* part number  *@
+                                    <div class="mb-2 col">
+                                        <select class="form-label2" name="CCompIDType" id="CCompIDType">
+                                            <option value="TCIPartNo">Part Number</option>
+                                            <option value="TCIPARTID">Component ID</option>
+                                            <option value="ID">Job ID</option>
+                                            <option value="UnitNumber">Unit Number</option>
+                                            <option value="Remark">Remark</option>
+                                            <option value="UnitDescription">Unit Description</option>
+                                        </select>
+                                        <input type="text" name="TPartID" class="form-control form-control-sm" id="TPartID" />
+                                    </div>
+                                    @* eq class *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Eq Class</label>
+                                        <select class="form-control form-control-sm select2" id="feqclass" name="feqclass">
+                                            <option value=""></option>
+                                            @foreach (DataRow row in ViewBag.EqClass.Rows)
+                                            {
+                                                var UnitDescription = row["UnitDescription"].ToString();
+                                                <option value="@UnitDescription">@UnitDescription</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @* reason *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Reason</label>
+                                        <select class="form-control form-control-sm select2" id="freason" name="freason">
+                                            <option value=""></option>
+                                            @foreach (DataRow row in ViewBag.Reason.Rows)
+                                            {
+                                                var ReasonTypeID = row["ReasonTypeID"].ToString();
+                                                var ReasonType = row["ReasonType"].ToString();
+                                                var ReasonTypeDesc = row["ReasonTypeDesc"].ToString();
+                                                <option value="@ReasonTypeID">@ReasonType | @ReasonTypeDesc</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @* store  *@
+                                    <div class="mb-2 col">
+                                        <select class="form-label2" name="fstoretype" id="fstoretype">
+                                            <option value="StoreID">ExStore</option>
+                                            <option value="Destination">Store</option>
+                                            <option value="Allocation">Allocation</option>
+                                        </select>
+                                        <select class="form-control form-control-sm select2" id="fstore" name="fstore">
+                                            <option value=""></option>
+                                            @foreach (DataRow row in ViewBag.Store.Rows)
+                                            {
+                                                var StoreID = row["StoreID"].ToString();
+                                                var StoreName = row["StoreName"].ToString();
+                                                <option value="@StoreID">@StoreName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @* turn over cat  *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">TurnOverCat</label>
+                                        <select class="form-control form-control-sm select2" id="CbTOCategory" name="CbTOCategory">
+                                            <option value=""></option>
+                                            @foreach (DataRow row in ViewBag.CbToCategory.Rows)
+                                            {
+                                                var TOCatID = row["TOCatID"].ToString();
+                                                var TOCatDesc = row["TOCatDesc"].ToString();
+                                                <option value="@TOCatID">@TOCatDesc</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @* priority  *@
+                                    <div class="mb-2 col">
+                                        <label class="form-label">Priority</label>
+                                        <select class="form-control form-control-sm select2" id="CbPriority" name="CbPriority">
+                                            <option value=""></option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="mb-2">
+                                <div>
+                                    <button type="submit" id="filterButton" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="myTable" class="table table-sm datatable mb-0 table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Request P1</th>
+                                    <th>Parent WO</th>
+                                    <th>Unit Number</th>
+                                    <th>Unit Description</th>
+                                    <th>St</th>
+                                    <th>Comp Desc</th>
+                                    <th>Maint Type</th>
+                                    <th>Comp Type</th>
+                                    <th>Repair Advice Type</th>
+                                    <th>WO Alloc</th>
+                                    <th>Site Alloc Name</th>
+                                    <th>TCI Part No</th>
+                                    <th>Supv</th>
+                                    <th>Repair By</th>
+                                    <th>Last Change Date</th>
+                                    <th>Last Change By</th>
+                                    <th>Remark</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                @if (TempData.Peek("Msg") != null)
+                {
+                    @section Scripts
+                {
+                    <script>
+                        Swal.fire({
+                            title: '@TempData.Peek("Msg")',
+                                icon: '@TempData.Peek("Stat")'
+                            });
+                        </script>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        loadData();
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
+            loadData();
+        });
+
+        function loadData() {
+            var fDocType = $('#fDocType').val();
+            var CWOType = $('#CWOType').val();
+            var CCompIDType = $('#CCompIDType').val();
+            var fstoretype = $('#fstoretype').val();
+            var CbRepairAdvice = $('#repairInput').val();
+            var tMaintType = $('#statusInput').val();
+            var fstatusid = $('#fstatusid').val();
+            var fswo = $('#fswo').val();
+            var fsrepairby = $('#fsrepairby').val();
+            var fsort = $('#fsort').val();
+            var fasc = $('#fasc').val();
+            var fdocno = $('#fdocno').val();
+            var TPartID = $('#TPartID').val();
+            var fstart = $('#fstart').val();
+            var fend = $('#fend').val();
+            var feqclass = $('#feqclass').val();
+            var freason = $('#freason').val();
+            var fstore = $('#fstore').val();
+            var CbTOCategory = $('#CbTOCategory').val();
+            var CbPriority = $('#CbPriority').val();
+            var fisnull = $('#fisnull').val();
+
+            console.log("test",fDocType);
+            console.log("test", fdocno);
+            console.log("test", fstoretype);
+            console.log("test", fstore);
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("LoadData", "PlanningJobHistory")',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    fDocType: fDocType,
+                    CWOType: CWOType,
+                    CCompIDType: CCompIDType,
+                    fstoretype: fstoretype,
+                    CbRepairAdvice: CbRepairAdvice,
+                    tMaintType: tMaintType,
+                    fstatusid: fstatusid,
+                    fswo: fswo,
+                    fsrepairby: fsrepairby,
+                    fsort: fsort,
+                    fasc: fasc,
+                    fdocno: fdocno,
+                    TPartID: TPartID,
+                    fstart: fstart,
+                    fend: fend,
+                    feqclass: feqclass,
+                    freason: freason,
+                    fstore: fstore,
+                    CbTOCategory: CbTOCategory,
+                    CbPriority: CbPriority,
+                    fisnull: fisnull,
+                },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "id" },
+                            { "data": "requestp1" },
+                            { "data": "offsitewo" },
+                            { "data": "unitnumber" },
+                            { "data": "unitdescription" },
+                            { "data": "status" },
+                            { "data": "compdesc" },
+                            { "data": "mainttype" },
+                            { "data": "comptype" },
+                            { "data": "repairadvice" },
+                            { "data": "woalloc" },
+                            { "data": "siteallocname" },
+                            { "data": "tcipartno" },
+                            { "data": "supabbr" },
+                            { "data": "supname" },
+                            { "data": "lastchangedate" },
+                            { "data": "lastchangeby" },
+                            { "data": "remarkadvice" },
+                            { "data": "locationhold" },
+                        ]
+                    });
+
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+    });
+</script>

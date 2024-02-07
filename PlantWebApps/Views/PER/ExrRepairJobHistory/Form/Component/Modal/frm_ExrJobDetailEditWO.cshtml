@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="modal fade" id="frm_ExrJobDetailEditWO" tabindex="-1" aria-labelledby="frm_ExrJobDetailEditWO" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statusModal">Update Parent WO</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column" style="gap: 15px;">
+                    <div class="row" style="gap: 10px;">
+                        <div class="row col-12">
+                            <div class="col-5">ID</div>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="formId" />
+                            </div>
+                        </div>
+                        <div class="row col-12">
+                            <div class="col-5">Parent WO</div>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="tParentWO" />
+                            </div>
+                        </div>
+                        <div class="row col-12">
+                            <div class="col-5">New Parent WO</div>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="tParentWONew" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="CChange">SAVE</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+        $("#CChange").click(function () {
+
+            var ID = $("#formId").val();
+            var ParentWO = $("#tParentWO").val();
+            var ParentWONew = $("#tParentWONew").val();
+
+            if (ID == "") {
+                Swal.fire("Cannot Update WO due to No ID Information. Please Contact Administrator", "", "error");
+            }
+            else if (ParentWONew == "") {
+                Swal.fire("Please Fill New Parent WO", "", "error");
+            } else { 
+                Swal.fire({
+                    title: "Attention",
+                    html: `
+                            <div style="font-size: 16px; text-align: center;">
+                                <div class='d-flex align-items-center flex-column'>
+                                    <div style="margin-bottom: 10px;">
+                                            Are You Sure to Change Parent WO from ${ParentWO}
+                                    </div>
+                                    <div>
+                                        to ${ParentWONew}?
+                                    </div>
+                                </div>
+                            </div>
+                                `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Okay"
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/ExrRepairJobHistory/ChangeWO",
+                            data: { ID: ID, ParentWO: ParentWO, ParentWONew: ParentWONew },
+                            success: function (response) {
+                                Swal.fire("WO Has Been Changed", "", "success");
+                                window.location.href = response.redirectToUrl;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

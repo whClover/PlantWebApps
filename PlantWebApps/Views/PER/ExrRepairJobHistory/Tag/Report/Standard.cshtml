@@ -1,0 +1,556 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+    <tr style="gap: 10px;">
+        <td style="border: 3px solid black; padding: 10px 30px 0px 30px; width: 33%">
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+                <tr>
+                    <td style="width: 60%">
+                        <img src="~/images/thiess-noborder.png" style="max-width: 100px;" />
+                    </td>
+                    <td style="width: 40%;">
+                        <div style="font-weight: 600; font-size: 16px;">After Repair Tag</div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; margin-top: 10px;">
+                @* stock code *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Stock Code</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* part number *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Part Number</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* comp desc *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Component. Desc</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px; height: 50px;">test</div>
+                    </td>
+                </tr>
+                @* unit desc *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit Desc</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* parent wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Parent WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* Internal wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Internal WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* supporting wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Supporting WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* unit no  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit No</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* hours run  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Hours Run</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* hours to run  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">HourstoRun (Est)</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* tci part id *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">TCI Part ID</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* WO ALLOCATION  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">WO Allocation</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* unit alloc  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit Allocation</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* repair type  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Repair Type</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* from  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">From</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* received date  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Received Date</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* received by  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Dn Number</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+                <tr>
+                    <td style="width: 60%">
+                        <div style="color: blue; font-size: 14px">BPN W/H</div>
+                    </td>
+                    <td style="width: 40%">
+                        <div style="color: blue; font-size: 14px">TCI-PLT-FO-229</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="border: 3px solid black; padding: 10px 30px 0px 30px; width: 33%">
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+                <tr>
+                    <td style="width: 60%">
+                        <img src="~/images/thiess-noborder.png" style="max-width: 100px;" />
+                    </td>
+                    <td style="width: 40%;">
+                        <div style="font-weight: 600; font-size: 16px;">After Repair Tag</div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; margin-top: 10px;">
+                @* stock code *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Stock Code</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* part number *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Part Number</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* comp desc *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Component. Desc</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px; height: 50px;">test</div>
+                    </td>
+                </tr>
+                @* unit desc *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit Desc</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* parent wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Parent WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* Internal wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Internal WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* supporting wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Supporting WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* unit no  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit No</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* hours run  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Hours Run</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* hours to run  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">HourstoRun (Est)</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* tci part id *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">TCI Part ID</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* WO ALLOCATION  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">WO Allocation</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* unit alloc  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit Allocation</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* repair type  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Repair Type</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* from  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">From</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* received date  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Received Date</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* received by  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Dn Number</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+                <tr>
+                    <td style="width: 60%">
+                        <div style="color: blue; font-size: 14px">BPN W/H</div>
+                    </td>
+                    <td style="width: 40%">
+                        <div style="color: blue; font-size: 14px">TCI-PLT-FO-229</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="border: 3px solid black; padding: 10px 30px 0px 30px; width: 33%">
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+                <tr>
+                    <td style="width: 60%">
+                        <img src="~/images/thiess-noborder.png" style="max-width: 100px;" />
+                    </td>
+                    <td style="width: 40%;">
+                        <div style="font-weight: 600; font-size: 16px;">After Repair Tag</div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; margin-top: 10px;">
+                @* stock code *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Stock Code</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* part number *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Part Number</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* comp desc *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Component. Desc</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px; height: 50px;">test</div>
+                    </td>
+                </tr>
+                @* unit desc *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit Desc</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* parent wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Parent WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* Internal wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Internal WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* supporting wo  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Supporting WO</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* unit no  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit No</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* hours run  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Hours Run</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* hours to run  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">HourstoRun (Est)</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* tci part id *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">TCI Part ID</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* WO ALLOCATION  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">WO Allocation</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* unit alloc  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Unit Allocation</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* repair type  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Repair Type</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* from  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">From</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* received date  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Received Date</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+                @* received by  *@
+                <tr>
+                    <td style="width: 40%">
+                        <div style="font-size: 12px; font-weight: 600">Dn Number</div>
+                    </td>
+                    <td style="width: 60%">
+                        <div style="font-size: 12px; border: 1px solid black; padding: 3px;">test</div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;">
+                <tr>
+                    <td style="width: 60%">
+                        <div style="color: blue; font-size: 14px">BPN W/H</div>
+                    </td>
+                    <td style="width: 40%">
+                        <div style="color: blue; font-size: 14px">TCI-PLT-FO-229</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div class="image">
+    <img src="https://placekitten.com/200/300" style="width: 200px;"/>
+</div>
+
+<style>
+    .image {
+        position: absolute;
+        top: 25%;
+        right: 7%;
+        transform: translate(-7%, -25%);
+    }
+</style>

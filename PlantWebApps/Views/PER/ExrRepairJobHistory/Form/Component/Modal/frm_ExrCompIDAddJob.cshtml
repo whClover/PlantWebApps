@@ -79,14 +79,14 @@
                         <div class="col-3 ">Part Desc 1</div>
                         <div class="col-9">
                             <input id="tPartDesc1x" name="tPartDesc1x" class="col-9 form-control form-control-sm"
-                                   value="@ViewBag.data.Rows[0]["Description1"].ToString()"  />
+                                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Description1"] : "")" />
                         </div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-3 ">Part Desc 2</div>
                         <div class="col-9">
                             <input id="tPartDesc2x" name="tPartDesc2x" class="col-9 form-control form-control-sm"
-                                   value="@ViewBag.data.Rows[0]["Description2"].ToString()"  />
+                                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Description2"] : "")" />
                         </div>
                     </div>
                     <div class="row align-items-center">

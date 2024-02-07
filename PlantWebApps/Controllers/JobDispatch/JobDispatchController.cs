@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PlantWebApps.Helper;
 using System.Data;
 using System.Diagnostics;
@@ -38,9 +39,10 @@ namespace PlantWebApps.Controllers.JobDispatch
         public IActionResult Edit(string id)
         {
             loadOption();
-            loadAccess(id);
+            LoadAccess(id);
 
             ViewBag.id = id;
+            Console.WriteLine("id is " + ViewBag.id);
             ViewBag.isEdit = true;
 
             string query = "select TOP 50 * from v_DispatchJob where ID =" + Utility.Evar(id, 1);
@@ -51,28 +53,70 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             return View("~/Views/JobDispatch/Form.cshtml");
         }
-        public IActionResult SearchWonoDetail(string id, string wono)
+        public JsonResult SearchWonoDetail(string id, string wono)
         {
             loadOption();
 
-            ViewBag.id = id;
             ViewBag.isEdit = true;
-
-            string query = "select * from v_DispatchJob where ID =" + Utility.Evar(id, 1);
-            ViewBag.data = SQLFunction.execQuery(query);
 
             string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
             ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
 
-            string dataQuery = $@"SELECT * from tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 1)} AND WONO = '{wono}' AND StatusID != 'del'";
+            string dataQuery = $@"SELECT * from tbl_DispatchJobDetail WHERE  WONO = {Utility.Evar(wono, 1)} AND StatusID != 'del'";
+            Console.WriteLine(dataQuery);
+            
             var result = SQLFunction.execQuery(dataQuery);
-            if (result.Rows.Count > 0)
+
+            if (result.Rows.Count > 1)
             {
-                ViewBag.dataaccess = result;
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                List<string> columnNames = new List<string>();
+                foreach (DataColumn column in result.Columns)
+                {
+                    columnNames.Add(column.ColumnName);
+                }
+
+                foreach (DataRow row in result.Rows)
+                {
+                    Dictionary<string, object> dataDict = new Dictionary<string, object>();
+                    foreach (string columnName in columnNames)
+                    {
+                        dataDict[columnName] = row[columnName];
+                    }
+                    rows.Add(dataDict);
+                }
+
+                string json = JsonConvert.SerializeObject(rows);
+                return Json(new { massage = "more", json });
             }
-            return View("~/Views/JobDispatch/Form.cshtml");
+            else if (result.Rows.Count > 0)
+            {
+                List<string> columnNames = new List<string>();
+                foreach (DataColumn column in result.Columns)
+                {
+                    columnNames.Add(column.ColumnName);
+                }
+
+                // Create a dictionary to store the column names and values
+                Dictionary<string, object> dataDict = new Dictionary<string, object>();
+                foreach (DataRow row in result.Rows)
+                {
+                    foreach (string columnName in columnNames)
+                    {
+                        dataDict[columnName] = row[columnName];
+                    }
+                }
+                string json = JsonConvert.SerializeObject(dataDict);
+                return Json(new { massage = "one", json });
+            }
+            else
+            {
+                string json = "123";
+                return Json(new { massage = "empty", json });
+            }
+
         }
-        private void loadAccess(string ID)
+        private void LoadAccess(string ID)
         {
             string dataQuery = @"SELECT * from tbl_DispatchJobDetail WHERE ID =" + Utility.Evar(ID, 1) + " AND StatusID != 'del'";
             Console.WriteLine(dataQuery);
@@ -80,9 +124,6 @@ namespace PlantWebApps.Controllers.JobDispatch
             if (result.Rows.Count > 0)
             {
                 ViewBag.dataaccess = result;
-            }
-            else
-            {
             }
         }
         public IActionResult loadData(string fwono, string tanno, string fsectionid, 
@@ -143,8 +184,12 @@ namespace PlantWebApps.Controllers.JobDispatch
                     receivedDate = Utility.CheckNull(row["ReceivedDate"]),
                     statusId = Utility.CheckNull(row["StatusID"]),
                     edit = "<a class='btn btn-link btn-sm' href='/JobDispatch/Edit/" + row["ID"] + "'><i class='fa fa-edit'></i></a>",
-                    delete = "<a class='btn btn-sm btn-link' id='btnDeleteDetail' href='/JobDispatch/Delete/" + row["ID"] + "'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"red\" class=\"bi bi-trash3-fill\" viewBox=\"0 0 16 16\">\r\n  <path d=\"M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5\"/>\r\n</svg></a>"
-				};
+				    delete = $@"<button type='button' class='btn btn-link btn-sm' onclick='confirmDelete(""{row["ID"]}"")'>
+                                    <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" fill=""red"" class=""bi bi-trash3-fill"" viewBox=""0 0 16 16"">
+                                      <path d=""M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5""/>
+                                    </svg>       
+                                </button>",
+                };
                 rows.Add(rowData);
             }
             return new JsonResult(rows);
@@ -172,9 +217,9 @@ namespace PlantWebApps.Controllers.JobDispatch
                 tempfilter = "AND CompDesc Like " + Utility.Evar(compdesc, 1) + tempfilter;
             }
 
-            tempfilter = Utility.VarFilter(tempfilter);
+            _tempfilter = Utility.VarFilter(tempfilter);
             Console.WriteLine(tempfilter);
-            string dataQuery = "Select SectionID,Section,JobID,WONo,ChildWO,ExtWO,CompDesc,MaintType,CompQty from v_WOtoDispatch2 ";
+            string dataQuery = $"Select SectionID,Section,JobID,WONo,ChildWO,ExtWO,CompDesc,MaintType,CompQty from v_WOtoDispatch2 {_tempfilter}";
             Console.WriteLine(dataQuery);
             var data = SQLFunction.execQuery(dataQuery);
 
@@ -195,7 +240,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                     compqty = Utility.CheckNull(row["CompQty"]),
                     select = $"<a id='selectedDetailRow' class='btn btn-primary btn-sm' " +
                     $"value='{string.Join(" ", row.ItemArray)}' data-bs-target='#anDetailModal' " +
-                    $"data-bs-toggle='modal'>OPEN</a>"
+                    $"data-bs-toggle='modal'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  <path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7\"/>\r\n</svg></a>"
                 };
                 rows.Add(rowData);
             }
@@ -280,6 +325,8 @@ namespace PlantWebApps.Controllers.JobDispatch
             var tempfolder = $@"C:\Users\trahayu\source\repos\PlantWebApps\PlantWebApps\src\export\{tempAnno}";
             tempName = Path.Combine(tempfolder, "rpt_Dispatch_Detail.pdf");
 
+            Console.WriteLine("tempanno" + tempAnno);
+
             if (eChkAttach == "on")
             {
                 string servername = "https://localhost:7056/";
@@ -299,32 +346,83 @@ namespace PlantWebApps.Controllers.JobDispatch
                 p.WaitForExit();
             }
 
-            //var eFileName = (Utility.Evar(tempName, 1));
+            var eFileName = (Utility.Evar(tempName, 1));
 
-            // sent email query
-            // query = $@"exec dbo.dispatchsupplieremail {eAnno},{eRecipientEmail},{eSenderEmail}
-            // ,{eCcEmail},{eSubject},{eBodyText},null,{eBy}";
+             //sent email query
+             query = $@"exec dbo.dispatchsupplieremail {eAnno},{eRecipientEmail},{eSenderEmail}
+             ,{eCcEmail},{eSubject},{eBodyText},null,{eBy}";
 
-            // Console.WriteLine(query);
-            // SQLFunction.execQuery(query);
+             Console.WriteLine(query);
+             SQLFunction.execQuery(query);
 
             Stat = "success";
             Msg = "Email Has Been Sent";
 
-            return View("~/Views/JobDispatch/Index.cshtml");
+            return Redirect("/JobDispatch/Edit/" + tempAnno);
         }
-        
+
         public IActionResult Report(string id)
         {
-            loadOption();
-            var reportAnno = Utility.Evar(id, 1);
+            Console.WriteLine(id);
+            string namafile;
+            string namafile2;
+            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+            string host = $"{HttpContext.Request.Host}";
 
-            string jobQuery = $"SELECT * FROM tbl_DispatchJob WHERE ID = {reportAnno}";
-            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE ID = {reportAnno}";
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+            namafile = Path.Combine(savePath, id + ".pdf");
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
+                //FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+                Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
+                            $"https://{host}/jobdispatch/PrintBody/{id} " +
+                            $"--footer-html https://{host}/jobdispatch/PrintFooter/{id} " +
+                            $"--header-html https://{host}/jobdispatch/PrintHeader/{id} " +
+                            $"--header-spacing 3 \"{namafile}\""
+            };
 
-            ViewBag.report = SQLFunction.execQuery(jobQuery);
+            Process p = new Process { StartInfo = psi };
+            p.Start();
+            p.WaitForExit();
+
+            namafile2 = Path.Combine(savePath, id + ".pdf");
+            string ffname = "Job Dispatch Report " + id + ".pdf";
+
+            return PhysicalFile(namafile2, "application/pdf", ffname);
+        }
+        public IActionResult PrintHeader(string id)
+        {
+            Console.WriteLine("Print header id " + id);
+            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 0)}";
+
             ViewBag.detail = SQLFunction.execQuery(Detailquery);
-            return PartialView("~/Views/Shared/Report/_JobDispatchReport.cshtml");
+            return View("~/Views/JobDispatch/Report/Header.cshtml");
+        }
+
+        public IActionResult PrintBody(string id)
+        {
+            Console.WriteLine("Print body id " + id);
+
+            string query = $"SELECT * FROM tbl_DispatchJob WHERE ID = {Utility.Evar(id, 0)}";
+            ViewBag.report = SQLFunction.execQuery(query);
+            Console.WriteLine("query is" + query);
+
+            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 0)}";
+            ViewBag.detail = SQLFunction.execQuery(Detailquery);
+
+            return View("~/Views/JobDispatch/Report/Body.cshtml");
+        }
+        public IActionResult PrintFooter(string id)
+        {
+            Console.WriteLine("Print footer id " + id);
+            string query = $"SELECT * FROM tbl_DispatchJob WHERE ID = {Utility.Evar(id, 0)}";
+
+            ViewBag.report = SQLFunction.execQuery(query);
+            return View("~/Views/JobDispatch/Report/Footer.cshtml");
         }
         public IActionResult AddDetail()
         {
@@ -388,14 +486,15 @@ namespace PlantWebApps.Controllers.JobDispatch
             var eID = (Utility.Evar(id, 1));
             var eRegisterDate = (Utility.Evar(DateTime.Now.ToString(), 1));
             var eByName = (Utility.Evar((Utility.GetCurrentUsername().Split('\\')[1]), 1)); ;
+            
             query = $"UPDATE tbl_DispatchJobDetail SET StatusID = 'del', DeletedDate = {eRegisterDate},DeletedBy = {eByName}  Where ID = {eID}";
             queryDetail = $"UPDATE tbl_DispatchJob SET StatusID = 'x'  Where ID = {eID}";
+            
             SQLFunction.execQuery(query);
             SQLFunction.execQuery(queryDetail);
             Console.WriteLine(query);
-            Stat = "success";
-            Msg = "Data Has Been Deleted";
-            return Redirect("/jobdispatch");
+
+            return new JsonResult("ok");
         }
         public IActionResult DeleteDetail(string id)
         {

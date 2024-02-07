@@ -2,7 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    @using System.Data;
+@using System.Data;
 }
 
 <div class="col border">
@@ -20,15 +20,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (DataRow row in ViewBag.ListStatus.Rows)
+                    @if (ViewBag.ListStatus != null)
                     {
-                        <tr>
-                            <td>@row["itemchange"]</td>
-                            <td>@row["descchange"]</td>
-                            <td>@row["moddate"]</td>
-                            <td>@row["modby"]</td>
-                            <td>@row["src"]</td>
-                        </tr>
+                        @foreach (DataRow row in ViewBag.ListStatus.Rows)
+                        {
+                            <tr>
+                                <td>@row["itemchange"]</td>
+                                <td>@row["descchange"]</td>
+                                <td>@row["moddate"]</td>
+                                <td>@row["modby"]</td>
+                                <td>@row["src"]</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

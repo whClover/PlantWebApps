@@ -6,84 +6,87 @@
 }
 
 <!-- Modal -->
-<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="statusModal">Send Email To Supplier</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex flex-column" style="gap: 10px">
-                <div class="container overflow-hidden">
-                    <div class="row align-items-center">
-                        <div class="col-3" style="font-size: 12px;">AN NUMBER*</div>
-                        <input type="Text" class="col-6" name="emailAnno" id="emailAnno" readonly="readonly" required />
+
+<form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="statusModal">Send Email To Supplier</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column" style="gap: 10px">
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">AN NUMBER*</div>
+                            <input type="Text" class="col-6" name="emailAnno" id="emailAnno" readonly="readonly" required />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Consigned To*</div>
+                            <input type="Text" class="col-6" name="emailAttentionTo" id="emailAttentionTo" readonly="readonly" value="" required />
+                            <input type="Text" class="col-2 ms-1 d-none" value="" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Sender Email*</div>
+                            <input type="Text" class="col-6" name="emailSenderEmail" value="" required />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row">
+                            <div class="col-3" style="font-size: 12px;">Recipient Email*</div>
+                            <textarea class="col-6" name="emailRecipientEmail" id="emailRecipientEmail" rows="2" required></textarea>
+                            <select class="col-2 ms-1" id="cRecipientCategory" name="cRecipientCategory" style="max-height: 25px;">
+                                <option value=""></option>
+                                @foreach (DataRow row in ViewBag.cRecipientCategory.Rows)
+                                {
+                                    var emailCategory = row["EmailCategory"].ToString();
+                                    <option value="@emailCategory" selected="@(emailCategory == ViewBag.cRecipientCategory?.Rows[0]?["EmailCategory"].ToString())"> @emailCategory</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row">
+                            <div class="col-3" style="font-size: 12px;">CC Email</div>
+                            <textarea class="col-6" name="emailCcEmail" id="emailCcEmail" rows="2"></textarea>
+                            <select class="col-2 ms-1" id="cccEmailCategory" name="cccEmailCategory" style="max-height: 25px;">
+                                <option value=""></option>
+                                @foreach (DataRow row in ViewBag.cccEmailCategory.Rows)
+                                {
+                                    var emailCategory = row["EmailCategory"].ToString();
+                                    <option value="@emailCategory"> @emailCategory</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row align-items-center">
+                            <div class="col-3" style="font-size: 12px;">Subject Email</div>
+                            <input type="Text" class="col-8" name="emailSubject" value="" />
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row">
+                            <div class="col-3" style="font-size: 12px;">Body Text</div>
+                            <textarea class="col-8" name="emailBodyText" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row">
+                            <div class="col-3" style="font-size: 12px;">Attechment</div>
+                            <input class="form-check-input" type="checkbox" name="emailChkAttach" disabled>
+                        </div>
                     </div>
                 </div>
-                <div class="container overflow-hidden">
-                    <div class="row align-items-center">
-                        <div class="col-3" style="font-size: 12px;">Consigned To*</div>
-                        <input type="Text" class="col-6" name="emailAttentionTo" id="emailAttentionTo" readonly="readonly" value="" required />
-                        <input type="Text" class="col-2 ms-1 d-none" value="" />
-                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="saveStatusBtn" formaction="/JobDispatch/SentEmail">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
-                <div class="container overflow-hidden">
-                    <div class="row align-items-center">
-                        <div class="col-3" style="font-size: 12px;">Sender Email*</div>
-                        <input type="Text" class="col-6" name="emailSenderEmail" value="" required/>
-                    </div>
-                </div>
-                <div class="container overflow-hidden">
-                    <div class="row">
-                        <div class="col-3" style="font-size: 12px;">Recipient Email*</div>
-                        <textarea class="col-6" name="emailRecipientEmail" id="emailRecipientEmail" rows="2" required></textarea>
-                        <select class="col-2 ms-1" id="cRecipientCategory" name="cRecipientCategory" style="max-height: 25px;">
-                            <option value=""></option>
-                            @foreach (DataRow row in ViewBag.cRecipientCategory.Rows)
-                            {
-                                var emailCategory = row["EmailCategory"].ToString();
-                                <option value="@emailCategory" selected="@(emailCategory == ViewBag.cRecipientCategory?.Rows[0]?["EmailCategory"].ToString())"> @emailCategory</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="container overflow-hidden">
-                    <div class="row">
-                        <div class="col-3" style="font-size: 12px;">CC Email</div>
-                        <textarea class="col-6" name="emailCcEmail" id="emailCcEmail" rows="2"></textarea>
-                        <select class="col-2 ms-1" id="cccEmailCategory" name="cccEmailCategory" style="max-height: 25px;">
-                            <option value=""></option>
-                            @foreach (DataRow row in ViewBag.cccEmailCategory.Rows)
-                            {
-                                var emailCategory = row["EmailCategory"].ToString();
-                                <option value="@emailCategory"> @emailCategory</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="container overflow-hidden">
-                    <div class="row align-items-center">
-                        <div class="col-3" style="font-size: 12px;">Subject Email</div>
-                        <input type="Text" class="col-8" name="emailSubject" value="" />
-                    </div>
-                </div>
-                <div class="container overflow-hidden">
-                    <div class="row">
-                        <div class="col-3" style="font-size: 12px;">Body Text</div>
-                        <textarea class="col-8" name="emailBodyText" rows="5"></textarea>
-                    </div>
-                </div>
-                <div class="container overflow-hidden">
-                    <div class="row">
-                        <div class="col-3" style="font-size: 12px;">Attechment</div>
-                        <input class="form-check-input" type="checkbox" name="emailChkAttach">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="saveStatusBtn" formaction="/JobDispatch/SentEmail">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
+</form>

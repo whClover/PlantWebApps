@@ -69,9 +69,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					break;
 			}
 
-			if (!string.IsNullOrEmpty(Request.Form["CWOType"]))
+			if (!string.IsNullOrEmpty(Request.Form["CWOType"]) && !string.IsNullOrEmpty(Request.Form["fSwo"]))
 			{
-				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(Request.Form["fSwo"], 0) + tempfilter;
+				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(Request.Form["fSwo"], 1) + tempfilter;
 			}
 
 			if (!string.IsNullOrEmpty(Request.Form["fUnitDesc"]))
@@ -100,6 +100,8 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			{
 			LoadOption();
 			string tempfilter = string.Empty;
+
+			Console.WriteLine("test", fMaintBase);
 
 			Dictionary<string, string> formFields = new Dictionary<string, string>
 			{
@@ -143,9 +145,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					break;
 			}
 
-			if (!string.IsNullOrEmpty(CWOType))
+			if (!string.IsNullOrEmpty(CWOType) && !string.IsNullOrEmpty(fSwo))
 			{
-				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(fSwo, 0) + tempfilter;
+				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(fSwo, 1) + tempfilter;
 			}
 
 			if (!string.IsNullOrEmpty(fUnitDesc))
@@ -167,7 +169,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			_tempfilter = Utility.VarFilter(tempfilter);
 			Console.WriteLine(_tempfilter);
 
-			string query = $"SELECT * from v_ExrCEDetail {_tempfilter} {temporder}";
+			string query = $"SELECT TOP 50 * from v_ExrCEDetail {_tempfilter} {temporder}";
 			Console.WriteLine(query);
 
 			var data = SQLFunction.execQuery(query);
@@ -197,28 +199,34 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					pcamStatus = Utility.CheckNull(row["PCAMStatusID"]),
 					pcamID = Utility.CheckNull(row["PCAMID"]),
 					psDate = Utility.CheckNull(row["PSDate"]),
-					edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["ID"] + "'><i class='fa fa-edit'></i></button>",
+					edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["jobID"] + "'><i class='fa fa-edit'></i></button>",
 					delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["ID"]})'><i class='fa fa-trash text-danger'></i></button>"
 				};
 				rows.Add(rowData);
 			}
 			return new JsonResult(rows);
 		}
-		public IActionResult Edit(string id, string tWono)
-		{
-			LoadOption();
+        public IActionResult Edit(string id, string tWono)
+        {
+            LoadOption();
 
-			// general data query
-			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{id}'";
-			ViewBag.data = SQLFunction.execQuery(query);
+            string query = $"SELECT * from v_ExrCEDetail WHERE JobID = '{id}'";
+			Console.WriteLine("test" + query);
+            ViewBag.data = SQLFunction.execQuery(query);
 
-			// PCAM Required query
-			string queryPcamRequired = @ViewBag.data.Rows[0]["PCAMRequired"].ToString();
-			ViewBag.PCAMRequired = queryPcamRequired;
+            if (ViewBag.data.Rows.Count > 0)
+            {
+                string queryPcamRequired = ViewBag.data.Rows[0]["PCAMRequired"].ToString();
+                ViewBag.PCAMRequired = queryPcamRequired;
+            }
+            else
+            {
+                ViewBag.PCAMRequired = string.Empty;
+            }
 
-			return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
-		}
-		public IActionResult Delete(string id)
+            return View("~/Views/PER/ComponentEvaluation/Form.cshtml");
+        }
+        public IActionResult Delete(string id)
 		{
 			LoadOption();
 
@@ -235,7 +243,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		public IActionResult CreateCESummary(string ID, string WONO)
 		{
 			LoadOption();
-			string query = $"select dbo.CreateCESummary({Utility.Evar(WONO, 0)}) as OUTPUT";
+			string query = $"select dbo.CreateCESummary({Utility.Evar(WONO, 1)}) as OUTPUT";
 			Console.WriteLine(query);
 
 			var data = SQLFunction.execQuery(query);
@@ -310,7 +318,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 					detail = Utility.CheckNull(row["Detail"]),
 					edit = $"<a id='selectedDetailRow' class='btn btn-primary btn-sm' " +
 					$"value='{string.Join(" ", row.ItemArray)}' " +
-					$">Edit</a>"
+					$"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-pencil-square\" viewBox=\"0 0 16 16\">\r\n  <path d=\"M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z\"/>\r\n  <path fill-rule=\"evenodd\" d=\"M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z\"/>\r\n</svg></a>"
 				};
 				rows.Add(rowData);
 			}
@@ -426,7 +434,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			PCAMID = {ePCAMID}, MaintType = {eMaintType}, BdgtHours = {eBdgtHours}, SMU = {eSMU},
 			Complaint = {eComplaint}, FlatRate = {eFlatRate}, OROP = {eOROP}, ExcPart = {eExcPart}, 
 			PartCost = {ePartCost}, LabourCost = {eLabourCost},OtherCost = {eOtherCost},
-			PriceType = {ePriceType},Price = {ePrice},CurrID = {eCurrID},StripDown = {eStripDown}
+			PriceType = {ePriceType},Price = {ePrice},CurrID = {eCurrID},StripDown = '{StripDown}'
 			,SysTypeID = {eSysTypeID},RootCauseCode = {eRootCauseCode},SysFailCode = {eSysFailCode},
 			RecCode = {eRecCode},M1 = {eM1}, M2 = {eM2},M3 = {eM3},M4 = {eM4},
 			M5 = {eM5},M6 = {eM6},M7 = {eM7},M8 = {eM8},M9 = {eM9},M10 = {eM10},M11 = {eM11},M12 = {eM12},
@@ -435,7 +443,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			EvalByID = {eEvalByID},EvalDate = {eEvalDate},
 			EvalCode = {eEvalCode},PSName = {ePSName},PSDate = {ePSDate},POSName = {ePOSName},
 			POSDate = {ePOSDate},PMName = {ePMName},PMDate = {ePMDate},
-			Conclusion = {eConclusion},ModBy = {eModBy},ModDate = {eModDate},JobID = {eJobID},ConsCost = {eConsCost}
+			Conclusion = '{Conclusion}',ModBy = {eModBy},ModDate = {eModDate},JobID = {eJobID},ConsCost = {eConsCost}
 			,SavingCost = {eSavingCost},TCISupply = {eTCISupply}
 			,SupplyDate = {eSupplyDate},InstallDate = {eInstallDate},RemoveDate = {eRemoveDate},Remark = {eRemark} WHERE ID = {eID}";
 
@@ -454,9 +462,9 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			Console.WriteLine("id is " + ID);
 			
-			string query = $"SELECT * from v_ExrCEDetail WHERE ID = '{ID}'";
+			string query = $"SELECT * from v_ExrCEDetail WHERE JobID = '{ID}'";
+			Console.WriteLine("query is" + query);
 			var dataTable = SQLFunction.execQuery(query);
-			ViewBag.data = SQLFunction.execQuery(query);
 			ViewBag.id = ID;
 
 			if (dataTable != null && dataTable.Rows.Count > 0)
@@ -464,6 +472,8 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 				var unitNumber = dataTable.Rows[0]["unitnumber"].ToString();
 				var evalcode = dataTable.Rows[0]["EvalCode"].ToString();
 				var wono = dataTable.Rows[0]["Wono"].ToString();
+
+				ViewBag.data = SQLFunction.execQuery(query);
 
 				string queryUnitNumber = $@"SELECT UnitNumber, UnitDescription, Location, LocationName FROM v_UnitNumber WHERE UnitNumber = '{unitNumber}'";
 				ViewBag.tUnitNumber = SQLFunction.execQuery(queryUnitNumber);
@@ -494,22 +504,24 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			string namafile;
 			string namafile2;
 			string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
+			string host = $"{HttpContext.Request.Host}";
 
 			if (!Directory.Exists(savePath))
 			{
 				Directory.CreateDirectory(savePath);
 			}
 			namafile = Path.Combine(savePath, tempAnno + "_dc.pdf");
+
 			ProcessStartInfo psi = new ProcessStartInfo
 			{
 				FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-				Arguments = "--username minestar --password Mine1staR --margin-bottom 10mm --orientation Landscape " +
-				   "\"https://localhost:7235/ComponentEvaluation/ReportBody/" + ID +
-                   "\" --footer-html  --footer-right \"\"Page [page] of [topage]\"\" --footer-font-size 6 --footer-spacing -3\" \"https://localhost:7235/ComponentEvaluation/ReportFooter" +
-				   "\" --footer-spacing 3 --header-html \"https://localhost:7235/ComponentEvaluation/ReportHeading" +
-                   "\" --header-spacing 3 " +
-                   "\"" + namafile + "\""
-            
+				//FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
+				Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm --orientation Landscape " +
+							$"https://{host}/ComponentEvaluation/ReportBody/{ID} " +
+							$"--footer-html --footer-right \"\"Page [page] of [topage]\"\" --footer-font-size 6 --footer-spacing -3 https://{host}/ComponentEvaluation/ReportFooter " +
+							$"--footer-spacing 3 --header-html https://{host}/ComponentEvaluation/ReportHeading " +
+							$"--header-spacing 3 \"{namafile}\""
+
 			};
 			Process p = new Process { StartInfo = psi };
 			p.Start();
