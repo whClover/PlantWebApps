@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -306,14 +307,22 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			var rows = new List<object>();
             foreach (DataRow row in data.Rows)
             {
-                string dataPath = $@"SELECT dbo.RemapPicW(PicturePath) from tbl_ExrOldCoreInspAttachPic where id = {Utility.CheckNull(row["ID"])}";
-                var dataPath2 = SQLFunction.ExecuteScalar(dataPath);
 
-                var rowData = new
+                string basePath = @"..\..\..\wwwroot\img";
+
+				string dataPath = $@"SELECT dbo.RemapPicW(PicturePath) from tbl_ExrOldCoreInspAttachPic where id = {Utility.CheckNull(row["ID"])}";
+                string dataPath2 = SQLFunction.ExecuteScalar(dataPath).ToString();
+				string dataPath3 = dataPath2.Substring(21);
+                string dataPath4 = basePath + dataPath3;
+
+                string pictPath = dataPath4.Replace(@"\", "/");
+				Console.WriteLine(pictPath);
+
+				var rowData = new
                 {
                     id = Utility.CheckNull(row["ID"]),
                     pictureCaption = Utility.CheckNull(row["PictureCaption"]),
-                    picturePath = @"http:\\bpnaps07:3355\wwwroot\img\PictInspection\ExrJobInspection\OldCoreInspect\6887356\WO6887356(2)_20230621175845.JPG",
+                    //picturePath = @"http:\\bpnaps07:3355\wwwroot\img\PictInspection\ExrJobInspection\OldCoreInspect\6887356\WO6887356(2)_20230621175845.JPG",
                     //picturePath = "..\\img\\PictInspection\\ExrJobInspection\\OldCoreInspect\\6887356\\WO6887356(2)_20230621175845.JPG",
                     //picturePath = $"{dataPath2}",
                     open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
