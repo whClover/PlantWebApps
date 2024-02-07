@@ -304,7 +304,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var data = SQLFunction.execQuery(queryLstPict);
 
 			var rows = new List<object>();
-
             foreach (DataRow row in data.Rows)
             {
                 var rowData = new
