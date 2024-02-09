@@ -134,7 +134,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                             <path d='M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0' />
                                         </svg>        
                                    </button>",
-                    id = Utility.CheckNull(row["ID"]),
+                        id = Utility.CheckNull(row["ID"]),
                         attachmenttype = Utility.CheckNull(row["AttachmentType"]),
                         filepath = Utility.CheckNull(row["FilePath"]),
                         fullpath = Utility.CheckNull(row["FullPath"]),
@@ -527,7 +527,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
             string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
             string repairAdvice, string toCatDesc, string requestP1, string fissNull,
-            string pCam, string sortBy, string ascDesc, string unitnumber) 
+            string pCam, string sortBy, string ascDesc, string unitnumber)
         {
             string tempfilter = string.Empty;
 
@@ -1081,7 +1081,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
             string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
             string repairAdvice, string toCatDesc, string requestP1, string fissNull,
-            string pCam, string sortBy, string ascDesc, string unitnumber) 
+            string pCam, string sortBy, string ascDesc, string unitnumber)
         {
             Console.WriteLine("repair type" + repairType);
             string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
@@ -1105,8 +1105,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     rows.Add("/ExrRepairJobHistoryInspection/OldReport/" + ID);
                 }
             }
-            else 
-            { 
+            else
+            {
                 return new JsonResult("not found");
             }
             return new JsonResult(rows);
@@ -1182,7 +1182,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return new JsonResult("ok");
         }
-        public IActionResult ChangeWO (string ParentWONew, string ID)
+        public IActionResult ChangeWO(string ParentWONew, string ID)
         {
             string query = $"Update tbl_ExrJobDetail Set OffSiteWO= {Utility.Evar(ParentWONew, 0)} WHERE ID = {Utility.Evar(ID, 0)}";
             Console.WriteLine(query);
