@@ -45,7 +45,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var eRegisterDate = (Utility.Evar(DateTime.Now.ToString(), 1));
             var eByName = (Utility.Evar((Utility.GetCurrentUsername().Split('\\')[1]), 1)); ;
 
-            var query = $"UPDATE tbl_DispatchJobDetail SET StatusID = 'del', DeletedDate = {eRegisterDate},DeletedBy = {eByName}  Where ID = {eID}";
+            var query = $"UPDATE tbl_DispatchJobDetail SET StatusID = 'del', DeletedDate = {eRegisterDate},DeletedBy = {eByName}  Where JobID = {eID}";
             Console.WriteLine(query);
 
             SQLFunction.execQuery(query);
@@ -179,8 +179,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult CfindIntWO(string eoffsitewo, string eWOJobCost)
         {
-            Console.WriteLine(eoffsitewo);
-            Console.WriteLine(eWOJobCost);
+            Console.WriteLine("eoffsitewo" + eoffsitewo);
+            Console.WriteLine("eWOJobCost" + eWOJobCost);
 
             string queryParentWO = $"SELECT ParentWO , Section, WONO as IntWO, WoDesc, Qty as CompQty From v_WorkOrderJobDetail where ParentWO = '{eoffsitewo}' ORDER BY WONO";
             Console.WriteLine(queryParentWO);
@@ -293,7 +293,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             else
             {
-                return new JsonResult("");
+                return new JsonResult("not found");
             }
         }
         public IActionResult TSave(string eID, string eAddCost, string eChildWO, string eCompDesc, string eCompQty,
@@ -897,21 +897,33 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             from v_ExrJobDetailRev1 WHERE ID={id}";
 
             string queryAddOrderEtc = $"Select * from tbl_ExrJobDetailTwo WHERE ID={id}";
-
             string queryListStatus = $"SELECT id,itemchange,descchange,moddate,modby,src from v_ExrJobChangeHistory  Where JobID = {id}";
 
-            string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
-            Status ,DispatchTypeID,RegisterBy,Registerdate  from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id} AND StatusID != 'del'";
+            // THE PROBLEM
+            string queryCheckDispatch = $@"SELECT StatusID from tbl_DispatchJobDetail WHERE JobID = {id}";
+            Console.WriteLine(queryCheckDispatch);
+            var result = SQLFunction.execQuery(queryCheckDispatch);
+
+            if (result.Rows.Count > 0)
+            {
+                string statusId = result.Rows[0]["StatusID"].ToString();
+
+                if (statusId != "del")
+                {
+                    string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
+                Status ,DispatchTypeID,RegisterBy,Registerdate from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id} AND StatusID != 'del'";
+
+                    ViewBag.ListDispatch = SQLFunction.execQuery(queryListDispatch);
+                }
+            }
 
             string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where JobID={id}";
-
             string queryHoldUntil = $"select top 1 TargetDate from tbl_ExrJobChangeHistory where JobID={id} and JobStatus='OH' order by ModDate desc";
 
             ViewBag.data = SQLFunction.execQuery(query);
             ViewBag.detail = SQLFunction.execQuery(queryDetail);
             ViewBag.AddOrderEtc = SQLFunction.execQuery(queryAddOrderEtc);
             ViewBag.ListStatus = SQLFunction.execQuery(queryListStatus);
-            ViewBag.ListDispatch = SQLFunction.execQuery(queryListDispatch);
             ViewBag.ListAttachment = SQLFunction.execQuery(queryListAttachment);
             ViewBag.HoldUntil = SQLFunction.execQuery(queryHoldUntil);
             ViewBag.by = Utility.eusername();

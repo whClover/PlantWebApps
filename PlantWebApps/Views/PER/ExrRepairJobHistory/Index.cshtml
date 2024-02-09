@@ -449,6 +449,8 @@
                 confirmButtonText: "Okay"
             }).then(async (result) => {
                 if (result.isConfirmed) {
+                    Swal.fire("Process Is Running", "", "info");
+
                     var index = 0;
                     var extractedData = extractData();
                     try {
@@ -466,6 +468,8 @@
                     } catch (error) {
                         // Handle error response here
                     }
+
+                    Swal.fire("Process Complete", "", "success");
                 }
             });
         });
@@ -492,6 +496,8 @@
                 confirmButtonText: "Okay"
             }).then(async (result) => {
                 if (result.isConfirmed) {
+                    Swal.fire("Process Is Running", "", "info");
+
                     var index = 0;
                     var extractedData = extractData();
                     try {
@@ -509,6 +515,8 @@
                     } catch (error) {
                         // Handle error response here
                     }
+
+                    Swal.fire("Process Complete", "", "success");
                 }
             });
         });

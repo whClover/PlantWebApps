@@ -25,11 +25,11 @@
                         @foreach (DataRow row in ViewBag.ListStatus.Rows)
                         {
                             <tr>
-                                <td>@row["itemchange"]</td>
-                                <td>@row["descchange"]</td>
-                                <td>@row["moddate"]</td>
-                                <td>@row["modby"]</td>
-                                <td>@row["src"]</td>
+                                <td class="fw-normal">@row["itemchange"]</td>
+                                <td class="fw-normal">@row["descchange"]</td>
+                                <td class="fw-normal">@row["moddate"]</td>
+                                <td class="fw-normal">@row["modby"]</td>
+                                <td class="fw-normal">@row["src"]</td>
                             </tr>
                         }
                     }

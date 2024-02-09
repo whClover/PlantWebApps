@@ -324,7 +324,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 				string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
 				ePictureCaption = fileName1;
 				targetDirectory = $"{PathExrJobInspection}";
-				//targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
+				//targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "img"); // local
 
 				newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
 				newFile = $@"{newPath}\{fileName1}";
@@ -528,7 +528,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                ////FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
+                //FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
                 FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
                 Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
                             $"http://{host}/ExrRepairJobHistoryInspection/FinalReportBody/{jobId} " +
@@ -583,10 +583,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             if (checkData.Rows.Count > 0)
             {
-                //targetDirectory = $"{PathExrJobInspection}"; server
-                targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
+                targetDirectory = $"{PathExrJobInspection}";
+                //targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "img"); // local
 
-                newPath = $@"{PathExrJobInspection}\{inspectType}\{wonum}";
+                newPath = $@"{targetDirectory}\{inspectType}\{wonum}";
                 newFile = $@"{newPath}\{fileName1}";
                 string eNewFile = Utility.Evar(newFile, 1);
 
@@ -594,8 +594,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 eInspectType = Utility.Evar(inspectType, 1);
                 string ejobid = Utility.CheckNull(checkData.Rows[0]["ID"]);
 
-                filePath = Path.Combine(targetDirectory, fileName1);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = new FileStream(newPath, FileMode.Create))
                 {
                     await formData.CopyToAsync(stream);
                 }
@@ -604,7 +603,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 					{eInspectType}, {Utility.ebyname()}";
 
                 Console.WriteLine(query);
-                //SQLFunction.execQuery(query);
+                SQLFunction.execQuery(query);
 
                 return new JsonResult("ok");
             }
