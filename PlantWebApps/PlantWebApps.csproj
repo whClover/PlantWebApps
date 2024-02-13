@@ -71,7 +71,6 @@
   <ItemGroup>
     <Folder Include="Controllers\Fabshop\" />
     <Folder Include="Controllers\TMRP\" />
-    <Folder Include="Views\Auth\" />
   </ItemGroup>
 
 </Project>

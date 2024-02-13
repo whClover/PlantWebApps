@@ -1,0 +1,278 @@
+﻿@{
+    @using System.Data;
+}
+
+<div class="col-md-3 border p-0">
+    <table class="table table-condensed table-sm">
+        <tr>
+            <td colspan="2" class="table-light fw-bold">
+                Job Information
+            </td>
+        </tr>
+        <tr>
+            <td>Int.WO <span class="text-danger">*</span></td>
+            <td>
+                <div class="input-group mb-3">
+                    <input type="number" class="form-control form-control-sm" id="wono" name="wono" />
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-secondary" type="button" id="button-addon2">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Component Qty</td>
+            <td>
+                <input type="number" class="form-control form-control-sm" id="compqty" name="compqty" />
+            </td>
+        </tr>
+        <tr>
+            <td>Parent WO <span class="text-danger">*</span></td>
+            <td>
+                <input type="number" class="form-control form-control-sm" id="parentwo" name="parentwo" />
+            </td>
+        </tr>
+        <tr>
+            <td>Job Desc</td>
+            <td>
+                <textarea class="form-control form-control-sm" id="jobdesc" name="jobdesc" rows="3"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Work Type <span class="text-danger">*</span></td>
+            <td>
+                <select class="form-control form-control-sm" id="worktype" name="worktype">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.worktype.Rows)
+                    {
+                        var WorkTypeID = row["WorkTypeID"].ToString();
+                        var WorkTypeName = row["WorkTypeName"].ToString();
+                        <option value="@WorkTypeID" selected="@(WorkTypeID == ViewBag.data?.Rows[0]?["WorkTypeID"].ToString())">@WorkTypeName</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Unit No</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" id="unitno" name="unitno" />
+            </td>
+        </tr>
+        <tr>
+            <td>Unit Desc <span class="text-danger">*</span></td>
+            <td>
+                <select class="form-control form-control-sm" id="unitdesc" name="unitdesc">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.unitdesc.Rows)
+                    {
+                        var UnitDescription = row["UnitDescription"].ToString();
+                        <option value="@UnitDescription" selected="@(UnitDescription == ViewBag.data?.Rows[0]?["UnitDescription"].ToString())">@UnitDescription</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Maint Type</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" id="mainttype" name="mainttype" readonly />
+            </td>
+        </tr>
+        <tr>
+            <td>Stand Req</td>
+            <td>
+                <select class="form-control form-control-sm" id="standreq" name="standreq">
+                    <option value="">--blank--</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Priority</td>
+            <td>
+                <select class="form-control form-control-sm" id="priority" name="priority">
+                    <option value="">--blank--</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Current Loc</td>
+            <td>
+                <select class="form-control form-control-sm" id="currentloc" name="currentloc">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.curloc.Rows)
+                    {
+                        var Location = row["Location"].ToString();
+                        var LocationName = row["LocationName"].ToString();
+                        <option value="@Location" selected="@(Location == ViewBag.data?.Rows[0]?["CurrentLocation"].ToString())">@LocationName</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Ex Store <span class="text-danger">*</span></td>
+            <td>
+                <select class="form-control form-control-sm" id="exstore" name="exstore">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.storeid.Rows)
+                    {
+                        var StoreID = row["StoreID"].ToString();
+                        var StoreName = row["StoreName"].ToString();
+                        <option value="@StoreID" selected="@(StoreID == ViewBag.data?.Rows[0]?["StoreID"].ToString())">@StoreName</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Reason Type <span class="text-danger">*</span></td>
+            <td>
+                <select class="form-control form-control-sm" id="reasontype" name="reasontype">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.reasontypeid.Rows)
+                    {
+                        var ReasonTypeID = row["ReasonTypeID"].ToString();
+                        var ReasonTypeDesc = row["ReasonTypeDesc"].ToString();
+                        <option value="@ReasonTypeID" selected="@(ReasonTypeID == ViewBag.data?.Rows[0]?["ReasonTypeID"].ToString())">@ReasonTypeDesc</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Repair Type <span class="text-danger">*</span></td>
+            <td>
+                <select class="form-control form-control-sm" id="repairtype" name="repairtype">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.repaittypeid.Rows)
+                    {
+                        var RepairType = row["RepairType"].ToString();
+                        <option value="@RepairType" selected="@(RepairType == ViewBag.data?.Rows[0]?["RepairType"].ToString())">@RepairType</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Previous WO</td>
+            <td>
+                <input type="text" class="form-control form-control-sm" id="prevwo" name="prevwo" />
+            </td>
+        </tr>
+        <tr>
+            <td>Comp.Hour <span class="text-danger">*</span></td>
+            <td>
+                <input type="text" class="form-control form-control-sm" id="comphour" name="comphour" />
+            </td>
+        </tr>
+        <tr>
+            <td>Life</td>
+            <td>
+                <select class="form-control form-control-sm" id="life" name="life">
+                    <option value="">--blank--</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Current WDV <span class="text-danger">*</span></td>
+            <td>
+                <input type="text" class="form-control form-control-sm" id="currentwdv" name="currentwdv" />
+            </td>
+        </tr>
+        <tr>
+            <td>JP type <span class="text-danger">*</span></td>
+            <td>
+                <select class="form-control form-control-sm" id="jptype" name="jptype">
+                    <option value="">--blank--</option>
+                    <option value="REQUIRED">REQUIRED</option>
+                    <option value="NOT REQUIRED">NOT REQUIRED</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="table-light fw-bold">
+                JP Receival Information
+            </td>
+        </tr>
+        <tr>
+            <td>Date/Time <span class="text-danger">*</span></td>
+            <td>
+                <input class="form-control form-control-sm datepicker-basic" id="jpdatetime" name="jpdatetime" />
+            </td>
+        </tr>
+        <tr>
+            <td>Received By <span class="text-danger">*</span></td>
+            <td>
+                <input class="form-control form-control-sm" id="receivedby" name="receivedby" />
+            </td>
+        </tr>
+        <tr>
+            <td>AN No <span class="text-danger">*</span></td>
+            <td>
+                <input class="form-control form-control-sm" id="anno" name="anno" />
+            </td>
+        </tr>
+        <tr>
+            <td>Job SourceID</td>
+            <td>
+                <select class="form-control form-control-sm" id="jobsourceid" name="jobsourceid">
+                    <option value="">--blank--</option>
+                    @foreach (DataRow row in ViewBag.jobsourceid.Rows)
+                    {
+                        var JobSourceID = row["JobSourceID"].ToString();
+                        var JobSource = row["JobSource"].ToString();
+                        <option value="@JobSourceID" selected="@(JobSourceID == ViewBag.data?.Rows[0]?["JobSourceID"].ToString())">@JobSource</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Source PIC</td>
+            <td>
+                <input class="form-control form-control-sm" id="sourcepic" name="sourcepic" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="table-light fw-bold">
+                Component Information
+            </td>
+        </tr>
+        <tr>
+            <td>TCI Part No</td>
+            <td>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-sm" id="tcipartno" name="tcipartno">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-secondary" type="button" id="btcisearch">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Desc</td>
+            <td>
+                <textarea class="form-control form-control-sm" id="tcidesc" name="tcidesc" rows="3" readonly></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>EQ Class</td>
+            <td>
+                <div class="row">
+                    <div class="col-md-12">
+                        <select class="form-control form-control-sm" id="equipclass" name="equipclass">
+                            <option value="">--blank--</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
