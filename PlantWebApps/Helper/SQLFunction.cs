@@ -24,6 +24,27 @@ namespace PlantWebApps.Helper
                 return dataTable;
             }
         }
+
+        public static DataTable executeQuery(String commandText)
+        {
+            SqlConnection conn = new SqlConnection(GlobalString.conStringLive());
+            DataTable dataTable = new DataTable();
+            using (SqlCommand cmd = new SqlCommand(commandText, conn))
+            {
+                conn.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                if (reader.HasRows)
+                {
+                    dataTable.Load(reader);
+                }
+
+                conn.Close();
+
+                return dataTable;
+            }
+        }
+
         public static int ExecCountQuery(string commandText)
         {
             using (SqlConnection conn = new SqlConnection(GlobalString.conString()))

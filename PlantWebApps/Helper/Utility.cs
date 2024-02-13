@@ -23,6 +23,7 @@ namespace PlantWebApps.Helper
             string username = Environment.UserName;
             return username;
         }
+
         public static String ebyname() 
         {
             String username = Utility.Evar(GlobalString._username, 1);

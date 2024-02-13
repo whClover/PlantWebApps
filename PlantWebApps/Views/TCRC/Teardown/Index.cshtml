@@ -1,0 +1,691 @@
+﻿@{
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 ml-1">Teardown Module</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">TCRC</a></li>
+                    <li class="breadcrumb-item active">Index - Module Teardown</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <table class="table table-sm table-condensed">
+                            <tr>
+                                <td>Search WO.</td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control form-control-sm" id="wono" name="wono" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-outline-primary" type="button" id="btnsearchwo">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" id="frm_td">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">                
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-sm table-condensed">
+                            <tr>
+                                <td>WONo</td>
+                                <td><input type="number" class="form-control form-control-sm" id="fwono" name="fwono" readonly/></td>
+                            </tr>
+                            <tr>
+                                <td>WO Description</td>
+                                <td><input type="text" class="form-control form-control-sm" id="wodesc" name="wodesc" readonly /></td>
+                            </tr>
+                            <tr>
+                                <td>Unit Description</td>
+                                <td><input type="text" class="form-control form-control-sm" id="unitdesc" name="unitdesc" readonly /></td>
+                            </tr>
+                            <tr>
+                                <td>Component</td>
+                                <td><input type="text" class="form-control form-control-sm" id="comp" name="comp" readonly /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link mb-2 active" id="mod1-tab" data-bs-toggle="pill" href="#mod1" role="tab" aria-controls="mod1" aria-selected="true">1. Choose Workshop</a>
+                            <a class="nav-link mb-2" id="mod2-tab" data-bs-toggle="pill" href="#mod2" role="tab" aria-controls="mod2" aria-selected="false" tabindex="-1">2. SOW | CFI</a>
+                            <a class="nav-link mb-2" id="mod3-tab" data-bs-toggle="pill" href="#mod3" role="tab" aria-controls="mod3" aria-selected="false" tabindex="-1">3. SWP</a>
+                            <a class="nav-link" id="mod4-tab" data-bs-toggle="pill" href="#mod4" role="tab" aria-controls="mod4" aria-selected="false" tabindex="-1">4. Component ID | Remarks</a>
+                            <a class="nav-link" id="mod5-tab" data-bs-toggle="pill" href="#mod5" role="tab" aria-controls="mod5" aria-selected="false" tabindex="-1">5. Upload Photos</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
+                            <div class="tab-pane fade active show" id="mod1" role="tabpanel" aria-labelledby="mod1-tab">
+                                <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                    <h6>Workshop</h6>
+                                </blockquote>
+                                <table class="table table-bordered table-sm">
+                                    <tr>
+                                        <td>Powertrain</td>
+                                        <td>
+                                            <div id="fws_pt">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Engine</td>
+                                        <td>
+                                            <div id="fws_engine">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="mod2" role="tabpanel" aria-labelledby="mod2-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                            <h6>Reference</h6>
+                                        </blockquote>
+                                        <table class="table table-sm table-bordered text-center">
+                                            <tr>
+                                                <td>SOW</td>
+                                                <td>
+                                                    <a class="btn btn-light btn-sm">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>CFI</td>
+                                                <td>
+                                                    <a class="btn btn-light btn-sm">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <span class="text-muted" id="sow_status">Read Status: -</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                            <h6>Mechanic Teardown</h6>
+                                        </blockquote>
+                                        <table class="table table-sm table-bordered datatablenon">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="mod3" role="tabpanel" aria-labelledby="mod3-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                            <h6>Reference</h6>
+                                        </blockquote>
+                                        <table class="table table-sm table-bordered text-center">
+                                            <tr>
+                                                <td>SWP</td>
+                                                <td>
+                                                    <a class="btn btn-light btn-sm">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <span class="text-muted" id="swp_status">Read Status: -</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                            <h6>Mechanic Teardown</h6>
+                                        </blockquote>
+                                        <table class="table table-sm table-bordered datatablenon">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="mod4" role="tabpanel" aria-labelledby="mod4-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                            <h6>Component ID & Remark</h6>
+                                        </blockquote>
+                                        <table class="table table-sm table-condensed">
+                                            <tr>
+                                                <td>Component Source</td>
+                                                <td>
+                                                    <select class="form-control form-control-sm" id="compsource" name="compsource">
+                                                        <option value="">--blank--</option>
+                                                        <option value="1">OEM</option>
+                                                        <option value="2">TCRC</option>
+                                                        <option value="3">Other</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Component ID</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control form-control-sm" id="compid" name="compid" />
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-sm btn-outline-primary" type="button" id="btncheckcompid">
+                                                                Check
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="text-primary" id="compid_stat">OK</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Remark Visual Condition</td>
+                                                <td>
+                                                    <textarea class="form-control form-control-sm" rows="4" id="remark" name="remark"></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="mod5" role="tabpanel" aria-labelledby="mod5-tab">
+                                <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                                    <h6>Teardown Photo</h6>
+                                </blockquote>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#navtabs-home" role="tab" aria-selected="true">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <span class="d-none d-sm-block">Before Disassembly</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" role="presentation" id="tab_after">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#navtabs-profile" role="tab" aria-selected="false" tabindex="-1">
+                                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                            <span class="d-none d-sm-block">After Disassembly</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content p-3 text-muted">
+
+                                    <div class="tab-pane active" id="navtabs-home" role="tabpanel">
+                                        <span class="text-danger fs--2">
+                                            Min. 4 Pictures
+                                        </span>
+                                        <input type="hidden" id="cpict" />
+                                        <hr class="mb-0 mt-0" />
+                                        <table class="table table-sm table-condensed">
+                                            <tr>
+                                                <td>Upload</td>
+                                                <td>
+                                                    <form method="post" enctype="multipart/form-data" asp-controller="Teardown">
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control form-control-sm" id="uploadbefore" name="uploadbefore" required/>
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-sm btn-outline-primary" type="submit" id="button-addon2" formaction="/Teardown/UploadBefore">
+                                                                    <i class="fa fa-upload"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!-- Gallery -->
+                                        <div class="row" id="pictgallery"></div>
+                                        <!-- Gallery -->
+                                    </div><!-- end tab pane -->
+
+                                    <div class="tab-pane" id="navtabs-profile" role="tabpanel">
+                                        <table class="table table-sm table-condensed">
+                                            <tr>
+                                                <td>Upload</td>
+                                                <td>
+                                                    <form method="post" enctype="multipart/form-data" asp-controller="Teardown">
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control form-control-sm" id="uploadafter" name="uploadafter" required />
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-sm btn-outline-primary" type="submit" id="button-addon2" formaction="/Teardown/UploadAfter">
+                                                                    <i class="fa fa-upload"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!-- Gallery -->
+                                        <div class="row" id="pictgallery2"></div>
+                                        <!-- Gallery -->
+                                    </div><!-- end tab pane -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-sm btn-primary" id="btnsave">
+                    <i class="fa fa-save me-2"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                    <h6>Teardown Progress</h6>
+                </blockquote>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <td>1. Choose Workshop</td>
+                        <td><span class="text-success fw-bold" id="prog_1" name="prog_1">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>2. SOW | CFI</td>
+                        <td><span class="text-success fw-bold" id="prog_2" name="prog_2">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>3. SWP</td>
+                        <td><span class="text-success fw-bold" id="prog_3" name="prog_3">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>4. Component ID | Remarks</td>
+                        <td><span class="text-success fw-bold" id="prog_4" name="prog_4">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>5. Upload Photos</td>
+                        <td><span class="text-success fw-bold" id="prog_5" name="prog_5">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>6. Send to Job Package</td>
+                        <td><span class="text-success fw-bold" id="prog_6" name="prog_6">OK</span></td>
+                    </tr>
+                </table>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-sm btn-primary btn-block">
+                                Disassembly Report
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-sm btn-primary btn-block">
+                                Send to Job Package
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <blockquote class="blockquote custom-blockquote blockquote-outline-secondary rounded p-2 mb-2">
+                    <h6>Data Informations</h6>
+                </blockquote>
+                <table class="table table-sm table-condensed">
+                    <tr>
+                        <td>Register By</td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" id="regby" readonly/>
+                        </td>
+                        <td>Register Date</td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" id="regdate" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Last Modified By</td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" id="modby" readonly />
+                        </td>
+                        <td>Last Modified Date</td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" id="moddate" readonly />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#frm_td").hide();
+    $("#compid_stat").hide();
+
+    $("#btnsearchwo").on("click", function () {
+        findwo();
+    });
+
+    $("#btncheckcompid").on("click", function () {
+        check_compid();
+    });
+
+    $("#btnsave").on("click", function () {
+        savedata();
+    });
+
+    $("#compsource").on("change", function () {
+        compsource_update();
+    });
+
+    function savedata() {
+        if ($("#fwono").val() == "") {
+            showAlert("warning", "Please fill WO Number");
+            return;
+        } else {
+            ewono = $("#fwono").val();
+        }
+
+        if ($("#sow_status").text() != "Read Status: Complete") {
+            showAlert("warning", "Please Read SOW & CFI Document First");
+            return;
+        }
+
+        if ($("#swp_status").text() != "Read Status: Complete") {
+            showAlert("warning", "Please Read SWP Document First");
+            return;
+        }
+
+        if ($("#compsource").val() == "") {
+            showAlert("warning", "Please choose component source");
+            return;
+        } else {
+            ecomptype = $("#compsource").val();
+        }
+
+        if ($("#compid").val() == "") {
+            showAlert("warning", "Please fill component source");
+            return;
+        } else {
+            ecompid = $("#compid").val();
+        }
+
+        if ($("#cpict").val() < 4) {
+            showAlert("warning", "Please upload at least 4 pictures");
+            return;
+        }
+
+        eremark = $("#remark").val();
+
+        if ($("#compsource").val() == "2") {
+            if ($("#compid_stat").is(":hidden")) {
+                showAlert("warning", "Please click on button Check before Save Data");
+                return;
+            }
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "Teardown/savedata",
+            dataType: 'json',
+            data: { wono: ewono, comptype: ecomptype, compid: ecompid, remark: eremark },
+            success: function (response) {
+                console.log("Response received:", response);
+                showAlert("success", "Data has been saved");
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function compsource_update(){
+        var compsource = $("#compsource").val();
+        if (compsource == "1"){
+            $("#btncheckcompid").hide();
+            $("#compid_stat").show();
+        } else if (compsource == "2"){
+            $("#btncheckcompid").show();
+            $("#compid_stat").hide();
+        }
+    }
+
+    function check_compid() {
+        var compid = $("#compid").val();
+        if (compid == "") {
+            showAlert("warning", "Please Fill Component ID !");
+            return;
+        }
+
+        $.ajax({
+            method: "GET",
+            url: "Teardown/checkcompid",
+            dataType: 'json',
+            data: { compid:compid },
+            success: function (response) {
+                if (response.length == 0) { 
+                    showAlert("warning", "ID Not Found ! Please Check Component ID");
+                    $("#compid_stat").hide();
+                    return;
+                }
+
+                $("#compid_stat").show();
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function findwo(){
+        var wo = $("#wono").val();
+        if (wo == null) {
+            $("#frm_td").hide();
+            return;
+        }
+
+        $.ajax({
+            method: "GET",
+            url: "Teardown/LoadWO",
+            dataType: 'json',
+            data: { wo:wo },
+            success: function (response) {
+                if (response.length > 0) {
+                    $("#frm_td").show();
+
+                    $("#fwono").val(response[0].wono);
+                    $("#wodesc").val(response[0].wodesc);
+                    $("#unitdesc").val(response[0].unitdesc);
+                    $("#comp").val(response[0].comp);
+
+                    var workshop = response[0].workshop;
+                    if (workshop == "Powertrain"){
+                        $("#fws_pt").show();
+                        $("#fws_engine").hide();
+                    } else if (workshop == "Engine"){
+                        $("#fws_pt").hide();
+                        $("#fws_engine").show();
+                    }
+
+                    //load mechanic teardown
+                    findmech_TD(response[0].wono);
+
+                    var sow_stat = response[0].readsowcfi;
+                    if (sow_stat == "True") {
+                        $("#sow_status").text("Read Status: Complete");
+                    } else {
+                        $("#sow_status").text("Read Status: -");
+                    }
+
+                    var swp_stat = response[0].readswp;
+                    if (swp_stat == "True") {
+                        $("#swp_status").text("Read Status: Complete");
+                    } else {
+                        $("#swp_status").text("Read Status: -");
+                    }
+
+                    $("#compsource").val(response[0].comptype);
+                    $("#compid").val(response[0].compid);
+                    $("#remark").val(response[0].remark);
+
+                    //load picture-before & After
+                    loadpicture(response[0].jobid, 1);
+                    loadpicture(response[0].jobid, 2);
+
+                    $("#regby").val(response[0].regby);
+                    $("#regdate").val(response[0].regdate);
+                    $("#modby").val(response[0].modby);
+                    $("#moddate").val(response[0].moddate);
+
+                    //check progress
+                    checkprogress(response[0].wono);
+                } else {
+                    $("#frm_td").hide();
+                    showAlert("warning", "WO Not Found on System");
+                    return;
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function findmech_TD(wono){
+        $.ajax({
+            method: "GET",
+            url: "Teardown/LoadMechTD",
+            dataType: 'json',
+            data: { wono:wono },
+            success: function (msg) {
+                var tbody = $('.datatablenon tbody');
+
+                if (msg.length > 0) {
+                    for (var i = 0; i < msg.length; i++) {
+                        var row = $("<tr></tr>");
+                        row.append("<td>" + msg[i].fullname + "</td>");
+                        tbody.append(row);
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function loadpicture(jobid, type) {
+        $.ajax({
+            method: "GET",
+            url: "Teardown/loadpicture",
+            dataType: 'json',
+            data: { jobid: jobid, type: type },
+            success: function (response) {
+
+                if (type == "1") {
+                    var row_pictgallery = $('#pictgallery');
+                    row_pictgallery.empty();
+
+                    $("#cpict").val(response.length);
+                    for (var i = 0; i < response.length; i++) {
+                        var imageUrl = response[i].pictpath;
+                        var altText = response[i].alt_text;
+
+                        if (i % 2 === 0) {
+                            var divElement = document.createElement('div');
+                            divElement.classList.add('col-lg-4', 'mb-4', 'mb-lg-0');
+                            row_pictgallery.append(divElement);
+                        }
+
+                        var imgElement = document.createElement('img');
+                        imgElement.src = imageUrl;
+                        imgElement.classList.add('w-100', 'shadow-1-strong', 'rounded', 'mb-4');
+                        imgElement.alt = altText;
+
+                        row_pictgallery.children().last().append(imgElement);
+                    }
+                } else {
+                    var row_pictgallery = $('#pictgallery2');
+                    row_pictgallery.empty();
+                    for (var i = 0; i < response.length; i++) {
+                        var imageUrl = response[i].pictpath;
+                        var altText = response[i].alt_text;
+
+                        if (i % 2 === 0) {
+                            var divElement = document.createElement('div');
+                            divElement.classList.add('col-lg-4', 'mb-4', 'mb-lg-0');
+                            row_pictgallery.append(divElement);
+                        }
+
+                        var imgElement = document.createElement('img');
+                        imgElement.src = imageUrl;
+                        imgElement.classList.add('w-100', 'shadow-1-strong', 'rounded', 'mb-4');
+                        imgElement.alt = altText;
+
+                        row_pictgallery.children().last().append(imgElement);
+                    }
+                }       
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function checkprogress(wono) {
+        $("#prog_1").hide();
+        $("#prog_2").hide();
+        $("#prog_3").hide();
+        $("#prog_4").hide();
+        $("#prog_5").hide();
+        $("#prog_6").hide();
+
+        $("#prog_1").show();
+
+        if ($("#sow_status").text() == "Read Status: Complete") {
+            $("#prog_2").show();
+        }
+
+        if ($("#swp_status").text() == "Read Status: Complete") {
+            $("#prog_3").show();
+        }
+
+        if ($("#compsource").val() != "" && $("#compid").val() != "") {
+            $("#prog_4").show();
+        }
+
+        if ($("#cpict").val() < 4) {
+            $("#prog_5").show();
+        }
+
+        $.ajax({
+            method: "GET",
+            url: "Teardown/checkJP",
+            dataType: 'json',
+            data: { wono: wono },
+            success: function (response) {
+                if (response.length > 0) {
+                    $("#prog_6").show();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
