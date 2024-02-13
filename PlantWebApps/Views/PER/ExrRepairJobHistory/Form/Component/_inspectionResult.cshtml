@@ -11,10 +11,10 @@
             <div class="row align-items-center">
                 <div class="col-2">Old Core Inspection</div>
                 <input type="text" id="resultOld" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
-                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionY" disabled
+                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionY" 
                        value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")">
                 <label class="col-2 pt-1" for="oCoreInspection">Accept</label>
-                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionN" disabled
+                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionN" 
                        value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")">
                 <label class="col-2 pt-1" for="oCoreInspection">Reject</label>
                 <a id="btnOldCore" class="btn btn-primary col-2 ms-2 d-flex align-items-center justify-content-center" style="max-width: 45px;">
@@ -29,10 +29,10 @@
             <div class="row align-items-center">
                 <div class="col-2">Final Inspection</div>
                 <input type="text" id="resultFinal" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
-                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionY" disabled
+                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionY" 
                        value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultFinalInspect"] : "0")">
                 <label class="col-2 pt-1" for="finalInspection">Accept</label>
-                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionN" disabled
+                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionN" 
                        value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultFinalInspect"] : "0")">
                 <label class="col-2 pt-1" for="finalInspection">Reject</label>
                 <a id="btnFinalInspection" class="btn btn-primary col-2 ms-2 d-flex align-items-center justify-content-center" style="max-width: 45px;">
@@ -55,7 +55,7 @@
         $("#btnOldCore").attr("href", "/ExrRepairJobHistoryInspection/OldCore/" + id);
         $("#btnFinalInspection").attr("href", "/ExrRepairJobHistoryInspection/FinalInspection/" + id);
 
-        var oCoreInspection = $('#resultOld').val();
+        var oCoreInspection = @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0");
 
         var oCoreInspectionY = $('#oCoreInspectionY');
         var oCoreInspectionN = $('#oCoreInspectionN');
@@ -74,7 +74,7 @@
 
         handleOcoreStand();
 
-        var finalInspection = $('#resultFinal').val();
+        var finalInspection = @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0");
 
         var finalInspectionY = $('#finalInspectionY');
         var finalInspectionN = $('#finalInspectionN');

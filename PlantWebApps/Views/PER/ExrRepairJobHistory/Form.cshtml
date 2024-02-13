@@ -2,435 +2,441 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	@using System.Data;
-	// viewdata["title"] = "external repair job history";
+    @using System.Data;
+    // viewdata["title"] = "external repair job history";
 }
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header d-flex justify-content-between">
-				<h5 class="card-title">External Repair Job History Form</h5>
-				<div class="d-flex" style="gap: 10px;">
-					<div>Job ID :</div>
-					<input type="text" class="border border-0" style="max-width: 100px;" id="tID"
-							value="@(ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["ID"] : "")" 
-					/>
-				</div>
-			</div>
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				<li class="nav-item" role="presentation">
-					<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">1</button>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">2</button>
-				</li>
-			</ul>
-			<div class="tab-content" id="myTabContent" style="font-size: 12px;">
-				<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-					<div class="d-flex" style="font-size: 12px;">
-						<partial name="Form/_firstColumn.cshtml" />
-						<partial name="Form/_secondColumn.cshtml" />
-					</div>
-				</div>
-				<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-					<div class="d-flex" style="font-size: 12px;">
-						<partial name="Form/_thirdColumn.cshtml" />
-						<partial name="Form/_fourthColumn.cshtml" />
-					</div>
-				</div>
-			</div>
-			<div class="d-flex justify-content-end m-3" style="gap: 10px;">
-				<button type="button" class="btn btn-primary" style="min-width: 85px;" data-bs-toggle="modal"
-						data-bs-target="#frm_ExrJobDetailEditWO">
-					Change WO
-				</button>
-				<button type="button" class="btn btn-primary" disabled style="min-width: 85px;">PRF</button>
-				<button type="button" class="btn btn-primary" id="btnFormCe" style="min-width: 85px;">CE</button>
-				<button type="button" class="btn btn-primary" style="min-width: 85px;">TAG</button>
-				<a class="btn btn-primary" style="min-width: 85px;" id="Csave">SAVE</a>
-				<button type="button" class="btn btn-primary" style="min-width: 85px;">CLOSE</button>
-			</div>
-			@* uknown input *@
-			<input type="text" id="tDeliveryDate" name="tDeliveryDate" class="d-none"
-				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DeliveryDate"] : "")" />
-			<input type="text" id="TIssuedBy" name="TIssuedBy" class="d-none"
-				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IssuedBy"] : "")" />
-			<input type="text" id="tORRRNo" name="tORRRNo" class="d-none"
-				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ORRRNo"] : "")" />
-			<input type="text" id="tOPRRNo" name="tOPRRNo" class="d-none"
-				   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPRRNo"] : "")" />
-		</div>
-	</div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="card-title">External Repair Job History Form</h5>
+                <div class="d-flex" style="gap: 10px;">
+                    <div>Job ID :</div>
+                    <input type="text" class="border border-0" style="max-width: 100px;" id="tID"
+                           value="@(ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["ID"] : "")" />
+                </div>
+            </div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">1</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">2</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent" style="font-size: 12px;">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                    <div class="d-flex" style="font-size: 12px;">
+                        <partial name="Form/_firstColumn.cshtml" />
+                        <partial name="Form/_secondColumn.cshtml" />
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    <div class="d-flex" style="font-size: 12px;">
+                        <partial name="Form/_thirdColumn.cshtml" />
+                        <partial name="Form/_fourthColumn.cshtml" />
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end m-3" style="gap: 10px;">
+                <button type="button" class="btn btn-primary" style="min-width: 85px;" data-bs-toggle="modal"
+                        data-bs-target="#frm_ExrJobDetailEditWO">
+                    Change WO
+                </button>
+                <button type="button" class="btn btn-primary" disabled style="min-width: 85px;">PRF</button>
+                <button type="button" class="btn btn-primary" id="btnFormCe" style="min-width: 85px;">CE</button>
+                <button type="button" class="btn btn-primary" style="min-width: 85px;">TAG</button>
+                <a class="btn btn-primary" style="min-width: 85px;" id="Csave">SAVE</a>
+                <button type="button" class="btn btn-primary" style="min-width: 85px;">CLOSE</button>
+            </div>
+            @* uknown input *@
+            <input type="text" id="tDeliveryDate" name="tDeliveryDate" class="d-none"
+                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DeliveryDate"] : "")" />
+            <input type="text" id="TIssuedBy" name="TIssuedBy" class="d-none"
+                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IssuedBy"] : "")" />
+            <input type="text" id="tORRRNo" name="tORRRNo" class="d-none"
+                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ORRRNo"] : "")" />
+            <input type="text" id="tOPRRNo" name="tOPRRNo" class="d-none"
+                   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPRRNo"] : "")" />
+        </div>
+    </div>
 </div>
 
 <partial name="Form/Component/Modal/frm_ExrJobDetailEditWO.cshtml" />
 
 @if (TempData.Peek("Msg") != null)
 {
-	@section Scripts
-						{
-	<script>
-		Swal.fire({
-			title: '@TempData.Peek("Msg")',
-				icon: '@TempData.Peek("Stat")'
-			});
-		</script>
-	}
+    @section Scripts
+ {
+    <script>
+        Swal.fire({
+            title: '@TempData.Peek("Msg")',
+                icon: '@TempData.Peek("Stat")'
+            });
+        </script>
+    }
 }
 
 <script>
-	$(document).ready(function () {
+    $(document).ready(function () {
 
-		$('#btnFormCe').on('click', function () {
-			var id = $("#tID").val();
-			if (id == "") {
-				window.location.href = "/ComponentEvaluation/Index";
-			} else {
-				window.location.href = "/ComponentEvaluation/edit/" + id;
-			}
-		});
+        $('#btnFormCe').on('click', function () {
+            var id = $("#tID").val();
+            if (id == "") {
+                window.location.href = "/ComponentEvaluation/Index";
+            } else {
+                window.location.href = "/ComponentEvaluation/edit/" + id;
+            }
+        });
 
-		// getting data to text from select option
-		function getjRepairAlloc() {
-			if ($('#tRepairAdvice').val() != "") {
-				var selectedVal = $("#tRepairAdvice").val();
-				var selectedOptionText = $("#tRepairAdvice").find('option:selected').text();
-				var dataValue = selectedOptionText.split('|')[1].trim();
+        // getting data to text from select option
+        function getjRepairAlloc() {
+            if ($('#tRepairAdvice').val() != "") {
+                var selectedVal = $("#tRepairAdvice").val();
+                var selectedOptionText = $("#tRepairAdvice").find('option:selected').text();
+                var dataValue = selectedOptionText.split('|')[1].trim();
 
-				$('#jRepairAllocCalc').text(dataValue);
-			}
-		};
+                $('#jRepairAllocCalc').text(dataValue);
+            }
+        };
 
-		function getJobDetailRepairBy() {
-			var selectedVal = $("#tRepairByID").find('option:selected').data('tsupplier');
-			$('#TSupplier').text(selectedVal);
-		}
+        function getJobDetailRepairBy() {
+            var selectedVal = $("#tRepairByID").find('option:selected').data('tsupplier');
+            $('#TSupplier').text(selectedVal);
+        }
 
-		function getJobDetailReasonType() {
-			var selectedVal = $("#tReasonType").find('option:selected').data('reasontype');
-			$('#tReason').val(selectedVal);
-		}
+        function getJobDetailReasonType() {
+            var selectedVal = $("#tReasonType").find('option:selected').data('reasontype');
+            $('#tReason').val(selectedVal);
+        }
 
-		getjRepairAlloc();
-		$('#tRepairAdvice').change(function () {
-			$('#tCheck').val('1');
-			getjRepairAlloc();
-			getJobDetailRepairBy();
-			getJobDetailReasonType()
+        getjRepairAlloc();
+        $('#tRepairAdvice').change(function () {
+            $('#tCheck').val('1');
+            getjRepairAlloc();
+            getJobDetailRepairBy();
+            getJobDetailReasonType()
 
 
-			if ($('#tRepairAdvice').val() == "CR") {
-				var repairType = $("#tReasonType").find('option:selected').data('reasontype');
-				var repairTypeData = $("#tReasonType").find('option:selected').data('dbreason');
-				var repairByIdCurrentVal = $("#tRepairByID").find('option:selected').data('tsupplier');
-				var repairByIdOldtVal = $("#tRepairByID").find('option:selected').data('dbvalue');
-				var repairAdvice = $("#tRepairAdvice").find('option:selected').data('jobstatus');
-				var swalOptions = {
-					title: "Are you sure?",
-					html: `
-							<div style="font-size: 16px; text-align: center;">
-								<div class="d-flex flex-column">
-									<div>Repair Type: ${repairType}</div>
-									<div>Supplier: ${repairByIdCurrentVal}</div>
-									<div>Are you sure you want to change to ${repairAdvice}?</div>
-								</div>
-							</div>
-						`,
-					icon: "warning",
-					showCancelButton: true,
-					confirmButtonColor: "#3085d6",
-					cancelButtonColor: "#d33",
-					confirmButtonText: "Yes, I'm Sure!"
-				};
+            if ($('#tRepairAdvice').val() == "CR") {
+                var repairType = $("#tReasonType").find('option:selected').data('reasontype');
+                var repairTypeData = $("#tReasonType").find('option:selected').data('dbreason');
+                var repairByIdCurrentVal = $("#tRepairByID").find('option:selected').data('tsupplier');
+                var repairByIdOldtVal = $("#tRepairByID").find('option:selected').data('dbvalue');
+                var repairAdvice = $("#tRepairAdvice").find('option:selected').data('jobstatus');
+                var swalOptions = {
+                    title: "Are you sure?",
+                    html: `
+                                <div style="font-size: 16px; text-align: center;">
+                                    <div class="d-flex flex-column">
+                                        <div>Repair Type: ${repairType}</div>
+                                        <div>Supplier: ${repairByIdCurrentVal}</div>
+                                        <div>Are you sure you want to change to ${repairAdvice}?</div>
+                                    </div>
+                                </div>
+                            `,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, I'm Sure!"
+                };
 
-				if (repairByIdCurrentVal !== repairByIdOldtVal || repairType !== repairTypeData) {
-					Swal.fire(swalOptions).then((result) => {
-						if (result.dismiss === Swal.DismissReason.cancel) {
-							$("#tRepairAdvice").val("");
-							$("#tRepairAdvice").trigger("change");
-						}
-					});
-				}
-			}
-		});
+                if (repairByIdCurrentVal !== repairByIdOldtVal || repairType !== repairTypeData) {
+                    Swal.fire(swalOptions).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.cancel) {
+                            $("#tRepairAdvice").val("");
+                            $("#tRepairAdvice").trigger("change");
+                        }
+                    });
+                }
+            }
+        });
 
-		// cfind for tcipartno
-		$('#cfind').on("click", function () {
-			var TTCIPartNo = $("#tTCIPartNo").val();
-			if (TTCIPartNo != "") {
-				$.ajax({
-					method: "GET",
-					url: "/ExrRepairJobHistory/Cfind?TTCIPartNo=" + TTCIPartNo,
-					dataType: 'json',
-				}).done(function (response) {
-					$("#tPartDesc1").val(response[0].partDesc1);
-					$("#tPartDesc2").val(response[0].partDesc2);
-					$("#tRoutableStock").val(response[0].routableStock);
-					$("#tMeterRun").val(response[0].meterRun);
-					$("#tMeterToRun").val(response[0].meterToRun);
-				});
-			} else {
-				Swal.fire("PartNumber is not register/deleted. Open Part Number Form to Upload", "", "warning");
-			}
-		});
+        // cfind for tcipartno
+        $('#cfind').on("click", function () {
+            var TTCIPartNo = $("#tTCIPartNo").val();
+            if (TTCIPartNo != "") {
+                $.ajax({
+                    method: "GET",
+                    url: "/ExrRepairJobHistory/Cfind?TTCIPartNo=" + TTCIPartNo,
+                    dataType: 'json',
+                }).done(function (response) {
+                    if (response != "not found") {
+                        $("#tPartDesc1").val(response[0].partDesc1);
+                        $("#tPartDesc2").val(response[0].partDesc2);
+                        $("#tRoutableStock").val(response[0].routableStock);
+                        $("#tMeterRun").val(response[0].meterRun);
+                        $("#tMeterToRun").val(response[0].meterToRun);
+                    }
+                    else {
+                        Swal.fire("PartNumber is not register/deleted. Open Part Number Form to Upload", "", "warning");
+                    }
+                });
+            } else {
+                Swal.fire("PartNumber is not register/deleted. Open Part Number Form to Upload", "", "warning");
+            }
+        });
 
-		// cFindIntWO for int wo
-		$('#cFindIntWO').on("click", function () {
-			console.log("clicked");
-			if ($('#tOffSiteWO').val() != "" || $('#tWoJobCost').val() != "") {
-				$.ajax({
-					url: '@Url.Action("CfindIntWO", "ExrRepairJobHistory")',
-					method: 'POST',
-					dataType: 'json',
-					data: {
-						eoffsitewo: $('#tOffSiteWO').val(),
-						eWOJobCost: $('#tWoJobCost').val(),
-					},
-					success: function (response) {
-						$('.datatable').DataTable().clear().destroy();
-						$('.datatable').DataTable({
-							searching: false,
-							lengthChange: false,
-							responsive: true,
-							pageLength: 20,
-							data: response,
-							columns: [
-								{ "data": "section" },
-								{ "data": "intWo" },
-								{ "data": "woDesc" },
-								{ "data": "compQty" }
-							]
-						});
-						$('#sfrm_listbox3').modal('show');
-						$('#loadingOverlay').hide();
-					},
-				});
-			}
-		});
+        // cFindIntWO for int wo
+        $('#cFindIntWO').on("click", function () {
+            console.log("clicked");
+            if ($('#tOffSiteWO').val() != "" || $('#tWoJobCost').val() != "") {
+                $.ajax({
+                    url: '@Url.Action("CfindIntWO", "ExrRepairJobHistory")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        eoffsitewo: $('#tOffSiteWO').val(),
+                        eWOJobCost: $('#tWoJobCost').val(),
+                    },
+                    success: function (response) {
+                        console.log("the response is", response);
+                        $('.datatable').DataTable().clear().destroy();
+                        $('.datatable').DataTable({
+                            searching: false,
+                            lengthChange: false,
+                            responsive: true,
+                            pageLength: 20,
+                            data: response,
+                            columns: [
+                                { "data": "section" },
+                                { "data": "intWo" },
+                                { "data": "woDesc" },
+                                { "data": "compQty" }
+                            ]
+                        });
+                        $('#sfrm_listbox3').modal('show');
+                        $('#loadingOverlay').hide();
+                    },
+                });
+            }
+        });
 
-		//condition for csave
-		function checkEunitCost() {
-			if ($("#tCostAfter").val() != "" && $("#tCostBefore").val() != "") {
-				var EunitCost = parseFloat($("#tCostAfter").val().replace(/,/g, '')) - parseFloat($("#tCostBefore").val().replace(/,/g, ''))
-			}
-			else {
-				var EunitCost = "NULL"
-			}
-		}
+        //condition for csave
+        function checkEunitCost() {
+            if ($("#tCostAfter").val() != "" && $("#tCostBefore").val() != "") {
+                var EunitCost = parseFloat($("#tCostAfter").val().replace(/,/g, '')) - parseFloat($("#tCostBefore").val().replace(/,/g, ''))
+            }
+            else {
+                var EunitCost = "NULL"
+            }
+        }
 
-		function checkRepairAdvice() {
-			if ($("#tRepairAdvice").val() == "SA") {
-				$("#tRepairAdvice").val("WA")
-			}
-		}
+        function checkRepairAdvice() {
+            if ($("#tRepairAdvice").val() == "SA") {
+                $("#tRepairAdvice").val("WA")
+            }
+        }
 
-		// Extract data from form
-		function extractData() {
-			var data = {};
+        // Extract data from form
+        function extractData() {
+            var data = {};
 
-			var estatusid = ""
-			if ($("#tNextStatus").val() != "") {
-				estatusid = $("#tNextStatus").val();
-			} else {
-				estatusid = $("#tStatusID").val();
-			}
+            var estatusid = ""
+            if ($("#tNextStatus").val() != "") {
+                estatusid = $("#tNextStatus").val();
+            } else {
+                estatusid = $("#tStatusID").val();
+            }
 
-			checkEunitCost();
-			checkRepairAdvice();
+            checkEunitCost();
+            checkRepairAdvice();
 
-			data.eID = $("#tID").val();
-			data.ejobid = $("#tID").val();
-			data.eAddCost = $("#tAddCost").val();
-			data.eChildWO = $("#TChildWo").val();
-			data.eCompDesc = $("#TCompDesc").val();
-			data.eCompQty = $("#TCompQty").val();
-			data.eCompTypeID = $("#tCompTypeID").val();
-			data.eCostAfter = $("#tCostAfter").val();
-			data.eCostBefore = $("#tCostBefore").val();
-			data.eCostRepair = $("#tCostRepair").val();
-			data.eCurrID = $("#tCurrID").val();
-			data.eDeliveryDate = $("#tDeliveryDate").val();
-			data.eIssuedBy = $("#TIssuedBy").val();
-			data.eDestination = $("#tDestination").val();
-			data.eDisputeCompletedBy = $("#tDisputeCompletedBy").val();
-			data.eDisputeCompletedBy2 = $("#tDisputeCompletedBy2").val();
-			data.eDisputeCompletedDate = $("#TDispCompDate").val();
-			data.eDisputeCompletedDate2 = $("#tDComplDispDate").val();
-			data.eDnNumber = $("#tDnNumber").val();
-			data.eDocAvb = $("#docAvail").val();
-			data.eST = $("#tST").val();
-			data.eOt = $("#tOt").val();
-			data.eDocDate = $("#tDocDate").val();
-			data.eDocTypeID = $("#tDocTypeID").val();
-			data.eEGEI = $("#tEGEI").val();
-			data.eEIEK = $("#tEIEK").val();
-			data.eEKEP = $("#tEKEP").val();
-			data.eEquipClass = "";
-			data.eetadate = $("#tetadate").val();
-			data.eFitToUnit = $("#tFitToUnit").val();
-			data.eIntWO = $("#tIntWO").val();
-			data.eIntWOPrevious = $("#tIntWOPrevious").val();
-			data.eJobNo = $("#tJobNo").val();
-			data.eSerialNumberOEM = $("#tSerialNumberOEM").val();
-			data.eTCICoreFitTo = $("#tTCICoreFitTo").val();
-			data.eExtWO = $("#tExtWO").val();
-			data.eLocationHold = $("#CLocationHold").val();
-			data.eLogANReceivedBy = $("#tLogANReceivedBy").val();
-			data.eLogANReceivedDate = $("#tDlogAnDate").val();
-			data.eLogANReceivedNo = $("#tDlogAnNo").val();
-			data.eLogANSentDate = $("#tDPerAnDate").val();
-			data.eMaintType = $("#tMaintType").val();
-			data.eMeterRun = $("#tMeterRun").val();
-			data.eMeterToRun = $("#tMeterToRun").val();
-			data.eOemCost = $("#tOemCost").val();
-			data.eORRequestDate = $("#tORRequestDate").val();
-			data.eORCompletedDAte = $("#tORCompletedDAte").val();
-			data.eORRRNo = $("#tORRRNo").val();
-			data.eOPRRNo = $("#tOPRRNo").val();
-			data.eOffSiteWO = $("#tOffSiteWO").val();
-			data.eOPDate = $("#tOPDate").val();
-			data.eOPNo = $("#tOPNo").val();
-			data.eOPPrevious = $("#tOPPrevious").val();
-			data.eORNo = $("#tORNo").val();
-			data.eOt = $("#tOt").val();
-			data.eQuoteApprovedBy = $("#tQuoteApprovedBy").val();
-			data.eQuoteDate = $("#tQuoteDate").val();
-			data.eQuoteNo = $("#tQuoteNo").val();
-			data.eQuotePrintBy = $("#tQuotePrintBy").val();
-			data.eQuoteProcessBy = $("#tQuoteProcessBy").val();
-			data.eQuoteRevDate = $("#tQuoteRevDate").val();
-			data.eQuoteRevNo = $("#tQuoteRevNo").val();
-			data.eReasonType = $("#tReasonType").val();
-			data.eReceivedBy = $("#TreceivedBy").val();
-			data.eReceivedByName = $("#tReceivedByName").val();
-			data.eReceivedDate = $("#tReceivedDate").val();
-			data.eremark = $("#tRemark").val();
-			data.eRepairTypeID = $("#tRepairTypeID").val();
-			data.eReqStand = $("#reqStand").val();
-			data.eReqPart = $("#reqPart").val();
-			data.eRequestP1 = $("#tRequestP1").val();
-			data.eRTSCost = $("#tRTSCost").val();
-			data.esavingcostCatID = $("#tsavingcostCatID").val();
-			data.eSitetoLogAN = $("#tSitetoLogAN").val();
-			data.eSitetoLogDate = $("#tSitetoLogDate").val();
-			data.estatusid = estatusid;
-			data.eStoreID = $("#tStoreID").val();
-			data.eSTOtNo = $("#tSTOtNo").val();
-			data.eSpvID = $("#tSpvID").val();
-			data.eSuppForRepairAN = $("#tSuppForRepairAN").val();
-			data.eRepairByID = $("#tRepairByID").val();
-			data.esupplierid = $("#tRepairByID").val();
-			data.eSuppReceiveANBy = $("#tSuppReceiveANBy").val();
-			data.eSuppReceiveANDate = $("#tSuppReceiveANDate").val();
-			data.eTaggingBy = $("#tTaggingBy").val();
-			data.eDTaggingDate = $("#TDTaggingDate").val();
-			data.eTCICost = $("#tTCICost").val();
-			data.eTCIPartID = $("#tTCIPartID").val();
-			data.eTCIPartNo = $("#tTCIPartNo").val();
-			data.ebWarrantyResult = $("#cbWarrantyResult").val();
-			data.eWCSDate = $("#tWCSDate").val();
-			data.eWOFitToUnit = $("#tWOFitToUnit").val();
-			data.eWOFitToUnitID = $("#tWOFitToUnitID").val();
-			data.eWoJobCost = $("#tWoJobCost").val();
-			data.eWOPrevious = $("#tWOPrevious").val();
-			data.eDecisionDate = $("#tDecisionDate").val();
-			data.eEmailDate = $("#tEmailDate").val();
-			data.eRepairAdvice = $("#tRepairAdvice").val();
-			data.edata = "";
-			data.eRequestP1 = $("#tRequestP1").val();
-			data.eRepairAdvice = $("#tRepairAdvice").val();
-			data.eSuggestedStore = $("#tSuggestedStore").val();
-			data.eRemarkAdvice = $("#tRemarkAdvice").val();
-			data.eSiteAlloc = $("#tSiteAlloc").val();
-			data.eWOAlloc = $("#TWOAlloc").val();
-			data.eUnitAlloc = $("#tUnitAlloc").val();
-			data.eSchedStartAlloc = $("#tSchedStartAlloc").val();
-			data.eSOHAlloc = $("#tSOHAlloc").val();
-			data.eOutReqAlloc = $("#tOutReqAlloc").val();
-			data.eUnitNumber = $("#tunitno").val();
-			data.eHoldUntil = $("#tHoldUntil").val();
-			data.eCurrentStatus = $("#tCurrentStatus").val();
-			data.eApp1 = $("#tApp1").val();
-			data.eApp1By = $("#tApp1By").val();
-			data.eApp1Date = $("#tApp1Date").val();
-			data.eApp2 = $("#tApp2").val();
-			data.eApp2By = $("#tApp2By").val();
-			data.eApp2Date = $("#tApp2Date").val();
-			data.eApp3 = $("#tApp3").val();
-			data.eApp3By = $("#tApp3By").val();
-			data.eApp3Date = $("#tApp3Date").val();
-			data.eAppSentDate = $("#tAppSentDate").val();
-			data.eJobID = $("#tID").val();
-			data.eBuyerName = $("#tBuyerName").val();
-			data.tcApp1 = $("#tApp1").val();
-			data.tcApp2 = $("#tApp2").val();
-			data.tcApp3 = $("#tApp3").val();
-			data.eAddOrder1 = $("#CAddOrder1").val();
-			data.eAddOrder2 = $("#CAddOrder2").val();
-			data.eAddOrder3 = $("#CAddOrder3").val();
-			data.eAddOrderORNo1 = $("#tAddOrderORNo1").val();
-			data.eAddOrderORNo2 = $("#tAddOrderORNo2").val();
-			data.eAddOrderORNo3 = $("#tAddOrderORNo3").val();
-			data.eaddOrderDate1 = $("#taddOrderDate1").val();
-			data.eaddOrderDate2 = $("#taddOrderDate2").val();
-			data.eaddOrderDate3 = $("#taddOrderDate3").val();
-			data.eaddOrderDNNo1 = $("#taddOrderDNNo1").val();
-			data.eaddOrderDNNo2 = $("#taddOrderDNNo2").val();
-			data.eaddOrderDNNo3 = $("#taddOrderDNNo3").val();
+            data.eID = $("#tID").val();
+            data.ejobid = $("#tID").val();
+            data.eAddCost = $("#tAddCost").val();
+            data.eChildWO = $("#TChildWo").val();
+            data.eCompDesc = $("#TCompDesc").val();
+            data.eCompQty = $("#TCompQty").val();
+            data.eCompTypeID = $("#tCompTypeID").val();
+            data.eCostAfter = $("#tCostAfter").val();
+            data.eCostBefore = $("#tCostBefore").val();
+            data.eCostRepair = $("#tCostRepair").val();
+            data.eCurrID = $("#tCurrID").val();
+            data.eDeliveryDate = $("#tDeliveryDate").val();
+            data.eIssuedBy = $("#TIssuedBy").val();
+            data.eDestination = $("#tDestination").val();
+            data.eDisputeCompletedBy = $("#tDisputeCompletedBy").val();
+            data.eDisputeCompletedBy2 = $("#tDisputeCompletedBy2").val();
+            data.eDisputeCompletedDate = $("#TDispCompDate").val();
+            data.eDisputeCompletedDate2 = $("#tDComplDispDate").val();
+            data.eDnNumber = $("#tDnNumber").val();
+            data.eDocAvb = $("#docAvail").val();
+            data.eST = $("#tST").val();
+            data.eOt = $("#tOt").val();
+            data.eDocDate = $("#tDocDate").val();
+            data.eDocTypeID = $("#tDocTypeID").val();
+            data.eEGEI = $("#tEGEI").val();
+            data.eEIEK = $("#tEIEK").val();
+            data.eEKEP = $("#tEKEP").val();
+            data.eEquipClass = "";
+            data.eetadate = $("#tetadate").val();
+            data.eFitToUnit = $("#tFitToUnit").val();
+            data.eIntWO = $("#tIntWO").val();
+            data.eIntWOPrevious = $("#tIntWOPrevious").val();
+            data.eJobNo = $("#tJobNo").val();
+            data.eSerialNumberOEM = $("#tSerialNumberOEM").val();
+            data.eTCICoreFitTo = $("#tTCICoreFitTo").val();
+            data.eExtWO = $("#tExtWO").val();
+            data.eLocationHold = $("#CLocationHold").val();
+            data.eLogANReceivedBy = $("#tLogANReceivedBy").val();
+            data.eLogANReceivedDate = $("#tDlogAnDate").val();
+            data.eLogANReceivedNo = $("#tDlogAnNo").val();
+            data.eLogANSentDate = $("#tDPerAnDate").val();
+            data.eMaintType = $("#tMaintType").val();
+            data.eMeterRun = $("#tMeterRun").val();
+            data.eMeterToRun = $("#tMeterToRun").val();
+            data.eOemCost = $("#tOemCost").val();
+            data.eORRequestDate = $("#tORRequestDate").val();
+            data.eORCompletedDAte = $("#tORCompletedDAte").val();
+            data.eORRRNo = $("#tORRRNo").val();
+            data.eOPRRNo = $("#tOPRRNo").val();
+            data.eOffSiteWO = $("#tOffSiteWO").val();
+            data.eOPDate = $("#tOPDate").val();
+            data.eOPNo = $("#tOPNo").val();
+            data.eOPPrevious = $("#tOPPrevious").val();
+            data.eORNo = $("#tORNo").val();
+            data.eOt = $("#tOt").val();
+            data.eQuoteApprovedBy = $("#tQuoteApprovedBy").val();
+            data.eQuoteDate = $("#tQuoteDate").val();
+            data.eQuoteNo = $("#tQuoteNo").val();
+            data.eQuotePrintBy = $("#tQuotePrintBy").val();
+            data.eQuoteProcessBy = $("#tQuoteProcessBy").val();
+            data.eQuoteRevDate = $("#tQuoteRevDate").val();
+            data.eQuoteRevNo = $("#tQuoteRevNo").val();
+            data.eReasonType = $("#tReasonType").val();
+            data.eReceivedBy = $("#TreceivedBy").val();
+            data.eReceivedByName = $("#tReceivedByName").val();
+            data.eReceivedDate = $("#tReceivedDate").val();
+            data.eremark = $("#tRemark").val();
+            data.eRepairTypeID = $("#tRepairTypeID").val();
+            data.eReqStand = $("#reqStand").val();
+            data.eReqPart = $("#reqPart").val();
+            data.eRequestP1 = $("#tRequestP1").val();
+            data.eRTSCost = $("#tRTSCost").val();
+            data.esavingcostCatID = $("#tsavingcostCatID").val();
+            data.eSitetoLogAN = $("#tSitetoLogAN").val();
+            data.eSitetoLogDate = $("#tSitetoLogDate").val();
+            data.estatusid = estatusid;
+            data.eStoreID = $("#tStoreID").val();
+            data.eSTOtNo = $("#tSTOtNo").val();
+            data.eSpvID = $("#tSpvID").val();
+            data.eSuppForRepairAN = $("#tSuppForRepairAN").val();
+            data.eRepairByID = $("#tRepairByID").val();
+            data.esupplierid = $("#tRepairByID").val();
+            data.eSuppReceiveANBy = $("#tSuppReceiveANBy").val();
+            data.eSuppReceiveANDate = $("#tSuppReceiveANDate").val();
+            data.eTaggingBy = $("#tTaggingBy").val();
+            data.eDTaggingDate = $("#TDTaggingDate").val();
+            data.eTCICost = $("#tTCICost").val();
+            data.eTCIPartID = $("#tTCIPartID").val();
+            data.eTCIPartNo = $("#tTCIPartNo").val();
+            data.ebWarrantyResult = $("#cbWarrantyResult").val();
+            data.eWCSDate = $("#tWCSDate").val();
+            data.eWOFitToUnit = $("#tWOFitToUnit").val();
+            data.eWOFitToUnitID = $("#tWOFitToUnitID").val();
+            data.eWoJobCost = $("#tWoJobCost").val();
+            data.eWOPrevious = $("#tWOPrevious").val();
+            data.eDecisionDate = $("#tDecisionDate").val();
+            data.eEmailDate = $("#tEmailDate").val();
+            data.eRepairAdvice = $("#tRepairAdvice").val();
+            data.edata = "";
+            data.eRequestP1 = $("#tRequestP1").val();
+            data.eRepairAdvice = $("#tRepairAdvice").val();
+            data.eSuggestedStore = $("#tSuggestedStore").val();
+            data.eRemarkAdvice = $("#tRemarkAdvice").val();
+            data.eSiteAlloc = $("#tSiteAlloc").val();
+            data.eWOAlloc = $("#TWOAlloc").val();
+            data.eUnitAlloc = $("#tUnitAlloc").val();
+            data.eSchedStartAlloc = $("#tSchedStartAlloc").val();
+            data.eSOHAlloc = $("#tSOHAlloc").val();
+            data.eOutReqAlloc = $("#tOutReqAlloc").val();
+            data.eUnitNumber = $("#tunitno").val();
+            data.eHoldUntil = $("#tHoldUntil").val();
+            data.eCurrentStatus = $("#tCurrentStatus").val();
+            data.eApp1 = $("#tApp1").val();
+            data.eApp1By = $("#tApp1By").val();
+            data.eApp1Date = $("#tApp1Date").val();
+            data.eApp2 = $("#tApp2").val();
+            data.eApp2By = $("#tApp2By").val();
+            data.eApp2Date = $("#tApp2Date").val();
+            data.eApp3 = $("#tApp3").val();
+            data.eApp3By = $("#tApp3By").val();
+            data.eApp3Date = $("#tApp3Date").val();
+            data.eAppSentDate = $("#tAppSentDate").val();
+            data.eJobID = $("#tID").val();
+            data.eBuyerName = $("#tBuyerName").val();
+            data.tcApp1 = $("#tApp1").val();
+            data.tcApp2 = $("#tApp2").val();
+            data.tcApp3 = $("#tApp3").val();
+            data.eAddOrder1 = $("#CAddOrder1").val();
+            data.eAddOrder2 = $("#CAddOrder2").val();
+            data.eAddOrder3 = $("#CAddOrder3").val();
+            data.eAddOrderORNo1 = $("#tAddOrderORNo1").val();
+            data.eAddOrderORNo2 = $("#tAddOrderORNo2").val();
+            data.eAddOrderORNo3 = $("#tAddOrderORNo3").val();
+            data.eaddOrderDate1 = $("#taddOrderDate1").val();
+            data.eaddOrderDate2 = $("#taddOrderDate2").val();
+            data.eaddOrderDate3 = $("#taddOrderDate3").val();
+            data.eaddOrderDNNo1 = $("#taddOrderDNNo1").val();
+            data.eaddOrderDNNo2 = $("#taddOrderDNNo2").val();
+            data.eaddOrderDNNo3 = $("#taddOrderDNNo3").val();
 
-			return data;
-		}
+            return data;
+        }
 
-		function saveRequest(extractedData) {
-			$.ajax({
-				method: "GET",
-				url: "/General/CheckGranted",
-				dataType: 'json',
-				data: {
-					formName: "Mod_ExrRepair",
-					accessType: "2"
-				},
-				success: function (response) {
-					console.log(response);
-					if (response == true) {
-						$.ajax({
-							method: "POST",
-							url: "/ExrRepairJobHistory/TSave",
-							dataType: 'json',
-							data: extractedData
-						}).done(function (response) {
-							window.location.href = response.redirectToUrl;
-						});
-					} else {
-						Swal.fire("You dont have access to this function", "", "warning");
-						window.location.href = response.redirectToUrl;
-					}
-				}
-			});
-		}
+        function saveRequest(extractedData) {
+            $.ajax({
+                method: "GET",
+                url: "/General/CheckGranted",
+                dataType: 'json',
+                data: {
+                    formName: "Mod_ExrRepair",
+                    accessType: "2"
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response == true) {
+                        $.ajax({
+                            method: "POST",
+                            url: "/ExrRepairJobHistory/TSave",
+                            dataType: 'json',
+                            data: extractedData
+                        }).done(function (response) {
+                            window.location.href = response.redirectToUrl;
+                            Swal.fire("Data Has Benn Saved", "", "success");
+                        });
+                    } else {
+                        Swal.fire("You dont have access to this function", "", "warning");
+                        window.location.href = response.redirectToUrl;
+                    }
+                }
+            });
+        }
 
-		function handleSave() {
-			var extractedData = extractData();
-			saveRequest(extractedData);
-		}
+        function handleSave() {
+            var extractedData = extractData();
+            saveRequest(extractedData);
+        }
 
-		$("#Csave").on("click", function () {
-			var test = $("#tID").val()
+        $("#Csave").on("click", function () {
+            var test = $("#tID").val()
 
-			console.log("id is", test)
-			if ($("#tID").val() == "") {
-				Swal.fire("No ID Information.Cannot Save Approval", "", "warning");
-				return
-			} else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
-				Swal.fire("please Fill Hold Untill", "", "warning");
-				return
-			} else if ($("#tWOFitToUnit").val() != $("#tWOFitToUnitID").val()) {
+            console.log("id is", test)
+            if ($("#tID").val() == "") {
+                Swal.fire("No ID Information.Cannot Save Approval", "", "warning");
+                return
+            } else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
+                Swal.fire("please Fill Hold Untill", "", "warning");
+                return
+            } else if ($("#tWOFitToUnit").val() != $("#tWOFitToUnitID").val()) {
 
-			} else {
-				handleSave();
-			}
-		});
+            } else {
+                handleSave();
+            }
+        });
 
-	});
+    });
 </script>

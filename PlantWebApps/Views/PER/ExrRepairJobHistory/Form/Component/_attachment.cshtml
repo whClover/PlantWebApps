@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (DataRow row in ViewBag.ListAttachment.Rows)
+                    @foreach (DataRow row in ViewBag.ListAttachment.Rows)
                     {
                         <tr>
                             <td>
@@ -41,12 +41,12 @@
                                     </svg>
                                 </button>
                             </td>
-                            <td>@row["ID"]</td>
-                            <td>@row["AttachmentType"]</td>
-                            <td style="width: 10%">@row["FilePath"]</td>
-                            <td class="d-none">@row["FullPath"]</td>
+                            <td class="fw-normal">@row["ID"]</td>
+                            <td class="fw-normal">@row["AttachmentType"]</td>
+                            <td class="fw-normal" style="width: 10%">@row["FilePath"]</td>
+                            <td class="d-none fw-normal">@row["FullPath"]</td>
                         </tr>
-                    } *@
+                    }
                 </tbody>
             </table>
         </div>

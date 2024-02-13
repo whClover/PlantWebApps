@@ -45,7 +45,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var eRegisterDate = (Utility.Evar(DateTime.Now.ToString(), 1));
             var eByName = (Utility.Evar((Utility.GetCurrentUsername().Split('\\')[1]), 1)); ;
 
-            var query = $"UPDATE tbl_DispatchJobDetail SET StatusID = 'del', DeletedDate = {eRegisterDate},DeletedBy = {eByName}  Where ID = {eID}";
+            var query = $"UPDATE tbl_DispatchJobDetail SET StatusID = 'del', DeletedDate = {eRegisterDate},DeletedBy = {eByName}  Where JobID = {eID}";
             Console.WriteLine(query);
 
             SQLFunction.execQuery(query);
@@ -134,7 +134,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                                             <path d='M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0' />
                                         </svg>        
                                    </button>",
-                    id = Utility.CheckNull(row["ID"]),
+                        id = Utility.CheckNull(row["ID"]),
                         attachmenttype = Utility.CheckNull(row["AttachmentType"]),
                         filepath = Utility.CheckNull(row["FilePath"]),
                         fullpath = Utility.CheckNull(row["FullPath"]),
@@ -179,8 +179,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult CfindIntWO(string eoffsitewo, string eWOJobCost)
         {
-            Console.WriteLine(eoffsitewo);
-            Console.WriteLine(eWOJobCost);
+            Console.WriteLine("eoffsitewo" + eoffsitewo);
+            Console.WriteLine("eWOJobCost" + eWOJobCost);
 
             string queryParentWO = $"SELECT ParentWO , Section, WONO as IntWO, WoDesc, Qty as CompQty From v_WorkOrderJobDetail where ParentWO = '{eoffsitewo}' ORDER BY WONO";
             Console.WriteLine(queryParentWO);
@@ -293,7 +293,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             else
             {
-                return new JsonResult("");
+                return new JsonResult("not found");
             }
         }
         public IActionResult TSave(string eID, string eAddCost, string eChildWO, string eCompDesc, string eCompQty,
@@ -527,7 +527,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
             string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
             string repairAdvice, string toCatDesc, string requestP1, string fissNull,
-            string pCam, string sortBy, string ascDesc, string unitnumber) 
+            string pCam, string sortBy, string ascDesc, string unitnumber)
         {
             string tempfilter = string.Empty;
 
@@ -897,21 +897,33 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             from v_ExrJobDetailRev1 WHERE ID={id}";
 
             string queryAddOrderEtc = $"Select * from tbl_ExrJobDetailTwo WHERE ID={id}";
-
             string queryListStatus = $"SELECT id,itemchange,descchange,moddate,modby,src from v_ExrJobChangeHistory  Where JobID = {id}";
 
-            string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
-            Status ,DispatchTypeID,RegisterBy,Registerdate  from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id} AND StatusID != 'del'";
+            // THE PROBLEM
+            string queryCheckDispatch = $@"SELECT StatusID from tbl_DispatchJobDetail WHERE JobID = {id}";
+            Console.WriteLine(queryCheckDispatch);
+            var result = SQLFunction.execQuery(queryCheckDispatch);
+
+            if (result.Rows.Count > 0)
+            {
+                string statusId = result.Rows[0]["StatusID"].ToString();
+
+                if (statusId != "del")
+                {
+                    string queryListDispatch = $@"Select DetailID,ID as ANNO,DispatchType as Type, Attention ,StatusID as 
+                Status ,DispatchTypeID,RegisterBy,Registerdate from v_DispatchJobDetail WHERE SectionIDDetail=1 and JobID= {id} AND StatusID != 'del'";
+
+                    ViewBag.ListDispatch = SQLFunction.execQuery(queryListDispatch);
+                }
+            }
 
             string queryListAttachment = $@"select id,AttachmentType,FilePath,FullPath from v_ExrJobAttachment where JobID={id}";
-
             string queryHoldUntil = $"select top 1 TargetDate from tbl_ExrJobChangeHistory where JobID={id} and JobStatus='OH' order by ModDate desc";
 
             ViewBag.data = SQLFunction.execQuery(query);
             ViewBag.detail = SQLFunction.execQuery(queryDetail);
             ViewBag.AddOrderEtc = SQLFunction.execQuery(queryAddOrderEtc);
             ViewBag.ListStatus = SQLFunction.execQuery(queryListStatus);
-            ViewBag.ListDispatch = SQLFunction.execQuery(queryListDispatch);
             ViewBag.ListAttachment = SQLFunction.execQuery(queryListAttachment);
             ViewBag.HoldUntil = SQLFunction.execQuery(queryHoldUntil);
             ViewBag.by = Utility.eusername();
@@ -1069,7 +1081,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string endDate, string lmodBy, string lmodByValue, string reasonTypeId,
             string freasonType, string freasonValue, string cbDelay, string cbDelayValue,
             string repairAdvice, string toCatDesc, string requestP1, string fissNull,
-            string pCam, string sortBy, string ascDesc, string unitnumber) 
+            string pCam, string sortBy, string ascDesc, string unitnumber)
         {
             Console.WriteLine("repair type" + repairType);
             string filter = BuildTempFilter(repairType, compType, statusInput, supervisorId, supplierId, cwoType, cwoTypeValue, fdocType,
@@ -1093,8 +1105,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                     rows.Add("/ExrRepairJobHistoryInspection/OldReport/" + ID);
                 }
             }
-            else 
-            { 
+            else
+            {
                 return new JsonResult("not found");
             }
             return new JsonResult(rows);
@@ -1170,7 +1182,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return new JsonResult("ok");
         }
-        public IActionResult ChangeWO (string ParentWONew, string ID)
+        public IActionResult ChangeWO(string ParentWONew, string ID)
         {
             string query = $"Update tbl_ExrJobDetail Set OffSiteWO= {Utility.Evar(ParentWONew, 0)} WHERE ID = {Utility.Evar(ID, 0)}";
             Console.WriteLine(query);

@@ -59,7 +59,7 @@
 						   type="text" class="col-4 form-control form-control-sm" placeholder="0.00" />
 				</div>
 				<div class="col-2"></div>
-				<div class="col-3">
+				<div class="col-3 fw-normal">
 					<select id="tCurrID" name="tCurrID" class="col-3 form-control form-control-sm form-control form-control-sm select2">
 						<option value=""></option>
 						@foreach (DataRow row in ViewBag.currency.Rows)
@@ -90,7 +90,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">Saving Cat</div>
-				<div class="col-4">
+				<div class="col-4 fw-normal">
 					<select id="tsavingcostCat" name="tsavingcostCat" class="col-4 form-control form-control-sm select2">
 						<option value=""></option>
 						@foreach (DataRow row in ViewBag.tsavingcost.Rows)
@@ -111,7 +111,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">Add Cost</div>
-				<div class="col-3">
+				<div class="col-3 fw-normal">
 					<select id="tAddCost" name="tAddCost" class="col-3 form-control form-control-sm select2">
 						@foreach (var option in optionsttAddCost)
 						{
@@ -166,7 +166,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">EX Store</div>
-				<div class="col-4">
+				<div class="col-4 fw-normal">
 					<select id="tStoreID" name="tStoreID" class="col-4 form-control form-control-sm select2">
 						<option value=""></option>
 						@foreach (DataRow row in ViewBag.fstore.Rows)
@@ -186,7 +186,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2">Repair Type</div>
-				<div class="col-4">
+				<div class="col-4 fw-normal">
 					<select id="tRepairTypeID" name="tRepairTypeID" class="col-4 form-control form-control-sm select2">
 						<option value=""></option>
 						@foreach (DataRow row in ViewBag.repairType2.Rows)
@@ -266,7 +266,7 @@
 			<div class="row align-items-center">
 				<div class="col-2 fw-bold">Add Order</div>
 				<div class="col-10 row" style="gap: 15px;">
-					<div class="col-3">
+					<div class="col-3 fw-normal">
 						<select id="CAddOrder1" name="CAddOrder1" class="col-3 form-control form-control-sm select2">
 							@foreach (var option in optionsCAddOrder)
 							{
@@ -278,7 +278,7 @@
 							}
 						</select>
 					</div>
-					<div class="col-3">
+					<div class="col-3 fw-normal">
 						<select id="CAddOrder2" name="CAddOrder2" class="col-3 form-control form-control-sm select2">
 							@foreach (var option in optionsCAddOrder)
 							{
@@ -290,7 +290,7 @@
 							}
 						</select>
 					</div>
-					<div class="col-3">
+					<div class="col-3 fw-normal">
 						<select id="CAddOrder3" name="CAddOrder3" class="col-3 form-control form-control-sm select2">
 							@foreach (var option in optionsCAddOrder)
 							{
@@ -489,13 +489,14 @@
 
 		//radio button
 		// req stand
-		var reqStand = $('#reqStand').val();
+		var reqStand = @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReqStand"] : "0");
 
 		var reqStandY = $('#OptYReqStand');
 		var reqStandN = $('#OptNReqStand');
 		var eReqStand = $('#reqStand');
 
 		function handleReqStand() {
+			console.log("clicked");
 			if (reqStand === -1) {
 				reqStandY.prop("checked", true);
 				reqStandY.val("-1");
@@ -524,6 +525,8 @@
 		var eReqPart = $('#reqPart');
 
 		function handleReqPart() {
+			console.log("clicked");
+
 			if (reqPart === -1) {
 				reqPartY.prop("checked", true);
 				reqPartY.val("-1");

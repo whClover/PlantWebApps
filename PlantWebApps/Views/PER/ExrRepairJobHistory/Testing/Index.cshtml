@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div>This is test print</div>
+
+<button type="button" class="btn btn-sm btn-primary" id="generatePdf">Generate pdf</button>
+
+<table class="d-none" id="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>IP-address</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 1; i < 30; i++)
+        {
+            <tr>
+                <td>ID</td>
+                <td>FirstName</td>
+                <td>LastName</td>
+                <td>Email</td>
+                <td>Country</td>
+                <td>IPAddress</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#generatePdf').on('click', async function () {
+
+            // Load the jspdf and jspdf-autotable libraries
+            window.jsPDF = window.jspdf.jsPDF;
+            var doc = new jsPDF();
+
+            // Total page number variable declaration
+            var totalPagesExp = '{total_pages_count_string}';
+
+            // create autotable
+            doc.autoTable(
+                {
+                    html: '#table',
+                    bodyStyles: { minCellHeight: 15 },
+                    margin: { top: 30 },
+
+                    // header
+                    willDrawPage: function (data) {
+                        doc.setFontSize(20)
+                        doc.setTextColor(40)
+                        doc.text('Report', 15, 22)
+                    },
+
+                    // image
+                    didDrawCell: (data) => {
+                        if (data.section === 'body' && data.column.index === 6) {
+                            var imgUrl = 'https://placekitten.com/100/100';
+                            doc.addImage(imgUrl, 'JPEG', data.cell.x + 2, data.cell.y + 2, 10, 10)
+                        }
+                    },
+
+                    // footer
+                    didDrawPage: function (data) {
+                        var str = 'Page ' + doc.internal.getNumberOfPages()
+                        // Total page number plugin only available in jspdf v1.0+
+                        if (typeof doc.putTotalPages === 'function') {
+                            str = str + ' of ' + totalPagesExp
+                        }
+
+                        doc.setFontSize(10)
+
+                        // jsPDF 1.4+ uses getHeight, <1.4 uses .height
+                        var pageSize = doc.internal.pageSize
+                        var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+                        doc.text(str, data.settings.margin.left, pageHeight - 10)
+                    },
+
+                    // table styles
+                    styles: {
+                        font: 'helvetica',
+                        fontSize: 10,
+                    },
+
+                }
+            )
+
+            // Total page number plugin
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp)
+            }
+
+            // return the pdf
+            doc.save('table.pdf')
+        });
+    });
+</script>
