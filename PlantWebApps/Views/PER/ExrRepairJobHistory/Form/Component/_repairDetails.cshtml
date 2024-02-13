@@ -24,7 +24,7 @@
                 <div class="col-2 ">CE ID</div>
                 <div class="col-3">
                     <input id="tCEID" name="tCEID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CEID"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                 <div class="col-2 ">DN Number</div>
                 <div class="col-3">
                     <input id="tDnNumber" name="tDnNumber" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DnNumber"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <button id="CRepairAN" name="CRepairAN" type="button" class="d-none btn btn-primary col-1 ms-2 d-flex align-items-center" style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -47,16 +47,16 @@
                 <div class="col-2  ">TCI Comp ID</div>
                 <div class="col-3">
                     <input id="tTCIPartID" name="tTCIPartID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TCIPartID"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <a style="max-height: 30px; max-width: 40px;" id="CCreateID" name="CCreateID" data-bs-toggle="modal"
-                   class="btn btn-sm btn-primary col-1 ms-2 d-flex align-items-center"   data-bs-target="#frm_ExrCompIDAddJob">
+                   class="btn btn-sm btn-primary col-1 ms-2 d-flex align-items-center" data-bs-target="#frm_ExrCompIDAddJob">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill ms-1" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                     </svg>
-               </a>
+                </a>
                 <div class="col-2  ">Store</div>
-                <div class="col-3">
+                <div class="col-3 fw-normal">
                     <select id="tDestination" name="tDestination" class="col-3 form-control form-control-sm select2">
                         <option value=""></option>
                         @foreach (DataRow row in ViewBag.tdestination.Rows)
@@ -74,13 +74,13 @@
                 <div class="col-2  ">Meter Run</div>
                 <div class="col-3">
                     <input id="tMeterRun" name="tMeterRun" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MeterRun"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-1"></div>
-                <div class="col-2  ">Meter To Run</div>
+                <div class="col-2 text-nowrap">Meter To Run</div>
                 <div class="col-3">
                     <input id="tMeterToRun" name="tMeterToRun" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["MeterToRun"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -89,10 +89,10 @@
                 <div class="col-2  ">Internal WO</div>
                 <div class="col-3">
                     <input id="tIntWO" name="tIntWO" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IntWO"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
-                <a  id="cFindIntWO" name="cFindIntWO" class="btn btn-primary col-1 ms-2 d-flex align-items-center" 
-                    style="max-height: 30px; max-width: 40px;">
+                <a id="cFindIntWO" name="cFindIntWO" class="btn btn-primary col-1 ms-2 d-flex align-items-center"
+                   style="max-height: 30px; max-width: 40px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
@@ -109,7 +109,7 @@
                 <div class="col-2  ">ST OT Number</div>
                 <div class="col-3">
                     <input id="tSTOtNo" name="tSTOtNo" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["STOtNo"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -118,12 +118,12 @@
                 <div class="col-2  ">WO Fit To Unit</div>
                 <div class="col-3">
                     <input id="tWOFitToUnit" name="tWOFitToUnit" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WOFitToUnit"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
                 <div class="col-3"></div>
                 <div class="col-3">
                     <input id="tWOFitToUnitID" name="tWOFitToUnitID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["WOFitToUnit"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
                 <div class="col-2  ">Fit To Unit</div>
                 <div class="col-3">
                     <input id="tFitToUnit" name="tFitToUnit" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["FitToUnit"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
@@ -141,19 +141,19 @@
                 <div class="col-2  ">Received</div>
                 <div class="col-3">
                     <input id="tReceivedDate" name="tReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")"
-                        type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
+                           type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
                 </div>
                 <div class="col-3"></div>
                 <div class="col-3">
                     <input id="tReceivedByName" name="tReceivedByName" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedByName"] : "")"
-                        type="text" class="col-3 form-control form-control-sm" />
+                           type="text" class="col-3 form-control form-control-sm" />
                 </div>
             </div>
         </div>
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2  ">Received By</div>
-                <div class="col-3">
+                <div class="col-3 fw-normal">
                     <select id="TreceivedBy" name="TreceivedBy" class="col-3 form-control form-control-sm select2">
                         @foreach (var option in optionstReceivedBy)
                         {
@@ -163,10 +163,10 @@
                     </select>
                 </div>
                 <div class="fw-bold col-1 text-nowrap" style="font-size: 10px;">Supplier</div>
-                <div class="col-2  ">Tagging Date</div>
+                <div class="col-2 text-nowrap">Tagging Date</div>
                 <div class="col-3">
                     <input id="TDTaggingDate" name="TDTaggingDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TaggingDate"] : "")"
-                        type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                           type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>
         </div>
@@ -175,11 +175,11 @@
 
 <Script>
     $(document).ready(function () {
-        $('#CIntAttachment').on("click", function () { 
+        $('#CIntAttachment').on("click", function () {
             var WoNo = $('#tIntWO').val();
             if ($('#tIntWO').val() != "") {
                 window.location.href = "/TCRC_Attachment/DetailAttachment?wono=" + WoNo;
             }
         })
-	});
+    });
 </Script>

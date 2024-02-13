@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -40,34 +41,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/FinalInspection.cshtml");
         }
-        public IActionResult LstPict(string tWono)
-        {
-            string queryLstPict = $@"Select ID,Picturecaption,PicturePath from tbl_ExrOldCoreInspAttachPic WHERE InspectType='FinalInspect' AND WONO={Utility.Evar(tWono, 1)} and Active != 0";
-
-            Console.WriteLine(queryLstPict);
-
-            var data = SQLFunction.execQuery(queryLstPict);
-
-            var rows = new List<object>();
-
-            foreach (DataRow row in data.Rows)
-            {
-                var rowData = new
-                {
-                    id = Utility.CheckNull(row["ID"]),
-                    pictureCaption = Utility.CheckNull(row["PictureCaption"]),
-                    picturePath = "https://placekitten.com/200/300",
-                    open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
-                    $"data-bs-target='#openFinalInvestigationPicture'><svg xmlns=\"http://www.w3.org/2000/svg\" " +
-                    $"width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  " +
-                    $"<path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 " +
-                    $"5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7\"/>\r\n</svg></a> ",
-                    delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["ID"]})'><i class='fa fa-trash text-danger'></i></button>"
-                };
-                rows.Add(rowData);
-            }
-            return new JsonResult(rows);
-        }
+        
         public IActionResult Save(string eID, string eJobID, string eWono, string eNoRegister,
             string eCheck1, string eCheck2, string eCheck3, string eCheck4a, string eCheck4b,
             string eCheck4c, string eCheck4d, string eCheck5a, string eCheck5b, string eCheck5c,
@@ -160,62 +134,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictFooter.cshtml");
         }
 
-        public async Task<IActionResult> UploadFile(IFormFile fileupload)
-        {
-            string ID = Request.Form["ejobid"];
-            string TWONO = Request.Form["formWono"];
-            Console.WriteLine(TWONO);
-            string einspectionType = "FinalInspect";
-
-            string fileName = "";
-            var filePath = "";
-            string fileExtension = "";
-            var targetDirectory = "";
-            string newPath = "";
-            string newFile = "";
-            string ePictureCaption = "";
-            string PathExrJobInspection = @$"\\BPNAPS07.THIESS.AUS\database\Plant_Component\PictInspection\ExrJobInspection\";
-            string[] allowedExtensions = { ".png", ".PNG", ".jpeg", ".JPEG", ".jpg", ".JPG", ".gif", ".GIF" };
-            if (fileupload != null && fileupload.Length > 0)
-            {
-                fileExtension = Path.GetExtension(fileupload.FileName); // nama file dengan ekstensi
-                fileName = Path.GetFileNameWithoutExtension(fileupload.FileName); // Mengambil nama file tanpa ekstensi
-                fileName = fileName.Replace(" ", "");
-                if (!allowedExtensions.Contains(fileExtension))
-                {
-                    Stat = "warning";
-                    Msg = "File Must Be An Image";
-                    return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
-                }
-                // Menambahkan format jam (yyyyMMddHHmmss) di ujung nama file
-                string currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
-
-                string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
-                ePictureCaption = fileName1;
-                //targetDirectory = $"{PathExrJobInspection}"; server
-                targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
-
-                newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
-                newFile = $@"{newPath}\{fileName1}";
-
-                filePath = Path.Combine(targetDirectory, ePictureCaption);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await fileupload.CopyToAsync(stream);
-                }
-            }
-
-            string query = @$"exec dbo.ExrOldCoreInspectPic {Utility.Evar(TWONO, 1)}, 
-			{Utility.Evar(ID, 1)}, {Utility.Evar(newFile, 1)}, {Utility.Evar(ePictureCaption, 1)}, 
-			{Utility.Evar(einspectionType, 1)}, {Utility.Evar(Utility.eusername(), 1)}";
-
-            Console.WriteLine(query);
-            SQLFunction.execQuery(query);
-
-            Stat = "success";
-            Msg = "Image has been uploaded successfully";
-            return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
-        }
+        
         public IActionResult SaveOld(string eID, string eJobID, string eWono,
             string eCheck1a, string eCheck1b, string eCheck1c, string eCheck1d, string eCheck2a,
             string eCheck2b, string eCheck2c, string eCheck3, string eInspectResult, string eRemark,
@@ -296,7 +215,44 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return PhysicalFile(namafile2, "application/pdf", ffname);
         }
-        public IActionResult OldLstPict(string tWono)
+		public IActionResult LstPict(string tWono)
+		{
+			string queryLstPict = $@"Select ID,Picturecaption,PicturePath from tbl_ExrOldCoreInspAttachPic WHERE InspectType='FinalInspect' AND WONO={Utility.Evar(tWono, 1)} and Active != 0";
+
+			Console.WriteLine(queryLstPict);
+
+			var data = SQLFunction.execQuery(queryLstPict);
+
+			var rows = new List<object>();
+
+			foreach (DataRow row in data.Rows)
+			{
+				string basePath = @"..\..\..\wwwroot\img";
+
+				string dataPath = $@"SELECT dbo.RemapPicW(PicturePath) from tbl_ExrOldCoreInspAttachPic where id = {Utility.CheckNull(row["ID"])}";
+                string dataPath2 = SQLFunction.ExecuteScalar(dataPath).ToString();
+				string dataPath3 = dataPath2.Substring(21);
+				string dataPath4 = basePath + dataPath3;
+
+				string pictPath = dataPath4.Replace(@"\", "/");
+
+				var rowData = new
+				{
+					id = Utility.CheckNull(row["ID"]),
+					pictureCaption = Utility.CheckNull(row["PictureCaption"]),
+					picturePath = $"{pictPath}",
+					open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
+					$"data-bs-target='#openFinalInvestigationPicture'><svg xmlns=\"http://www.w3.org/2000/svg\" " +
+					$"width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  " +
+					$"<path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 " +
+					$"5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7\"/>\r\n</svg></a> ",
+					delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["ID"]})'><i class='fa fa-trash text-danger'></i></button>"
+				};
+				rows.Add(rowData);
+			}
+			return new JsonResult(rows);
+		}
+		public IActionResult OldLstPict(string tWono)
         {
             string queryLstPict = $@"Select ID,Picturecaption,PicturePath from tbl_ExrOldCoreInspAttachPic WHERE InspectType='OldCoreInspect' AND WONO={Utility.Evar(tWono, 1)} and Active != 0";
             Console.WriteLine(queryLstPict);
@@ -306,12 +262,24 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			var rows = new List<object>();
             foreach (DataRow row in data.Rows)
             {
-                var rowData = new
+
+                string basePath = @"..\..\..\wwwroot\img";
+
+				string dataPath = $@"SELECT dbo.RemapPicW(PicturePath) from tbl_ExrOldCoreInspAttachPic where id = {Utility.CheckNull(row["ID"])}";
+                string dataPath2 = SQLFunction.ExecuteScalar(dataPath).ToString();
+				string dataPath3 = dataPath2.Substring(21);
+                string dataPath4 = basePath + dataPath3;
+
+                string pictPath = dataPath4.Replace(@"\", "/");
+
+				var rowData = new
                 {
                     id = Utility.CheckNull(row["ID"]),
                     pictureCaption = Utility.CheckNull(row["PictureCaption"]),
-                    picturePath = "..\\img\\PictInspection\\ExrJobInspection\\OldCoreInspect\\6887356\\WO6887356(2)_20230621175845.JPG",
-					open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
+                    //picturePath = @"http:\\bpnaps07:3355\wwwroot\img\PictInspection\ExrJobInspection\OldCoreInspect\6887356\WO6887356(2)_20230621175845.JPG",
+                    //picturePath = "..\\img\\PictInspection\\ExrJobInspection\\OldCoreInspect\\6887356\\WO6887356(2)_20230621175845.JPG",
+                    picturePath = $"{pictPath}",
+                    open = $"<a id='btnPictureOpen' class='btn btn-primary btn-sm' data-bs-toggle='modal' " +
                     $"data-bs-target='#openFinalInvestigationPicture'><svg xmlns=\"http://www.w3.org/2000/svg\" " +
                     $"width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  " +
                     $"<path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 " +
@@ -322,7 +290,72 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return new JsonResult(rows);
         }
-        public async Task<IActionResult> OldUploadFile(IFormFile fileupload)
+		public async Task<IActionResult> UploadFile(IFormFile fileupload)
+		{
+			string ID = Request.Form["ejobid"];
+			string TWONO = Request.Form["formWono"];
+			Console.WriteLine(TWONO);
+			string einspectionType = "FinalInspect";
+
+			string fileName = "";
+			var filePath = "";
+			string fileExtension = "";
+			var targetDirectory = "";
+			string newPath = "";
+			string newFile = "";
+			string ePictureCaption = "";
+			string PathExrJobInspection = @$"\\BPNAPS07.THIESS.AUS\database\Plant_Component\PictInspection\ExrJobInspection";
+			string[] allowedExtensions = { ".png", ".PNG", ".jpeg", ".JPEG", ".jpg", ".JPG", ".gif", ".GIF" };
+			if (fileupload != null && fileupload.Length > 0)
+			{
+				fileExtension = Path.GetExtension(fileupload.FileName); // nama file dengan ekstensi
+				fileName = Path.GetFileNameWithoutExtension(fileupload.FileName); // Mengambil nama file tanpa ekstensi
+				fileName = fileName.Replace(" ", "");
+
+				if (!allowedExtensions.Contains(fileExtension))
+				{
+					Stat = "warning";
+					Msg = "File Must Be An Image";
+					return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
+				}
+				// Menambahkan format jam (yyyyMMddHHmmss) di ujung nama file
+				string currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+				string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
+				ePictureCaption = fileName1;
+				targetDirectory = $"{PathExrJobInspection}";
+				//targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "img"); // local
+
+				newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
+				newFile = $@"{newPath}\{fileName1}";
+
+                Console.WriteLine("new file is -" + newFile);
+
+				//filePath = Path.Combine(targetDirectory, ePictureCaption);
+
+				if (!Directory.Exists(newPath))
+				{
+					Directory.CreateDirectory(newPath);
+				}
+
+				using (var stream = new FileStream(newFile, FileMode.Create))
+				{
+					await fileupload.CopyToAsync(stream);
+				}
+			}
+
+			string query = @$"exec dbo.ExrOldCoreInspectPic {Utility.Evar(TWONO, 1)}, 
+			{Utility.Evar(ID, 1)}, {Utility.Evar(newFile, 1)}, {Utility.Evar(ePictureCaption, 1)}, 
+			{Utility.Evar(einspectionType, 1)}, {Utility.Evar(Utility.eusername(), 1)}";
+
+			Console.WriteLine(query);
+			SQLFunction.execQuery(query);
+
+			Stat = "success";
+			Msg = "Image has been uploaded successfully";
+			return Redirect("/ExrRepairJobHistoryInspection/FinalInspection/" + ID);
+		}
+		public async Task<IActionResult> OldUploadFile(IFormFile fileupload)
         {
             string ID = Request.Form["ejobid"];
             string TWONO = Request.Form["formWono"];
@@ -336,33 +369,43 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string newPath = "";
             string newFile = "";
             string ePictureCaption = "";
-            string PathExrJobInspection = @$"\\BPNAPS07.THIESS.AUS\database\Plant_Component\PictInspection\ExrJobInspection\";
+            string PathExrJobInspection = @$"\\BPNAPS07.THIESS.AUS\database\Plant_Component\PictInspection\ExrJobInspection";
             string[] allowedExtensions = { ".png", ".PNG", ".jpeg", ".JPEG", ".jpg", ".JPG", ".gif", ".GIF" };
+
             if (fileupload != null && fileupload.Length > 0)
             {
                 fileExtension = Path.GetExtension(fileupload.FileName); // nama file dengan ekstensi
-                Console.WriteLine("File Extension is" + fileExtension);
                 fileName = Path.GetFileNameWithoutExtension(fileupload.FileName); // Mengambil nama file tanpa ekstensi
                 fileName = fileName.Replace(" ", "");
+
                 if (!allowedExtensions.Contains(fileExtension))
                 {
                     Stat = "warning";
                     Msg = "File Must Be An Image";
                     return Redirect("/ExrRepairJobHistoryInspection/OldCore/" + ID);
                 }
+
                 // Menambahkan format jam (yyyyMMddHHmmss) di ujung nama file
                 string currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
 
                 string fileName1 = $"{fileName}_{currentTime}{fileExtension}";
                 ePictureCaption = fileName1;
-                //targetDirectory = $"{PathExrJobInspection}"; server
-                targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
+
+                targetDirectory = $"{PathExrJobInspection}";
+                //targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "img"); // local
 
                 newPath = $@"{PathExrJobInspection}\{einspectionType}\{TWONO}";
                 newFile = $@"{newPath}\{fileName1}";
 
-                filePath = Path.Combine(targetDirectory, ePictureCaption);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                //filePath = Path.Combine(targetDirectory, ePictureCaption);
+                Console.WriteLine("file path is -" + newFile);
+
+				if (!Directory.Exists(newPath))
+				{
+					Directory.CreateDirectory(newPath);
+				}
+
+				using (var stream = new FileStream(newFile, FileMode.Create))
                 {
                     await fileupload.CopyToAsync(stream);
                 }
@@ -485,7 +528,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             namafile = Path.Combine(savePath, jobId + ".pdf");
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                ////FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
+                //FileName = "C:\\htmltopdf\\wkhtmltopdf.exe", //local
                 FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
                 Arguments = $"--username minestar --password Mine1staR --margin-bottom 10mm " +
                             $"http://{host}/ExrRepairJobHistoryInspection/FinalReportBody/{jobId} " +
@@ -540,10 +583,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             if (checkData.Rows.Count > 0)
             {
-                //targetDirectory = $"{PathExrJobInspection}"; server
-                targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "image"); // local
+                targetDirectory = $"{PathExrJobInspection}";
+                //targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "img"); // local
 
-                newPath = $@"{PathExrJobInspection}\{inspectType}\{wonum}";
+                newPath = $@"{targetDirectory}\{inspectType}\{wonum}";
                 newFile = $@"{newPath}\{fileName1}";
                 string eNewFile = Utility.Evar(newFile, 1);
 
@@ -551,8 +594,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 eInspectType = Utility.Evar(inspectType, 1);
                 string ejobid = Utility.CheckNull(checkData.Rows[0]["ID"]);
 
-                filePath = Path.Combine(targetDirectory, fileName1);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = new FileStream(newPath, FileMode.Create))
                 {
                     await formData.CopyToAsync(stream);
                 }
@@ -561,7 +603,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 					{eInspectType}, {Utility.ebyname()}";
 
                 Console.WriteLine(query);
-                //SQLFunction.execQuery(query);
+                SQLFunction.execQuery(query);
 
                 return new JsonResult("ok");
             }
@@ -569,6 +611,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             {
                 return new JsonResult("not exist");
             }
+        }
+        public IActionResult TestJsPdf(string ID)
+        {
+            OldCore(ID);
+            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/JsPdf.cshtml");
         }
     }
 }

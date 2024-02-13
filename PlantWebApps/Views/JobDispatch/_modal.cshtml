@@ -19,66 +19,85 @@
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">AN NUMBER*</div>
-                            <input type="Text" class="col-6" name="emailAnno" id="emailAnno" readonly="readonly" required />
+                            <div class="col-6">
+                                <input type="Text" class="col-6 form-control form-control-sm" name="emailAnno" id="emailAnno" readonly="readonly" required />
+                            </div>
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Consigned To*</div>
-                            <input type="Text" class="col-6" name="emailAttentionTo" id="emailAttentionTo" readonly="readonly" value="" required />
+                            <div class="col-6">
+                                <input type="Text" class="col-6 form-control form-control-sm" name="emailAttentionTo" id="emailAttentionTo" readonly="readonly" value="" required />
+                            </div>
                             <input type="Text" class="col-2 ms-1 d-none" value="" />
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Sender Email*</div>
-                            <input type="Text" class="col-6" name="emailSenderEmail" value="" required />
+                            <div class="col-6">
+                            <input type="Text" class="col-6 form-control form-control-sm" name="emailSenderEmail" value="" required />
+                            </div>
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row">
                             <div class="col-3" style="font-size: 12px;">Recipient Email*</div>
-                            <textarea class="col-6" name="emailRecipientEmail" id="emailRecipientEmail" rows="2" required></textarea>
-                            <select class="col-2 ms-1" id="cRecipientCategory" name="cRecipientCategory" style="max-height: 25px;">
-                                <option value=""></option>
-                                @foreach (DataRow row in ViewBag.cRecipientCategory.Rows)
-                                {
-                                    var emailCategory = row["EmailCategory"].ToString();
-                                    <option value="@emailCategory" selected="@(emailCategory == ViewBag.cRecipientCategory?.Rows[0]?["EmailCategory"].ToString())"> @emailCategory</option>
-                                }
-                            </select>
+                            <div class="col-6">
+                                <textarea class="col-6 form-control form-control-sm" name="emailRecipientEmail" id="emailRecipientEmail" rows="2" required></textarea>
+                            </div>
+                            <div class="col-2">
+                                <select class="col-2 ms-1 select2" id="cRecipientCategory" name="cRecipientCategory" style="max-height: 25px;">
+                                    <option value=""></option>
+                                    @foreach (DataRow row in ViewBag.cRecipientCategory.Rows)
+                                    {
+                                        var emailCategory = row["EmailCategory"].ToString();
+                                        <option value="@emailCategory" selected="@(emailCategory == ViewBag.cRecipientCategory?.Rows[0]?["EmailCategory"].ToString())"> @emailCategory</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row">
                             <div class="col-3" style="font-size: 12px;">CC Email</div>
-                            <textarea class="col-6" name="emailCcEmail" id="emailCcEmail" rows="2"></textarea>
-                            <select class="col-2 ms-1" id="cccEmailCategory" name="cccEmailCategory" style="max-height: 25px;">
-                                <option value=""></option>
-                                @foreach (DataRow row in ViewBag.cccEmailCategory.Rows)
-                                {
-                                    var emailCategory = row["EmailCategory"].ToString();
-                                    <option value="@emailCategory"> @emailCategory</option>
-                                }
-                            </select>
+                            <div class="col-6">
+                                <textarea class="col-6 form-control form-control-sm" name="emailCcEmail" id="emailCcEmail" rows="2"></textarea>
+                            </div>
+                            <div class="col-2">
+                                <select class="col-2 ms-1 select2" id="cccEmailCategory" name="cccEmailCategory" style="max-height: 25px;">
+                                    <option value=""></option>
+                                    @foreach (DataRow row in ViewBag.cccEmailCategory.Rows)
+                                    {
+                                        var emailCategory = row["EmailCategory"].ToString();
+                                        <option value="@emailCategory"> @emailCategory</option>
+                                    }
+                                </select>
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Subject Email</div>
-                            <input type="Text" class="col-8" name="emailSubject" value="" />
+                            <div class="col-8">
+                                <input type="Text" class="col-8 form-control form-control-sm" name="emailSubject" value="" />
+                            </div>
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row">
                             <div class="col-3" style="font-size: 12px;">Body Text</div>
-                            <textarea class="col-8" name="emailBodyText" rows="5"></textarea>
+                            <div class="col-8">
+                            <textarea class="col-8 form-control form-control-sm" name="emailBodyText" rows="5"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row">
                             <div class="col-3" style="font-size: 12px;">Attechment</div>
-                            <input class="form-check-input" type="checkbox" name="emailChkAttach" disabled>
+                            <input class="form-check-input ms-2" type="checkbox" name="emailChkAttach" disabled>
                         </div>
                     </div>
                 </div>

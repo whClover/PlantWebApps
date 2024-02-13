@@ -120,6 +120,7 @@
 
         // save
         $('#saveCompIDAddJob').on("click", function () {
+            console.log("clicked");
             if ($('#ttcipartno').val() != "" && $('#ttCIPartID').val() != "") {
                 $.ajax({
                     url: '@Url.Action("saveCompIDAddJob", "ExrRepairJobHistory")',
@@ -141,10 +142,12 @@
                         Swal.fire("The data was saved successfully.", "", "success");
                     } else if (response === "already") {
                         Swal.fire("The part number already exist", "", "warning");
-                    } else { 
+                    } else {
                         Swal.fire("The part id not exist", "", "warning");
                     }
                 });
+            } else { 
+                Swal.fire("Please Fill Part Number And Part ID", "", "warning");
             }
         });
     });

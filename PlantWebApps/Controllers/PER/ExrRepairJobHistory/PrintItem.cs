@@ -61,5 +61,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         {
             return new JsonResult("ok");
         }
+        public IActionResult TestJsPdfAutoTable()
+        { 
+            return View("~/Views/PER/ExrRepairJobHistory/Testing/Index.cshtml");
+        }
     }
 }

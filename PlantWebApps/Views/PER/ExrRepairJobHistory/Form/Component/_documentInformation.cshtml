@@ -79,7 +79,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2  ">Doc Type</div>
-				<div class="col-3">
+				<div class="col-3 fw-normal">
 					<select id="tDocTypeID" name="tDocTypeID" class="col-3 form-control form-control-sm select2">
 						<option></option>
 						@foreach (var option in optionstDocTypeID)
@@ -119,7 +119,7 @@
 				</div>
 				<div class="col-2">
 					<input id="tLogANReceivedBy" name="tLogANReceivedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedBy"] : "")"
-						   type="text" class="col-2  form-control form-control-sm" />
+						   type="text" class="col-2 ms-2 form-control form-control-sm" />
 				</div>
 				<div class="col-2"></div>
 				<div class="col-2">
@@ -193,7 +193,7 @@
 				</div>
 				<div class="col-2">
 					<input id="tDisputeCompletedBy" name="tDisputeCompletedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+						   type="text" class="col-2 ms-2 form-control form-control-sm datepicker-basic" />
 				</div>
 			</div>
 		</div>
@@ -231,7 +231,7 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-2  ">Next Status</div>
-				<div class="col-3">
+				<div class="col-3 fw-normal">
 					<select id="tNextStatus" name="tNextStatus" class="col-4 form-control form-control-sm select2">
 						<option value=""></option>
 						@foreach (DataRow row in ViewBag.tnextstatus.Rows)
@@ -254,7 +254,7 @@
 					<input id="tORRequestDate" name="tORRequestDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ORRequestDate"] : "")"
 						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
 				</div>
-				<div class="col-2">OR Completed</div>
+				<div class="col-2 text-nowrap">OR Completed</div>
 				<div class="col-2">
 					<input id="tORCompletedDAte" name="tORCompletedDAte" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ORCompletedDAte"] : "")"
 						   type="text" class="col-2 ms-2 form-control form-control-sm datepicker-basic" />

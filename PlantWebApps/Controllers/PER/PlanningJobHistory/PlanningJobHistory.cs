@@ -13,41 +13,89 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
             LoadOption();
             return View("~/Views/PER/PlanningJobHistory/index.cshtml");
         }
-        private string BuildTempFilter (string fDocType, string CWOType, string CCompIDType, string fstoretype, 
-            string CbRepairAdvice, string tMaintType, string fstatusid,
-            string fswo, string fsrepairby, string fsort, string fasc, string fdocno, string TPartID, string fstart, 
-            string fend, string feqclass, string freason, string fstore,
+        public IActionResult LoadData(string fDocType, string CWOType, string CCompIDType, string fstoretype, string CbRepairAdvice, string tMaintType, string fstatusid,
+            string fswo, string fsrepairby, string fsort, string fasc, string fdocno, string TPartID, string fstart, string fend, string feqclass, string freason, string fstore,
             string CbTOCategory, string CbPriority, string fisnull)
+        {
+
+            string filter = BuildTempFilter(fDocType, CWOType, CCompIDType, fstoretype, CbRepairAdvice, tMaintType, fstatusid, 
+                                            fswo, fsrepairby, fsort, fdocno,
+                                            fstart, fend, fstore, fasc, TPartID, 
+                                            feqclass, freason, CbTOCategory, CbPriority, fisnull);
+
+            string sortOrder = string.IsNullOrEmpty(fsort) ? "RegisterDate" : fsort;
+            string ascdsc = string.IsNullOrEmpty(fasc) ? "desc" : fasc;
+
+            _tempfilter = Utility.VarFilter(filter);
+
+            string dataQuery = $"SELECT TOP 20 * from v_ExrJobDetail {_tempfilter} ORDER BY {sortOrder} {ascdsc}";
+            Console.WriteLine("query is" + dataQuery);
+            var data = SQLFunction.execQuery(dataQuery);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    requestp1 = Utility.CheckNull(row["RequestP1"]),
+                    offsitewo = Utility.CheckNull(row["OffSiteWO"]),
+                    unitnumber = Utility.CheckNull(row["UnitNumber"]),
+                    unitdescription = Utility.CheckNull(row["UnitDescription"]),
+                    status = Utility.CheckNull(row["Status"]),
+                    compdesc = Utility.CheckNull(row["CompDesc"]),
+                    mainttype = Utility.CheckNull(row["MaintType"]),
+                    comptype = Utility.CheckNull(row["CompType"]),
+                    repairadvice = Utility.CheckNull(row["RepairAdvice"]),
+                    woalloc = Utility.CheckNull(row["WOAlloc"]),
+                    siteallocname = Utility.CheckNull(row["SiteAllocName"]),
+                    tcipartno = Utility.CheckNull(row["TCIPartNo"]),
+                    supabbr = Utility.CheckNull(row["SupervisorAbbr"]),
+                    supname = Utility.CheckNull(row["SupplierName"]),
+                    lastchangedate = Utility.CheckNull(row["LastChangeDate"]),
+                    lastchangeby = Utility.CheckNull(row["LastChangeBy"]),
+                    remarkadvice = Utility.CheckNull(row["RemarkAdvice"]),
+                    locationhold = Utility.CheckNull(row["LocationHold"])
+                };
+                rows.Add(rowData);
+            }
+            return new JsonResult(rows);
+        }
+        private string BuildTempFilter(string fDocType, string CWOType, string CCompIDType, string fstoretype, string CbRepairAdvice,
+                                       string tMaintType, string fstatusid, string fswo, string fsrepairby, string fsort, string fdocno,
+                                       string fstart, string fend, string fstore, string fasc, string TPartID,
+                                       string feqclass, string freason, string CbTOCategory, string CbPriority, string fisnull)
         {
             string tempfilter = string.Empty;
             if (!string.IsNullOrEmpty(fDocType) && !string.IsNullOrEmpty(fdocno))
             {
-                tempfilter = $"AND {fDocType} = {Utility.Evar(fdocno, 0)}" + tempfilter;
+                tempfilter = $"AND {fDocType} = {Utility.Evar(fdocno, 1)}" + tempfilter;
             }
 
             if (!string.IsNullOrEmpty(fstoretype) && !string.IsNullOrEmpty(fstore))
             {
-                tempfilter = $"AND {fstoretype} = {Utility.Evar(fstore, 0)}" + tempfilter;
+                tempfilter = $"AND {fstoretype} = {Utility.Evar(fstore, 1)}" + tempfilter;
             }
 
             if (!string.IsNullOrEmpty(CCompIDType) && !string.IsNullOrEmpty(TPartID))
-			{
-				tempfilter = $"AND {CCompIDType} = {Utility.Evar(TPartID, 0)}" + tempfilter;
-			}
+            {
+                tempfilter = $"AND {CCompIDType} = {Utility.Evar(TPartID, 1)}" + tempfilter;
+            }
 
-			if (!string.IsNullOrEmpty(CWOType) && !string.IsNullOrEmpty(fswo))
-			{
-				tempfilter = $"AND {CWOType} = {Utility.Evar(fswo, 0)}" + tempfilter;
-			}
+            if (!string.IsNullOrEmpty(CWOType) && !string.IsNullOrEmpty(fswo))
+            {
+                tempfilter = $"AND {CWOType} = {Utility.Evar(fswo, 1)}" + tempfilter;
+            }
 
-			if (!string.IsNullOrEmpty(fisnull))
-			{
-				tempfilter = $"AND {fisnull} IS NULL" + tempfilter;
-			}
+            if (!string.IsNullOrEmpty(fisnull))
+            {
+                tempfilter = $"AND {fisnull} IS NULL" + tempfilter;
+            }
 
             if (!string.IsNullOrEmpty(freason))
             {
-                tempfilter = $"AND ReasonTypeID = {Utility.Evar(freason, 0)}" + tempfilter;
+                tempfilter = $"AND ReasonTypeID = {freason}" + tempfilter;
             }
 
             if (!string.IsNullOrEmpty(fstatusid))
@@ -83,54 +131,6 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
             }
 
             return tempfilter;
-        }
-        public IActionResult LoadData(string fDocType, string CWOType, string CCompIDType, string fstoretype, string CbRepairAdvice, string tMaintType, string fstatusid,
-            string fswo, string fsrepairby, string fsort, string fasc, string fdocno, string TPartID, string fstart, string fend, string feqclass, string freason, string fstore,
-            string CbTOCategory, string CbPriority, string fisnull)
-        {
-
-            string filter = BuildTempFilter(fDocType, CWOType, CCompIDType, fstoretype, CbRepairAdvice, tMaintType, fstatusid, 
-                                            fswo, fsrepairby, fsort, fdocno,
-                                            fstart, fend, fstore, fasc, TPartID, 
-                                            feqclass, freason, CbTOCategory, CbPriority, fisnull);
-
-            string sortOrder = string.IsNullOrEmpty(fsort) ? "RegisterDate" : fsort;
-            string ascdsc = string.IsNullOrEmpty(fasc) ? "desc" : fasc;
-
-            _tempfilter = Utility.VarFilter(filter);
-
-            string dataQuery = $"SELECT TOP 20 * from v_ExrJobDetail {_tempfilter} ORDER BY {sortOrder} {ascdsc}";
-            var data = SQLFunction.execQuery(dataQuery);
-
-            var rows = new List<object>();
-
-            foreach (DataRow row in data.Rows)
-            {
-                var rowData = new
-                {
-                    id = Utility.CheckNull(row["ID"]),
-                    requestp1 = Utility.CheckNull(row["RequestP1"]),
-                    offsitewo = Utility.CheckNull(row["OffSiteWO"]),
-                    unitnumber = Utility.CheckNull(row["UnitNumber"]),
-                    unitdescription = Utility.CheckNull(row["UnitDescription"]),
-                    status = Utility.CheckNull(row["Status"]),
-                    compdesc = Utility.CheckNull(row["CompDesc"]),
-                    mainttype = Utility.CheckNull(row["MaintType"]),
-                    comptype = Utility.CheckNull(row["CompType"]),
-                    repairadvice = Utility.CheckNull(row["RepairAdvice"]),
-                    woalloc = Utility.CheckNull(row["WOAlloc"]),
-                    siteallocname = Utility.CheckNull(row["SiteAllocName"]),
-                    tcipartno = Utility.CheckNull(row["TCIPartNo"]),
-                    supabbr = Utility.CheckNull(row["SupervisorAbbr"]),
-                    supname = Utility.CheckNull(row["SupplierName"]),
-                    lastchangedate = Utility.CheckNull(row["LastChangeDate"]),
-                    lastchangeby = Utility.CheckNull(row["LastChangeBy"]),
-                    remarkadvice = Utility.CheckNull(row["RemarkAdvice"]),
-                    locationhold = Utility.CheckNull(row["LocationHold"])
-                };
-                rows.Add(rowData);
-            }
-            return new JsonResult(rows);
         }
         private void LoadOption()
         {
