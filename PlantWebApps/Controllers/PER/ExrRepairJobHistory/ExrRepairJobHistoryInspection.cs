@@ -612,5 +612,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 return new JsonResult("not exist");
             }
         }
+        public IActionResult TestJsPdf(string ID)
+        {
+            OldCore(ID);
+            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/JsPdf.cshtml");
+        }
     }
 }
