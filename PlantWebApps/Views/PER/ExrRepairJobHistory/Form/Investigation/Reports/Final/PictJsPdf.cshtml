@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="d-flex flex-column" id="capture">
+    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+        <tr>
+            <td style="width: 25%">
+                <img src="~/images/Thiess.png" style="max-width: 175px;" />
+            </td>
+            <td style="width: 50%">
+                <div class="d-flex flex-column align-items-center">
+                    <div style="font-size: 24px" class="fw-bold">FINAL INSPECTION IMAGE</div>
+                    <div style="font-size: 14px" class="fw-bold">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
+                </div>
+            </td>
+            <td style="width: 25%">
+                <div></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 25%">
+                <div class="d-flex align-items-center" style="margin-left: 15px;">
+                    <div style="min-width: 100px;">WO Number</div>
+                    <div style="min-width: 25px;">:</div>
+                    <div>@ViewBag.data.Rows[0]["WoNO"].ToString()</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<table class="table mb-0 mt-2 table-sm table-hover" id="table">
+    <thead class="table-light">
+        <tr>
+            <th>Image Name</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* @foreach (DataRow row in ViewBag.data.Rows)
+        {
+            <tr height="558px">
+                <td>@row["PictureCaption"]</td>
+                <td></td>
+            </tr>
+        } *@
+        @for (var i = 1; i < 30; i++)
+        {
+            <tr>
+                <td>6316835(2)</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(async function () {
+
+        // Load the jspdf and jspdf-autotable libraries
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
+
+        // html2canvas
+        const canvas = await html2canvas($("#capture")[0]);
+        const imageData = canvas.toDataURL("image/png");
+
+        // Calculate the desired width and height while maintaining the aspect ratio
+        const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+
+        // AUTO TABLE
+        // Total page number variable declaration
+        var totalPagesExp = '{total_pages_count_string}';
+
+        // create autotable
+        doc.autoTable(
+            {
+                html: '#table',
+                bodyStyles: { minCellHeight: 60 },
+                margin: { top: 30 },
+
+                // header
+                willDrawPage: function (data) {
+                    // add html2canvas image to jspdf
+                    doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+                },
+
+                // image
+                didDrawCell: (data) => {
+                    if (data.section === 'body' && data.column.index === 1) {
+                        var imgUrl = 'https://placekitten.com/200/300';
+                        doc.addImage(imgUrl, 'JPEG', data.cell.x + 2, data.cell.y + 2, 50, 50)
+                    }
+                },
+
+                // footer
+                didDrawPage: function (data) {
+                    var str = 'Page ' + doc.internal.getNumberOfPages()
+                    // Total page number plugin only available in jspdf v1.0+
+                    if (typeof doc.putTotalPages === 'function') {
+                        str = str + ' of ' + totalPagesExp
+                    }
+
+                    doc.setFontSize(10)
+
+                    // jsPDF 1.4+ uses getHeight, <1.4 uses .height
+                    var pageSize = doc.internal.pageSize
+                    var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+                    doc.text(str, data.settings.margin.left, pageHeight - 10)
+                },
+
+                // table styles
+                styles: {
+                    font: 'arial',
+                    fontSize: 10,
+                },
+
+            }
+        )
+
+        // Total page number plugin
+        if (typeof doc.putTotalPages === 'function') {
+            doc.putTotalPages(totalPagesExp)
+        }
+
+        // return the pdf
+        doc.save('test.pdf');
+        window.close();
+    });
+</script>

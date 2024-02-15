@@ -5,9 +5,6 @@
     @using System.Data;
 }
 
-<button type="button" class="btn btn-sm btn-primary" id="generatePdf">Generate pdf</button>
-<button type="button" class="btn btn-sm btn-primary" id="testHtml2canvas">canvas pdf</button>
-
 <div class="d-flex flex-column" style="gap: 10px" id="capture">
     <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white" id="capture">
         <tbody>
@@ -279,10 +276,9 @@
     </div>
 </div>
 
-
-
 <script>
     $(document).ready(async function () {
+
         // Load the jspdf and jspdf-autotable libraries
         window.jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF('p', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
@@ -300,7 +296,6 @@
 
         // return the pdf
         doc.save('test.pdf');
-
         window.close();
     });
 </script>

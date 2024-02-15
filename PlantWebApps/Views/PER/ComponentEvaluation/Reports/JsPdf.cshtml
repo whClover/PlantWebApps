@@ -1,0 +1,600 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="d-flex flex-column" style="font-size: 9px;" id="capture">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+        <div class="font-h3">COMPONENT EVALUATION by EXTERNAL REPAIRS BSF</div>
+        <img src="~/images/Thiess.png" style="max-width: 150px;" />
+    </div>
+    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+        <tr>
+            <td style="width: 40%">
+                <div class="d-flex flex-column">
+                    @* assign wo  *@
+                    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+                        <tr>
+                            <td style="width: 31%">
+                                Assign Wo
+                            </td>
+                            <td style="width: 5%">:</td>
+                            <td class="font-label" style="width: 31%">
+                                @ViewBag.data?.Rows[0]?["WONO"]
+                            </td>
+                            <td class="font-label" style="width: 31%">
+                                @ViewBag.id
+                            </td>
+                        </tr>
+                    </table>
+                    @* site  *@
+                    <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                        <tr>
+                            <td style="width: 31%">
+                                Site
+                            </td>
+                            <td style="width: 5%">:</td>
+                            <td class="" style="width: 31%">
+                                @(ViewBag.tUnitNumber?.Rows.Count > 0 ? ViewBag.tUnitNumber.Rows[0]["LocationName"] : "")
+                            </td>
+                            <td class="" style="width: 31%">
+                                @(ViewBag.tUnitNumber?.Rows.Count > 0 ? ViewBag.tUnitNumber.Rows[0]["Location"] : "")
+                            </td>
+                        </tr>
+                    </table>
+                    @* unit no  *@
+                    <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                        <tr>
+                            <td style="width: 31%">
+                                Unit No
+                            </td>
+                            <td style="width: 5%">:</td>
+                            <td class="" style="width: 31%">
+                                @ViewBag.data?.Rows[0]?["UnitNumber"]
+                            </td>
+                            <td class="" style="width: 31%">
+                                @(ViewBag.tUnitNumber?.Rows.Count > 0 ? ViewBag.tUnitNumber.Rows[0]["UnitDescription"] : "")
+                            </td>
+                        </tr>
+                    </table>
+                    @* maint type *@
+                    <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                        <tr>
+                            <td style="width: 31%">
+                                Maint Type
+                            </td>
+                            <td style="width: 5%">:</td>
+                            <td class="" style="width: 31%">
+                                @ViewBag.data?.Rows[0]?["MaintType"]
+                            </td>
+                            <td class="" style="width: 31%">
+                                @ViewBag.data?.Rows[0]?["MaintDesc"]
+                            </td>
+                        </tr>
+                    </table>
+                    @* Complaint  *@
+                    <div class="border negative-top" style="padding: 5px;">
+                        <div class="font-h3">Complaint</div>
+                        @* scheduele smu  *@
+                        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white;margin-top: 5px;">
+                            <tr>
+                                <td style="width: 23.75%">
+                                    Schedule SMU
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 23.75%">
+                                    @ViewBag.data?.Rows[0]?["BdgtHours"]
+                                </td>
+                                <td class="" style="width: 23.75%">
+                                    Completed SMU
+                                </td>
+                                <td class="" style="width: 23.75%">
+                                    @ViewBag.data?.Rows[0]?["SMU"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* details  *@
+                        <div class="font-h3 negative-top">Details</div>
+                        <div class="border-grey" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["Complaint"]</div>
+                    </div>
+                    @* cost reviewed *@
+                    <div class="border" style="padding: 5px; margin-top: 15px;">
+                        <div class="font-h3">Cost Reviewed</div>
+                        @* flat rate and currency  *@
+                        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; margin-top: 5px;">
+                            <tr>
+                                <td style="width: 22.5%">
+                                    Flat Rate
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["FlatRate"]
+                                </td>
+                                <td class="" style="width: 22.5%">
+                                    Currency
+                                </td>
+                                <td style="width: 5%"></td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["CurrID"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* addd j parts and total cost before *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 22.5%">
+                                    Add.I Parts
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["ExcPart"]
+                                </td>
+                                <td class="" style="width: 22.5%">
+                                    Total Cost Before
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["TotalCostBefore"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* parts and saving cost *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 22.5%">
+                                    Parts
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["PartCost"]
+                                </td>
+                                <td class="" style="width: 22.5%">
+                                    Saving Cost
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["SavingCost"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* labour and total qoute rev *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 22.5%">
+                                    Labour
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["LabourCost"]
+                                </td>
+                                <td class="" style="width: 22.5%">
+                                    Total Qoute Rev
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["TotalQuoteRev"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* consumable and tci supply *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 22.5%">
+                                    Cosumable
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["ConsCost"]
+                                </td>
+                                <td class="" style="width: 22.5%">
+                                    TCI Supply
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["TCISupply"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* other and total cost *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 22.5%">
+                                    Other
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["OtherCost"]
+                                </td>
+                                <td class="" style="width: 22.5%">
+                                    Total Cost
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["TotalCost"]
+                                </td>
+                            </tr>
+                        </table>
+                        <hr />
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 22.5%">
+                                </td>
+                                <td style="width: 5%"></td>
+                                <td class="" style="width: 22.5%">
+                                </td>
+                                <td class="font-h3" style="width: 22.5%">
+                                    New Price
+                                </td>
+                                <td style="width: 5%"></td>
+                                <td class="font-h3" style="width: 22.5%">
+                                    @ViewBag.data?.Rows[0]?["Price"]
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="border" style="padding: 5px; margin-top: 15px;">
+                        <div class="font-h3">Strip Down Finding</div>
+                        <div class="border-grey" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["StripDown"]</div>
+                    </div>
+                    <div class="border" style="padding: 5px; margin-top: 15px; margin-bottom: 0px;">
+                        <div class="font-h3">Maintenance Failure</div>
+                        @* radio button  *@
+                        <div class="d-flex  align-items-center" style="margin-top: 5px; gap: 10px;">
+                            <input name="oCoreInspection" type="radio" id="oCoreInspectionY">
+                            <label class="pt-1" for="oCoreInspection">Mechanical</label>
+                            <input name="oCoreInspection" type="radio" id="oCoreInspectionN">
+                            <label class="pt-1" for="oCoreInspection">Electrical</label>
+                        </div>
+                        @* root cause *@
+                        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 31%">
+                                    Root Cuuse
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 31%">
+                                    @ViewBag.data?.Rows[0]?["RootCauseCode"]
+                                </td>
+                                <td class="" style="width: 31%">
+                                    @ViewBag.data?.Rows[0]?["RootCauseDesc"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* recommendation  *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 31%">
+                                    Recommendation
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 31%">
+                                    @ViewBag.data?.Rows[0]?["RecCode"]
+                                </td>
+                                <td class="" style="width: 31%">
+                                    @ViewBag.data?.Rows[0]?["RecDesc"]
+                                </td>
+                            </tr>
+                        </table>
+                        @* Failure code  *@
+                        <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
+                            <tr>
+                                <td style="width: 31%">
+                                    Failure Code
+                                </td>
+                                <td style="width: 5%">:</td>
+                                <td class="" style="width: 31%">
+                                    @ViewBag.data?.Rows[0]?["SysFailCode"]
+                                </td>
+                                <td class="" style="width: 31%">
+                                    @ViewBag.data?.Rows[0]?["SysFail"]
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <table class="table mb-0 table-sm table-bordered" style="margin-top: 15px;">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>Evaluation Code</th>
+                                <th>Route</th>
+                                <th>Costing</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tbody>
+                            <tr>
+                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["EvalDesc"] : "")</td>
+                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["Route"] : "")</td>
+                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["Costing"] : "")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td style="width: 60%">
+                <div class="d-flex flex-column">
+                    <div class="border" style="padding: 5px;">
+                        <div class="font-h3">Materials Reviewed</div>
+                        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; margin-top: 5px;">
+                            <tr>
+                                <td style="width: 33%">
+                                    <!-- work order check -->
+                                    <div>
+                                        <input id="tM1" name="tM1" type="checkbox" value="@ViewBag.data.Rows[0]["M1"].ToString()" @(ViewBag.data.Rows[0]["M1"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Work Order
+                                        </label>
+                                    </div>
+                                    <!-- installation check -->
+                                    <div>
+                                        <input type="checkbox" id="tM2" name="tM2" value="@ViewBag.data.Rows[0]["M2"].ToString()" @(ViewBag.data.Rows[0]["M2"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Installation Checklist
+                                        </label>
+                                    </div>
+                                    <!-- downtime report check -->
+                                    <div>
+                                        <input type="checkbox" id="tM3" name="tM3" value="@ViewBag.data.Rows[0]["M3"].ToString()" @(ViewBag.data.Rows[0]["M3"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Downtime Report Last 3 Months
+                                        </label>
+                                    </div>
+                                    <!-- check component change -->
+                                    <div>
+                                        <input type="checkbox" id="tM4" name="tM4" value="@ViewBag.data.Rows[0]["M4"].ToString()" @(ViewBag.data.Rows[0]["M4"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Component Change Out History
+                                        </label>
+                                    </div>
+                                    <!-- previous wo -->
+                                    <div>
+                                        <input type="checkbox" id="tM5" name="tM5" value="@ViewBag.data.Rows[0]["M5"].ToString()" @(ViewBag.data.Rows[0]["M5"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Previous WO
+                                        </label>
+                                    </div>
+                                    <!-- Sevice Board History Last 2000SMU -->
+                                    <div>
+                                        <input type="checkbox" id="tM6" name="tM6" value="@ViewBag.data.Rows[0]["M6"].ToString()" @(ViewBag.data.Rows[0]["M6"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Sevice Board History Last 2000SMU
+                                        </label>
+                                    </div>
+                                    <!-- Photo -->
+                                    <div>
+                                        <input type="checkbox" id="tM7" name="tM7" value="@ViewBag.data.Rows[0]["M7"].ToString()" @(ViewBag.data.Rows[0]["M7"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Photo
+                                        </label>
+                                    </div>
+                                </td>
+                                <td style="width: 33%">
+                                    <!-- CFI -->
+                                    <div>
+                                        <input type="checkbox" id="tM8" name="tM8" value="@ViewBag.data.Rows[0]["M8"].ToString()" @(ViewBag.data.Rows[0]["M8"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            CFI
+                                        </label>
+                                    </div>
+                                    <!-- Component History -->
+                                    <div>
+                                        <input type="checkbox" id="tM9" name="tM9" value="@ViewBag.data.Rows[0]["M9"].ToString()" @(ViewBag.data.Rows[0]["M9"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Component History
+                                        </label>
+                                    </div>
+                                    <!-- S.O.S -->
+                                    <div>
+                                        <input type="checkbox" id="tM10" name="tM10" value="@ViewBag.data.Rows[0]["M10"].ToString()" @(ViewBag.data.Rows[0]["M10"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            S.O.S
+                                        </label>
+                                    </div>
+                                    <!-- Oil Top Up History -->
+                                    <div>
+                                        <input type="checkbox" id="tM11" name="tM11" value="@ViewBag.data.Rows[0]["M11"].ToString()" @(ViewBag.data.Rows[0]["M11"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Oil Top Up History
+                                        </label>
+                                    </div>
+                                    <!-- Operation Condition Report -->
+                                    <div>
+                                        <input type="checkbox" id="tM12" name="tM12" value="@ViewBag.data.Rows[0]["M12"].ToString()" @(ViewBag.data.Rows[0]["M12"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Operation Condition Report
+                                        </label>
+                                    </div>
+                                    <!-- Previous OP -->
+                                    <div>
+                                        <input type="checkbox" id="tM13" name="tM13" value="@ViewBag.data.Rows[0]["M13"].ToString()" @(ViewBag.data.Rows[0]["M13"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Previous OP
+                                        </label>
+                                    </div>
+                                    <!-- Written Instruction -->
+                                    <div>
+                                        <input type="checkbox" id="tM14" name="tM14" value="@ViewBag.data.Rows[0]["M14"].ToString()" @(ViewBag.data.Rows[0]["M14"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Written Instruction
+                                        </label>
+                                    </div>
+                                </td>
+                                <td style="width: 33%">
+                                    <!-- SOS/CTS -->
+                                    <div>
+                                        <input type="checkbox" id="tM15" name="tM15" value="@ViewBag.data.Rows[0]["M15"].ToString()" @(ViewBag.data.Rows[0]["M15"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            SOS/CTS
+                                        </label>
+                                    </div>
+                                    <!-- WO History 12 Months -->
+                                    <div>
+                                        <input type="checkbox" id="tM16" name="tM16" value="@ViewBag.data.Rows[0]["M16"].ToString()" @(ViewBag.data.Rows[0]["M16"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            WO History 12 Months
+                                        </label>
+                                    </div>
+                                    <!-- ECM Download -->
+                                    <div>
+                                        <input type="checkbox" id="tM17" name="tM17" value="@ViewBag.data.Rows[0]["M17"].ToString()" @(ViewBag.data.Rows[0]["M17"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            ECM Download
+                                        </label>
+                                    </div>
+                                    <!-- Operator Interview -->
+                                    <div>
+                                        <input type="checkbox" id="tM18" name="tM18" value="@ViewBag.data.Rows[0]["M18"].ToString()" @(ViewBag.data.Rows[0]["M18"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Operator Interview
+                                        </label>
+                                    </div>
+                                    <!-- Incident Notification Report -->
+                                    <div>
+                                        <input type="checkbox" id="tM19" name="tM19" value="@ViewBag.data.Rows[0]["M19"].ToString()" @(ViewBag.data.Rows[0]["M19"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Incident Notification Report
+                                        </label>
+                                    </div>
+                                    <!-- Incident Investigation Report -->
+                                    <div>
+                                        <input type="checkbox" id="tM20" name="tM20" value="@ViewBag.data.Rows[0]["M20"].ToString()" @(ViewBag.data.Rows[0]["M20"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Incident Investigation Report
+                                        </label>
+                                    </div>
+                                    <!-- Failure Analysys -->
+                                    <div>
+                                        <input type="checkbox" id="tM21" name="tM21" value="@ViewBag.data.Rows[0]["M21"].ToString()" @(ViewBag.data.Rows[0]["M21"].ToString().ToLower() == "true" ? "checked" : "")>
+                                        <label>
+                                            Failure Analysys
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="border" style="padding: 5px; margin-top: 15px;">
+                        <div class="font-h3">Investigation</div>
+                        <div class="d-flex flex-column">
+                            <table class="table px-5 table-bordered" style="margin-top: 15px;">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th>When</th>
+                                        <th>What</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+                                        @foreach (DataRow row in ViewBag.tListInvest.Rows)
+                                        {
+                                        <tr>
+                                            <td>@row["When"]</td>
+                                            <td>@row["What"]</td>
+                                            <td>@row["Detail"]</td>
+                                        </tr>
+                                        }
+                                </tbody>
+                            </table>
+                            <div class="d-flex flex-column">
+                                <div class="font-h3">Action Taken/Suggestion</div>
+                                <div style="margin-top: 5px;">@ViewBag.data?.Rows[0]?["ActionTaken"]</div>
+                            </div>
+                            <div class="d-flex flex-column" style="min-height: 100px; margin-top: 15px;">
+                                <div class="font-h3">Conclusion</div>
+                                <div style="margin-top: 5px;">@ViewBag.data?.Rows[0]?["Conclusion"]</div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center justify-content-between fw-bold">
+                                <div class="d-flex flex-row">
+                                    <div>Evaluated By :</div>
+                                    <div class="ms-1">@ViewBag.data?.Rows[0]?["EvalByDesc"]</div>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div>Evaluated Date :</div>
+                                    <div class="ms-1">@ViewBag.data?.Rows[0]?["EvalDate"]</div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="col-12 table mb-0 table-sm table-bordered" style="margin-top: 15px;">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Plant Superintendent</th>
+                                    <th>Plant Ops. Superintendent</th>
+                                    <th>PlantManger</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tbody>
+                                <tr>
+                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PSName"].ToString()</td>
+                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["POSName"].ToString()</td>
+                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PMName"].ToString()</td>
+                                </tr>
+                                <tr>
+                                    <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["PSDate"].ToString()</td>
+                                    <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["POSDate"].ToString()</td>
+                                    <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["PMDate"].ToString()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    <div class="d-flex align-items-center justify-content-between mt-n2">
+        <div>@DateTime.Now.ToString("dd/MM/yyyy")</div>
+        <div>Page 1 of 1</div>
+        <div>TCI-PLT-FO-267</div>
+    </div>
+</div>
+
+<style>
+    .font-label {
+        background-color: lightgray;
+        font-size: 12px;
+    }
+
+    .border {
+        border: 1px solid black;
+    }
+
+    .border-grey {
+        border: 1px solid grey;
+    }
+
+    .font-h3 {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .negative-top {
+        margin-top: -15px;
+    }
+</style>
+
+<script>
+    $(document).ready(async function () {
+
+        // Load the jspdf and jspdf-autotable libraries
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('l', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
+
+        // html2canvas
+        const canvas = await html2canvas($("#capture")[0]);
+        const imageData = canvas.toDataURL("image/png");
+
+        // Calculate the desired width and height while maintaining the aspect ratio
+        const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
+        const pdfHeight = canvas.height * pdfWidth / canvas.width - 20;
+
+        // add html2canvas image to jspdf
+        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+
+        // return the pdf
+        doc.save('test.pdf');
+        window.close();
+    });
+</script>

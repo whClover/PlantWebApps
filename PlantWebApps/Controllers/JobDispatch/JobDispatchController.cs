@@ -566,5 +566,16 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             return new JsonResult(new { emails = concatenatedEmails });
         }
+        public IActionResult PrintJsPdf(string id)
+        {
+            string query = $"SELECT * FROM tbl_DispatchJob WHERE ID = {Utility.Evar(id, 0)}";
+            ViewBag.report = SQLFunction.execQuery(query);
+            Console.WriteLine("query is" + query);
+
+            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 0)}";
+            ViewBag.detail = SQLFunction.execQuery(Detailquery);
+
+            return View("~/Views/JobDispatch/Report/JsPdf.cshtml");
+        }
     }
 }

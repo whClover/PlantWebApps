@@ -507,8 +507,15 @@
 			window.location.href = '/ExrRepairJobHistoryInspection/Report/' + ID;
 		};
 
+		// $("#btnPrint").on("click", function () {
+		// 	gotoReport();
+		// });
+
 		$("#btnPrint").on("click", function () {
-			gotoReport();
+			var url = window.location.href;
+			var ID = url.substring(url.lastIndexOf('/') + 1);
+			var newTabUrl = '/ExrRepairJobHistoryInspection/FinalJsPdf/' + ID;
+			window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
 		});
 
 		// print pict functionality
@@ -518,8 +525,14 @@
 			window.location.href = '/ExrRepairJobHistoryInspection/PrintPict/' + ID;
 		};
 
+		// $("#btnPrintPict").on("click", function () {
+		// 	gotoReportPict();
+		// });
+
 		$("#btnPrintPict").on("click", function () {
-			gotoReportPict();
+			var ID = $("#formWono").val();
+			var newTabUrl = '/ExrRepairJobHistoryInspection/PictFinalJsPdf/' + ID;
+			window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
 		});
 
 		// checkboxes

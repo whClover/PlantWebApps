@@ -7,12 +7,12 @@
         Swal.fire({
             title: 'Are you sure?',
             html: `
-                                                    <div style="font-size: 16px; text-align: center;">
-                                                        <div style="margin-bottom: 10px;">
-                                                            Are you sure to delete the following data?
-                                                        </div>
-                                                    </div>
-                                                `,
+                        <div style="font-size: 16px; text-align: center;">
+                            <div style="margin-bottom: 10px;">
+                                Are you sure to delete the following data?
+                            </div>
+                        </div>
+                    `,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -529,8 +529,8 @@
         $("#btnPrint").on("click", function () {
             var url = window.location.href;
             var ID = url.substring(url.lastIndexOf('/') + 1);
-            var newTabUrl = '/ExrRepairJobHistoryInspection/TestJsPdf/' + ID;
-            window.open(newTabUrl, "popupWindow", "width=1024,height=720");
+            var newTabUrl = '/ExrRepairJobHistoryInspection/OldJsPdf/' + ID;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
         });
 
         // print pict functionality
@@ -541,8 +541,14 @@
             window.location.href = '/ExrRepairJobHistoryInspection/OldPrintPict/' + ID;
         };
 
+        // $("#btnPrintPict").on("click", function () {
+        //     gotoReportPict();
+        // });
+
         $("#btnPrintPict").on("click", function () {
-            gotoReportPict();
+            var ID = $("#formWono").val();
+            var newTabUrl = '/ExrRepairJobHistoryInspection/PictOldJsPdf/' + ID;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
         });
 
         $("#cSave").click(function () {
