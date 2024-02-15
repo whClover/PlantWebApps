@@ -1,0 +1,93 @@
+﻿@{
+    @using System.Data;
+    ViewData["Title"] = "Teardown Report";
+}
+
+<div class="row" id="capture">
+    <div class="d-flex justify-content-between mb-3">
+        <img src="~/images/Thiess.png" style="width:15%" />
+        <h2 class="mb-4">Teardown Reports</h2>
+        <img src="~/images/logo-tcrc.png" style="width:10%" />
+    </div>
+    <div class="mb-3">
+        <table class="table table-sm table-bordered">
+            <tr>
+                <td class="fw-semibold">WONo</td>
+                <td>@(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")</td>
+                <td class="fw-semibold">Component Source</td>
+                <td>TCRC</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">WO Description</td>
+                <td>@(ViewBag.data.Rows[0]["WODesc"] != null ? ViewBag.data.Rows[0]["WODesc"].ToString() : "")</td>
+                <td class="fw-semibold">Component ID</td>
+                <td>@(ViewBag.data.Rows[0]["CompID"] != null ? ViewBag.data.Rows[0]["CompID"].ToString() : "")</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">Unit Description</td>
+                <td colspan="3">@(ViewBag.data.Rows[0]["UnitDescription"] != null ? ViewBag.data.Rows[0]["UnitDescription"].ToString() : "")</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">Component</td>
+                <td colspan="3">@(ViewBag.data.Rows[0]["Component"] != null ? ViewBag.data.Rows[0]["Component"].ToString() : "")</td>
+            </tr>
+        </table>
+    </div>
+    <div class="mb-3">
+        <div class="col-md-12 bg-light text-center">
+            <h4>Teardown Pictures</h4>
+        </div>
+    </div>
+    <div class="mb-3" style="break-after: always;">
+        <h6>#Picture - Before Disassembly</h6>
+        <hr class="mb-0 mt-0" />
+        <div class="row">
+            @if (ViewBag.Data is System.Data.DataTable dataTable)
+            {
+                foreach (System.Data.DataRow row in dataTable.Rows)
+                {
+                    if (row["PictureSection"].ToString() == "BeforeDissassembly")
+                    {
+                        <div class="col-md-4">
+                            <img src="@row["PictPath"].ToString()" class="w-100 shadow-1-strong rounded mb-2" alt="Before Picture">
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <div class="mb-3">
+        <h6>#Picture - After Disassembly</h6>
+        <hr class="mb-0 mt-0" />
+        <div class="row">
+            @if (ViewBag.Data is System.Data.DataTable dataTable2)
+            {
+                foreach (System.Data.DataRow row in dataTable2.Rows)
+                {
+                    if (row["PictureSection"].ToString() == "AfterDissassembly")
+                    {
+                        <div class="col-md-4">
+                            <img src="@row["PictPath"].ToString()" class="w-100 shadow-1-strong rounded mb-2" alt="After Picture">
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(async function () {
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+
+        const canvas = await html2canvas($("#capture")[0]);
+        const imageData = canvas.toDataURL("image/png");
+        const pdfWidth = doc.internal.pageSize.getWidth() - 20;
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+
+        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+        doc.save('test.pdf');
+        window.close();
+    });
+</script>

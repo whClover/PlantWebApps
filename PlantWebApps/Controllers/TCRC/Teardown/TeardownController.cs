@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
 using PlantWebApps.Helper;
 using System.Data;
+using System.Security.Cryptography;
 
 namespace PlantWebApps.Controllers.TCRC.Teardown
 {
@@ -103,6 +105,7 @@ namespace PlantWebApps.Controllers.TCRC.Teardown
                 var rowData = new
                 {
                     pictpath = Utility.CheckNull(row["PictPath"]),
+                    idpict = Utility.CheckNull(row["IDPict"]),
                 };
                 rows.Add(rowData);
             }
@@ -147,11 +150,166 @@ namespace PlantWebApps.Controllers.TCRC.Teardown
 
             }
 
-            Console.WriteLine(qry);
+            SQLFunction.executeQuery(qry);
             string query = "exec dbo.TeardownSubmit " + Utility.Evar(wono, 1) + "," + Utility.Evar(comptype, 1) + "," + Utility.Evar(remark, 1) + ",2," + Utility.ebyname();
-            Console.WriteLine(query);
+            SQLFunction.executeQuery(query);
 
-            return Ok();
+            var response = new
+            {
+                message = "Data has been saved"
+            };
+
+            return Json(response);
+        }
+
+        [HttpGet]
+        public IActionResult DownloadSOWCFI(String type, String wono)
+        {
+            string qry;
+            if (type == "1")
+            {
+                qry = "SELECT Replace(Replace(dbo.RemapJP(FilePath),'/JobPackage',''),'\','/') as filepath " +
+                    "from tbl_IntJobAttachment Where IDFile=3 AND WONO=" + Utility.Evar(wono, 1);
+            } 
+            else
+            {
+                qry = "SELECT Replace(Replace(dbo.RemapJP(FilePath),'/JobPackage',''),'\','/') as filepath " +
+                    "from tbl_IntJobAttachment Where IDFile=4 AND WONO=" + Utility.Evar(wono, 1);
+            }
+
+            var data = SQLFunction.executeQuery(qry);
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    filepath = Utility.CheckNull(row["filepath"]),
+                };
+                rows.Add(rowData);
+            }
+
+            string query = "update tbl_TCRCTearDownDetails set ReadSOWCFI=1,ReadBySOWCFI=" + Utility.ebyname() + " " +
+                    "where JobID=(select ID from tbl_intjobdetailx where wono=" + Utility.Evar(wono, 1) + ")";
+            SQLFunction.executeQuery(query);
+
+            return new JsonResult(rows);
+        }
+
+        [HttpGet]
+        public IActionResult DownloadSWP(String wono)
+        {
+            string query = "select Replace(dbo.RemapPicCSharp_ver2(dbo.SharepointLinkByWO(" + Utility.Evar(wono, 1) + ",1)), '\','/') as LinkFile";
+            var data = SQLFunction.executeQuery(query);
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    filepath = Utility.CheckNull(row["LinkFile"]),
+                };
+                rows.Add(rowData);
+            }
+
+            string qry = "update tbl_TCRCTearDownDetails set ReadSWP=1,ReadBySWP=" + Utility.ebyname() + " " +
+                    "where JobID=(select ID from tbl_intjobdetailx where wono=" + Utility.Evar(wono, 1) + ")";
+            SQLFunction.executeQuery(qry);
+
+            return new JsonResult(rows);
+        }
+
+        [HttpPost]
+        [Route("/Teardown/UploadBefore")]
+        public async Task<IActionResult> UploadBefore(List<IFormFile> uploadbefore, string ejobid, string eidtd)
+        {
+            var targetDirectory = "";
+            string fileExtension = "";
+            string fileName = "";
+            foreach (var file in uploadbefore)
+            {
+                fileExtension = Path.GetExtension(file.FileName);
+                fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                string currentTime = DateTime.Now.ToString("HHmmss");
+                fileName = $"{fileName}_{currentTime}{fileExtension}";
+                targetDirectory = $"{GlobalString.path_dbattach}/{ejobid}/Teardown/BeforeDissassembly/{fileName}";
+
+                using (var stream = new FileStream(targetDirectory, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                string query = "insert into tbl_GeneralPicture(IDReff,PictureSection,PicturePath,PictureStatus,ModuleID,JobID) values " +
+                    "(" + eidtd + ",'BeforeDissassembly'," + Utility.Evar(targetDirectory, 1) + ",1,1," + ejobid + ")";
+                SQLFunction.executeQuery(query);
+            }
+
+            var response = new
+            {
+                message = "Data has been saved"
+            };
+
+            return Json(response);
+        }
+
+        [HttpPost]
+        [Route("/Teardown/UploadAfter")]
+        public async Task<IActionResult> UploadAfter(List<IFormFile> uploadafter, string ejobid, string eidtd)
+        {
+            var targetDirectory = "";
+            string fileExtension = "";
+            string fileName = "";
+            foreach (var file in uploadafter)
+            {
+                fileExtension = Path.GetExtension(file.FileName);
+                fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                string currentTime = DateTime.Now.ToString("HHmmss");
+                fileName = $"{fileName}_{currentTime}{fileExtension}";
+                targetDirectory = $"{GlobalString.path_dbattach}/{ejobid}/Teardown/AfterDissassembly/{fileName}";
+
+                using (var stream = new FileStream(targetDirectory, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                string query = "insert into tbl_GeneralPicture(IDReff,PictureSection,PicturePath,PictureStatus,ModuleID,JobID) values " +
+                    "(" + eidtd + ",'AfterDissassembly'," + Utility.Evar(targetDirectory, 1) + ",1,1," + ejobid + ")";
+                SQLFunction.executeQuery(query);
+            }
+
+            var response = new
+            {
+                message = "Data has been saved"
+            };
+
+            return Json(response);
+        }
+
+        [HttpPost]
+        public IActionResult DeletePicture(String eidpict) 
+        {
+            string query = "update tbl_GeneralPicture set PictureStatus=0,DeactiveBy=" + Utility.ebyname() + ",DeactiveDate=GetDate() where IDPict=" + eidpict;
+            //Console.WriteLine(query);
+            SQLFunction.executeQuery(query);
+
+            var response = new
+            {
+                message = "Data has been saved"
+            };
+
+            return Json(response);
+        }
+
+        public IActionResult PrintReport(String id)
+        {
+            string query = "select *," +
+                "CASE WHEN CompType = 1 THEN 'OEM' WHEN CompType = 2 THEN 'TCRC' ELSE 'Other' END AS CompSource," +
+                "replace(dbo.RemapPicCSharp_ver2(PicturePath),'\\','/') as PictPath " +
+                "from fr_TeardownReport(" + id + ") order by PictureSection";
+            Console.WriteLine(query);
+            ViewBag.Data = SQLFunction.executeQuery(query);
+
+            return View("~/Views/TCRC/Teardown/TeardownReport.cshtml");
         }
     }
 }

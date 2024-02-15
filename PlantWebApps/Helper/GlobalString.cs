@@ -8,5 +8,7 @@
         public static String conStringLive() { return "Server=BPNSQL02.thiess.aus;Database=" + dblive() + ";User ID=sacomp;Password=Thiess12345"; }
         public static String _username { get; set; }
         public static String _usernamesession { get; set; }
+
+        public static String path_dbattach = "\\\\bpnaps07\\dbattachcomp$\\JobID\\";
     }
 }

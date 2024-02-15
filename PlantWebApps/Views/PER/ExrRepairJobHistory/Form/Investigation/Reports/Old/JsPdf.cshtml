@@ -285,14 +285,18 @@
     $(document).ready(async function () {
         // Load the jspdf and jspdf-autotable libraries
         window.jsPDF = window.jspdf.jsPDF;
-        var doc = new jsPDF();
+        var doc = new jsPDF('p', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
 
         // html2canvas
         const canvas = await html2canvas($("#capture")[0]);
         const imageData = canvas.toDataURL("image/png");
 
+        // Calculate the desired width and height while maintaining the aspect ratio
+        const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+
         // add html2canvas image to jspdf
-        doc.addImage(imageData, "PNG", 10, 10, 190, 250);
+        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
 
         // return the pdf
         doc.save('test.pdf');

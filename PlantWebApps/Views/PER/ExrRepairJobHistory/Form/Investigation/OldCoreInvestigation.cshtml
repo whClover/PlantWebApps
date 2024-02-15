@@ -519,11 +519,18 @@
         // 	gotoReport();
         // });
 
+        // $("#btnPrint").on("click", function () {
+        //     var url = window.location.href;
+        //     var ID = url.substring(url.lastIndexOf('/') + 1);
+        //     var newTabUrl = '/ExrRepairJobHistoryInspection/TestJsPdf/' + ID;
+        //     window.open(newTabUrl, '_blank');
+        // });
+
         $("#btnPrint").on("click", function () {
             var url = window.location.href;
             var ID = url.substring(url.lastIndexOf('/') + 1);
             var newTabUrl = '/ExrRepairJobHistoryInspection/TestJsPdf/' + ID;
-            window.open(newTabUrl, '_blank');
+            window.open(newTabUrl, "popupWindow", "width=1024,height=720");
         });
 
         // print pict functionality

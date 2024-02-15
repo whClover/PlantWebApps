@@ -1,4 +1,5 @@
 ﻿@{
+    ViewData["Title"] = "Teardown Module";
 }
 
 <div class="row">
@@ -115,16 +116,16 @@
                                             <tr>
                                                 <td>SOW</td>
                                                 <td>
-                                                    <a class="btn btn-light btn-sm">
-                                                        <i class="fas fa-paperclip"></i>
+                                                    <a class="btn btn-light btn-sm" id="btnSOW">
+                                                        <i class="fas fa-download"></i>
                                                     </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>CFI</td>
                                                 <td>
-                                                    <a class="btn btn-light btn-sm">
-                                                        <i class="fas fa-paperclip"></i>
+                                                    <a class="btn btn-light btn-sm" id="btnCFI">
+                                                        <i class="fas fa-download"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -151,8 +152,8 @@
                                             <tr>
                                                 <td>SWP</td>
                                                 <td>
-                                                    <a class="btn btn-light btn-sm">
-                                                        <i class="fas fa-paperclip"></i>
+                                                    <a class="btn btn-light btn-sm" id="btnSWP">
+                                                        <i class="fas fa-download"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -244,11 +245,13 @@
                                             <tr>
                                                 <td>Upload</td>
                                                 <td>
-                                                    <form method="post" enctype="multipart/form-data" asp-controller="Teardown">
+                                                    <form id="uploadForm" method="post" enctype="multipart/form-data" asp-controller="Teardown">
                                                         <div class="input-group">
-                                                            <input type="file" class="form-control form-control-sm" id="uploadbefore" name="uploadbefore" required/>
+                                                            <input type="hidden" id="ejobid" />
+                                                            <input type="hidden" id="eidtd" />
+                                                            <input type="file" class="form-control form-control-sm" id="uploadbefore" name="uploadbefore" required multiple accept="image/*" />
                                                             <div class="input-group-append">
-                                                                <button class="btn btn-sm btn-outline-primary" type="submit" id="button-addon2" formaction="/Teardown/UploadBefore">
+                                                                <button class="btn btn-sm btn-outline-primary" type="submit" id="button-addon2">
                                                                     <i class="fa fa-upload"></i>
                                                                 </button>
                                                             </div>
@@ -267,11 +270,11 @@
                                             <tr>
                                                 <td>Upload</td>
                                                 <td>
-                                                    <form method="post" enctype="multipart/form-data" asp-controller="Teardown">
+                                                    <form id="uploadForm2" method="post" enctype="multipart/form-data" asp-controller="Teardown">
                                                         <div class="input-group">
-                                                            <input type="file" class="form-control form-control-sm" id="uploadafter" name="uploadafter" required />
+                                                            <input type="file" class="form-control form-control-sm" id="uploadafter" name="uploadafter" required multiple accept="image/*"  />
                                                             <div class="input-group-append">
-                                                                <button class="btn btn-sm btn-outline-primary" type="submit" id="button-addon2" formaction="/Teardown/UploadAfter">
+                                                                <button class="btn btn-sm btn-outline-primary" type="submit" id="button-addon2">
                                                                     <i class="fa fa-upload"></i>
                                                                 </button>
                                                             </div>
@@ -332,7 +335,7 @@
                 <div class="mb-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-sm btn-primary btn-block">
+                            <a class="btn btn-sm btn-primary btn-block" id="bprint">
                                 Disassembly Report
                             </a>
                         </div>
@@ -378,7 +381,12 @@
     $("#compid_stat").hide();
 
     $("#btnsearchwo").on("click", function () {
-        findwo();
+        var wo = $("#wono").val();
+        if (wo == null) {
+            $("#frm_td").hide();
+            return;
+        }
+        findwo(wo);
     });
 
     $("#btncheckcompid").on("click", function () {
@@ -391,6 +399,82 @@
 
     $("#compsource").on("change", function () {
         compsource_update();
+    });
+
+    $("#btnSOW").on("click", function () {
+        var wono = $("#fwono").val();
+        $.ajax({
+            method: "GET",
+            url: "Teardown/DownloadSOWCFI",
+            dataType: 'json',
+            data: { type:"1", wono:wono },
+            success: function (response) {
+                if (response.length == 0) {
+                    showAlert("warning", "File not available");
+                    return;
+                }
+                var filepath = response[0].filepath;
+                openPdfInNewTab(filepath);
+
+                findwo(wono);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#btnCFI").on("click", function () {
+        var wono = $("#fwono").val();
+        $.ajax({
+            method: "GET",
+            url: "Teardown/DownloadSOWCFI",
+            dataType: 'json',
+            data: { type: "2", wono: wono },
+            success: function (response) {
+                if (response.length == 0) {
+                    showAlert("warning", "File not available");
+                    return;
+                }
+                var filepath = response[0].filepath;
+                openPdfInNewTab(filepath);
+
+                findwo(wono);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#btnSWP").on("click", function () {
+        var wono = $("#fwono").val();
+        $.ajax({
+            method: "GET",
+            url: "Teardown/DownloadSWP",
+            dataType: 'json',
+            data: { wono: wono },
+            success: function (response) {
+                if (response.length == 0) {
+                    showAlert("warning", "File not available");
+                    return;
+                }
+                var filepath = response[0].filepath;
+                openPdfInNewTab(filepath);
+
+                findwo(wono);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#bprint").on("click", function () {
+        var url = window.location.href;
+        var eidjob = $("#ejobid").val();
+        var newTabUrl = '/Teardown/PrintReport/' + eidjob;
+        window.open(newTabUrl, "popupWindow", "width=1024,height=720");
     });
 
     function savedata() {
@@ -445,8 +529,8 @@
             dataType: 'json',
             data: { wono: ewono, comptype: ecomptype, compid: ecompid, remark: eremark },
             success: function (response) {
-                console.log("Response received:", response);
                 showAlert("success", "Data has been saved");
+                findwo(ewono);
             },
             error: function (xhr, status, error) {
                 console.log(error);
@@ -492,13 +576,7 @@
         });
     }
 
-    function findwo(){
-        var wo = $("#wono").val();
-        if (wo == null) {
-            $("#frm_td").hide();
-            return;
-        }
-
+    function findwo(wo){
         $.ajax({
             method: "GET",
             url: "Teardown/LoadWO",
@@ -551,6 +629,10 @@
                     $("#regdate").val(response[0].regdate);
                     $("#modby").val(response[0].modby);
                     $("#moddate").val(response[0].moddate);
+
+                    //upload-before
+                    $("#ejobid").val(response[0].jobid);
+                    $("#eidtd").val(response[0].idtd);
 
                     //check progress
                     checkprogress(response[0].wono);
@@ -605,6 +687,7 @@
                     for (var i = 0; i < response.length; i++) {
                         var imageUrl = response[i].pictpath;
                         var altText = response[i].alt_text;
+                        var idpict = response[i].idpict;
 
                         if (i % 2 === 0) {
                             var divElement = document.createElement('div');
@@ -616,8 +699,25 @@
                         imgElement.src = imageUrl;
                         imgElement.classList.add('w-100', 'shadow-1-strong', 'rounded', 'mb-4');
                         imgElement.alt = altText;
+                        imgElement.id = 'image-' + idpict; // Tambahkan idpict ke dalam id gambar
 
-                        row_pictgallery.children().last().append(imgElement);
+                        var deleteButton = document.createElement('button');
+                        deleteButton.innerHTML = '<i class="fa fa-trash me-2"></i> Delete';
+                        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mb-4');
+                        deleteButton.addEventListener('click', function () {
+                            var imageId = 'image-' + idpict; // Dapatkan id gambar yang akan dihapus
+                            var imageToRemove = document.getElementById(imageId);
+                            if (imageToRemove) {
+                                // Hapus gambar
+                                deletePicture(imageToRemove);
+                                var divElement = imageToRemove.parentNode;
+                                divElement.remove();
+                            }
+                        });
+
+                        var imageContainer = row_pictgallery.children().last();
+                        imageContainer.append(imgElement);
+                        imageContainer.append(deleteButton);
                     }
                 } else {
                     var row_pictgallery = $('#pictgallery2');
@@ -625,6 +725,7 @@
                     for (var i = 0; i < response.length; i++) {
                         var imageUrl = response[i].pictpath;
                         var altText = response[i].alt_text;
+                        var idpict = response[i].idpict;
 
                         if (i % 2 === 0) {
                             var divElement = document.createElement('div');
@@ -636,8 +737,25 @@
                         imgElement.src = imageUrl;
                         imgElement.classList.add('w-100', 'shadow-1-strong', 'rounded', 'mb-4');
                         imgElement.alt = altText;
+                        imgElement.id = 'image-' + idpict; // Tambahkan idpict ke dalam id gambar
 
-                        row_pictgallery.children().last().append(imgElement);
+                        var deleteButton = document.createElement('button');
+                        deleteButton.innerHTML = '<i class="fa fa-trash me-2"></i> Delete';
+                        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mb-4');
+                        deleteButton.addEventListener('click', function () {
+                            var imageId = 'image-' + idpict; // Dapatkan id gambar yang akan dihapus
+                            var imageToRemove = document.getElementById(imageId);
+                            if (imageToRemove) {
+                                // Hapus gambar
+                                deletePicture(imageToRemove);
+                                var divElement = imageToRemove.parentNode;
+                                divElement.remove();
+                            }
+                        });
+
+                        var imageContainer = row_pictgallery.children().last();
+                        imageContainer.append(imgElement);
+                        imageContainer.append(deleteButton);
                     }
                 }       
             },
@@ -685,6 +803,91 @@
             },
             error: function (xhr, status, error) {
                 console.log(error);
+            }
+        });
+    }
+
+    function downloadFile(fileUrl) {
+        var link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = fileUrl.substr(fileUrl.lastIndexOf('/') + 1);
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function openPdfInNewTab(fileUrl) {
+        window.open(fileUrl, '_blank');
+    }
+
+    $('#uploadForm').submit(function (event) {
+        event.preventDefault();
+
+        var ejobid = $('#ejobid').val();
+        var eidtd = $('#eidtd').val();
+        var formData = new FormData(this);
+        formData.append('ejobid', ejobid);
+        formData.append('eidtd', eidtd);
+
+        $.ajax({
+            url: "Teardown/UploadBefore",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $("#uploadbefore").val("");
+                showAlert("success", "Picture has been upload");
+                findwo($("#fwono").val());
+            },
+            error: function (xhr, status, error) {
+                // Tangani error dalam pengiriman AJAX
+                console.error(error);
+            }
+        });
+    });
+
+    $('#uploadForm2').submit(function (event) {
+        event.preventDefault();
+
+        var ejobid = $('#ejobid').val();
+        var eidtd = $('#eidtd').val();
+        var formData = new FormData(this);
+        formData.append('ejobid', ejobid);
+        formData.append('eidtd', eidtd);
+
+        $.ajax({
+            url: "Teardown/UploadAfter",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $("#uploadafter").val("");
+                showAlert("success", "Picture has been upload");
+                findwo($("#fwono").val());
+            },
+            error: function (xhr, status, error) {
+                // Tangani error dalam pengiriman AJAX
+                console.error(error);
+            }
+        });
+    });
+
+    function deletePicture(idpict) {
+        var eidpict = idpict.id.replace('image-', '');
+        $.ajax({
+            url: "Teardown/DeletePicture",
+            type: "POST",
+            dataType: 'json',
+            data: { eidpict: eidpict },
+            success: function (response) {
+                findwo($("#fwono").val());
+            },
+            error: function (xhr, status, error) {
+                // Handle AJAX sending error
+                console.error(error);
             }
         });
     }
