@@ -55,35 +55,37 @@
 </div>
 
 <script>
-$(document).ready(function () {
-    $("#btnHoldItem").click(function () {
-        var ListID = [];
+    $(document).ready(function () {
 
-        for (var i = 1; i <= 4; i++) {
-            var id = $("#tId" + i).val();
-            if (id) {
-                ListID.push(id);
-            }
-        }
+        $("#btnHoldItem").click(function () {
+            var ListID = [];
 
-        listID = ListID.join(",");
-        console.log("ListID is: " + listID);
-
-        if (ListID.length > 0) {
-            $.ajax({
-                method: "POST",
-                url: "/PrintItem/Index",
-                data: { data: listID },
-                success: function (response) {
-                    // Handle success response here
-                },
-                error: function (error) {
-                    // Handle error response here
+            for (var i = 1; i <= 4; i++) {
+                var id = $("#tId" + i).val();
+                if (id) {
+                    ListID.push(id);
                 }
-            });
-        } else {
-            Swal.fire("Please fill at least one ID", "", "error");
-        }
+            }
+
+            listID = ListID.join(",");
+            console.log("ListID is: " + listID);
+
+            if (ListID.length > 0) {
+                $.ajax({
+                    method: "POST",
+                    url: "/PrintItem/Index",
+                    data: { data: listID },
+                    success: function (response) {
+                        // Handle success response here
+                    },
+                    error: function (error) {
+                        // Handle error response here
+                    }
+                });
+            } else {
+                Swal.fire("Please fill at least one ID", "", "error");
+            }
+        });
+
     });
-});
 </script>

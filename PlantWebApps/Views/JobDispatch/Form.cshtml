@@ -72,18 +72,7 @@
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
                             EMAIL
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary">
-                            CONTINOUS FORM
-                        </button>
-                        <a class="btn btn-sm btn-primary" id="btnA4Print" formaction="/JobDispatch/Report">
-                            A4 PRINT
-                        </a>
-                        <a class="btn btn-sm btn-primary" id="btnf4Print" formaction="/JobDispatch/Report">
-                            F4 PRINT
-                        </a>
-                        <button type="button" class="btn btn-sm btn-primary" disabled>
-                            UPDATE RECEIVED
-                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" id="btnJspdf">PRINT</button>
                     </div>
 
                     @* save form *@
@@ -478,6 +467,13 @@
             $('#anDetailChildWo').val(valuesArray[4]);
             $('#anDetailJobId').val(valuesArray[2]);
             $('#anDetailDescription').val(valuesArray[6]);
+        });
+
+        $("#btnJspdf").on("click", function () {
+            var url = window.location.href;
+            var id = url.substring(url.lastIndexOf('/') + 1);
+            var newTabUrl = '/JobDispatch/PrintJsPdf/' + id;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
         });
 
         $("#tAttentionName").on("change", function () {
