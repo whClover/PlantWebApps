@@ -566,6 +566,37 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 
 			return Utility.ExportDataTableToExcel(data, fileName);
 		}
+		public IActionResult PrintJsPdf(string ID)
+		{
+			LoadOption();
+
+			Console.WriteLine("id is " + ID);
+
+			string query = $"SELECT * from v_ExrCEDetail WHERE JobID = '{ID}'";
+			Console.WriteLine("query is" + query);
+			var dataTable = SQLFunction.execQuery(query);
+			ViewBag.id = ID;
+
+			if (dataTable != null && dataTable.Rows.Count > 0)
+			{
+				var unitNumber = dataTable.Rows[0]["unitnumber"].ToString();
+				var evalcode = dataTable.Rows[0]["EvalCode"].ToString();
+				var wono = dataTable.Rows[0]["Wono"].ToString();
+
+				ViewBag.data = SQLFunction.execQuery(query);
+
+				string queryUnitNumber = $@"SELECT UnitNumber, UnitDescription, Location, LocationName FROM v_UnitNumber WHERE UnitNumber = '{unitNumber}'";
+				ViewBag.tUnitNumber = SQLFunction.execQuery(queryUnitNumber);
+				Console.WriteLine(queryUnitNumber);
+
+				string querytEvalCode = $@"SELECT EvalCode, EvalDesc, Route, Costing FROM tbl_EXRCEEvalCode WHERE EvalCode = '{evalcode}'";
+				ViewBag.tEvalCode = SQLFunction.execQuery(querytEvalCode);
+
+				string queryListInvest = $"SELECT ID,CEID,WONO,InvesDate as [When],InvesDesc as [What],InvesDetail as [Detail],InvesWhen FROM tbl_EXRCEInvestigation where Wono = '{wono}'";
+				ViewBag.tListInvest = SQLFunction.execQuery(queryListInvest);
+			}
+			return View("~/Views/PER/ComponentEvaluation/Reports/JsPdf.cshtml");
+		}
 		private void LoadOption()
         {
             // load fSpvDesc

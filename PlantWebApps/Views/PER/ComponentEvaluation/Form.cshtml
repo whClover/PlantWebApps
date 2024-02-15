@@ -152,15 +152,22 @@
 			handleSave();
 		});
 
-		function gotoReport() {
-			console.log("goto report clicked");
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			window.location.href = '/ComponentEvaluation/Report/' + ID;
-		};
+		// function gotoReport() {
+		// 	console.log("goto report clicked");
+		// 	var url = window.location.href;
+		// 	var ID = url.substring(url.lastIndexOf('/') + 1);
+		// 	window.location.href = '/ComponentEvaluation/Report/' + ID;
+		// };
+
+		// $("#btnPrint").on("click", function () {
+		// 	gotoReport();
+		// });
 
 		$("#btnPrint").on("click", function () {
-			gotoReport();
+			var url = window.location.href;
+			var ID = url.substring(url.lastIndexOf('/') + 1);
+			var newTabUrl = '/ComponentEvaluation/PrintJsPdf/' + ID;
+			window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
 		});
 
 		$('#btnCreateCESummary').on('click', function (e) {

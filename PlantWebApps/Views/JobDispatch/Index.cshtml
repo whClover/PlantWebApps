@@ -316,12 +316,11 @@
             }
         });
 
-    var btnPrint = document.getElementById('btnPrint');
-
-    btnPrint.addEventListener('click', function () {
+    $("#btnPrint").on("click", function () {
         var selectedRow = $('.datatable').DataTable().row(0).data();
         var id = selectedRow.id;
-        window.location.href = '/jobdispatch/Report/' + encodeURIComponent(id);
+        var newTabUrl = '/JobDispatch/PrintJsPdf/' + id;
+        window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
     });
 
     var tableCell = document.querySelector('#myTable tbody tr td');
