@@ -627,5 +627,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 			DataFinalReportPictBody(ID);
 			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictJsPdf.cshtml");
 		}
-	}
+        public IActionResult PictOldJsPdf(string ID)
+        {
+            DataOldReportPictBody(ID);
+            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/PictJsPdf.cshtml");
+        }
+    }
 }
