@@ -2,6 +2,7 @@
 using PlantWebApps.Helper;
 using System.Data;
 using System.Diagnostics;
+using System.Dynamic;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 {
@@ -25,37 +26,38 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return Content(hardcodedCode, "text/html");
         }
+        public IActionResult SendIndex(string value)
+        {
+            string query = "Select * from v_EXRStickerSend Where ID IN (" + value + ")";
+            Console.WriteLine(query);
+
+            var dataTable = SQLFunction.execQuery(query);
+
+            List<dynamic> dataList = new List<dynamic>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                dynamic dataItem = new ExpandoObject();
+                var rowData = dataItem as IDictionary<string, object>;
+
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    rowData[column.ColumnName] = row[column];
+                }
+
+                dataList.Add(dataItem);
+            }
+            ViewBag.data = dataList;
+
+            return View("~/Views/PER/ExrRepairJobHistory/PrintItem/SendItem.cshtml");
+        }
+        public IActionResult TestPrintSendItem()
+        {
+            return View("~/Views/PER/ExrRepairJobHistory/PrintItem/SendItem.cshtml");
+        }
         public IActionResult TestPrintHoldItem()
         {
             return View("~/Views/PER/ExrRepairJobHistory/PrintItem/HoldItem.cshtml");
-        }
-        public IActionResult TestPrint()
-        {
-            string jobId = "123";
-            string namafile;
-            string namafile2;
-            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "temp");
-            string host = $"{HttpContext.Request.Host}";
-
-            if (!Directory.Exists(savePath))
-            {
-                Directory.CreateDirectory(savePath);
-            }
-            namafile = Path.Combine(savePath, jobId + ".pdf");
-            ProcessStartInfo psi = new ProcessStartInfo
-            {
-                FileName = "C:\\htmltopdf\\wkhtmltopdf.exe",
-                //FileName = "C:\\webroot\\TCRC Web\\Rotativa\\wkhtmltopdf.exe",
-                Arguments = $"--username minestar --password Mine1staR --orientation Landscape  https://{host}/PrintItem/TestPrintHoldItem \"{namafile}\""
-            };
-            Process p = new Process { StartInfo = psi };
-            p.Start();
-            p.WaitForExit();
-
-            namafile2 = Path.Combine(savePath, jobId + ".pdf");
-            string ffname = "Hold item " + jobId + ".pdf";
-
-            return PhysicalFile(namafile2, "application/pdf", ffname);
         }
         public IActionResult PrintHoldItem()
         {
