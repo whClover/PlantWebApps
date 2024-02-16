@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="header">
+    This Is Header
+</div>
+
+<table id="body">
+    <tr>
+        <td>This Is The Body</td>
+    </tr>
+</table>
+
+<div id="footer">
+    This Is Footer
+</div>
+
+<script>
+    $(document).ready(async function () {
+
+        // Load the jspdf and jspdf-autotable libraries
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+
+        // header
+        const header = await html2canvas($("#header")[0]);
+        const headerData = header.toDataURL("image/png");
+
+        const headerWidth = doc.internal.pageSize.getWidth() - 20;
+        const headerHeight = header.height * headerWidth / header.width;
+
+        // footer
+        const footer = await html2canvas($("#footer")[0]);
+        const footerData = footer.toDataURL("image/png");
+
+        const footerWidth = doc.internal.pageSize.getWidth() - 20;
+        const footerHeight = footer.height * footerWidth / footer.width;
+
+        // AUTO TABLE
+        doc.autoTable
+            (
+                {
+                    html: '#body',
+                    bodyStyles: { minCellHeight: 60 },
+                    margin: { top: 30 },
+
+                    // header
+                    willDrawPage: function (data) {
+                        doc.addImage(headerData, "PNG", 10, 10, headerWidth, headerHeight);
+                    },
+
+                    // footer
+                    didDrawPage: function (data) {
+                        var pageSize = doc.internal.pageSize; // Get the page size
+                        var footerHeight = 10; // Specify the height of your footer
+
+                        // Calculate the position of the footer
+                        var footerY = pageSize.height - footerHeight;
+
+                        // Add the footer image
+                        doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight);
+                    },
+
+                    // table styles
+                    styles: {
+                        font: 'arial',
+                        fontSize: 10,
+                    },
+
+                }
+            )
+
+        // return the pdf
+        doc.save('test.pdf');
+
+        window.close();
+    });
+</script>

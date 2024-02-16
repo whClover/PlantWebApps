@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .green-border {
+        border: 5px solid #00ff00;
+    }
+
+    .border-left {
+        border-top: 5px solid #00ff00;
+        border-bottom: 5px solid #00ff00;
+        border-right: 5px solid #00ff00;
+    }
+
+    .border-y {
+        border-right: 5px solid #00ff00;
+        border-left: 5px solid #00ff00;
+    }
+
+    .border-yr {
+        border-right: 5px solid #00ff00;
+        border-left: 5px solid #00ff00;
+        border-bottom: 5px solid #00ff00;
+    }
+</style>
+
+<div class="row" id="#capture">
+    @foreach (var item in ViewBag.data)
+    {
+        <div class="d-flex flex-column col-6 p-3">
+            <div class="row">
+                <div class="col-3 green-border">
+                    <p class="fs-4 fw-bold mt-1">Parent WO</p>
+                    <p class="fs-5 mt-n2">@item.ParentWO</p>
+                </div>
+                <div class="col-3 border-left">
+                    <p class="fs-4 fw-bold mt-1">Offsite WO</p>
+                    <p class="fs-5 mt-n2">@item.OffsiteWO</p>
+                </div>
+                <div class="col-3 border-left">
+                    <p class="fs-4 fw-bold mt-1">AN NO.</p>
+                    <p class="fs-5 mt-n2">@item.SuppForRepairANNo</p>
+                </div>
+                <div class="col-3 border-left">
+                    <p class="fs-4 fw-bold mt-1">AN Date.</p>
+                    <p class="fs-5 mt-n2">@item.PERANDate</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 border-y">
+                    <p class="fs-4 fw-bold mt-1">Comp. Description</p>
+                    <p class="fs-5 mt-n2">@item.CompDesc</p>
+                    <p class="fs-5"></p>
+                </div>
+                <div class="col-4" style="border-right: 5px solid #00ff00">
+                    <p class="fs-4 fw-bold mt-1 text-center">Ex Store</p>
+                    <p class="fs-5 mt-n2 text-center">@item.ExStore</p>
+                    <p class="fs-5"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 border-yr">
+                    <p class="fs-4 fw-bold mt-1">Unit Description</p>
+                    <p class="fs-5 mt-n2">@item.UnitNumber</p>
+                    <p class="fs-5">@item.UnitDescription</p>
+                </div>
+                <div class="col-4 border-left">
+                    <p class="fs-4 fw-bold mt-1 text-center">Status Comp</p>
+                    <p class="fs-5 mt-n2 text-center">@item.ReasonType</p>
+                    <p class="fs-5"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 border-yr">
+                    <div class="fs-1 fw-bold text-center" style="color: #00ff00; margin-bottom: 60px;">@item.SupplierName2</div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $(document).ready(async function () {
+
+        // Load the jspdf and jspdf-autotable libraries
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('l', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
+
+        // html2canvas
+        const canvas = await html2canvas($("#capture")[0]);
+        const imageData = canvas.toDataURL("image/png");
+
+        // Calculate the desired width and height while maintaining the aspect ratio
+        const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+
+        // add html2canvas image to jspdf
+        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+
+        // return the pdf
+        doc.save('test.pdf');
+        window.close();
+
+    });
+</script>
+
+
