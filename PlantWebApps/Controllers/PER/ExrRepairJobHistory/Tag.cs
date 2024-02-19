@@ -43,9 +43,9 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return PhysicalFile(namafile2, "application/pdf", ffname);
         }
-        public IActionResult GenerateQRCodeImage(string value)
+        public IActionResult GenerateQRCodeImage(string value, int size)
         {
-            Bitmap qrCodeImage = Utility.GenerateQRCode(value);
+            Bitmap qrCodeImage = Utility.GenerateQRCode(value, size);
 
             return File(Utility.BitmapToByteArray(qrCodeImage), "image/png");
         }

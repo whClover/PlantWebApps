@@ -345,13 +345,13 @@ namespace PlantWebApps.Helper
             FileInfo[] files = directory.GetFiles();
             return files.Length;
         }
-        public static Bitmap GenerateQRCode(string data)
+        public static Bitmap GenerateQRCode(string data, int size)
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
 
             QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(10);
+            Bitmap qrCodeImage = qrCode.GetGraphic(size);
 
             return qrCodeImage;
         }
