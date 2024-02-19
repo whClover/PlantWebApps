@@ -120,25 +120,27 @@
                             <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add" @isAdd>
                                 <i class="fa fa-plus me-2"></i> ADD
                             </button>
-                            <div>
-                                <select name="creportype" class="form-select" style="width: 160px;">
-                                    <option value="">*Select Export Type*</option>
-                                    <option value="1">Job Detail</option>
-                                    <option value="2">OR Request TCI</option>
-                                    <option value="3">OR Request LCI</option>
-                                    <option value="4">Inspection Detail</option>
-                                    <option value="5">Core Component</option>
-                                    <option value="6">Main Component</option>
-                                    <option value="7">Unit Job Detail</option>
-                                    <option value="8">Complete Component</option>
-                                    <option value="9">Warranty Report</option>
-                                    <option value="10">WIP Report</option>
-                                    <option value="11">Variance Analysis</option>
-                                </select>
+                            <div style="max-width: 450px;">
+                                <div class="input-group">
+                                    <select class="form-select" name="creportype" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                        <option value="">Select Export Type</option>
+                                        <option value="1">Job Detail</option>
+                                        <option value="2">OR Request TCI</option>
+                                        <option value="3">OR Request LCI</option>
+                                        <option value="4">Inspection Detail</option>
+                                        <option value="5">Core Component</option>
+                                        <option value="6">Main Component</option>
+                                        <option value="7">Unit Job Detail</option>
+                                        <option value="8">Complete Component</option>
+                                        <option value="9">Warranty Report</option>
+                                        <option value="10">WIP Report</option>
+                                        <option value="11">Variance Analysis</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
+                                        <i class="fa fa-download me-2"></i> EXPORT
+                                    </button>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
-                                <i class="fa fa-download me-2"></i> EXPORT
-                            </button>
                             <button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/Index">
                                 CE
                             </button>
