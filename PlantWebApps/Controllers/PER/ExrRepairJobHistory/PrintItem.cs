@@ -125,7 +125,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                         Console.WriteLine("is not id");
                     }
                 }
-                
+
                 dataList.Add(dataItem);
             }
             ViewBag.data = dataList;
@@ -162,7 +162,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             return new JsonResult("ok");
         }
         public IActionResult TestJsPdfAutoTable()
-        { 
+        {
             return View("~/Views/PER/ExrRepairJobHistory/Testing/Index.cshtml");
         }
     }
