@@ -545,21 +545,15 @@
 
         var tIDInput = document.getElementById('tID');
         var cFindLink = document.getElementById('cFind');
-        var btnA4Print = document.getElementById('btnA4Print');
-
-        var tIDValue = tIDInput.value;
-        btnA4Print.href = '/jobdispatch/report/' + encodeURIComponent(tIDValue);
 
         tIDInput.addEventListener('input', function () {
             var tIDValue = tIDInput.value;
             cFindLink.href = '/jobdispatch/edit/' + encodeURIComponent(tIDValue);
-            btnA4Print.href = '/jobdispatch/report/' + encodeURIComponent(tIDValue);
         });
-
-
 
         // search wono detail
         $('#btnSearchWonoDetail').on('click', function (e) {
+            console.log("clicked");
             e.preventDefault();
             var id = tIDInput.value;
             var wono = $('input[name="eWono"]').val();
