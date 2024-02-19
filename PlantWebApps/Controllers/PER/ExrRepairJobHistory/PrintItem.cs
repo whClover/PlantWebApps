@@ -28,7 +28,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
         public IActionResult SendIndex(string value)
         {
-            string query = "Select * from v_EXRStickerSend Where ID IN (" + value + ")";
+            string query = "Select *, CONVERT(varchar, PERANDate, 103) AS FormatDate from v_EXRStickerSend Where ID IN (" + value + ")";
             Console.WriteLine(query);
 
             var dataTable = SQLFunction.execQuery(query);
@@ -51,12 +51,29 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             return View("~/Views/PER/ExrRepairJobHistory/PrintItem/SendItem.cshtml");
         }
-        public IActionResult TestPrintSendItem()
+        public IActionResult HoldIndex(string value)
         {
-            return View("~/Views/PER/ExrRepairJobHistory/PrintItem/SendItem.cshtml");
-        }
-        public IActionResult TestPrintHoldItem()
-        {
+            string query = "Select *, CONVERT(varchar, OHDATE, 103) AS FormatDate from v_EXRStickerHold Where ID IN (" + value + ")";
+            Console.WriteLine(query);
+
+            var dataTable = SQLFunction.execQuery(query);
+
+            List<dynamic> dataList = new List<dynamic>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                dynamic dataItem = new ExpandoObject();
+                var rowData = dataItem as IDictionary<string, object>;
+
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    rowData[column.ColumnName] = row[column];
+                }
+
+                dataList.Add(dataItem);
+            }
+            ViewBag.data = dataList;
+
             return View("~/Views/PER/ExrRepairJobHistory/PrintItem/HoldItem.cshtml");
         }
         public IActionResult PrintHoldItem()

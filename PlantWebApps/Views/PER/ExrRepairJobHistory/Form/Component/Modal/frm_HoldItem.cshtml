@@ -67,21 +67,13 @@
                 }
             }
 
-            listID = ListID.join(",");
-            console.log("ListID is: " + listID);
-
             if (ListID.length > 0) {
-                $.ajax({
-                    method: "POST",
-                    url: "/PrintItem/Index",
-                    data: { data: listID },
-                    success: function (response) {
-                        // Handle success response here
-                    },
-                    error: function (error) {
-                        // Handle error response here
-                    }
-                });
+
+                data = ListID.join(",");
+                console.log("ListID is: " + data);
+
+                var newTabUrl = `/PrintItem/HoldIndex?value=${data}`
+                window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
             } else {
                 Swal.fire("Please fill at least one ID", "", "error");
             }

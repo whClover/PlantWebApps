@@ -27,7 +27,7 @@
     }
 </style>
 
-<div class="row" id="#capture">
+<div class="row" id="capture">
     @foreach (var item in ViewBag.data)
     {
         <div class="d-flex flex-column col-6 p-3">
@@ -46,41 +46,40 @@
                 </div>
                 <div class="col-3 border-left">
                     <p class="fs-4 fw-bold mt-1">AN Date.</p>
-                    <p class="fs-5 mt-n2">@item.PERANDate</p>
+                    <p class="fs-5 mt-n2">@item.FormatDate</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-8 border-y">
-                    <p class="fs-4 fw-bold mt-1">Comp. Description</p>
-                    <p class="fs-5 mt-n2">@item.CompDesc</p>
-                    <p class="fs-5"></p>
+                    <div class="fs-4 fw-bold mt-1">Comp. Description</div>
+                    <div class="fs-5 ">@item.CompDesc</div>
                 </div>
                 <div class="col-4" style="border-right: 5px solid #00ff00">
-                    <p class="fs-4 fw-bold mt-1 text-center">Ex Store</p>
-                    <p class="fs-5 mt-n2 text-center">@item.ExStore</p>
-                    <p class="fs-5"></p>
+                    <div class="fs-4 fw-bold mt-1 text-center">Ex Store</div>
+                    <div class="fs-5 text-center">@item.ExStore</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-8 border-yr">
-                    <p class="fs-4 fw-bold mt-1">Unit Description</p>
-                    <p class="fs-5 mt-n2">@item.UnitNumber</p>
-                    <p class="fs-5">@item.UnitDescription</p>
+                    <div class="fs-4 fw-bold mt-1">Unit Description</div>
+                    <div class="fs-5">@item.UnitNumber</div>
+                    <div class="fs-5">@item.UnitDescription</div>
+                    <p></p>
                 </div>
                 <div class="col-4 border-left">
-                    <p class="fs-4 fw-bold mt-1 text-center">Status Comp</p>
-                    <p class="fs-5 mt-n2 text-center">@item.ReasonType</p>
-                    <p class="fs-5"></p>
+                    <div class="fs-4 fw-bold mt-1 text-center">Status Comp</div>
+                    <div class="fs-5 text-center">@item.ReasonType</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 border-yr">
-                    <div class="fs-1 fw-bold text-center" style="color: #00ff00; margin-bottom: 60px;">@item.SupplierName2</div>
+                    <div class="fs-1 fw-bold text-center" style="color: #00ff00; margin-bottom: 40px;">@item.SupplierName2</div>
                 </div>
             </div>
         </div>
     }
 </div>
+
 <script>
     $(document).ready(async function () {
 
