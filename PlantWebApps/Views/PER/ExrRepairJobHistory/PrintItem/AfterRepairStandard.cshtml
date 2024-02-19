@@ -106,7 +106,7 @@
                 <div class="row align-items-center">
                     <div class="col-4 fs-6 fw-bold">Supplier S/N</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="6996" />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="" />
                     </div>
                 </div>
                 <div class="row align-items-center">
@@ -145,10 +145,7 @@
 
         $('.qrValue').each(async function (index) {
             var qrValue = $(this).val();
-            console.log("value is", qrValue);
-
             var eID = $(this).next('#eID').val();
-            console.log("eid is", eID);
 
             $.ajax({
                 url: '/Tag/GenerateQRCodeImage',
@@ -161,14 +158,9 @@
                     responseType: 'blob'
                 },
                 success: async function (response) {
-
-                    console.log("this is the response", response);
-
                     var imageUrl = URL.createObjectURL(response);
                     var img = $('<img>').attr('src', imageUrl);
                     var divId = 'qrCode';
-
-                    console.log(divId);
 
                     var div = $('<div>').attr('id', divId);
                     div.append(img);
