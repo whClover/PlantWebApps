@@ -1,11 +1,13 @@
 ﻿@{
-    Console.WriteLine(ViewContext.View.Path);
-    if (ViewContext.View.Path == "/Views/Auth/LoginTCRC.cshtml")
-    {
-        Layout = null; // Set layout to null for non-login views
-    }
-    else
-    {
-        Layout = "_App"; // Set layout to "_App" for the login view
-    }
+    // string viewPath = ViewContext.View.Path;
+    // Console.WriteLine(viewPath);
+    // if (viewPath.StartsWith("/Views/TCRC"))
+    // {
+    //     Layout = "_AppTCRC"; // Set layout to null for non-login views
+    // }
+    // else
+    // {
+    //     Layout = "_App"; // Set layout to "_App" for the login view
+    // 
+    Layout = "_App";
 }

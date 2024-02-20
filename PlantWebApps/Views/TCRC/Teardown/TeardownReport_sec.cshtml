@@ -1,0 +1,148 @@
+﻿@{
+    @using System.Data;
+    ViewData["Title"] = "Teardown Report";
+}
+
+<style>
+    .before {
+        page-break-before: always;
+    }
+
+    .after {
+        page-break-after: always;
+    }
+
+    .avoid {
+        page-break-inside: avoid;
+    }
+</style>
+
+<div class="row" id="header">
+    <div class="mb-3">
+        <div class="col-md-12">
+            <table class="table table-sm table-borderless">
+                <tr>
+                    <td style="width:33.33%"><img src="~/images/Thiess.png" style="width:50%" /></td>
+                    <td style="width:33.33%" class="text-center"><h2 class="mb-4">Teardown Reports</h2></td>
+                    <td style="width:33.33%;text-align:right"><img src="~/images/logo-tcrc.png" style="width:30%" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="mb-3">
+        <table class="table table-sm table-bordered">
+            <tr>
+                <td class="fw-semibold">WONo</td>
+                <td>@(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")</td>
+                <td class="fw-semibold">Component Source</td>
+                <td>TCRC</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">WO Description</td>
+                <td>@(ViewBag.data.Rows[0]["WODesc"] != null ? ViewBag.data.Rows[0]["WODesc"].ToString() : "")</td>
+                <td class="fw-semibold">Component ID</td>
+                <td>@(ViewBag.data.Rows[0]["CompID"] != null ? ViewBag.data.Rows[0]["CompID"].ToString() : "")</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">Unit Description</td>
+                <td colspan="3">@(ViewBag.data.Rows[0]["UnitDescription"] != null ? ViewBag.data.Rows[0]["UnitDescription"].ToString() : "")</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">Component</td>
+                <td colspan="3">@(ViewBag.data.Rows[0]["Component"] != null ? ViewBag.data.Rows[0]["Component"].ToString() : "")</td>
+            </tr>
+        </table>
+    </div>
+    <div class="mb-3">
+        <div class="col-md-12 bg-light text-center">
+            <h4>Teardown Pictures</h4>
+        </div>
+    </div>
+    <div class="mb-3 after">
+        <h6>#Picture - Before Disassembly</h6>
+        <hr class="mb-0 mt-0" />
+        <div class="row">
+            @if (ViewBag.Data is System.Data.DataTable dataTable)
+            {
+                foreach (System.Data.DataRow row in dataTable.Rows)
+                {
+                    if (row["PictureSection"].ToString() == "BeforeDissassembly")
+                    {
+                        <div class="col-md-4 mb-2 avoid">
+                            <img src="@row["PictPath"].ToString()" class="w-100 shadow-1-strong rounded mb-2" alt="Before Picture">
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <div class="mb-3">
+        <h6>#Picture - After Disassembly</h6>
+        <hr class="mb-0 mt-0" />
+        <div class="row">
+            @if (ViewBag.Data is System.Data.DataTable dataTable2)
+            {
+                foreach (System.Data.DataRow row in dataTable2.Rows)
+                {
+                    if (row["PictureSection"].ToString() == "AfterDissassembly")
+                    {
+                        <div class="col-md-4 mb-2 avoid">
+                            <img src="@row["PictPath"].ToString()" class="w-100 shadow-1-strong rounded mb-2" alt="After Picture" />
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row" id="footer">
+    This is Footer
+</div>
+
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
+<script>
+    $(document).ready(async function () {
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+
+        const header = await html2canvas($("#header")[0]);
+        const headerData = header.toDataURL("image/png");
+        const headerWidth = doc.internal.pageSize.getWidth() - 20;
+        const headerHeight = header.height * headerWidth / header.width;
+
+        const footer = await html2canvas($("#footer")[0]);
+        const footerData = footer.toDataURL("image/png");
+        const footerWidth = doc.internal.pageSize.getWidth() - 20;
+        const footerHeight = footer.height * footerWidth / footer.width;
+
+        doc.autoTable({
+            // header
+            willDrawPage: function (data) {
+                doc.addImage(headerData, "PNG", 10, 10, headerWidth, headerHeight);
+            },
+
+            // footer
+            didDrawPage: function (data) {
+                var pageSize = doc.internal.pageSize; // Get the page size
+                var footerHeight = 10; // Specify the height of your footer
+
+                // Calculate the position of the footer
+                var footerY = pageSize.height - footerHeight;
+
+                // Add the footer image
+                doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight);
+            },
+
+            // table styles
+            styles: {
+                font: 'arial',
+                fontSize: 10,
+            },
+
+        })
+
+        doc.save('test.pdf');
+        window.close();
+    });
+</script>

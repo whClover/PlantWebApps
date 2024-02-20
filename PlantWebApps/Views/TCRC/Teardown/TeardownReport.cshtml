@@ -1,0 +1,131 @@
+﻿@{
+    @using System.Data;
+    ViewData["Title"] = "Teardown Report";
+}
+
+<style>
+    .before {
+        page-break-before: always;
+    }
+
+    .after {
+        page-break-after: always;
+    }
+
+    .avoid {
+        page-break-inside: avoid;
+    }
+</style>
+
+<div class="row" id="capture">
+    <div class="mb-3">
+        <div class="col-md-12">
+            <table class="table table-sm table-borderless">
+                <tr>
+                    <td style="width:33.33%"><img src="~/images/Thiess.png" style="width:50%" /></td>
+                    <td style="width:33.33%" class="text-center"><h2 class="mb-4">Teardown Reports</h2></td>
+                    <td style="width:33.33%;text-align:right"><img src="~/images/logo-tcrc.png" style="width:30%" /></td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+    <div class="mb-3">
+        <table class="table table-sm table-bordered">
+            <tr>
+                <td class="fw-semibold">WONo</td>
+                <td>
+                    <input type="hidden" id="fwono" value='@(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")' />
+                    @(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")
+                </td>
+                <td class="fw-semibold">Component Source</td>
+                <td>TCRC</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">WO Description</td>
+                <td>@(ViewBag.data.Rows[0]["WODesc"] != null ? ViewBag.data.Rows[0]["WODesc"].ToString() : "")</td>
+                <td class="fw-semibold">Component ID</td>
+                <td>@(ViewBag.data.Rows[0]["CompID"] != null ? ViewBag.data.Rows[0]["CompID"].ToString() : "")</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">Unit Description</td>
+                <td colspan="3">@(ViewBag.data.Rows[0]["UnitDescription"] != null ? ViewBag.data.Rows[0]["UnitDescription"].ToString() : "")</td>
+            </tr>
+            <tr>
+                <td class="fw-semibold">Component</td>
+                <td colspan="3">@(ViewBag.data.Rows[0]["Component"] != null ? ViewBag.data.Rows[0]["Component"].ToString() : "")</td>
+            </tr>
+        </table>
+    </div>
+    <div class="mb-3">
+        <div class="col-md-12 bg-light text-center">
+            <h4>Teardown Pictures</h4>
+        </div>
+    </div>
+    <div class="mb-3 after">
+        <h6>#Picture - Before Disassembly</h6>
+        <div class="row g-3 justify-content-center avoid">
+            @if (ViewBag.Data is System.Data.DataTable dataTable)
+            {
+                foreach (System.Data.DataRow row in dataTable.Rows)
+                {
+                    if (row["PictureSection"].ToString() == "BeforeDissassembly")
+                    {
+                        <div class="col col-4 mb-2 avoid">
+                            <img src="@row["PictPath"].ToString()" class="w-100 img-fluid shadow-1-strong rounded mb-2" style="height:250px" alt="Before Picture">
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <div class="mb-3">
+        <h6>#Picture - After Disassembly</h6>
+        <div class="row g-3 justify-content-center avoid">
+            @if (ViewBag.Data is System.Data.DataTable dataTable2)
+            {
+                foreach (System.Data.DataRow row in dataTable2.Rows)
+                {
+                    if (row["PictureSection"].ToString() == "AfterDissassembly")
+                    {
+                        <div class="col col-4 mb-2 avoid">
+                            <img src="@row["PictPath"].ToString()" class="w-100 img-fluid shadow-1-strong rounded mb-2" style="height:250px" alt="Before Picture">
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(async function () {
+        var element = document.getElementById('capture');
+        var mode = 'specify';
+        var pagebreak = (mode === 'specify') ?
+            { mode: '', before: '.before', after: '.after', avoid: '.avoid' } :
+            { mode: mode };
+
+        (async function () {
+            const pdf = await html2pdf().from(element).set({
+                //filename: mode + '.pdf',
+                margin: [10, 10, 10, 10],
+                pagebreak: pagebreak,
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: false }
+            }).toPdf().get('pdf');
+
+            var totalPages = pdf.internal.getNumberOfPages();
+
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(8);
+                pdf.setTextColor(150);
+                //pdf.text(15, 15, '[SULIT]'); ini header
+                pdf.text('Page: ' + i + '/' + totalPages + '', pdf.internal.pageSize.getWidth() - 30, pdf.internal.pageSize.getHeight() - 8);
+            }
+
+            pdf.save("Teardown Report WO." + ($("#fwono").val()) + ".pdf");
+            window.close();
+        })();
+    });
+</script>

@@ -37,44 +37,44 @@
             <td style="width:20%">Received</td>
             <td></td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="tIncomingdate" name="tIncomingdate" readonly />
             </td>
             <td></td>
         </tr>
         <tr>
             <td>Starting</td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TPromisedStartDate" name="TPromisedStartDate" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="tActStartDate" name="tActStartDate" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TOverRunStart" name="TOverRunStart" readonly />
             </td>
         </tr>
         <tr>
             <td>Completion</td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TPromisedCompleted" name="TPromisedCompleted" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TActCompletedDate" name="TActCompletedDate" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TOverRunComplete" name="TOverRunComplete" readonly />
             </td>
         </tr>
         <tr>
             <td>Work Hour</td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TSchedHour" name="TSchedHour" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TActHour" name="TActHour" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TOverRunHour" name="TOverRunHour" readonly />
             </td>
         </tr>
     </table>
@@ -93,13 +93,13 @@
         <tr>
             <td style="width:20%">Lab Hour</td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="tEstLabHour" name="tEstLabHour" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="TTimeSheetLab" name="TTimeSheetLab" readonly />
             </td>
             <td>
-                <input type="text" class="form-control form-control-sm" readonly />
+                <input type="text" class="form-control form-control-sm" id="tVarLabHour" name="tVarLabHour" readonly />
             </td>
         </tr>
     </table>
@@ -123,42 +123,49 @@
                                 <tr>
                                     <td class="text-center fs-6">1</td>
                                     <td><a class="btn btn-sm btn-link fs-6">Internal WO Sheet*</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="tIntWOSheet" name="tIntWOSheet" readonly/></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center fs-6">2</td>
                                     <td><a class="btn btn-sm btn-link fs-6">Copy of Received A/N*</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="TAttReceivedAN" name="TAttReceivedAN" readonly /></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center fs-6">3</td>
                                     <td><a class="btn btn-sm btn-link fs-6">Scope of Work Checklist*</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="tScopeWorkChecList" name="tScopeWorkChecList" readonly /></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center fs-6">4</td>
                                     <td><a class="btn btn-sm btn-link fs-6">CFI</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="tCFI" name="tCFI" readonly /></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center fs-6">5</td>
                                     <td><a class="btn btn-sm btn-link fs-6">Written Instuction</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="tWrittenInstruction" name="tWrittenInstruction" readonly /></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center fs-6">6</td>
                                     <td><a class="btn btn-sm btn-link fs-6">Photo (If Applicable)</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="tPhoto" name="tPhoto" readonly /></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center fs-6">7</td>
                                     <td><a class="btn btn-sm btn-link fs-6">WCS</a></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" id="tWCS" name="tWCS" readonly /></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-download"></i></a></td>
                                     <td class="text-center"><a class="btn btn-sm btn-soft-light"><i class="fa fa-trash"></i></a></td>
                                 </tr>

@@ -108,6 +108,43 @@
             searchtcipn();
             loadeqclass($("#tcipartno").val());
             $("#equipclass").val(msg[0].equipclass);
+
+            //column-2
+            $("#oripromisedDate").val(msg[0].promiseddate);
+            $("#revpromisedDate").val(msg[0].revpromisedDate);
+            $("#tIncomingdate").val(msg[3].incomingdate);
+            $("#TPromisedStartDate").val(msg[3].promisedstartdate);
+            $("#tActStartDate").val(msg[3].actualstartdate);
+            $("#TOverRunStart").val(msg[3].overrunstart);
+            $("#TPromisedCompleted").val(msg[3].promisedcompleted);
+            $("#TActCompletedDate").val(msg[3].actcompleteddate);
+            $("#TOverRunComplete").val(msg[3].overruncomplete);
+            $("#TSchedHour").val(msg[2].schedhour);
+            $("#TActHour").val(msg[2].acthour);
+            $("#TOverRunHour").val(msg[2].ovrrunhour);
+            $("#tEstLabHour").val(msg[4].labtarget);
+            $("#TTimeSheetLab").val(msg[5].actlabhour);
+            $("#tVarLabHour").val((msg[4].labtarget) - (msg[5].actlabhour));
+
+            //JobPackage
+            populateIDAttachment(id, "1");
+        });
+    }
+
+    function populateIDAttachment(id, idfile){
+        $.ajax({
+            method: "GET",
+            url: "JobDetails/getIDAttahcment",
+            dataType: 'json',
+            data: { id: id, idfile: idfile },
+            success: function (response) {
+                if (idfile == "1") {
+                    $("#tIntWOSheet").val(response[0].id);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
         });
     }
 
