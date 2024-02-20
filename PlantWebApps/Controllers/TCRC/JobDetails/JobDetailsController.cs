@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantWebApps.Helper;
 using System.Data;
+using System.Runtime.InteropServices;
 
 namespace PlantWebApps.Controllers.TCRC.JobDetails
 {
@@ -61,6 +62,12 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
                     tcipartno = Utility.CheckNull(row["TCIPartNo"]),
                     equipclass = Utility.CheckNull(row["EquipClass"]),
 
+
+                    //column2
+                    promiseddate = Utility.CheckNull(row["PromisedDate"]),
+                    revpromiseddate = Utility.CheckNull(row["PromisedDateRev"]),
+
+
                     jobstatusid = Utility.CheckNull(row["JobStatusID"]),
                     location = Utility.CheckNull(row["Location"]),
                     exunit = Utility.CheckNull(row["ExUnit"]),
@@ -88,10 +95,143 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
                 {
                     //column-1
                     mainttype = Utility.CheckNull(row["MaintType"]),
+
+                    
                 };
                 rows.Add(rowData);
             }
 
+            string query3 = "select dbo.DurWOTurnARoundMinute(WOno, 0) as CompTurnAroundHour," +
+                "dbo.TargetRebuildWO(UnitDescription,LEFT(MaintType,5),0,isnull(Qty,0)) as WorkTargetHour," +
+                "dbo.CalcVar(dbo.DurWOTurnARoundMinute(WOno, 0),dbo.TargetRebuildWO(UnitDescription,LEFT(MaintType,5),0,isnull(Qty,0))) as WorkOverRunHour" +
+                " from v_WorkOrderJobDetail as W Where WONO=" + Utility.Evar(id, 1);
+            var data3 = SQLFunction.execQuery(query3);
+
+            foreach (DataRow row in data3.Rows)
+            {
+                var rowData = new
+                {
+                    //column-2
+                    schedhour = Utility.CheckNull(row["WorkTargetHour"]),
+                    acthour = Utility.CheckNull(row["CompTurnAroundHour"]),
+                    ovrrunhour = Utility.CheckNull(row["WorkOverRunHour"]),
+                };
+                rows.Add(rowData);
+            }
+
+            string column4 = "convert(varchar,ReceivedDate,103) as formReceivedDate," +
+                "convert(varchar,ScheduleStartDate,103) as formScheduleStartDate," +
+                "convert(varchar,ActualStartDate,103) as formActualStartDate," +
+                "convert(varchar,OverRunStartDate,103) as formOverRunStartDate," +
+                "convert(varchar,ScheduledCompDate,103) as formScheduledCompDate," +
+                "convert(varchar,JobCompleteDate,103) as formJobCompleteDate," +
+                "convert(varchar,OverRunCompDate,103) as formOverRunCompDate";
+            string query4 = "select " + column4 + " from v_WOTimeLineDetail Where WONO=" + Utility.Evar(id, 1);
+            var data4 = SQLFunction.execQuery(query4);
+
+            foreach (DataRow row in data4.Rows)
+            {
+                var rowData = new
+                {
+                    //column-2
+                    incomingdate = Utility.CheckNull(row["formReceivedDate"]),
+                    promisedstartdate = Utility.CheckNull(row["formScheduleStartDate"]),
+                    actualstartdate = Utility.CheckNull(row["formActualStartDate"]),
+                    overrunstart = Utility.CheckNull(row["formOverRunStartDate"]),
+                    promisedcompleted = Utility.CheckNull(row["formScheduledCompDate"]),
+                    actcompleteddate = Utility.CheckNull(row["formJobCompleteDate"]),
+                    overruncomplete = Utility.CheckNull(row["formOverRunCompDate"]),
+                };
+                rows.Add(rowData);
+            }
+
+            //getlabour-target
+            string query5 = "select dbo.[LabourHourTargetofWO](" + Utility.Evar(id, 1) + ") as LabTarget";
+            var data5 = SQLFunction.execQuery(query5);
+
+            foreach (DataRow row in data5.Rows)
+            {
+                var rowData = new
+                {
+                    //column-2
+                    labtarget = Utility.CheckNull(row["LabTarget"]),
+                };
+                rows.Add(rowData);
+            }
+
+            //getLabour-actual
+            string query6 = "SELECT * from v_WOCostDetail Where WONO=" + Utility.Evar(id, 1);
+            var data6 = SQLFunction.execQuery(query6);
+
+            foreach (DataRow row in data6.Rows)
+            {
+                var rowData = new
+                {
+                    //column-2
+                    actlabhour = Utility.CheckNull(row["ActLabHour"]),
+                };
+                rows.Add(rowData);
+            }
+
+            //jobPackage
+            string query7 = "Select * from tbl_IntJobAttachment where WONO=" + Utility.Evar(id, 1) + " and Activated='TRUE'";
+            var data7 = SQLFunction.execQuery(query7);
+
+            foreach (DataRow row in data.Rows)
+            {
+                object rowData = null;
+                switch (row["IDFile"])
+                {
+                    case "1":
+                        rowData = new { intWOSheet = Utility.CheckNull(row["ID"]) };
+                        break;
+                    case "2":
+                        rowData = new { attreceivean = Utility.CheckNull(row["ID"]) };
+                        break;
+                    case "3":
+                        rowData = new { sow = Utility.CheckNull(row["ID"]) };
+                        break;
+                    default:
+                        break;
+                }
+                if (rowData != null)
+                {
+                    rows.Add(rowData);
+                }
+            }
+
+            return new JsonResult(rows);
+        }
+
+        [HttpGet]
+        public IActionResult loadJP(string id)
+        {
+            string query = "Select * from tbl_IntJobAttachment where WONO=" + Utility.Evar(id, 1) + " and Activated='TRUE'";
+            var data = SQLFunction.execQuery(query);
+
+            List<object> rows = new List<object>();
+            foreach (DataRow row in data.Rows)
+            {
+                object rowData = null;
+                switch (row["IDFile"])
+                {
+                    case "1":
+                        rowData = new { intWOSheet = Utility.CheckNull(row["ID"]) };
+                        break;
+                    case "2":
+                        rowData = new { attreceivean = Utility.CheckNull(row["ID"]) };
+                        break;
+                    case "3":
+                        rowData = new { sow = Utility.CheckNull(row["ID"]) };
+                        break;
+                    default:
+                        break;
+                }
+                if (rowData != null)
+                {
+                    rows.Add(rowData);
+                }
+            }
             return new JsonResult(rows);
         }
 
@@ -255,5 +395,23 @@ namespace PlantWebApps.Controllers.TCRC.JobDetails
 
             return new JsonResult(rows);
         }
+
+        [HttpGet]
+        public IActionResult getIDAttahcment(string id, string idfile)
+        {
+            string query = "Select * from tbl_IntJobAttachment where WONO=" + Utility.Evar(id, 1) + " and IDFile=" + idfile + " and Activated='TRUE'";
+            var data = SQLFunction.execQuery(query);
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    eid = Utility.CheckNull(row["ID"]),
+                };
+                rows.Add(rowData);
+            }
+            return new JsonResult(rows);
+        }      
     }
 }

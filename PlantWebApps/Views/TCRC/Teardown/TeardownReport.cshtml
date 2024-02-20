@@ -3,7 +3,21 @@
     ViewData["Title"] = "Teardown Report";
 }
 
-<div class="row" id="header">
+<style>
+    .before {
+        page-break-before: always;
+    }
+
+    .after {
+        page-break-after: always;
+    }
+
+    .avoid {
+        page-break-inside: avoid;
+    }
+</style>
+
+<div class="row" id="capture">
     <div class="mb-3">
         <div class="col-md-12">
             <table class="table table-sm table-borderless">
@@ -14,15 +28,16 @@
                 </tr>
             </table>
         </div>
+        
     </div>
-</div>
-
-<div class="row" id="body">
     <div class="mb-3">
         <table class="table table-sm table-bordered">
             <tr>
                 <td class="fw-semibold">WONo</td>
-                <td>@(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")</td>
+                <td>
+                    <input type="hidden" id="fwono" value='@(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")' />
+                    @(ViewBag.data.Rows[0]["WONo"] != null ? ViewBag.data.Rows[0]["WONo"].ToString() : "")
+                </td>
                 <td class="fw-semibold">Component Source</td>
                 <td>TCRC</td>
             </tr>
@@ -49,16 +64,15 @@
     </div>
     <div class="mb-3 after">
         <h6>#Picture - Before Disassembly</h6>
-        <hr class="mb-0 mt-0" />
-        <div class="row">
+        <div class="row g-3 justify-content-center avoid">
             @if (ViewBag.Data is System.Data.DataTable dataTable)
             {
                 foreach (System.Data.DataRow row in dataTable.Rows)
                 {
                     if (row["PictureSection"].ToString() == "BeforeDissassembly")
                     {
-                        <div class="col-md-4 mb-2 avoid">
-                            <img src="@row["PictPath"].ToString()" class="w-100 shadow-1-strong rounded mb-2" alt="Before Picture">
+                        <div class="col col-4 mb-2 avoid">
+                            <img src="@row["PictPath"].ToString()" class="w-100 img-fluid shadow-1-strong rounded mb-2" style="height:250px" alt="Before Picture">
                         </div>
                     }
                 }
@@ -67,16 +81,15 @@
     </div>
     <div class="mb-3">
         <h6>#Picture - After Disassembly</h6>
-        <hr class="mb-0 mt-0" />
-        <div class="row">
+        <div class="row g-3 justify-content-center avoid">
             @if (ViewBag.Data is System.Data.DataTable dataTable2)
             {
                 foreach (System.Data.DataRow row in dataTable2.Rows)
                 {
                     if (row["PictureSection"].ToString() == "AfterDissassembly")
                     {
-                        <div class="col-md-4 mb-2 avoid">
-                            <img src="@row["PictPath"].ToString()" class="w-100 shadow-1-strong rounded mb-2" alt="After Picture" />
+                        <div class="col col-4 mb-2 avoid">
+                            <img src="@row["PictPath"].ToString()" class="w-100 img-fluid shadow-1-strong rounded mb-2" style="height:250px" alt="Before Picture">
                         </div>
                     }
                 }
@@ -85,57 +98,34 @@
     </div>
 </div>
 
-<div class="row" id="footer">
-    This is Footer
-</div>
-
-<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
 <script>
     $(document).ready(async function () {
-        window.jsPDF = window.jspdf.jsPDF;
-        var doc = new jsPDF('p', 'mm', 'a4');
+        var element = document.getElementById('capture');
+        var mode = 'specify';
+        var pagebreak = (mode === 'specify') ?
+            { mode: '', before: '.before', after: '.after', avoid: '.avoid' } :
+            { mode: mode };
 
-        const header = await html2canvas($("#header")[0]);
-        const headerData = header.toDataURL("image/png");
-        const headerWidth = doc.internal.pageSize.getWidth() - 20;
-        const headerHeight = header.height * headerWidth / header.width;
+        (async function () {
+            const pdf = await html2pdf().from(element).set({
+                //filename: mode + '.pdf',
+                margin: [10, 10, 10, 10],
+                pagebreak: pagebreak,
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: false }
+            }).toPdf().get('pdf');
 
-        const footer = await html2canvas($("#footer")[0]);
-        const footerData = footer.toDataURL("image/png");
-        const footerWidth = doc.internal.pageSize.getWidth() - 20;
-        const footerHeight = footer.height * footerWidth / footer.width;
+            var totalPages = pdf.internal.getNumberOfPages();
 
-        doc.autoTable({
-            html: '#body',
-            bodyStyles: { minCellHeight: 60 },
-            margin: { top: 30 },
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(8);
+                pdf.setTextColor(150);
+                //pdf.text(15, 15, '[SULIT]'); ini header
+                pdf.text('Page: ' + i + '/' + totalPages + '', pdf.internal.pageSize.getWidth() - 30, pdf.internal.pageSize.getHeight() - 8);
+            }
 
-            // header
-            willDrawPage: function (data) {
-                doc.addImage(headerData, "PNG", 10, 10, headerWidth, headerHeight);
-            },
-
-            // footer
-            didDrawPage: function (data) {
-                var pageSize = doc.internal.pageSize; // Get the page size
-                var footerHeight = 10; // Specify the height of your footer
-
-                // Calculate the position of the footer
-                var footerY = pageSize.height - footerHeight;
-
-                // Add the footer image
-                doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight);
-            },
-
-            // table styles
-            styles: {
-                font: 'arial',
-                fontSize: 10,
-            },
-
-        })
-
-        doc.save('test.pdf');
-        window.close();
+            pdf.save("Teardown Report WO." + ($("#fwono").val()) + ".pdf");
+            window.close();
+        })();
     });
 </script>

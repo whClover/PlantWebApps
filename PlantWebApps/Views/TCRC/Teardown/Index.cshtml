@@ -328,7 +328,7 @@
                         <td><span class="text-success fw-bold" id="prog_5" name="prog_5">OK</span></td>
                     </tr>
                     <tr>
-                        <td>6. Send to Job Package</td>
+                        <td>6. Upload to Job Package</td>
                         <td><span class="text-success fw-bold" id="prog_6" name="prog_6">OK</span></td>
                     </tr>
                 </table>
@@ -340,9 +340,10 @@
                             </a>
                         </div>
                         <div class="col-md-6">
-                            <a class="btn btn-sm btn-primary btn-block">
-                                Send to Job Package
-                            </a>
+                            <input type="file" class="form-control form-control-sm" id="dupload" name="dupload" style="display:none" accept="application/pdf" />
+                            <button type="button" class="btn btn-sm btn-primary btn-block" id="bupload">
+                                Upload to Job Package
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -380,10 +381,42 @@
     $("#frm_td").hide();
     $("#compid_stat").hide();
 
+    $("#bupload").click(function () {
+        $('#dupload').click();
+    });
+
+    $('#dupload').change(function () {
+        var selectedFile = $(this)[0].files[0];
+        var wono = $("#fwono").val();
+
+        var formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('wono', wono);
+
+        $.ajax({
+            method: "POST",
+            url: "Teardown/UploadJP",
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $("#dupload").val("");
+                showAlert("success", "File has been upload to JP");
+                findwo($("#fwono").val());
+            },
+            error: function (xhr, status, error) {
+                // Tangani error dalam pengiriman AJAX
+                console.error(error);
+            }
+        });
+    });
+
     $("#btnsearchwo").on("click", function () {
         var wo = $("#wono").val();
-        if (wo == null) {
+        if (wo == "") {
             $("#frm_td").hide();
+            showAlert("warning", "Please fill WO.");
             return;
         }
         findwo(wo);

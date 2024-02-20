@@ -10,5 +10,6 @@
         public static String _usernamesession { get; set; }
 
         public static String path_dbattach = "\\\\bpnaps07\\dbattachcomp$\\JobID\\";
+        public static String path_JobPackage = "\\\\bpnaps07\\Database\\Plant_Component\\JobPackage\\";
     }
 }

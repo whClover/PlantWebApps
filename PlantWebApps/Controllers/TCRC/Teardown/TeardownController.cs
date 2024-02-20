@@ -311,5 +311,35 @@ namespace PlantWebApps.Controllers.TCRC.Teardown
 
             return View("~/Views/TCRC/Teardown/TeardownReport.cshtml");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadJP(IFormFile file, string wono)
+        {
+            string fileExtension = "";
+            string fileName = "";
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file was submitted.");
+            }
+
+            fileExtension = Path.GetExtension(file.FileName);
+            fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            fileName = "29_TeardownReport" + fileExtension;
+            string targetDirectory = GlobalString.path_JobPackage + wono + "/29/" + fileName;
+            using (var stream = new FileStream(targetDirectory, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            string query = "exec dbo.InsertAttachmentJP " + Utility.Evar(wono, 1) + ",'29'," + Utility.Evar(targetDirectory, 1) + ",'29_TeardownReport.pdf','1'," + Utility.ebyname();
+            SQLFunction.executeQuery(query);
+
+            var response = new
+            {
+                message = "Data has been saved"
+            };
+
+            return Json(response);
+        }
     }
 }

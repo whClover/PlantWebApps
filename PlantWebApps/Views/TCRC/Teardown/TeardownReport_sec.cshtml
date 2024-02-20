@@ -17,7 +17,7 @@
     }
 </style>
 
-<div class="row" id="capture">
+<div class="row" id="header">
     <div class="mb-3">
         <div class="col-md-12">
             <table class="table table-sm table-borderless">
@@ -28,7 +28,6 @@
                 </tr>
             </table>
         </div>
-        
     </div>
     <div class="mb-3">
         <table class="table table-sm table-bordered">
@@ -97,36 +96,53 @@
     </div>
 </div>
 
+<div class="row" id="footer">
+    This is Footer
+</div>
+
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
 <script>
     $(document).ready(async function () {
-        // window.jsPDF = window.jspdf.jsPDF;
-        // var doc = new jsPDF('p', 'mm', 'a4');
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
 
-        // const canvas = await html2canvas($("#capture")[0]);
-        // const imageData = canvas.toDataURL("image/png");
-        // const pdfWidth = doc.internal.pageSize.getWidth() - 20;
-        // const pdfHeight = canvas.height * pdfWidth / canvas.width;
+        const header = await html2canvas($("#header")[0]);
+        const headerData = header.toDataURL("image/png");
+        const headerWidth = doc.internal.pageSize.getWidth() - 20;
+        const headerHeight = header.height * headerWidth / header.width;
 
-        // doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
-        // doc.save('test.pdf');
-        // window.close();
+        const footer = await html2canvas($("#footer")[0]);
+        const footerData = footer.toDataURL("image/png");
+        const footerWidth = doc.internal.pageSize.getWidth() - 20;
+        const footerHeight = footer.height * footerWidth / footer.width;
 
-        var element = document.getElementById('capture');
-        var mode = 'specify';
-        var pagebreak = (mode === 'specify') ?
-            { mode: '', before: '.before', after: '.after', avoid: '.avoid' } :
-            { mode: mode };
+        doc.autoTable({
+            // header
+            willDrawPage: function (data) {
+                doc.addImage(headerData, "PNG", 10, 10, headerWidth, headerHeight);
+            },
 
-        (async function () {
-            await html2pdf().from(element).set({
-                //filename: mode + '.pdf',
-                margin: [10, 10, 10, 10],
-                pagebreak: pagebreak,
-                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: true }
-            }).save('test.pdf');
+            // footer
+            didDrawPage: function (data) {
+                var pageSize = doc.internal.pageSize; // Get the page size
+                var footerHeight = 10; // Specify the height of your footer
 
-            //window.close();
-        })();
+                // Calculate the position of the footer
+                var footerY = pageSize.height - footerHeight;
+
+                // Add the footer image
+                doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight);
+            },
+
+            // table styles
+            styles: {
+                font: 'arial',
+                fontSize: 10,
+            },
+
+        })
+
+        doc.save('test.pdf');
+        window.close();
     });
 </script>
