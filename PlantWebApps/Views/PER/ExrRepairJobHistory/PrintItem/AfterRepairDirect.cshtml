@@ -7,47 +7,19 @@
 <div class="d-flex flex-wrap" id="capture">
     @foreach (var item in ViewBag.data)
     {
-        <div class="row m-2" style="border: 3px solid black; max-width: 600px; position: relative;">
-            <div class="d-flex flex-column justify-content-between align-items-center">
+        <div class="row m-2" style="border: 3px solid black; max-width: 550px; position: relative;">
+            <div class="d-flex flex-column justify-content-between align-items-center mt-4">
                 <img src="~/images/thiess-noborder.png" style="max-width: 125px;" />
                 <div class="fs-4 fw-bold">After Repair Tag</div>
-                <div class="fs-4 fw-bold" style="background-color: grey">Direct Charge Item</div>
             </div>
-            <div class="d-flex flex-column mt-2" style="gap: 5px;">
-                <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Stock Code</div>
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.StockItemNo" />
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Part Number</div>
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.TCIPartNo " />
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Component. Desc</div>
-                    <div class="col-8">
-                        <textarea class="form-control form-control-sm fs-6 fw-bold" rows="2">@item.Description1 </textarea>
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Unit Desc</div>
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.SearchText " />
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Unit Model</div>
-                    <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.UnitDescription " />
-                    </div>
-                </div>
+            <div class="d-flex align-items-center justify-content-center" style="background-color: lightgrey">
+                <div class="fs-4 fw-bold">Direct Charge Item</div>
+            </div>
+            <div class="d-flex flex-column mt-4 mb-5" style="gap: 10px;">
                 <div class="row align-items-center">
                     <div class="col-4 fs-6 fw-bold">Parent WO</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.OffSiteWO " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" id="fWono" value="@item.OffSiteWO" />
                     </div>
                 </div>
                 <div class="row align-items-center">
@@ -59,49 +31,49 @@
                 <div class="row align-items-center">
                     <div class="col-4 fs-6 fw-bold">Internal WO</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.IntWO " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.IntWO" />
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Supporting WO</div>
+                    <div class="col-4 fs-6 fw-bold">Op No.</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.WoJobCost " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.OPNONew" />
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">OP No</div>
+                    <div class="col-4 fs-6 fw-bold">Part Number</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.OPNONew " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.TCIPartNo" />
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">TCI Part ID</div>
+                    <div class="col-4 fs-6 fw-bold">Component</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.TCIPartID " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.CompDesc" />
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Repair Type</div>
+                    <div class="col-4 fs-6 fw-bold">Description</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.ExrRepairtype " />
+                        <textarea class="form-control form-control-sm fs-6 fw-bold" rows="2">@item.Description1 </textarea>
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">Hours Run</div>
+                    <div class="col-4 fs-6 fw-bold">Unit No</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.MeterRun " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.UnitNumber" />
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">HoursToRun (Est)</div>
+                    <div class="col-4 fs-6 fw-bold">Unit Model</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.MeterToRun " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.UnitDescription" />
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-4 fs-6 fw-bold">From</div>
+                    <div class="col-4 fs-6 fw-bold">Supplier</div>
                     <div class="col-8">
-                        <textarea class="form-control form-control-sm fs-6 fw-bold" rows="2">@item.SupplierName </textarea>
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.SupplierName" />
                     </div>
                 </div>
                 <div class="row align-items-center">
@@ -119,21 +91,22 @@
                 <div class="row align-items-center">
                     <div class="col-4 fs-6 fw-bold">Received By</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.ReceivedBy " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.ReceivedBy" />
                     </div>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-4 fs-6 fw-bold">Dn Number</div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.DnNumber " />
+                        <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.DnNumber" />
                     </div>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between mt-2">
-                <div class="fs-6 fw-bold" style="color: blue">SGT W/H</div>
-                <div class="fs-6 fw-bold" style="color: blue">TCI-PLT-FO-229</div>
+            <div class="d-flex align-items-center justify-content-between mt-2 mb-4">
+                <div class="fs-6 fw-bold" style="color: blue">@item.StoreName</div>
             </div>
-            <div style="position: absolute; top: 32%; left: 62%; z-index: 1000;" id="parent@(item.ID)"></div>
+            <div style="position: absolute; top: 60%; left: 53%; z-index: 1000;" id="parent@(item.ID)">
+                <img src="~/images/stamp/stempel_direct_charge-noborder.png" style="max-width: 250px; opacity: 60%;" />
+            </div>
         </div>
         @foreach (var dataValue in item.DataValue)
         {
@@ -144,7 +117,7 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(async function () {
         var qrValueCount = $('.qrValue').length;
         var completedRequests = 0;
 
@@ -152,17 +125,10 @@
             var qrValue = $(this).val();
             var eID = $(this).next('#eID').val();
 
-            var imageUrl = "https://placekitten.com/200/300";
-            var img = $('<img>').attr('src', imageUrl);
-            var divId = 'qrCode';
-
-            var div = $('<div>').attr('id', divId);
-            div.append(img);
-            $('#parent' + eID).append(div);
-
             completedRequests++;
 
             if (completedRequests === qrValueCount) {
+                // Load the jspdf and jspdf-autotable libraries
                 window.jsPDF = window.jspdf.jsPDF;
                 var doc = new jsPDF('p', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
 
@@ -175,10 +141,10 @@
                 const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
                 // add html2canvas image to jspdf
-                doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+                doc.addImage(imageData, "PNG", 20, 10, pdfWidth, pdfHeight);
 
                 // return the pdf
-                doc.save('test.pdf');
+                doc.save("After Repair Tag Direct" + " " + ($("#fWono").val()) + ".pdf");
                 window.close();
             }
         });
