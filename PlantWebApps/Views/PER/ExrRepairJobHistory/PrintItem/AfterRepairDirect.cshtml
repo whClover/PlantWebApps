@@ -7,7 +7,7 @@
 <div class="d-flex flex-wrap" id="capture">
     @foreach (var item in ViewBag.data)
     {
-        <div class="row m-2" style="border: 3px solid black; max-width: 550px; position: relative;">
+        <div class="row m-4" style="border: 3px solid black; max-width: 550px; position: relative;">
             <div class="d-flex flex-column justify-content-between align-items-center mt-4">
                 <img src="~/images/thiess-noborder.png" style="max-width: 125px;" />
                 <div class="fs-4 fw-bold">After Repair Tag</div>
@@ -141,7 +141,7 @@
                 const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
                 // add html2canvas image to jspdf
-                doc.addImage(imageData, "PNG", 20, 10, pdfWidth, pdfHeight);
+                doc.addImage(imageData, "PNG", 15, 10, pdfWidth, pdfHeight);
 
                 // return the pdf
                 doc.save("After Repair Tag Direct" + " " + ($("#fWono").val()) + ".pdf");
