@@ -6,12 +6,29 @@
 
 <table class="table table-sm" id="table">
     <tbody>
-        @for (int i = 0; i < ViewBag.data.Count / 2; i++)
+        @if (ViewBag.data.Count % 2 != 0)
         {
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
+            var length = ViewBag.data.Count + 1;
+
+            @for (int i = 0; i < length / 2; i++)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+        else
+        {
+            var length = ViewBag.data.Count;
+
+            @for (int i = 0; i < length / 2; i++)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -119,11 +136,6 @@
             <img src="~/images/stamp/stempel_direct_charge-noborder.png" style="max-width: 250px; opacity: 60%;" />
         </div>
     </div>
-    @foreach (var dataValue in item.DataValue)
-    {
-        <input class="d-none qrValue" type="text" value="@dataValue" />
-        <input class="d-none" id="eID" type="text" value="@item.ID" />
-    };
 };
 
 
@@ -160,6 +172,9 @@
 
             didDrawCell: (data) => {
                 const cellIndex = data.column.index + data.row.index * data.table.columns.length;
+
+                console.log("cell index", cellIndex);
+                console.log("imageDataArray.length", imageDataArray.length);
 
                 if (cellIndex < imageDataArray.length) {
                     const imageDataCell = imageDataArray[cellIndex];
