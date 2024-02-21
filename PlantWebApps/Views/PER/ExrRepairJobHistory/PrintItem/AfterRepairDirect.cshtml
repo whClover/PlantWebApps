@@ -137,11 +137,11 @@
                 const imageData = canvas.toDataURL("image/png");
 
                 // Calculate the desired width and height while maintaining the aspect ratio
-                const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
+                const pdfWidth = doc.internal.pageSize.getWidth() - 10; // Lebar PDF dikurangi margin 10mm di setiap sisi
                 const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
                 // add html2canvas image to jspdf
-                doc.addImage(imageData, "PNG", 15, 10, pdfWidth, pdfHeight);
+                doc.addImage(imageData, "PNG", 10, 3, pdfWidth, pdfHeight);
 
                 // return the pdf
                 doc.save("After Repair Tag Direct" + " " + ($("#fWono").val()) + ".pdf");

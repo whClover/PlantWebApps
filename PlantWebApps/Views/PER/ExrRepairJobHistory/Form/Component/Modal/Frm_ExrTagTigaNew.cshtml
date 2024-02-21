@@ -35,7 +35,7 @@
                                 <input type="text" class="form-control form-control-sm" id="xId3" />
                             </div>
                         </div>
-                        <div class="row col-12" id="directDiv" style="display: none;">
+                        <div class="row col-12">
                             <div class="col-3">ID - 4</div>
                             <div class="col-4">
                                 <input type="text" class="form-control form-control-sm" id="xId4" />
@@ -62,14 +62,6 @@
 
 <script>
     $(document).ready(function () {
-        $('#selectTagTiga').change(function () {
-            console.log("changed");
-            if ($(this).val() === 'direct') {
-                $('#directDiv').show();
-            } else {
-                $('#directDiv').hide();
-            }
-        });
 
         $('#btnAfterTiga').on('click', function () {
             var ListID = [];
