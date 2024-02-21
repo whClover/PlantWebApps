@@ -2,6 +2,7 @@
 using PlantWebApps.Helper;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Dynamic;
 
 namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
@@ -307,6 +308,12 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult TableAfterRepair()
         {
             return View("~/Views/PER/ExrRepairJobHistory/PrintItem/TableAfterRepair.cshtml");
+        }
+        public IActionResult GenerateQRCodeImage(string value, int size)
+        {
+            Bitmap qrCodeImage = Utility.GenerateQRCode(value, size);
+
+            return File(Utility.BitmapToByteArray(qrCodeImage), "image/png");
         }
     }
 }
