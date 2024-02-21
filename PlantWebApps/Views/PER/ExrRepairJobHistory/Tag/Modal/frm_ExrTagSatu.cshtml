@@ -16,40 +16,19 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="col-5">
-                            <label for="selectType" class="form-label">Select Tag Type</label>
-                            <select class="form-select" id="selectType">
+                            <label for="selectTypeMultiple" class="form-label">Select Tag Type</label>
+                            <select class="form-select" id="selectTypeMultiple">
                                 <option></option>
-                                <option value="1">Standard Tagging</option>
-                                <option value="2">Direct Charge Item Tagging</option>
+                                <option value="standard">Standard Tagging</option>
+                                <option value="direct">Direct Charge Item Tagging</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-12 mt-2">
                         <button type="button" class="btn btn-sm btn-primary" id="CsingleTag">View</button>
-                        <a class="btn btn-sm btn-primary" href="/Tag/TestPrint">Test Print</a>
-                        <a class="btn btn-sm btn-primary" href="/Tag/StandardTag">See Standard Tag</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        // single Tag
-        $('#testPrint').on('click', function () {
-            $.ajax({
-                method: "POST",
-                url: "/ExrRepairJobHistory/SingleTag",
-                data: extractedData,
-                success: function (response) {
-
-                },
-                error: function (error) {
-                    // Handle error response here
-                }
-            });
-        });
-    });
-</script>

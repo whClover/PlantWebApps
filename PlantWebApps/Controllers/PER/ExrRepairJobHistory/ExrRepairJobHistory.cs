@@ -1169,18 +1169,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 foreach (DataRow row in data.Rows)
                 {
                     var ID = Utility.CheckNull(row["ID"]);
-                    //string queryQr = $@"INSERT Into tbl_ExrTag (ID,StockItemNo,TCIPartNo,Description1,SearchText,IntWO,
-                    //WoJobCost,OffSiteWO,UnitNumber,UnitDescription,OPNONew,MeterToRun,MeterRun,TCIPartID,ExrRepairtype,
-                    //ANReceivedFrom,ANReceivedDate,ReceivedBy,RRANNo,StoreName,SupplierName,ReceivedDate,DnNumber,WOAlloc,
-                    //UnitAlloc,CompDesc,QR) VALUES ()";
-                    rows.Add("/ExrRepairJobHistoryInspection/Report/" + ID);
+                    rows.Add(ID);
                 }
+                return new JsonResult(rows);
             }
             else
             {
                 return new JsonResult("not found");
             }
-            return new JsonResult("ok");
         }
         public IActionResult ChangeWO(string ParentWONew, string ID)
         {
