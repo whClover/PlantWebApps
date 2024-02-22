@@ -305,10 +305,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         {
             return new JsonResult("ok");
         }
-        public IActionResult TableAfterRepair()
-        {
-            return View("~/Views/PER/ExrRepairJobHistory/PrintItem/TableAfterRepair.cshtml");
-        }
         public IActionResult GenerateQRCodeImage(string value, int size)
         {
             Bitmap qrCodeImage = Utility.GenerateQRCode(value, size);
