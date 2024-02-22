@@ -19,6 +19,7 @@ namespace PlantWebApps.Controllers.JobDispatch
         public String Stat { get; set; }
         [TempData]
         public string EAnno { get; set; }
+
         public IActionResult Index()
         {
             loadOption();
