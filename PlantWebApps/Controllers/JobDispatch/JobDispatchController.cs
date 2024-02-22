@@ -300,7 +300,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                 RegisterBy, RegisterDate) VALUES ({eid}, 
                 {eSectionId}, {eDispatchType},{eShipmentDate}, {eConsignedTo}, {eAttentionName}, 
                 {eAttentionEmail}, {eAttentionTo}, {eTransportMode}, {eManifesNo}, {eProject},
-                {eJobNo}, {eDispatchBy}, {eDispatchDate}, {eDispatchEmail} , {eHandledBy}, {eHandledDate}, 
+                {eJobNo}, {eDispatchBy}, {eDispatchDate}, {eDispatchEmail} , {eHandledBy}, {eHandledDate}, 'P',
                 {eRegisterBy}, {eRegisterDate})";
 
                 Console.WriteLine(query);
