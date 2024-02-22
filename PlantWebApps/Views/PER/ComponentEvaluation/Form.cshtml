@@ -183,8 +183,12 @@
 				method: "GET",
 				data: { ID: ID, WONO: WONO },
 				success: function (response) {
+					console.log("response is", response);
 					var outputText = response[0].output;
-					outputText = outputText.replace(/\?/g, '<br>');
+
+					outputText = outputText.replace(/\?/g, ''); // Remove question marks
+					outputText = outputText.replace(/_/g, ''); // Remove underscores
+					outputText = outputText.replace(/(\r\n|\r|\n)/g, '<br>');
 					$('#evalSummaryText').html(outputText);
 				},
 				error: function (error) {
