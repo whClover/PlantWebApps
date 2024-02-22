@@ -499,9 +499,7 @@
             $('#tDispatchValue').text(email);
         }
 
-        $(document).ready(function () {
-            getDataEmail('#tDispatchBy');
-        });
+        getDataEmail('#tDispatchBy');
 
         $('#tDispatchBy').on('change', function () {
             getDataEmail(this);
@@ -515,6 +513,7 @@
 
         $("#cRecipientCategory").on("change", function () {
             var recipientCategory = $(this).find(":selected").val();
+            console.log("recipient category", recipientCategory);
 
             $.ajax({
                 url: '@Url.Action("getRecipientEmailFromDropdown", "JobDispatch")',
@@ -626,23 +625,28 @@
             });
         });
 
-        btnDeleteDetail.addEventListener('click', function (e) {
+        $('#btnDeleteDetail').on('click', function(e) {
             e.preventDefault();
+
+            // Show the confirmation dialog
             Swal.fire({
-                title: 'Are you sure to delete this data?',
-                showDenyButton: true,
-                icon: "warning",
-                confirmButtonText: 'Yes',
-                denyButtonText: 'No'
+              title: 'Are you sure you want to delete this data?',
+              showDenyButton: true,
+              icon: 'warning',
+              confirmButtonText: 'Yes',
+              denyButtonText: 'No'
             }).then((result) => {
-                console.log('User response:', result);
-                if (result.isConfirmed) {
-                    window.location.href = btnDeleteDetail.href;
-                } else if (result.isDenied) {
-                    Swal.fire("Data Not Deleted", "", "success");
-                }
+              console.log('User response:', result);
+
+              if (result.isConfirmed) {
+                // If the user confirms, redirect to the delete URL
+                window.location.href = $(this).attr('href');
+              } else if (result.isDenied) {
+                // If the user denies, show a success message
+                Swal.fire('Data Not Deleted', '', 'success');
+              }
             });
-        });
+          });
 
     });
 

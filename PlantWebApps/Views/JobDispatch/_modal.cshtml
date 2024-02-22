@@ -53,7 +53,7 @@
                                     @foreach (DataRow row in ViewBag.cRecipientCategory.Rows)
                                     {
                                         var emailCategory = row["EmailCategory"].ToString();
-                                        <option value="@emailCategory" selected="@(emailCategory == ViewBag.cRecipientCategory?.Rows[0]?["EmailCategory"].ToString())"> @emailCategory</option>
+                                        <option value="@emailCategory" selected="@(emailCategory == ViewBag.cRecipientCategory?.Rows[0]?["EmailCategory"].ToString())">@emailCategory</option>
                                     }
                                 </select>
                             </div>
