@@ -24,7 +24,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         public IActionResult Index()
         {
             loadoption();
-            return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml");
+
+			var filter = TempData.Peek("jobRegisterFilter");
+			var tempData = LoadInitialData(filter);
+
+			return View("~/Views/PER/ExrRepairJobHistory/Index.cshtml", tempData);
         }
         public FileResult ViewAttachment(string filepath)
         {
@@ -640,9 +644,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
 
             var sort = ascDesc;
             string sortOrder = string.IsNullOrEmpty(sort) ? "desc" : sort;
+            string status = "AND StatusID != '9'";
 
-            _tempfilter = Utility.VarFilter(filter);
-            string dataQuery = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {_tempfilter} AND StatusID != '9' order by id {sortOrder}";
+            string efilter = $"{filter} {status}";
+
+            _tempfilter = Utility.VarFilter(efilter);
+            TempData["jobRegisterFilter"] = _tempfilter;
+
+			string dataQuery = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {_tempfilter} {status}  order by id {sortOrder}";
             Console.WriteLine("Load Data " + dataQuery);
             var data = SQLFunction.execQuery(dataQuery);
             var rows = new List<object>();
@@ -684,7 +693,53 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             }
             return new JsonResult(rows);
         }
-        public IActionResult Export()
+		public List<object> LoadInitialData(object filter)
+		{
+
+			string query = $"SELECT TOP 50 * FROM v_ExrJobDetailRev1 {filter} order by id desc";
+			Console.WriteLine(query);
+			var data = SQLFunction.execQuery(query);
+
+			var rows = new List<object>();
+
+			foreach (DataRow row in data.Rows)
+			{
+				var rowData = new
+				{
+					id = Utility.CheckNull(row["ID"]),
+					totalAgeWO = Utility.CheckNull(row["TotalAgeWO"]),
+					unitNumber = Utility.CheckNull(row["AgeWaitingQuote"]),
+					offSiteWO = Utility.CheckNull(row["OffSiteWO"]),
+					woAlloc = Utility.CheckNull(row["WoAlloc"]),
+					siteAllocName = Utility.CheckNull(row["SiteAllocName"]),
+					woJobCost = Utility.CheckNull(row["WOJobCost"]),
+					logANReceivedDate = Utility.CheckNull(row["LogANReceivedDate"]),
+					logANSentDate = Utility.CheckNull(row["LogANSentDate"]),
+					status = Utility.CheckNull(row["Status"]),
+					compDesc = Utility.CheckNull(row["CompDesc"]),
+					compQty = Utility.CheckNull(row["CompQty"]),
+					compType = Utility.CheckNull(row["CompType"]),
+					repairAdvice = Utility.CheckNull(row["RepairAdvice"]),
+					pcamStatusID = Utility.CheckNull(row["PCAMStatusID"]),
+					tciPartNo = Utility.CheckNull(row["TCIPartNo"]),
+					supervisorAbbr = Utility.CheckNull(row["SupervisorAbbr"]),
+					supplierName = Utility.CheckNull(row["SupplierName"]),
+					intWO = Utility.CheckNull(row["IntWO"]),
+					suppForRepairANNo = Utility.CheckNull(row["SuppForRepairANNo"]),
+					quoteNo = Utility.CheckNull(row["QuoteNo"]),
+					jobNo = Utility.CheckNull(row["JobNo"]),
+					quoteDate = Utility.CheckNull(row["QuoteDate"]),
+					orNo = Utility.CheckNull(row["ORNo"]),
+					opDate = Utility.CheckNull(row["OPDate"]),
+					receivedDate = Utility.CheckNull(row["ReceivedDate"]),
+					edit = "<a class='btn btn-link btn-sm' href='/ExrRepairJobHistory/Edit/" + row["id"] + "' @isEdit><i class='fa fa-edit'></i></a>",
+					delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["id"]})' @isEdit><i class='fa fa-trash text-danger'></i></button>"
+				};
+				rows.Add(rowData);
+			}
+			return rows;
+		}
+		public IActionResult Export()
         {
             var cReportTypeQuery = "";
             string tempfilter = string.Empty;

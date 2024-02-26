@@ -36,7 +36,7 @@
     }
 </script> *@
 
-<form method="post" enctype="multipart/form-data" asp-controller="RprAdviceHistory">
+<form id="rprAdviceHistoryForm" method="post" enctype="multipart/form-data" asp-controller="RprAdviceHistory">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -89,12 +89,12 @@
                             </div>
                             <hr />
                             <div class="mb-2">
-                                <div>
-                                    @* <button type="submit" class="btn btn-sm btn-primary" formaction="/RprAdviceHistory/Filter">
-                                        <i class="fa fa-search"></i> Search
-                                    </button> *@
+                                <div class="d-flex" style="gap: 10px;">
                                     <button type="submit" id="filterButton" class="btn btn-sm btn-primary">
                                         <i class="fa fa-search"></i> Search
+                                    </button>
+                                    <button type="button" id="resetButton" class="btn btn-sm btn-danger">
+                                        Reset
                                     </button>
                                 </div>
                             </div>
@@ -126,24 +126,35 @@
 
 <script>
     $(document).ready(function () {
-        var data = @Html.Raw(Json.Serialize(Model));
-
-        console.log("data is", data);
-
+        var tempData = @Html.Raw(Json.Serialize(Model));
         loadIntitalData();
+
         $('#filterButton').click(function (e) {
             e.preventDefault();
             loadData();
         });
 
+        $('#resetButton').click(function (e) {
+            e.preventDefault();
+            resetData();
+        });
+
+        function extractData() {
+            var data = {};
+
+            data.jobid = $("#jobid").val();
+            data.parentwo = $("#parentwo").val();
+            data.childwo = $("#childwo").val();
+            data.itemchange = $("#itemchange").val();
+            data.descchange = $("#descchange").val();
+            data.jobstatus = $("#jobstatus").val();
+            data.modby = $("#modby").val();
+
+            return data;
+        }
+
         function loadData() {
-            var jobid = $('#jobid').val();
-            var parentwo = $('#parentwo').val();
-            var childwo = $('#childwo').val();
-            var itemchange = $('#itemchange').val();
-            var descchange = $('#descchange').val();
-            var jobstatus = $('#jobstatus').val();
-            var modby = $('#modby').val();
+            var extractedData = extractData();
 
             // Tampilkan loading overlay
             $('#loadingOverlay').show();
@@ -152,15 +163,7 @@
                 url: '@Url.Action("LoadData", "RprAdviceHistory")',
                 type: 'GET',
                 dataType: 'json',
-                data: {
-                    jobid: jobid,
-                    parentwo: parentwo,
-                    childwo: childwo,
-                    itemchange: itemchange,
-                    descchange: descchange,
-                    jobstatus: jobstatus,
-                    modby: modby,
-                },
+                data: extractedData,
                 success: function (test) {
                     //console.log(test);
                     $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
@@ -194,13 +197,19 @@
             });
         }
 
+        function resetData() {
+            $("#rprAdviceHistoryForm")[0].reset();
+            $(".select2").val("").trigger("change");
+            loadData();
+        }
+
         function loadIntitalData() {
             $('.datatable').DataTable({
                 searching: false,
                 lengthChange: false,
                 responsive: true,
                 pageLength: 20,
-                data: data, // The data passed from the server
+                data: tempData,
                 columns: [
                     { "data": "id" },
                     { "data": "jobid" },
@@ -213,7 +222,6 @@
                     { "data": "modby" },
                 ]
             });
-
             $("#offcanvas").offcanvas("hide");
         }
 

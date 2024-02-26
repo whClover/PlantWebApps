@@ -23,7 +23,121 @@ namespace PlantWebApps.Controllers.JobDispatch
         public IActionResult Index()
         {
             loadOption();
-            return View("~/Views/JobDispatch/Index.cshtml");
+
+            var filter = TempData.Peek("jobDispatchFilter");
+            var tempData = LoadInitialData(filter);
+
+            return View("~/Views/JobDispatch/Index.cshtml", tempData);
+        }
+        private string BuildTempFilter(string fwono, string tanno, string fsectionid,
+            string fdocstart, string fdocend, string fdispatchtypeid)
+        {
+            string tempfilter = string.Empty;
+            if (!string.IsNullOrEmpty(fwono))
+            {
+                tempfilter = "AND ID IN (Select DispatchID from tbl_DispatchJobDetail Where WONO = " + Utility.Evar(fwono, 1) + ")" + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(tanno))
+            {
+                tempfilter = "AND ID like" + Utility.Evar(tanno, 11) + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(fsectionid))
+            {
+                tempfilter = "AND SectionID = " + fsectionid + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(fdocstart))
+            {
+                tempfilter = "AND DispatchDate >= " + Utility.Evar(fdocstart, 2) + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(fdocend))
+            {
+                tempfilter = "AND DispatchDate <= " + Utility.Evar(fdocend, 2) + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(fdispatchtypeid))
+            {
+                tempfilter = "AND DispatchType  IN (" + Utility.Evar(fdispatchtypeid, 1) + ")" + tempfilter;
+            }
+
+            var forder = " Order by ID DESC";
+            var filter = $"AND StatusID != 'x' {tempfilter} {forder}";
+
+            return filter;
+        }
+        public IActionResult loadData(string fwono, string tanno, string fsectionid,
+            string fdocstart, string fdocend, string fdispatchtypeid)
+        {
+            string filter = BuildTempFilter(fwono, tanno, fsectionid, fdocstart, fdocend, fdispatchtypeid);
+            _tempfilter = Utility.VarFilter(filter);
+
+            TempData["jobDispatchFilter"] = _tempfilter;
+
+            string dataQuery = $"SELECT TOP 50 * FROM v_DispatchJob {_tempfilter}";
+            var data = SQLFunction.execQuery(dataQuery);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    section = Utility.CheckNull(row["Section"]),
+                    dispatchType = Utility.CheckNull(row["DispatchType"]),
+                    attantionName = Utility.CheckNull(row["AttentionName"]),
+                    attentionTo = Utility.CheckNull(row["AttentionTo"]),
+                    project = Utility.CheckNull(row["Project"]),
+                    dispatchDate = Utility.CheckNull(row["DispatchDate"]),
+                    handledDate = Utility.CheckNull(row["HandledDate"]),
+                    receivedDate = Utility.CheckNull(row["ReceivedDate"]),
+                    statusId = Utility.CheckNull(row["StatusID"]),
+                    edit = "<a class='btn btn-link btn-sm' href='/JobDispatch/Edit/" + row["ID"] + "'><i class='fa fa-edit'></i></a>",
+                    delete = $@"<button type='button' class='btn btn-link btn-sm' onclick='confirmDelete(""{row["ID"]}"")'>
+                                    <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" fill=""red"" class=""bi bi-trash3-fill"" viewBox=""0 0 16 16"">
+                                      <path d=""M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5""/>
+                                    </svg>       
+                                </button>",
+                };
+                rows.Add(rowData);
+            }
+            return new JsonResult(rows);
+        }
+        public List<object> LoadInitialData(object filter)
+        {
+
+            string query = $"SELECT TOP 50 * FROM v_DispatchJob {filter}";
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    section = Utility.CheckNull(row["Section"]),
+                    dispatchType = Utility.CheckNull(row["DispatchType"]),
+                    attantionName = Utility.CheckNull(row["AttentionName"]),
+                    attentionTo = Utility.CheckNull(row["AttentionTo"]),
+                    project = Utility.CheckNull(row["Project"]),
+                    dispatchDate = Utility.CheckNull(row["DispatchDate"]),
+                    handledDate = Utility.CheckNull(row["HandledDate"]),
+                    receivedDate = Utility.CheckNull(row["ReceivedDate"]),
+                    statusId = Utility.CheckNull(row["StatusID"]),
+                    edit = "<a class='btn btn-link btn-sm' href='/JobDispatch/Edit/" + row["ID"] + "'><i class='fa fa-edit'></i></a>",
+                    delete = $@"<button type='button' class='btn btn-link btn-sm' onclick='confirmDelete(""{row["ID"]}"")'>
+                                    <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" fill=""red"" class=""bi bi-trash3-fill"" viewBox=""0 0 16 16"">
+                                      <path d=""M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5""/>
+                                    </svg>       
+                                </button>",
+                };
+                rows.Add(rowData);
+            }
+            return rows;
         }
         public IActionResult Add() 
         {
@@ -127,74 +241,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                 ViewBag.dataaccess = result;
             }
         }
-        public IActionResult loadData(string fwono, string tanno, string fsectionid, 
-            string fdocstart, string fdocend, string fdispatchtypeid)
-        {
-            string tempfilter = string.Empty;
-            if (!string.IsNullOrEmpty(fwono))
-            {
-                tempfilter = "AND ID IN (Select DispatchID from tbl_DispatchJobDetail Where WONO = " + Utility.Evar(fwono, 1) + ")" + tempfilter;
-            }
-
-            if (!string.IsNullOrEmpty(tanno))
-            {
-                tempfilter = "AND ID like" + Utility.Evar(tanno, 11) + tempfilter;
-            }
-
-            if (!string.IsNullOrEmpty(fsectionid))
-            {
-                tempfilter = "AND SectionID = " + fsectionid + tempfilter;
-            }
-
-            if (!string.IsNullOrEmpty(fdocstart))
-            {
-                tempfilter = "AND DispatchDate >= " + Utility.Evar(fdocstart, 2) + tempfilter;
-            }
-
-            if (!string.IsNullOrEmpty(fdocend))
-            {
-                tempfilter = "AND DispatchDate <= " + Utility.Evar(fdocend, 2) + tempfilter;
-            }
-
-            if (!string.IsNullOrEmpty(fdispatchtypeid))
-            {
-                tempfilter = "AND DispatchType  IN ("+ Utility.Evar(fdispatchtypeid, 1) +")" + tempfilter;
-            }
-
-            var forder = " Order by ID DESC";
-
-            Console.WriteLine(tempfilter);
-            string dataQuery = "SELECT TOP 50 * FROM v_DispatchJob" + " Where StatusID != 'x'" + tempfilter + forder ;
-            Console.WriteLine(dataQuery);
-            var data = SQLFunction.execQuery(dataQuery);
-
-            var rows = new List<object>();
-
-            foreach (DataRow row in data.Rows)
-            {
-                var rowData = new
-                {
-                    id = Utility.CheckNull(row["ID"]),
-                    section = Utility.CheckNull(row["Section"]),
-                    dispatchType = Utility.CheckNull(row["DispatchType"]),
-                    attantionName = Utility.CheckNull(row["AttentionName"]),
-                    attentionTo = Utility.CheckNull(row["AttentionTo"]),
-                    project = Utility.CheckNull(row["Project"]),
-                    dispatchDate = Utility.CheckNull(row["DispatchDate"]),
-                    handledDate = Utility.CheckNull(row["HandledDate"]),
-                    receivedDate = Utility.CheckNull(row["ReceivedDate"]),
-                    statusId = Utility.CheckNull(row["StatusID"]),
-                    edit = "<a class='btn btn-link btn-sm' href='/JobDispatch/Edit/" + row["ID"] + "'><i class='fa fa-edit'></i></a>",
-				    delete = $@"<button type='button' class='btn btn-link btn-sm' onclick='confirmDelete(""{row["ID"]}"")'>
-                                    <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" fill=""red"" class=""bi bi-trash3-fill"" viewBox=""0 0 16 16"">
-                                      <path d=""M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5""/>
-                                    </svg>       
-                                </button>",
-                };
-                rows.Add(rowData);
-            }
-            return new JsonResult(rows);
-        }
+        
         public IActionResult LoadDetailAnData(string sectionid, string jobid, string wono, string compdesc)
         {
             string tempfilter = string.Empty;

@@ -99,7 +99,7 @@
     }
 </script>
 
-<form method="post" enctype="multipart/form-data" asp-controller="ExrRepairJobHistory">
+<form id="jobRegisterForm" method="post" enctype="multipart/form-data" asp-controller="ExrRepairJobHistory">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -292,6 +292,50 @@
 
 <script>
     $(document).ready(function () {
+        var tempData = @Html.Raw(Json.Serialize(Model));
+        loadIntitalData();
+
+        function loadIntitalData() {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false,
+                responsive: true,
+                pageLength: 20,
+                data: tempData,
+                columns: [
+                    { "data": "delete" },
+                    { "data": "edit" },
+                    { "data": "id" },
+                    { "data": "totalAgeWO" },
+                    { "data": "unitNumber" },
+                    { "data": "offSiteWO" },
+                    { "data": "woAlloc" },
+                    { "data": "siteAllocName" },
+                    { "data": "woJobCost" },
+                    { "data": "logANReceivedDate" },
+                    { "data": "logANReceivedDate" },
+                    { "data": "logANSentDate" },
+                    { "data": "status" },
+                    { "data": "compDesc" },
+                    { "data": "compQty" },
+                    { "data": "compType" },
+                    { "data": "repairAdvice" },
+                    { "data": "pcamStatusID" },
+                    { "data": "tciPartNo" },
+                    { "data": "supervisorAbbr" },
+                    { "data": "supplierName" },
+                    { "data": "intWO" },
+                    { "data": "suppForRepairANNo" },
+                    { "data": "quoteNo" },
+                    { "data": "jobNo" },
+                    { "data": "quoteDate" },
+                    { "data": "orNo" },
+                    { "data": "opDate" },
+                    { "data": "receivedDate" }
+                ]
+            });
+            $("#offcanvas").offcanvas("hide");
+        }
 
         function extractData() {
             var data = {};
@@ -328,11 +372,21 @@
             return data;
         }
 
-        LoadData()
         $('#filterButton').click(function (e) {
             e.preventDefault();
             LoadData();
         });
+
+        $('#resetButton').click(function (e) {
+            e.preventDefault();
+            resetData();
+        });
+
+        function resetData() {
+            $("#jobRegisterForm")[0].reset();
+            $(".select2").val("").trigger("change");
+            LoadData();
+        }
 
         function LoadData() {
             var extractedData = extractData();

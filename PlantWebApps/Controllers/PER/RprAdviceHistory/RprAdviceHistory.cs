@@ -11,15 +11,10 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
         private string _tempfilter;
         public IActionResult Index()
         {
-            Console.WriteLine("RprAdviceHistory Index");
-
             var filter = TempData.Peek("rprFilter");
+            var tempData = LoadInitialData(filter);
 
-            Console.WriteLine("filter" + filter);
-
-            var data = LoadInitialData(filter);
-
-            return View("~/Views/PER/RprAdviceHistory/Index.cshtml", data);
+            return View("~/Views/PER/RprAdviceHistory/Index.cshtml", tempData);
         }
         public IActionResult LoadData(string jobid, string parentwo, string childwo, string itemchange,
                             string descchange, string jobstatus, string modby)

@@ -59,7 +59,7 @@
 	}
 </script>
 
-<form method="post" enctype="multipart/form-data" asp-controller="ComponentEvaluation">
+<form id="componentEvaluationForm" method="post" enctype="multipart/form-data" asp-controller="ComponentEvaluation">
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -292,9 +292,12 @@
 								</div>
 								<hr />
 								<div class="mb-2">
-									<div>
+									<div class="d-flex" style="gap: 10px;">
 										<button type="submit" id="filterButton" class="btn btn-sm btn-primary">
 											<i class="fa fa-search"></i> Search
+										</button>
+										<button type="button" id="resetButton" class="btn btn-sm btn-danger">
+											Reset
 										</button>
 									</div>
 								</div>
@@ -382,12 +385,18 @@
 <script>
 	// Load data on page load
 	$(document).ready(function () {
-		$('#loadingOverlay').show();
-		LoadData();
+		var tempData = @Html.Raw(Json.Serialize(Model));
+		loadIntitalData();
+
 		$('#filterButton').click(function (e) {
 			console.log("filter is clicked")
 			e.preventDefault();
 			LoadData();
+		});
+
+		$('#resetButton').click(function (e) {
+			e.preventDefault();
+			resetData();
 		});
 
 		function LoadData() {
@@ -479,5 +488,46 @@
 				}
 			});
 		}
+
+		function loadIntitalData() {
+			$('.datatable').DataTable({
+				searching: false,
+				lengthChange: false,
+				responsive: true,
+				pageLength: 20,
+				data: tempData,
+				columns: [
+					{ "data": "delete" },
+					{ "data": "edit" },
+					{ "data": "id" },
+					{ "data": "wono" },
+					{ "data": "unitNumber" },
+					{ "data": "unitDescription" },
+					{ "data": "maintType" },
+					{ "data": "evalByAbr" },
+					{ "data": "evalCode" },
+					{ "data": "rootCause" },
+					{ "data": "sysFailCode" },
+					{ "data": "recCode" },
+					{ "data": "smu" },
+					{ "data": "bdgtHours" },
+					{ "data": "jobID" },
+					{ "data": "registerDate" },
+					{ "data": "evalDate" },
+					{ "data": "pcamRequired" },
+					{ "data": "pcamStatus" },
+					{ "data": "pcamID" },
+					{ "data": "psDate" },
+				]
+			});
+			$("#offcanvas").offcanvas("hide");
+		}
+
+		function resetData() {
+			$("#componentEvaluationForm")[0].reset();
+			$(".select2").val("").trigger("change");
+			LoadData();
+		}
+
 	});
 </script>

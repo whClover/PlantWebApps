@@ -22,7 +22,11 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 		public IActionResult Index()
         {
             LoadOption();
-            return View("~/Views/PER/ComponentEvaluation/Index.cshtml");
+
+            var filter = TempData.Peek("ComponentEvaluationFilter");
+            var tempData = LoadInitialData(filter);
+
+            return View("~/Views/PER/ComponentEvaluation/Index.cshtml", tempData);
         }
 		private void BuildTempFilter()
 		{
@@ -93,6 +97,80 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			string temporder = $"ORDER BY {Request.Form["fSort"]} {Request.Form["fAsc"]}";
 			_tempfilter = Utility.VarFilter(tempfilter);
 		}
+		private  string TempFilter(string fSpvDesc, string fSwo, string
+            fUnitDesc, string fRootCause, string fEvalCode, string fMaintBase,
+            string fFailedCode, string fRecCode, string tCompTypeID, string tReasonType,
+            string cbWarrantyResult, string tRecord, string fSort, string fAsc, string
+            dStart, string dEnd, string CWOType)
+        {
+            string tempfilter = string.Empty;
+
+            Console.WriteLine("test", fMaintBase);
+
+            Dictionary<string, string> formFields = new Dictionary<string, string>
+            {
+                { "EvalByID", fSpvDesc },
+                { "MaintType", fMaintBase },
+                { "RootCauseCode", fRootCause },
+                { "EvalCode", fEvalCode },
+                { "SysFailCode", fFailedCode },
+                { "RecCode", fRecCode },
+                { "ComptypeID", tCompTypeID },
+                { "ReasonTypeID", tReasonType },
+                { "WarrantyResult", cbWarrantyResult },
+            };
+
+            foreach (var field in formFields)
+            {
+                if (!string.IsNullOrEmpty(field.Value))
+                {
+                    var viewBagDict = ViewBag as IDictionary<string, object>;
+
+                    if (viewBagDict != null)
+                    {
+                        viewBagDict[field.Key] = field.Value;
+                    }
+
+                    tempfilter = $" and {field.Key} = {Utility.Evar(field.Value, 1)}" + tempfilter;
+                }
+            }
+
+            string CwoTypeCategory = string.Empty;
+            switch (CWOType)
+            {
+                case "1":
+                    CwoTypeCategory = "WOno";
+                    break;
+                case "2":
+                    CwoTypeCategory = "JobID";
+                    break;
+                case "3":
+                    CwoTypeCategory = "ID";
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(CWOType) && !string.IsNullOrEmpty(fSwo))
+            {
+                tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(fSwo, 1) + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(fUnitDesc))
+            {
+                tempfilter = " AND UnitDescription in (" + Utility.Evar(fUnitDesc, 1) + ")" + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(dStart))
+            {
+                tempfilter = " and " + "EvalDate" + " >= " + Utility.Evar(dStart, 2) + tempfilter;
+            }
+
+            if (!string.IsNullOrEmpty(dEnd))
+            {
+                tempfilter = " and " + "EvalDate" + " <= " + Utility.Evar(dEnd, 2) + tempfilter;
+            }
+
+			return tempfilter;
+        }
 		public IActionResult LoadData(string fSpvDesc, string fSwo, string 
 			fUnitDesc, string fRootCause, string fEvalCode, string fMaintBase, 
 			string fFailedCode, string fRecCode, string tCompTypeID, string tReasonType, 
@@ -100,75 +178,17 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			dStart, string dEnd, string CWOType)
 			{
 			LoadOption();
-			string tempfilter = string.Empty;
-
-			Console.WriteLine("test", fMaintBase);
-
-			Dictionary<string, string> formFields = new Dictionary<string, string>
-			{
-				{ "EvalByID", fSpvDesc },
-				{ "MaintType", fMaintBase },
-				{ "RootCauseCode", fRootCause },
-				{ "EvalCode", fEvalCode },
-				{ "SysFailCode", fFailedCode },
-				{ "RecCode", fRecCode },
-				{ "ComptypeID", tCompTypeID },
-				{ "ReasonTypeID", tReasonType },
-				{ "WarrantyResult", cbWarrantyResult },
-			};
-
-			foreach (var field in formFields)
-			{
-				if (!string.IsNullOrEmpty(field.Value))
-				{
-					var viewBagDict = ViewBag as IDictionary<string, object>;
-
-					if (viewBagDict != null)
-					{
-						viewBagDict[field.Key] = field.Value;
-					}
-
-					tempfilter = $" and {field.Key} = {Utility.Evar(field.Value, 1)}" + tempfilter;
-				}
-			}
-
-			string CwoTypeCategory = string.Empty;
-			switch (CWOType)
-			{ 
-				case "1":
-					CwoTypeCategory = "WOno";
-					break;
-				case "2":
-					CwoTypeCategory = "JobID";
-					break;
-				case "3":
-					CwoTypeCategory = "ID";
-					break;
-			}
-
-			if (!string.IsNullOrEmpty(CWOType) && !string.IsNullOrEmpty(fSwo))
-			{
-				tempfilter = $" and {CwoTypeCategory} = " + Utility.Evar(fSwo, 1) + tempfilter;
-			}
-
-			if (!string.IsNullOrEmpty(fUnitDesc))
-			{
-				tempfilter = " AND UnitDescription in (" + Utility.Evar(fUnitDesc, 1) + ")" + tempfilter;
-			}
-
-			if (!string.IsNullOrEmpty(dStart))
-			{
-				tempfilter = " and " + "EvalDate" + " >= " + Utility.Evar(dStart, 2) + tempfilter;
-			}
-
-			if (!string.IsNullOrEmpty(dEnd))
-			{
-				tempfilter = " and " + "EvalDate" + " <= " + Utility.Evar(dEnd, 2) + tempfilter;
-			}
+			
+			string filter = TempFilter(fSpvDesc, fSwo, fUnitDesc, fRootCause, fEvalCode, fMaintBase, fFailedCode, 
+										fRecCode, tCompTypeID, tReasonType, cbWarrantyResult, tRecord, fSort, fAsc, 
+										dStart, dEnd, CWOType);
 
 			string temporder = $"ORDER BY {fSort} {fAsc}";
-			_tempfilter = Utility.VarFilter(tempfilter);
-			Console.WriteLine(_tempfilter);
+
+			_tempfilter = Utility.VarFilter(filter);
+            TempData["ComponentEvaluationFilter"] = _tempfilter;
+
+            Console.WriteLine(_tempfilter);
 
 			string query = $"SELECT TOP 50 * from v_ExrCEDetail {_tempfilter} {temporder}";
 			Console.WriteLine(query);
@@ -207,6 +227,45 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			}
 			return new JsonResult(rows);
 		}
+        public List<object> LoadInitialData(object filter)
+        {
+
+            string query = $"SELECT TOP 50 * from v_ExrCEDetail {filter} order by id desc";
+            Console.WriteLine(query);
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    wono = Utility.CheckNull(row["Wono"]),
+                    unitNumber = Utility.CheckNull(row["UnitNumber"]),
+                    unitDescription = Utility.CheckNull(row["UnitDescription"]),
+                    maintType = Utility.CheckNull(row["MaintType"]),
+                    evalByAbr = Utility.CheckNull(row["EvalByAbr"]),
+                    evalCode = Utility.CheckNull(row["EvalCode"]),
+                    rootCause = Utility.CheckNull(row["RootCauseCode"]),
+                    sysFailCode = Utility.CheckNull(row["SysFailCode"]),
+                    recCode = Utility.CheckNull(row["RecCode"]),
+                    smu = Utility.CheckNull(row["SMU"]),
+                    bdgtHours = Utility.CheckNull(row["BdgtHours"]),
+                    jobID = Utility.CheckNull(row["JobID"]),
+                    registerDate = Utility.CheckNull(row["RegisterDate"]),
+                    evalDate = Utility.CheckNull(row["EvalDate"]),
+                    pcamRequired = Utility.CheckNull(row["PCAMRequired"]),
+                    pcamStatus = Utility.CheckNull(row["PCAMStatusID"]),
+                    pcamID = Utility.CheckNull(row["PCAMID"]),
+                    psDate = Utility.CheckNull(row["PSDate"]),
+                    edit = "<button class='btn btn-link btn-sm' formaction='componentevaluation/edit/" + row["jobID"] + "'><i class='fa fa-edit'></i></button>",
+                    delete = $@"<button type='button' class='btn btn-link btn-sm' id='btnDeleteDetail' onclick='confirmDelete({row["ID"]})'><i class='fa fa-trash text-danger'></i></button>"
+                };
+                rows.Add(rowData);
+            }
+            return rows;
+        }
         public IActionResult Edit(string id, string tWono)
         {
             LoadOption();

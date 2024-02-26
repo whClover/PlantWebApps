@@ -41,7 +41,7 @@
     }
 </script>
 
-<form method="post" enctype="multipart/form-data" asp-controller="OutstandingInternalWo">
+<form id="outstandingInternalWoForm" method="post" enctype="multipart/form-data" asp-controller="OutstandingInternalWo">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -112,9 +112,12 @@
                             </div>
                             <hr />
                             <div class="mb-2">
-                                <div>
+                                <div class="d-flex" style="gap: 10px;">
                                     <button type="submit" id="filterButton" class="btn btn-sm btn-primary">
                                         <i class="fa fa-search"></i> Search
+                                    </button>
+                                    <button type="button" id="resetButton" class="btn btn-sm btn-danger">
+                                        Reset
                                     </button>
                                 </div>
                             </div>
@@ -193,10 +196,17 @@
 
 <script>
     $(document).ready(function () {
-        loadData();
+        var tempData = @Html.Raw(Json.Serialize(Model));
+        loadIntitalData();
+
         $('#filterButton').click(function (e) {
             e.preventDefault();
             loadData();
+        });
+
+        $('#resetButton').click(function (e) {
+            e.preventDefault();
+            resetData();
         });
 
         function loadData() {
@@ -257,6 +267,39 @@
                     console.error(error);
                 }
             });
+        }
+
+        function resetData() {
+            $("#outstandingInternalWoForm")[0].reset();
+            $(".select2").val("").trigger("change");
+            loadData();
+        }
+
+        function loadIntitalData() {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false,
+                responsive: true,
+                pageLength: 20,
+                data: tempData,
+                columns: [
+                    { "data": "button" },
+                    { "data": "id" },
+                    { "data": "section" },
+                    { "data": "registerdate" },
+                    { "data": "parentwo" },
+                    { "data": "offsitewo" },
+                    { "data": "supplierid" },
+                    { "data": "compdesc" },
+                    { "data": "compqty" },
+                    { "data": "intwo" },
+                    { "data": "wono" },
+                    { "data": "jobdesc" },
+                    { "data": "qty" },
+                    { "data": "jobstatusid" },
+                ]
+            });
+            $("#offcanvas").offcanvas("hide");
         }
 
         $('#cBulkUpdate').on("click", function () {
