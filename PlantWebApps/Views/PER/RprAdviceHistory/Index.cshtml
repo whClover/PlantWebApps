@@ -126,7 +126,11 @@
 
 <script>
     $(document).ready(function () {
-        loadData();
+        var data = @Html.Raw(Json.Serialize(Model));
+
+        console.log("data is", data);
+
+        loadIntitalData();
         $('#filterButton').click(function (e) {
             e.preventDefault();
             loadData();
@@ -188,6 +192,29 @@
                     console.error(error);
                 }
             });
+        }
+
+        function loadIntitalData() {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false,
+                responsive: true,
+                pageLength: 20,
+                data: data, // The data passed from the server
+                columns: [
+                    { "data": "id" },
+                    { "data": "jobid" },
+                    { "data": "parentwo" },
+                    { "data": "childwo" },
+                    { "data": "itemchange" },
+                    { "data": "descchange" },
+                    { "data": "jobstatus" },
+                    { "data": "moddate" },
+                    { "data": "modby" },
+                ]
+            });
+
+            $("#offcanvas").offcanvas("hide");
         }
 
     });
