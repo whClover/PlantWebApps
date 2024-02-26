@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using PlantWebApps.Helper;
 using System;
@@ -445,7 +446,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			POSDate = {ePOSDate},PMName = {ePMName},PMDate = {ePMDate},
 			Conclusion = '{Conclusion}',ModBy = {eModBy},ModDate = {eModDate},JobID = {eJobID},ConsCost = {eConsCost}
 			,SavingCost = {eSavingCost},TCISupply = {eTCISupply}
-			,SupplyDate = {eSupplyDate},InstallDate = {eInstallDate},RemoveDate = {eRemoveDate},Remark = {eRemark} WHERE ID = {eID}";
+			,SupplyDate = {eSupplyDate},InstallDate = {eInstallDate},RemoveDate = {eRemoveDate},Remark = {eRemark} WHERE JobID = {eID}";
 
 			Console.Write(query);
 

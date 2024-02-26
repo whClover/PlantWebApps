@@ -7,19 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\PER\ExrRepairJobHistory\PrintItem\send.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Views\PER\ExrRepairJobHistory\PrintItem\data.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Views\PER\ExrRepairJobHistory\PrintItem\data.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\PER\ExrRepairJobHistory\PrintItem\send.cshtml" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />

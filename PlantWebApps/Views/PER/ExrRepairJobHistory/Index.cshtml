@@ -107,11 +107,6 @@
                     <h5 class="card-title">External Repair Job History</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-2">
-                        <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
-                            @* <small>Total Records: @ViewBag.TotalRecords Rows</small> *@
-                        </blockquote>
-                    </div>
                     <div class="d-flex flex-column">
                         <div class="d-flex mb-2 align-items-center" style="gap: 5px">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -120,25 +115,27 @@
                             <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Add" @isAdd>
                                 <i class="fa fa-plus me-2"></i> ADD
                             </button>
-                            <div>
-                                <select name="creportype" class="form-select" style="width: 160px;">
-                                    <option value="">*Select Export Type*</option>
-                                    <option value="1">Job Detail</option>
-                                    <option value="2">OR Request TCI</option>
-                                    <option value="3">OR Request LCI</option>
-                                    <option value="4">Inspection Detail</option>
-                                    <option value="5">Core Component</option>
-                                    <option value="6">Main Component</option>
-                                    <option value="7">Unit Job Detail</option>
-                                    <option value="8">Complete Component</option>
-                                    <option value="9">Warranty Report</option>
-                                    <option value="10">WIP Report</option>
-                                    <option value="11">Variance Analysis</option>
-                                </select>
+                            <div style="max-width: 450px;">
+                                <div class="input-group">
+                                    <select class="form-select" name="creportype">
+                                        <option value="">Select Export Type</option>
+                                        <option value="1">Job Detail</option>
+                                        <option value="2">OR Request TCI</option>
+                                        <option value="3">OR Request LCI</option>
+                                        <option value="4">Inspection Detail</option>
+                                        <option value="5">Core Component</option>
+                                        <option value="6">Main Component</option>
+                                        <option value="7">Unit Job Detail</option>
+                                        <option value="8">Complete Component</option>
+                                        <option value="9">Warranty Report</option>
+                                        <option value="10">WIP Report</option>
+                                        <option value="11">Variance Analysis</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
+                                        <i class="fa fa-download me-2"></i> EXPORT
+                                    </button>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary" formaction="/ExrRepairJobHistory/Export" OnClick="return showOverlay();">
-                                <i class="fa fa-download me-2"></i> EXPORT
-                            </button>
                             <button type="submit" class="btn btn-sm btn-primary" formaction="/ComponentEvaluation/Index">
                                 CE
                             </button>
@@ -156,19 +153,12 @@
                                     data-bs-target="#frm_uploadIMGExrJob">
                                 Upload Image
                             </button>
+                        </div>
+                        <div class="d-flex mb-2 align-items-center" style="gap: 5px">
                             <div class="btn btn-primary btn-sm btn-file d-flex align-items-center justify-content-center">
                                 Upload OP
                                 <input class="form-control form-control-sm" type="file" id="uploadOP" name="uploadOP" accept=".txt, .tsv">
                             </div>
-                        </div>
-                        <div class="d-flex mb-2 align-items-center" style="gap: 5px">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#frm_ExrTagSatu">
-                                TAG
-                            </button>
-                            <button type="submit" class="btn btn-sm btn-primary" formaction="/Tag/Index">
-                                Test TAG
-                            </button>
                             <button type="button" class="btn btn-primary btn-sm" id="CPrintOldCore" name="CPrintOldCore">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf-fill" viewBox="0 0 16 16">
                                     <path d="M5.523 10.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 4.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
@@ -189,8 +179,13 @@
                                     data-bs-target="#frm_SendItem">
                                 Send Item
                             </button>
-                            <button type="submit" class="btn btn-sm btn-primary" formaction="/PrintItem/TestJsPdfAutoTable">
-                                Test Print
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#frm_ExrTagSatu">
+                                TAG
+                            </button>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#Frm_ExrTagTigaNew">
+                                TAGS
                             </button>
                         </div>
                     </div>
@@ -290,7 +285,10 @@
 <partial name="Form/Component/Modal/frm_uploadIMGExrJob.cshtml" />
 <partial name="Form/Component/Modal/frm_HoldItem.cshtml" />
 <partial name="Form/Component/Modal/frm_SendItem.cshtml" />
+<partial name="Form/Component/Modal/Frm_ExrTagTigaNew.cshtml" />
+<partial name="Form/Component/Modal/Frm_ExrTagTigaNew.cshtml" />
 <partial name="Tag/Modal/frm_ExrTagSatu.cshtml" />
+
 
 <script>
     $(document).ready(function () {
@@ -551,6 +549,39 @@
         //         }
         //     });
         // });
+
+        // single Tag
+        $('#CsingleTag').on('click', function () {
+            var extractedData = extractData();
+            var type = $('#selectTypeMultiple').val();
+
+            $.ajax({
+                method: "POST",
+                url: "/ExrRepairJobHistory/SingleTag",
+                data: extractedData,
+                success: function (response) {
+                    if (response.length > 0) {
+                        var data = response.join(",");
+                        console.log("this is data", data);
+
+                        console.log("type", type);
+
+                        if ($('#selectTypeMultiple').val() === 'standard') {
+                            var newTabUrl = `/PrintItem/DynamicAfterRepairStandard?value=${data}`
+                            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+                        } else {
+                            var newTabUrl = `/PrintItem/DynamicAfterRepairDirect?value=${data}`
+                            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+                        }
+                    } else {
+                        Swal.fire("Please fill at least one ID", "", "error");
+                    }
+                },
+                error: function (error) {
+                    // Handle error response here
+                }
+            });
+        });
 
     });
 </script>

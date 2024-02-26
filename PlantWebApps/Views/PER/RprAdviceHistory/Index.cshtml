@@ -45,18 +45,13 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-2">
-                        <blockquote class="blockquote custom-blockquote blockquote-primary rounded mb-0 p-2">
-                            @* <small>Total Records: @ViewBag.TotalRecords Rows</small> *@
-                        </blockquote>
-                    </div>
-                    <div class="mb-2">
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="fa fa-filter me-2"></i> FILTER
                         </button>
                     </div>
 
                     <!-- right offcanvas -->
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" data-bs-scroll="true" aria-labelledby="offcanvasScrolling">
                         <div class="offcanvas-header">
                             <span id="offcanvasRightLabel" class="form-label">
                                 <i class="fa fa-filter"></i> Filter
@@ -131,7 +126,11 @@
 
 <script>
     $(document).ready(function () {
-        loadData();
+        var data = @Html.Raw(Json.Serialize(Model));
+
+        console.log("data is", data);
+
+        loadIntitalData();
         $('#filterButton').click(function (e) {
             e.preventDefault();
             loadData();
@@ -193,6 +192,29 @@
                     console.error(error);
                 }
             });
+        }
+
+        function loadIntitalData() {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false,
+                responsive: true,
+                pageLength: 20,
+                data: data, // The data passed from the server
+                columns: [
+                    { "data": "id" },
+                    { "data": "jobid" },
+                    { "data": "parentwo" },
+                    { "data": "childwo" },
+                    { "data": "itemchange" },
+                    { "data": "descchange" },
+                    { "data": "jobstatus" },
+                    { "data": "moddate" },
+                    { "data": "modby" },
+                ]
+            });
+
+            $("#offcanvas").offcanvas("hide");
         }
 
     });

@@ -3,435 +3,107 @@
 *@
 @{
     @using System.Data;
-    // Layout = "~/Views/Shared/_LayoutReport.cshtml";
 }
 
-@* <form method="post" enctype="multipart/form-data" asp-controller="PrintItem">
-    <table class="table" border="0" style="font-family: Arial;border-color:white;">
-        <tr style="gap: 10px;">
-            <td style="width: 50%">
-                <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; border: 5px solid red">
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center" style="border-width: 5px 5px 5px 5px; border-style: solid; border-color: red;">
-                                <div style="font-size: 50px; font-weight: 600; color: red;">HOLD ITEM</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Parent WO</div>
-                                    <div style="font-size: 20px; font-weight: 600"></div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Offsite WO</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 50%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Ex Store</div>
-                                    <div style="font-size: 20px; font-weight: 600">Kapuas Coal Mine Project</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border: 5px solid white">
-                            <td colspan="2" style="border-width: 0px 0px 0px 5px ; border-style: solid; border-color: red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Comp. Description</div>
-                                    <div style="font-size: 20px; font-weight: 600">REPLACE CYLINDER BUCKET RH DUE TO LEAKING (TUBE & ROD)</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Start Date</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Unit Description</div>
-                                    <div style="font-size: 20px; margin-bottom: 5px; font-weight: 600">AC1224</div>
-                                    <div style="font-size: 20px; font-weight: 600">Atlas Copco XAHS-250 DD</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Until</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td style="width: 33%">
-                <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; border: 5px solid red">
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center" style="border-width: 5px 5px 5px 5px; border-style: solid; border-color: red;">
-                                <div style="font-size: 50px; font-weight: 600; color: red;">HOLD ITEM</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Parent WO</div>
-                                    <div style="font-size: 20px; font-weight: 600"></div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Offsite WO</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 50%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Ex Store</div>
-                                    <div style="font-size: 20px; font-weight: 600">Kapuas Coal Mine Project</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border: 5px solid white">
-                            <td colspan="2" style="border-width: 0px 0px 0px 5px ; border-style: solid; border-color: red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Comp. Description</div>
-                                    <div style="font-size: 20px; font-weight: 600">REPLACE CYLINDER BUCKET RH DUE TO LEAKING (TUBE & ROD)</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Start Date</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Unit Description</div>
-                                    <div style="font-size: 20px; margin-bottom: 5px; font-weight: 600">AC1224</div>
-                                    <div style="font-size: 20px; font-weight: 600">Atlas Copco XAHS-250 DD</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Until</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td style="width: 33%">
-                <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; border: 5px solid red">
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center" style="border-width: 5px 5px 5px 5px; border-style: solid; border-color: red;">
-                                <div style="font-size: 50px; font-weight: 600; color: red;">HOLD ITEM</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Parent WO</div>
-                                    <div style="font-size: 20px; font-weight: 600"></div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Offsite WO</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 50%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Ex Store</div>
-                                    <div style="font-size: 20px; font-weight: 600">Kapuas Coal Mine Project</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border: 5px solid white">
-                            <td colspan="2" style="border-width: 0px 0px 0px 5px ; border-style: solid; border-color: red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Comp. Description</div>
-                                    <div style="font-size: 20px; font-weight: 600">REPLACE CYLINDER BUCKET RH DUE TO LEAKING (TUBE & ROD)</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Start Date</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Unit Description</div>
-                                    <div style="font-size: 20px; margin-bottom: 5px; font-weight: 600">AC1224</div>
-                                    <div style="font-size: 20px; font-weight: 600">Atlas Copco XAHS-250 DD</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Until</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td style="width: 33%">
-                <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; border: 5px solid red">
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center" style="border-width: 5px 5px 5px 5px; border-style: solid; border-color: red;">
-                                <div style="font-size: 50px; font-weight: 600; color: red;">HOLD ITEM</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Parent WO</div>
-                                    <div style="font-size: 20px; font-weight: 600"></div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 25%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Offsite WO</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                            <td style="border: 5px solid red; width: 50%">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Ex Store</div>
-                                    <div style="font-size: 20px; font-weight: 600">Kapuas Coal Mine Project</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border: 5px solid white">
-                            <td colspan="2" style="border-width: 0px 0px 0px 5px ; border-style: solid; border-color: red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Comp. Description</div>
-                                    <div style="font-size: 20px; font-weight: 600">REPLACE CYLINDER BUCKET RH DUE TO LEAKING (TUBE & ROD)</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Start Date</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Unit Description</div>
-                                    <div style="font-size: 20px; margin-bottom: 5px; font-weight: 600">AC1224</div>
-                                    <div style="font-size: 20px; font-weight: 600">Atlas Copco XAHS-250 DD</div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="border: 5px solid red;">
-                                <div class="d-flex flex-column">
-                                    <div style="font-size: 17px; margin-bottom: 5px;">Until</div>
-                                    <div style="font-size: 20px; font-weight: 600">2530812</div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </table>
-</form> *@
+<style>
+    .no-bottom {
+        border-top: 5px solid red;
+        border-right: 5px solid red;
+        border-left: 5px solid red;
+    }
 
-<div class="d-flex align-items-center">
-    <table class="table" border="0" style="font-family: Arial; border-color: white;">
-        <tbody id="tableBody"></tbody>
-    </table>
+    .red-border {
+        border: 5px solid red;
+    }
+
+    .border-left {
+        border-top: 5px solid red;
+        border-bottom: 5px solid red;
+        border-right: 5px solid red;
+    }
+
+    .border-y {
+        border-right: 5px solid red;
+        border-left: 5px solid red;
+    }
+
+    .border-yr {
+        border-right: 5px solid red;
+        border-left: 5px solid red;
+        border-bottom: 5px solid red;
+    }
+</style>
+
+<div class="row" id="capture">
+    @foreach (var item in ViewBag.data)
+    {
+        <div class="d-flex flex-column col-6 p-3">
+            <div class="row">
+                <div class="col-12 no-bottom">
+                    <div class="fs-1 fw-bold text-center my-3" style="color: red;">HOLD ITEM</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 red-border">
+                    <div class="fs-5 ">Parent WO</div>
+                    <div class="fs-4 fw-bold">@item.OffSiteWO</div>
+                </div>
+                <div class="col-4 border-left">
+                    <div class="fs-5 ">Offsite WO</div>
+                    <div class="fs-4 fw-bold ">@item.ChildWO</div>
+                </div>
+                <div class="col-4 border-left">
+                    <div class="fs-5 ">Ex Store</div>
+                    <div class="fs-4 fw-bold ">@item.StoreName</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 border-y">
+                    <div class="fs-5 ">Comp. Description</div>
+                    <div class="fs-4 fw-bold ">@item.MaintDesc</div>
+                    <p class="fs-4 fw-bold"></p>
+                </div>
+                <div class="col-4" style="border-right: 5px solid red">
+                    <div class="fs-5 ">Start Date</div>
+                    <div class="fs-4 fw-bold ">@item.FormatDate</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 border-yr">
+                    <div class="fs-4 fw-bold"></div>
+                    <div class="fs-5 ">Unit Description</div>
+                    <div class="fs-4 fw-bold ">@item.UnitNumber</div>
+                </div>
+                <div class="col-4 border-left">
+                    <div class="fs-5 ">Until</div>
+                    <div class="fs-4 fw-bold " style="min-height: 75px;">@item.UnitDescription</div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
-
-@* <div id="the-div"></div> *@
-
-@* <script>
-    const div = document.getElementById('the-div');
-    div.innerHTML = 'Hello World';
-</script> *@
-
 <script>
-    $(document).ready(function () {
+    $(document).ready(async function () {
 
         // Load the jspdf and jspdf-autotable libraries
         window.jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF('l', 'mm', 'a4'); // Menggunakan ukuran kertas A4 dalam milimeter
 
-        // Create a function to generate the PDF
-        function generatePDF() {
-            // html2canvas
-            html2canvas($("#tableBody")[0]).then(function (canvas) {
-                const imageData = canvas.toDataURL("image/png");
+        // html2canvas
+        const canvas = await html2canvas($("#capture")[0]);
+        const imageData = canvas.toDataURL("image/png");
 
-                // Calculate the desired width and height while maintaining the aspect ratio
-                const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
-                const pdfHeight = canvas.height * pdfWidth / canvas.width;
+        // Calculate the desired width and height while maintaining the aspect ratio
+        const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
-                // add html2canvas image to jspdf
-                doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+        // add html2canvas image to jspdf
+        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
 
-                // Save the PDF
-                doc.save('test.pdf');
+        // return the pdf
+        doc.save('test.pdf');
+        window.close();
 
-                // Close the window (if necessary)
-                window.close();
-            });
-        }
-
-        // Define a counter to keep track of the number of completed AJAX requests
-        let completedRequests = 0;
-
-        // Define a function to check if all AJAX requests have completed
-        function checkAllRequestsCompleted() {
-            if (completedRequests === 4) {
-                generatePDF();
-            }
-        }
-
-        // Run the for loop
-        for (let i = 0; i < 4; i++) {
-            if (i % 2 === 0) {
-                var row = document.createElement('tr');
-                tableBody.appendChild(row);
-            }
-
-            var cell = document.createElement('td');
-            row.appendChild(cell);
-
-            (function (currentCell) {
-                $.ajax({
-                    method: "GET",
-                    url: "/PrintItem/DataView",
-                    dataType: 'html',
-                    success: function (response) {
-                        console.log("iteration");
-                        console.log(response);
-                        currentCell.innerHTML = response;
-                        completedRequests++; // Increment the counter when an AJAX request completes
-                        checkAllRequestsCompleted(); // Check if all AJAX requests have completed
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                        completedRequests++; // Increment the counter even if there's an error
-                        checkAllRequestsCompleted(); // Check if all AJAX requests have completed
-                    }
-                });
-            })(cell);
-        }
     });
 </script>
-
-@* <script>
-    const tableBody = document.getElementById('tableBody');
-
-    const cells = Array.from({ length: 4 }, (_, index) => index)
-        .reduce((acc, i) => {
-            if (i % 2 === 0) {
-                const row = document.createElement('tr');
-                tableBody.appendChild(row);
-                acc.push(row);
-            }
-
-            const cell = document.createElement('td');
-            acc.push(cell);
-
-            cell.innerHTML = "hello world";
-            return acc;
-        }, []);
-
-    cells.forEach((cell, index) => {
-        if (index % 2 === 1) {
-            const row = cells[index - 1];
-            row.appendChild(cell);
-        }
-    });
-</script> *@
-
-
-@* <script>
-    const tableBody = document.getElementById('tableBody');
-
-    function createTable(i) {
-        if (i < 4) {
-            if (i % 2 === 0) {
-                var row = document.createElement('tr');
-                tableBody.appendChild(row);
-            }
-
-            var cell = document.createElement('td');
-            row.appendChild(cell);
-
-            var promise = new Promise(function (resolve, reject) {
-                $.ajax({
-                    method: "GET",
-                    url: "/PrintItem/DataView",
-                    dataType: 'html',
-                    success: function (response) {
-                        console.log("iteration");
-                        console.log(response);
-                        cell.innerHTML = response;
-                        resolve();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                        reject(error);
-                    }
-                });
-            });
-
-            promise.then(function () {
-                createTable(i + 1); // Recursive call
-            });
-        }
-    }
-
-    createTable(0);
-</script> *@
-
-@* <script>
-    const tableBody = document.getElementById('tableBody');
-    const itemCount = 4;
-
-    Array.from({ length: itemCount }, (value, index) => {
-        if (index % 2 === 0) {
-            var row = document.createElement('tr');
-            tableBody.appendChild(row);
-        }
-
-        var cell = document.createElement('td');
-        row.appendChild(cell);
-
-        (function (currentCell) {
-            $.ajax({
-                method: "GET",
-                url: "/PrintItem/DataView",
-                dataType: 'html',
-                success: function (response) {
-                    console.log("iteration");
-                    console.log(response);
-                    currentCell.innerHTML = response;
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-        })(cell);
-    });
-</script> *@

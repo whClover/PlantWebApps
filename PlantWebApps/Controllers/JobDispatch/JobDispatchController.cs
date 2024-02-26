@@ -19,6 +19,7 @@ namespace PlantWebApps.Controllers.JobDispatch
         public String Stat { get; set; }
         [TempData]
         public string EAnno { get; set; }
+
         public IActionResult Index()
         {
             loadOption();
@@ -254,7 +255,6 @@ namespace PlantWebApps.Controllers.JobDispatch
             var querycheck = "";
             string tblName = "tbl_DispatchJob";
             var eid = Request.Form["tid"];
-            string eidValue = (Utility.Evar(eid, 1));
             string eDispatchType = (Utility.Evar(Request.Form["tdispatchtype"], 1));
             string eSectionId = (Utility.Evar(Request.Form["tSectionId"], 1));
             string eShipmentDate = (Utility.Evar(Request.Form["tShipmentDate"], 2));
@@ -268,10 +268,13 @@ namespace PlantWebApps.Controllers.JobDispatch
             string eJobNo = (Utility.Evar(Request.Form["tJobNo"], 1));
             string eDispatchBy = (Utility.Evar(Request.Form["tDispatchBy"], 1));
             string eDispatchDate = (Utility.Evar(Request.Form["tDispatchDate"], 2));
+            string eDispatchEmail = (Utility.Evar(Request.Form["tDispatchValue"], 1));
             string eHandledBy = (Utility.Evar(Request.Form["cHandledBy"], 1));
             string eHandledDate = (Utility.Evar(Request.Form["tHandledDate"], 1));
+            string eRegisterBy = Utility.ebyname();
+            string eRegisterDate = (Utility.Evar(Utility.getDate(), 2));
 
-            querycheck = $"select ID from {tblName} where ID =" + eidValue;
+            querycheck = $"select ID from {tblName} where ID =" + eid;
             Console.WriteLine(querycheck);
             var result = SQLFunction.execQuery(querycheck);
 
@@ -281,8 +284,9 @@ namespace PlantWebApps.Controllers.JobDispatch
                     DispatchType = {eDispatchType}, ShipmentDate = {eShipmentDate}, ConsignedTo = {eConsignedTo},
                     AttentionName = {eAttentionName}, AttentionEmail = {eAttentionEmail}, AttentionTo = {eAttentionTo},
                     TransportMode = {eTransportMode}, ManifestNo = {eManifesNo}, Project = {eProject}, JobNo = {eJobNo},
-                    DispatchBy = {eDispatchBy}, DispatchDate = {eDispatchDate}, HandledBy = {eHandledBy},
-                    HandledDate = {eHandledDate}";
+                    DispatchBy = {eDispatchBy}, DispatchDate = {eDispatchDate}, DispatchEmail = {eDispatchEmail}, 
+                    HandledBy = {eHandledBy}, HandledDate = {eHandledDate}, ModBy = {eRegisterBy}, 
+                    ModDate = {eRegisterDate} WHERE ID = {eid}";
                 Console.WriteLine(query);
                 SQLFunction.execQuery(query);
                 Stat = "success";
@@ -293,10 +297,12 @@ namespace PlantWebApps.Controllers.JobDispatch
             {
                 query = $@"INSERT INTO {tblName} (ID, SectionID, DispatchType, ShipmentDate, 
                 ConsignedTo, AttentionName, AttentionEmail, AttentionTo, TransportMode, ManifestNo, 
-                Project, JobNo, DispatchBy, DispatchDate, HandledBy, HandledDate) VALUES ({eidValue}, 
+                Project, JobNo, DispatchBy, DispatchDate,DispatchEmail, HandledBy, HandledDate, StatusID, 
+                RegisterBy, RegisterDate) VALUES ({eid}, 
                 {eSectionId}, {eDispatchType},{eShipmentDate}, {eConsignedTo}, {eAttentionName}, 
                 {eAttentionEmail}, {eAttentionTo}, {eTransportMode}, {eManifesNo}, {eProject},
-                {eJobNo}, {eDispatchBy}, {eDispatchDate}, {eHandledBy}, {eHandledDate})";
+                {eJobNo}, {eDispatchBy}, {eDispatchDate}, {eDispatchEmail} , {eHandledBy}, {eHandledDate}, 'P',
+                {eRegisterBy}, {eRegisterDate})";
 
                 Console.WriteLine(query);
                 SQLFunction.execQuery(query);

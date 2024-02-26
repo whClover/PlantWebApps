@@ -4,11 +4,11 @@
 @{
 }
 
-<div class="modal fade" id="frm_HoldItem" tabindex="-1" aria-labelledby="frm_HoldItem" aria-hidden="true">
+<div class="modal fade" id="Frm_ExrTagTigaNew" tabindex="-1" aria-labelledby="Frm_ExrTagTigaNew" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="statusModal">Hold Item Sticker</h1>
+                <h1 class="modal-title fs-5">After Repair Tag</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -20,32 +20,40 @@
                         <div class="row col-12">
                             <div class="col-3">ID - 1</div>
                             <div class="col-4">
-                                <input type="text" class="form-control form-control-sm" id="tId1" />
+                                <input type="text" class="form-control form-control-sm" id="xId1" />
                             </div>
                         </div>
                         <div class="row col-12">
                             <div class="col-3">ID - 2</div>
                             <div class="col-4">
-                                <input type="text" class="form-control form-control-sm" id="tId2" />
+                                <input type="text" class="form-control form-control-sm" id="xId2" />
                             </div>
                         </div>
                         <div class="row col-12">
                             <div class="col-3">ID - 3</div>
                             <div class="col-4">
-                                <input type="text" class="form-control form-control-sm" id="tId3" />
+                                <input type="text" class="form-control form-control-sm" id="xId3" />
                             </div>
                         </div>
                         <div class="row col-12">
                             <div class="col-3">ID - 4</div>
                             <div class="col-4">
-                                <input type="text" class="form-control form-control-sm" id="tId4" />
+                                <input type="text" class="form-control form-control-sm" id="xId4" />
                             </div>
+                        </div>
+                        <div class="col-7">
+                            <label for="selectTagTiga" class="form-label">Select Type</label>
+                            <select class="form-select" id="selectTagTiga">
+                                <option value="standard">Standard Tagging</option>
+                                <option value="repair">Repair And Return Tagging</option>
+                                <option value="direct">Direct Charge Item Tagging</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnHoldItem">View</button>
+                <button type="button" class="btn btn-primary" id="btnAfterTiga">View</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -55,27 +63,36 @@
 <script>
     $(document).ready(function () {
 
-        $("#btnHoldItem").click(function () {
+        $('#btnAfterTiga').on('click', function () {
             var ListID = [];
 
             for (var i = 1; i <= 4; i++) {
-                var id = $("#tId" + i).val();
+                var id = $("#xId" + i).val();
                 if (id) {
                     ListID.push(id);
                 }
             }
 
             if (ListID.length > 0) {
-
                 data = ListID.join(",");
                 console.log("ListID is: " + data);
 
-                var newTabUrl = `/PrintItem/HoldIndex?value=${data}`
-                window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+                if ($('#selectTagTiga').val() === 'standard') {
+                    var newTabUrl = `/PrintItem/AfterRepairStandard?value=${data}`
+                    window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+
+                } else if ($('#selectTagTiga').val() === 'repair') {
+                    var newTabUrl = `/PrintItem/AfterRepairStandard?value=${data}`
+                    window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+
+                } else {
+                    var newTabUrl = `/PrintItem/AfterRepairDirect?value=${data}`
+                    window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+                }
+
             } else {
                 Swal.fire("Please fill at least one ID", "", "error");
             }
         });
-
     });
 </script>

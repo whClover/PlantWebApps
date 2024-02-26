@@ -591,5 +591,13 @@
                 var ID = url.substring(url.lastIndexOf('/') + 1);
                 window.location.href = '/ComponentEvaluation/report/' + encodeURIComponent(ID);
             };
+
+            // checkboxes
+            for (var i = 1; i <= 21; i++) {
+                $('#tM' + i).click(function () {
+                    $(this).val(this.checked ? 'true' : 'false');
+                });
+            }
+
         });
     </script>

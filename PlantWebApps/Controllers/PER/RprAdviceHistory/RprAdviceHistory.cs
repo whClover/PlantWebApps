@@ -12,7 +12,14 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
         public IActionResult Index()
         {
             Console.WriteLine("RprAdviceHistory Index");
-            return View("~/Views/PER/RprAdviceHistory/Index.cshtml");
+
+            var filter = TempData.Peek("rprFilter");
+
+            Console.WriteLine("filter" + filter);
+
+            var data = LoadInitialData(filter);
+
+            return View("~/Views/PER/RprAdviceHistory/Index.cshtml", data);
         }
         public IActionResult LoadData(string jobid, string parentwo, string childwo, string itemchange,
                             string descchange, string jobstatus, string modby)
@@ -21,7 +28,9 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
             Console.WriteLine("filter" + filter);
             _tempfilter = Utility.VarFilter(filter);
 
-            string query = $"SELECT TOP 50 * FROM v_ExrJobChangeHistory {_tempfilter} order by id desc";
+			TempData["rprFilter"] = _tempfilter;
+
+			string query = $"SELECT TOP 50 * FROM v_ExrJobChangeHistory {_tempfilter} order by id desc";
             Console.WriteLine(query);
             var data = SQLFunction.execQuery(query);
 
@@ -44,6 +53,33 @@ namespace PlantWebApps.Controllers.PER.RprAdviceHistory
                 rows.Add(rowData);
             }
             return new JsonResult(rows);
+        }
+        public List<object> LoadInitialData(object filter)
+        {
+
+            string query = $"SELECT TOP 50 * FROM v_ExrJobChangeHistory {filter} order by id desc";
+            Console.WriteLine(query);
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    jobid = Utility.CheckNull(row["JobID"]),
+                    parentwo = Utility.CheckNull(row["ParentWO"]),
+                    childwo = Utility.CheckNull(row["ChildWO"]),
+                    itemchange = Utility.CheckNull(row["ItemChange"]),
+                    descchange = Utility.CheckNull(row["DescChange"]),
+                    jobstatus = Utility.CheckNull(row["JobStatus"]),
+                    moddate = Utility.CheckNull(row["ModDate"]),
+                    modby = Utility.CheckNull(row["ModBy"]),
+                };
+                rows.Add(rowData);
+            }
+            return rows;
         }
         private string BuildTempFilter(string jobid, string parentwo, string childwo, string itemchange,
                             string descchange, string jobstatus, string modby)

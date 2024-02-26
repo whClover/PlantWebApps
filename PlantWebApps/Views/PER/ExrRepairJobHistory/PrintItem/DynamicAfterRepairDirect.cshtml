@@ -1,0 +1,197 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<table class="table table-sm" id="table">
+    <tbody>
+        @if (ViewBag.data.Count % 2 != 0)
+        {
+            var length = ViewBag.data.Count + 1;
+
+            @for (int i = 0; i < length / 2; i++)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+        else
+        {
+            var length = ViewBag.data.Count;
+
+            @for (int i = 0; i < length / 2; i++)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@foreach (var item in ViewBag.data)
+{
+    <div class="row" style="border: 3px solid black; max-width: 550px; position: relative;" id="capture">
+        <div class="d-flex flex-column justify-content-between align-items-center mt-4">
+            <img src="~/images/thiess-noborder.png" style="max-width: 125px;" />
+            <div class="fs-4 fw-bold">After Repair Tag</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center" style="background-color: lightgrey">
+            <div class="fs-4 fw-bold">Direct Charge Item</div>
+        </div>
+        <div class="d-flex flex-column mt-4 mb-5" style="gap: 10px;">
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Parent WO</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" id="fWono" value="@item.OffSiteWO" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Offsite WO</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.ChildWO" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Internal WO</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.IntWO" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Op No.</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.OPNONew" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Part Number</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.TCIPartNo" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Component</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.CompDesc" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Description</div>
+                <div class="col-8">
+                    <textarea class="form-control form-control-sm fs-6 fw-bold" rows="2">@item.Description1 </textarea>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Unit No</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.UnitNumber" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Unit Model</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.UnitDescription" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Supplier</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.SupplierName" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Supplier S/N</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.SerialNumberOEM" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Received Date</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.FormatDate" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Received By</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.ReceivedBy" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-4 fs-6 fw-bold">Dn Number</div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm fs-6 fw-bold" value="@item.DnNumber" />
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-2 mb-4">
+            <div class="fs-6 fw-bold" style="color: blue">@item.StoreName</div>
+        </div>
+        <div style="position: absolute; top: 60%; left: 53%; z-index: 1000;" id="parent@(item.ID)">
+            <img src="~/images/stamp/stempel_direct_charge-noborder.png" style="max-width: 250px; opacity: 60%;" />
+        </div>
+    </div>
+};
+
+
+<script>
+    $(document).ready(async function () {
+
+        // Load the jspdf and jspdf-autotable libraries
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+
+        var imageDataArray = [];
+
+        // Function to convert html element to canvas
+        function htmlElementToCanvas(element) {
+            return new Promise(resolve => {
+                html2canvas(element).then(canvas => {
+                    resolve(canvas);
+                });
+            });
+        }
+
+        // Loop through each capture element
+        for (const captureElement of $("[id^='capture']")) {
+            const canvas = await htmlElementToCanvas(captureElement);
+            const imageData = canvas.toDataURL("image/png");
+            imageDataArray.push(imageData);
+        }
+
+        // AUTO TABLE
+        doc.autoTable({
+            html: '#table',
+            theme: 'plain',
+            bodyStyles: { minCellHeight: 133 },
+
+            didDrawCell: (data) => {
+                const cellIndex = data.column.index + data.row.index * data.table.columns.length;
+
+                console.log("cell index", cellIndex);
+                console.log("imageDataArray.length", imageDataArray.length);
+
+                if (cellIndex < imageDataArray.length) {
+                    const imageDataCell = imageDataArray[cellIndex];
+                    doc.addImage(imageDataCell, 'JPEG', data.cell.x + 2, data.cell.y + 2, 85, 130);
+                }
+            },
+
+            // table styles
+            styles: {
+                font: 'arial',
+                fontSize: 10,
+            },
+        });
+
+        // return the pdf
+        doc.save('After Repair Tag Direct Charge.pdf');
+        window.close();
+
+    });
+</script>
