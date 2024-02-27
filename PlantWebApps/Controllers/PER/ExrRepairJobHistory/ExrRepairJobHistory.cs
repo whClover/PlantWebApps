@@ -1157,7 +1157,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 foreach (DataRow row in data.Rows)
                 {
                     var ID = Utility.CheckNull(row["ID"]);
-                    rows.Add("/ExrRepairJobHistoryInspection/OldReport/" + ID);
+                    rows.Add("/ExrRepairJobHistoryInspection/OldJsPdf/" + ID);
                 }
             }
             else
@@ -1191,7 +1191,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 foreach (DataRow row in data.Rows)
                 {
                     var ID = Utility.CheckNull(row["ID"]);
-                    rows.Add("/ExrRepairJobHistoryInspection/Report/" + ID);
+                    rows.Add("/ExrRepairJobHistoryInspection/FinalJsPdf/" + ID);
                 }
             }
             else

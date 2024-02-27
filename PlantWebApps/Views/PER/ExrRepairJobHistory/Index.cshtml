@@ -522,7 +522,7 @@
 
                         for (const item of response) {
                             console.log("item is", item);
-                            window.open(item, "_self");
+                            window.open(item, "popupWindow", "width=1280,height=1024");
                             await delay(4000);
                         }
                     } catch (error) {
@@ -569,7 +569,7 @@
 
                         for (const item of response) {
                             console.log("item is", item);
-                            window.open(item, "_self");
+                            window.open(item, "popupWindow", "width=1280,height=1024");
                             await delay(4000);
                         }
                     } catch (error) {

@@ -394,7 +394,7 @@
 		const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
 		// add html2canvas image to jspdf
-		doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+		doc.addImage(imageData, "PNG", 10, 8, pdfWidth, pdfHeight);
 
 		// return the pdf
 		doc.save('Final Inspection Report.pdf');
