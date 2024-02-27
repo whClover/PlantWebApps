@@ -267,7 +267,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             _tempfilter = Utility.VarFilter(tempfilter);
             Console.WriteLine(tempfilter);
-            string dataQuery = $"Select SectionID,Section,JobID,WONo,ChildWO,ExtWO,CompDesc,MaintType,CompQty from v_WOtoDispatch2 {_tempfilter}";
+            string dataQuery = $"Select TOP 50 SectionID,Section,JobID,WONo,ChildWO,ExtWO,CompDesc,MaintType,CompQty from v_WOtoDispatch2 {_tempfilter}";
             Console.WriteLine(dataQuery);
             var data = SQLFunction.execQuery(dataQuery);
 

@@ -2,201 +2,201 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	@using System.Data;
-	ViewData["Title"] = "Component Evaluation EDIT";
+    @using System.Data;
+    ViewData["Title"] = "Component Evaluation EDIT";
 }
 
 <partial name="Form/_evalSummaryModal.cshtml" />
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header d-flex flex-row justify-content-between align-items-center">
-				<h5 class="card-title">Component Evaluation EDIT</h5>
-				<a class="btn btn-sm btn-primary" id="btnCreateCESummary" data-bs-toggle="modal" data-bs-target="#evalSummaryModal">EVAL SUMMARY</a>
-			</div>
-			<div class="card-body d-flex flex-column">
-				<div class="d-flex ">
-					<partial name="Form/FirstColumn.cshtml" />
-					<partial name="Form/SecondColumn.cshtml" />
-					@* BUTTON *@
-					<div class="align-items-center mt-5 d-flex mx-2" style="gap: 10px;">
-						<div class="ms-auto">
-							<button id="btnPrint" type="button" class="btn btn-sm btn-primary">
-								PRINT
-							</button>
-							<button type="submit" id="cSave" class="btn btn-sm btn-primary">
-								SAVE
-							</button>
-							<a class="btn btn-sm btn-primary" href="/JobDispatch">
-								CLOSE
-							</a>
-						</div>
-					</div>
-				</div>
-				@if (TempData.Peek("Msg") != null)
-				{
-					@section Scripts
-	{
-					<script>
-						Swal.fire({
-							title: '@TempData.Peek("Msg")',
-								icon: '@TempData.Peek("Stat")'
-							});
-						</script>
-					}
-				}
-			</div>
-		</div>
-	</div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                <h5 class="card-title">Component Evaluation EDIT</h5>
+                <a class="btn btn-sm btn-primary" id="btnCreateCESummary" data-bs-toggle="modal" data-bs-target="#evalSummaryModal">EVAL SUMMARY</a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex ">
+                    <partial name="Form/FirstColumn.cshtml" />
+                    <partial name="Form/SecondColumn.cshtml" />
+                    @* BUTTON *@
+                    <div class="align-items-center mt-5 d-flex mx-2" style="gap: 10px;">
+                        <div class="ms-auto">
+                            <button id="btnPrint" type="button" class="btn btn-sm btn-primary">
+                                PRINT
+                            </button>
+                            <button type="submit" id="cSave" class="btn btn-sm btn-primary">
+                                SAVE
+                            </button>
+                            <a class="btn btn-sm btn-primary" href="/JobDispatch">
+                                CLOSE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @if (TempData.Peek("Msg") != null)
+                {
+                    @section Scripts
+                {
+                    <script>
+                        Swal.fire({
+                            title: '@TempData.Peek("Msg")',
+                                icon: '@TempData.Peek("Stat")'
+                            });
+                        </script>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <script>
-	$(document).ready(function () {
-		// extract the data from the form
-		function extractData() {
-			var data = {};
+    $(document).ready(function () {
+        // extract the data from the form
+        function extractData() {
+            var data = {};
 
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
+            var url = window.location.href;
+            var ID = url.substring(url.lastIndexOf('/') + 1);
 
-			data.ID = ID;
-			data.WONO = $("#tWono").val();
-			data.UnitNumber = $("#tUnitNumber").val();
-			data.PCAMID = $("#tPCAMID").val();
-			data.PCAMRequired = $("#tPCAMRequired").val();
-			data.PCAMStatusID = $("#tPCAMStatusID").val();
-			data.PCAMStartDate = $("#tPCAMStartDate").val();
-			data.PCAMCompletedDate = $("#tPCAMCompletedDate").val();
-			data.MaintType = $("#tMaintType").val();
-			data.BdgtHours = $("#tBdgtHours").val();
-			data.SMU = $("#tSMU").val();
-			data.Complaint = $("#tComplaint").val();
-			data.FlatRate = $("#tFlatRate").val();
-			data.OROP = $("#tOROP").val();
-			data.ExcPart = $("#tExcPart").val();
-			data.PartCost = $("#tPartCost").val();
-			data.LabourCost = $("#tLabourCost").val();
-			data.OtherCost = $("#tOtherCost").val();
-			data.TCISupply = $("#tTCISupply").val();
-			data.SavingCost = $("#tSavingCost").val();
-			data.PriceType = $("#tPriceType").val();
-			data.Price = $("#tPrice").val();
-			data.CurrID = $("#tCurrID").val();
-			data.StripDown = $("#tStripDown").val();
-			data.SysTypeID = "123";
-			data.RootCauseCode = $("#tRootCauseCode").val();
-			data.SysFailCode = $("#tSysFailCode").val();
-			data.RecCode = $("#tRecCode").val();
-			data.M1 = $("#tM1").val();
-			data.M2 = $("#tM2").val();
-			data.M3 = $("#tM3").val();
-			data.M4 = $("#tM4").val();
-			data.M5 = $("#tM5").val();
-			data.M6 = $("#tM6").val();
-			data.M7 = $("#tM7").val();
-			data.M8 = $("#tM8").val();
-			data.M9 = $("#tM9").val();
-			data.M10 = $("#tM10").val();
-			data.M11 = $("#tM11").val();
-			data.M12 = $("#tM12").val();
-			data.M13 = $("#tM13").val();
-			data.M14 = $("#tM14").val();
-			data.M15 = $("#tM15").val();
-			data.M16 = $("#tM16").val();
-			data.M17 = $("#tM17").val();
-			data.M18 = $("#tM18").val();
-			data.M19 = $("#tM19").val();
-			data.M20 = $("#tM20").val();
-			data.M21 = $("#tM21").val();
-			data.ActionTaken = $("#tActionTaken").val();
-			data.EvalByID = $("#tEvalByID").val();
-			data.EvalDate = $("#tEvalDate").val();
-			data.EvalCode = $("#tEvalCode").val();
-			data.PSName = $("#tPSName").val();
-			data.PSDate = $("#tPSDate").val();
-			data.POSName = $("#tPOSName").val();
-			data.POSDate = $("#tPOSDate").val();
-			data.PMName = $("#tPMName").val();
-			data.PMDate = $("#tPMDate").val();
-			data.Conclusion = $("#tConclusion").val();
-			data.ModBy = $("#tModBy").val();
-			data.ModDate = $("#tModDate").val();
-			data.JobID = $("#tJobID").val();
-			data.ConsCost = $("#tConsCost").val();
-			data.SupplyDate = $("#tSupplyDate").val();
-			data.InstallDate = $("#tInstallDate").val();
-			data.RemoveDate = $("#tRemoveDate").val();
-			data.Remark = $("#tRemark").val();
-			return data;
-		}
+            data.ID = ID;
+            data.WONO = $("#tWono").val();
+            data.UnitNumber = $("#tUnitNumber").val();
+            data.PCAMID = $("#tPCAMID").val();
+            data.PCAMRequired = $("#tPCAMRequired").val();
+            data.PCAMStatusID = $("#tPCAMStatusID").val();
+            data.PCAMStartDate = $("#tPCAMStartDate").val();
+            data.PCAMCompletedDate = $("#tPCAMCompletedDate").val();
+            data.MaintType = $("#tMaintType").val();
+            data.BdgtHours = $("#tBdgtHours").val();
+            data.SMU = $("#tSMU").val();
+            data.Complaint = $("#tComplaint").val();
+            data.FlatRate = $("#tFlatRate").val();
+            data.OROP = $("#tOROP").val();
+            data.ExcPart = $("#tExcPart").val();
+            data.PartCost = $("#tPartCost").val();
+            data.LabourCost = $("#tLabourCost").val();
+            data.OtherCost = $("#tOtherCost").val();
+            data.TCISupply = $("#tTCISupply").val();
+            data.SavingCost = $("#tSavingCost").val();
+            data.PriceType = $("#tPriceType").val();
+            data.Price = $("#tPrice").val();
+            data.CurrID = $("#tCurrID").val();
+            data.StripDown = $("#tStripDown").val();
+            data.SysTypeID = "123";
+            data.RootCauseCode = $("#tRootCauseCode").val();
+            data.SysFailCode = $("#tSysFailCode").val();
+            data.RecCode = $("#tRecCode").val();
+            data.M1 = $("#tM1").val();
+            data.M2 = $("#tM2").val();
+            data.M3 = $("#tM3").val();
+            data.M4 = $("#tM4").val();
+            data.M5 = $("#tM5").val();
+            data.M6 = $("#tM6").val();
+            data.M7 = $("#tM7").val();
+            data.M8 = $("#tM8").val();
+            data.M9 = $("#tM9").val();
+            data.M10 = $("#tM10").val();
+            data.M11 = $("#tM11").val();
+            data.M12 = $("#tM12").val();
+            data.M13 = $("#tM13").val();
+            data.M14 = $("#tM14").val();
+            data.M15 = $("#tM15").val();
+            data.M16 = $("#tM16").val();
+            data.M17 = $("#tM17").val();
+            data.M18 = $("#tM18").val();
+            data.M19 = $("#tM19").val();
+            data.M20 = $("#tM20").val();
+            data.M21 = $("#tM21").val();
+            data.ActionTaken = $("#tActionTaken").val();
+            data.EvalByID = $("#tEvalByID").val();
+            data.EvalDate = $("#tEvalDate").val();
+            data.EvalCode = $("#tEvalCode").val();
+            data.PSName = $("#tPSName").val();
+            data.PSDate = $("#tPSDate").val();
+            data.POSName = $("#tPOSName").val();
+            data.POSDate = $("#tPOSDate").val();
+            data.PMName = $("#tPMName").val();
+            data.PMDate = $("#tPMDate").val();
+            data.Conclusion = $("#tConclusion").val();
+            data.ModBy = $("#tModBy").val();
+            data.ModDate = $("#tModDate").val();
+            data.JobID = $("#tJobID").val();
+            data.ConsCost = $("#tConsCost").val();
+            data.SupplyDate = $("#tSupplyDate").val();
+            data.InstallDate = $("#tInstallDate").val();
+            data.RemoveDate = $("#tRemoveDate").val();
+            data.Remark = $("#tRemark").val();
+            return data;
+        }
 
-		// save the data to the database
-		function saveRequest(data) {
-			$.ajax({
-				url: '@Url.Action("Save", "ComponentEvaluation")',
-				method: 'POST',
-				dataType: 'json',
-				data: data
-			});
-		}
+        // save the data to the database
+        function saveRequest(data) {
+            $.ajax({
+                url: '@Url.Action("Save", "ComponentEvaluation")',
+                method: 'POST',
+                dataType: 'json',
+                data: data
+            });
+        }
 
-		function handleSave() {
-			var extractedData = extractData();
-			saveRequest(extractedData);
-			Swal.fire("Data Has Been Inserted", "", "success");
-		}
+        function handleSave() {
+            var extractedData = extractData();
+            saveRequest(extractedData);
+            Swal.fire("Data Has Been Inserted", "", "success");
+        }
 
-		$("#cSave").on("click", function () {
-			handleSave();
-		});
+        $("#cSave").on("click", function () {
+            handleSave();
+        });
 
-		// function gotoReport() {
-		// 	console.log("goto report clicked");
-		// 	var url = window.location.href;
-		// 	var ID = url.substring(url.lastIndexOf('/') + 1);
-		// 	window.location.href = '/ComponentEvaluation/Report/' + ID;
-		// };
+        // function gotoReport() {
+        // 	console.log("goto report clicked");
+        // 	var url = window.location.href;
+        // 	var ID = url.substring(url.lastIndexOf('/') + 1);
+        // 	window.location.href = '/ComponentEvaluation/Report/' + ID;
+        // };
 
-		// $("#btnPrint").on("click", function () {
-		// 	gotoReport();
-		// });
+        // $("#btnPrint").on("click", function () {
+        // 	gotoReport();
+        // });
 
-		$("#btnPrint").on("click", function () {
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			var newTabUrl = '/ComponentEvaluation/PrintJsPdf/' + ID;
-			window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
-		});
+        $("#btnPrint").on("click", function () {
+            var url = window.location.href;
+            var ID = url.substring(url.lastIndexOf('/') + 1);
+            var newTabUrl = '/ComponentEvaluation/PrintJsPdf/' + ID;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+        });
 
-		$('#btnCreateCESummary').on('click', function (e) {
-			e.preventDefault();
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			var WONO = $("#tWono").val();
+        $('#btnCreateCESummary').on('click', function (e) {
+            e.preventDefault();
+            var url = window.location.href;
+            var ID = url.substring(url.lastIndexOf('/') + 1);
+            var WONO = $("#tWono").val();
 
-			console.log("btnCreateCESummary", WONO);
+            console.log("btnCreateCESummary", WONO);
 
-			$.ajax({
-				url: '@Url.Action("CreateCESummary", "ComponentEvaluation")',
-				method: "GET",
-				data: { ID: ID, WONO: WONO },
-				success: function (response) {
-					console.log("response is", response);
-					var outputText = response[0].output;
+            $.ajax({
+                url: '@Url.Action("CreateCESummary", "ComponentEvaluation")',
+                method: "GET",
+                data: { ID: ID, WONO: WONO },
+                success: function (response) {
+                    console.log("response is", response);
+                    var outputText = response[0].output;
 
-					outputText = outputText.replace(/\?/g, ''); // Remove question marks
-					outputText = outputText.replace(/_/g, ''); // Remove underscores
-					outputText = outputText.replace(/(\r\n|\r|\n)/g, '<br>');
-					$('#evalSummaryText').html(outputText);
-				},
-				error: function (error) {
-					console.error("Error retrieving CESummary:", error);
-				}
-			});
-		});
+                    outputText = outputText.replace(/\?/g, ''); // Remove question marks
+                    outputText = outputText.replace(/_/g, ''); // Remove underscores
+                    outputText = outputText.replace(/(\r\n|\r|\n)/g, '<br>');
+                    $('#evalSummaryText').html(outputText);
+                },
+                error: function (error) {
+                    console.error("Error retrieving CESummary:", error);
+                }
+            });
+        });
 
 
-	});
+    });
 </script>

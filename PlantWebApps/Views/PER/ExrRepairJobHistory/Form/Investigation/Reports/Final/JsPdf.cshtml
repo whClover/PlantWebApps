@@ -29,16 +29,16 @@
 	}
 </style>
 
-<div class="d-flex flex-column" id="capture">
+<div class="d-flex flex-column" id="capture" style="gap: 10px; font-size: 18px;">
     <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
         <tr>
             <td style="width: 25%">
-                <img src="~/images/Thiess.png" style="max-width: 175px;" />
+				<img src="~/images/Thiess.png" style="max-width: 250px;" />
             </td>
             <td style="width: 50%">
                 <div class="d-flex flex-column align-items-center">
-                    <div style="font-size: 24px" class="fw-bold">FINAL INSPECTION REPORT</div>
-                    <div style="font-size: 14px" class="fw-bold">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
+					<div class="fs-1 fw-bold">FINAL INSPECTION REPORT</div>
+					<div class="fs-4 fw-bold">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
                 </div>
             </td>
             <td style="width: 25%">
@@ -47,7 +47,7 @@
         </tr>
     </table>
 	<div class="d-flex flex-column align-items-center justify-content-between mt-n1">
-		<table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; font-size: 14px;">
+		<table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; font-size: 18px;">
 			<tr>
 				<td style="width: 50%">
 					<div class="d-flex flex-column">
@@ -153,7 +153,7 @@
 				</td>
 			</tr>
 		</table>
-		<table class="table table-bordered border border-black" style="border-bottom: none;">
+		<table class="table table-bordered border border-black" style="border-bottom: none; min-height: 650px;">
 			<thead>
 				<tr class="fw-bold">
 					<td class="text-center" style="width: 10%">No</td>
@@ -169,7 +169,7 @@
 						available
 					</td>
 					<td class="text-center">
-						<input id="tCheck1" name="tCheck1" type="checkbox" value="@ViewBag.data.Rows[0]["Check1"].ToString()"
+						<input id="tCheck1" name="tCheck1" type="checkbox" style="width: 20px; height: 20px;" value="@ViewBag.data.Rows[0]["Check1"].ToString()"
 						@(ViewBag.data.Rows[0]["Check1"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -179,7 +179,8 @@
 						Ensure the detail component is allign with information from JDE (WO, P/N,OP)
 					</td>
 					<td class="text-center">
-						<input id="tCheck2" name="tCheck2" type="checkbox" value="@ViewBag.data.Rows[0]["Check2"].ToString()"
+						<input id="tCheck2" name="tCheck2" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check2"].ToString()"
 						@(ViewBag.data.Rows[0]["Check2"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -189,7 +190,8 @@
 						Ensure BSF Logistic Tag is available
 					</td>
 					<td class="text-center">
-						<input id="tCheck3" name="tCheck3" type="checkbox" value="@ViewBag.data.Rows[0]["Check3"].ToString()"
+						<input id="tCheck3" name="tCheck3" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check3"].ToString()"
 						@(ViewBag.data.Rows[0]["Check3"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -206,7 +208,8 @@
 						a. All bolts properly secured and fitted
 					</td>
 					<td class="text-center">
-						<input id="tCheck4a" name="tCheck4a" type="checkbox" value="@ViewBag.data.Rows[0]["Check4a"].ToString()"
+						<input id="tCheck4a" name="tCheck4a" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check4a"].ToString()"
 						@(ViewBag.data.Rows[0]["Check4a"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -216,7 +219,8 @@
 						b. Stand is proper && safe (no damage found on stand)
 					</td>
 					<td class="text-center">
-						<input id="tCheck4b" name="tCheck4b" type="checkbox" value="@ViewBag.data.Rows[0]["Check4b"].ToString()"
+						<input id="tCheck4b" name="tCheck4b" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check4b"].ToString()"
 						@(ViewBag.data.Rows[0]["Check4b"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -226,7 +230,8 @@
 						c. Check cleanliness condition (no oil spill found)
 					</td>
 					<td class="text-center">
-						<input id="tCheck4c" name="tCheck4c" type="checkbox" value="@ViewBag.data.Rows[0]["Check4c"].ToString()"
+						<input id="tCheck4c" name="tCheck4c" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check4c"].ToString()"
 						@(ViewBag.data.Rows[0]["Check4c"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -236,7 +241,8 @@
 						d. Check the cover condition is properly secured for component protection
 					</td>
 					<td class="text-center">
-						<input id="tCheck4d" name="tCheck4d" type="checkbox" value="@ViewBag.data.Rows[0]["Check4d"].ToString()"
+						<input id="tCheck4d" name="tCheck4d" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check4d"].ToString()"
 						@(ViewBag.data.Rows[0]["Check4d"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -253,7 +259,8 @@
 						a. Vendor ID Stamp or ID  Plate
 					</td>
 					<td class="text-center">
-						<input id="tCheck5a" name="tCheck5a" type="checkbox" value="@ViewBag.data.Rows[0]["Check5a"].ToString()"
+						<input id="tCheck5a" name="tCheck5a" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check5a"].ToString()"
 						@(ViewBag.data.Rows[0]["Check5a"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -263,7 +270,8 @@
 						b. Overall view of component
 					</td>
 					<td class="text-center">
-						<input id="tCheck5b" name="tCheck5b" type="checkbox" value="@ViewBag.data.Rows[0]["Check5b"].ToString()"
+						<input id="tCheck5b" name="tCheck5b" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check5b"].ToString()"
 						@(ViewBag.data.Rows[0]["Check5b"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -274,7 +282,8 @@
 						rename the file name to each WO
 					</td>
 					<td class="text-center">
-						<input id="tCheck5c" name="tCheck5c" type="checkbox" value="@ViewBag.data.Rows[0]["Check5C"].ToString()"
+						<input id="tCheck5c" name="tCheck5c" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check5C"].ToString()"
 						@(ViewBag.data.Rows[0]["Check5C"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -286,7 +295,8 @@
 						bevel gear, final drive and all hyd. cylinders)
 					</td>
 					<td class="text-center">
-						<input id="tCheck6" name="tCheck6" type="checkbox" value="@ViewBag.data.Rows[0]["Check6"].ToString()"
+						<input id="tCheck6" name="tCheck6" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check6"].ToString()"
 						@(ViewBag.data.Rows[0]["Check6"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -296,7 +306,8 @@
 						Sign then record this report after finished inspection
 					</td>
 					<td class="text-center">
-						<input id="tCheck7" name="tCheck7" type="checkbox" value="@ViewBag.data.Rows[0]["Check7"].ToString()"
+						<input id="tCheck7" name="tCheck7" type="checkbox" style="width: 20px; height: 20px;"
+						value="@ViewBag.data.Rows[0]["Check7"].ToString()"
 						@(ViewBag.data.Rows[0]["Check7"].ToString().ToLower() == "-1" ? "checked" : "")>
 					</td>
 				</tr>
@@ -304,7 +315,7 @@
 		</table>
 		<div class="d-flex flex-column mt-n3 border border-black" style="width: 100%; border-top: none">
 			<div class="border border-black fw-bold" style="border-top: none">Remarks / Findings</div>
-			<div style="min-height: 150px;">
+			<div style="min-height: 350px;">
 				@ViewBag.data.Rows[0]["Remark"].ToString()
 			</div>
 			<div class="d-flex" style="gap: 10px; border-top: none;">
@@ -323,8 +334,8 @@
 					</label>
 				</div>
 			</div>
-			<div class="mt=1">NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
-			<table class="border border-black border-bottom-0 border-start-0 border-end-0 " style="width: 100%">
+			<div class="mt-1">NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
+			<table class="border border-black border-bottom-0 border-start-0 border-end-0 " style="width: 100%; min-height: 250px;">
 				<tbody>
 					<tr>
 						<td style="width: 50%">
@@ -386,7 +397,7 @@
 		doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
 
 		// return the pdf
-		doc.save('test.pdf');
+		doc.save('Final Inspection Report.pdf');
 		window.close();
 	});
 </script>
