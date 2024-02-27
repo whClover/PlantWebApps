@@ -133,8 +133,6 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         {
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictFooter.cshtml");
         }
-
-        
         public IActionResult SaveOld(string eID, string eJobID, string eWono,
             string eCheck1a, string eCheck1b, string eCheck1c, string eCheck1d, string eCheck2a,
             string eCheck2b, string eCheck2c, string eCheck3, string eInspectResult, string eRemark,
