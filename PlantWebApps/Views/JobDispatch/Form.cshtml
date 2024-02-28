@@ -43,7 +43,8 @@
                     $('#TModBy').val(data[0]?.ModBy);
                     $('#TModDate').val(data[0]?.ModDate);
                     $('#TDeletedBy').val(data[0]?.ModBy);
-                    $('#DeletedDate').val(data[0]?.ModDate);
+                    $('#TDeletedDate').val(data[0]?.ModDate);
+                    $('#tFormiD').val("EDIT");
 
                     $('#anDetailModal').modal('show');
                 }
@@ -85,8 +86,7 @@
                                                     {
                                                         var tDispatchTypeId = row["DispatchTypeID"].ToString();
                                                         var tDispatchTypeType = row["DispatchType"].ToString();
-                                                        var selectedDispatchType = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["DispatchType"].ToString() : null;
-                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
+                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == ViewBag.data?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
                                                     }
                                                 </select>
                                             </div>
@@ -106,12 +106,12 @@
                                             <div class="col-5 fw-normal">
                                                 <select name="tAttentionTo" class="select2" id="tAttentionTo">
                                                     <option value=""></option>
-                                                    @foreach (DataRow row in ViewBag.tAatentionTo.Rows)
+                                                    @foreach (DataRow row in ViewBag.tAttentionTo.Rows)
                                                     {
                                                         var tAttentionToId = row["SupplierID"].ToString();
                                                         var tAttemtionToName = row["SupplierName"].ToString();
-                                                        var selectedAttentionTo = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["AttentionTo"].ToString() : null;
-                                                        <option value="@tAttentionToId" selected="@(tAttemtionToName == selectedAttentionTo ? "selected" : "")">@tAttemtionToName | @tAttentionToId</option>
+                                                        var selectedAttentionTo = ViewBag.data?.Rows[0]?["AttentionTo"].ToString();
+                                                        <option value="@tAttentionToId" selected="@(tAttentionToId == ViewBag.data?.Rows[0]?["AttentionTo"].ToString())">@tAttemtionToName | @tAttentionToId</option>
                                                     }
                                                 </select>
                                             </div>
@@ -137,7 +137,7 @@
                                                         var tAttentionNameDisplayName = row["DisplayName"].ToString();
                                                         var tAttentionNameDepartment = row["Department"].ToString();
                                                         var tAttentionNameEmail = row["EmailAddress"].ToString();
-                                                        <option value="@tAttentionNameEmail" selected="@(ViewBag.data?.Rows.Count > 0 && tAttentionNameDisplayName == ViewBag.data.Rows[0]["AttentionName"].ToString() ? "selected" : "")">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
+                                                        <option value="@tAttentionNameEmail" selected="@(tAttentionNameDisplayName == ViewBag.data?.Rows[0]?["AttentionName"].ToString())">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
                                                     }
                                                 </select>
                                             </div>
@@ -198,7 +198,7 @@
                                                     {
                                                         var tSectionId = row["JobSourceID"].ToString();
                                                         var tSectionIdJobSource = row["JobSource"].ToString();
-                                                        <option value="@tSectionId" selected="@(ViewBag.data?.Rows.Count > 0 && tSectionId == ViewBag.data.Rows[0]["SectionID"].ToString() ? "selected" : "")">@tSectionIdJobSource</option>
+                                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.data?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
                                                     }
                                                 </select>
                                             </div>
@@ -216,7 +216,7 @@
                                                         var tDispatchByAccount = row["Account"].ToString();
                                                         var tDispatchByDepartment = row["Department"].ToString();
                                                         var tDispatchByEmailAddress = row["EmailAddress"].ToString();
-                                                        <option data-email="@tDispatchByEmailAddress" value="@tDispatchByDisplayName" selected="@(ViewBag.data?.Rows.Count > 0 && tDispatchByDisplayName == ViewBag.data.Rows[0]["DispatchBy"].ToString() ? "selected" : "")">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
+                                                        <option data-email="@tDispatchByEmailAddress" value="@tDispatchByDisplayName" selected="@(tDispatchByDisplayName == ViewBag.data?.Rows[0]?["DispatchBy"].ToString())">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
                                                     }
                                                 </select>
                                             </div>
@@ -255,7 +255,7 @@
                                                         var cHandledByByAccount = row["Account"].ToString();
                                                         var cHandledByDepartment = row["Department"].ToString();
                                                         var cHandledByEmailAddress = row["EmailAddress"].ToString();
-                                                        <option value="@cHandledByEmailAddress" selected="@(ViewBag.data?.Rows.Count > 0 && cHandledByEmailAddress == ViewBag.data.Rows[0]["HandledBy"].ToString() ? "selected" : "")">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
+                                                        <option value="@cHandledByEmailAddress" selected="@(cHandledByEmailAddress == ViewBag.data?.Rows[0]?["HandledBy"].ToString())">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
                                                     }
                                                 </select>
                                             </div>
@@ -313,7 +313,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">RegisterBy</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tRegisterBy" id="TRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tRegisterBy" id="TRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -321,7 +321,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tRegisterDate" id="TRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tRegisterDate" id="TRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -329,7 +329,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">ModBy</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tModBy" id="TModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tModBy" id="TModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -337,7 +337,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">ModDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tModDate" id="TModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tModDate" id="TModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -373,7 +373,7 @@
                 {
                     <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
                         <div class="d-flex flex-row align-items-center mb-2 mx-2" style="gap: 10px;">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#anDetailModal">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addJobDetailModal">
                                 ADD
                             </button>
                             <div class="fw-semibold">WONO</div>
@@ -595,7 +595,7 @@
                                     responsive: true,
                                     data: test, // The data received from the AJAX request
                                     columns: [
-                                        { "data": "select" },
+                                        { "data": "show" },
                                         { "data": "sectionid" },
                                         { "data": "section" },
                                         { "data": "jobid" },

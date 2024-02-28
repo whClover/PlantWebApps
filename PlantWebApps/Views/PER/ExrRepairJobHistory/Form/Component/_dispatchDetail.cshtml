@@ -37,7 +37,8 @@
                 $('#TModBy').val(response[0].modBy);
                 $('#TModDate').val(response[0].modDate);
                 $('#TDeletedBy').val(response[0].modBy);
-                $('#DeletedDate').val(response[0].modDate);
+                $('#TDeletedDate').val(response[0].modDate);
+                $('#tFormiD').val("EDIT");
 
                 $('#anDetailModal').modal('show');
             }
@@ -186,15 +187,16 @@
             $('#TQty').val("");
             $('#TTUOM').val("");
             $('#anDetailDescription').val("");
-            $('#TPONo').val("");
+            $('#TPONo').val(""); 
             $('#TPRNo').val("");
             $('#TRemarks').val("");
             $('#TRegisterBy').val("");
             $('#TRegisterDate').val("");
             $('#TModBy').val("");
-            $('#DeletedDate').val("");
+            $('#TDeletedDate').val("");
             $('#TModDate').val("");
             $('#TDeletedBy').val("");
+            $('#tFormiD').val("ADD");
 
             $('#anDetailModal').modal('show');
         });
