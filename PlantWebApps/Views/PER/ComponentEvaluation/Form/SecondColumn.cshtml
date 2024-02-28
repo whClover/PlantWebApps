@@ -99,8 +99,8 @@
                 <div class="col-3 fw-normal">
                     <select class="col-3 select2" id="tPCAMRequired" name="tPCAMRequired">
                         <option value=""></option>
-                        <option value="Y">Y | Yes</option>
-                        <option value="N">N | No</option>
+                        <option value="Y" selected="@(ViewBag.PCAMRequired == "Y")">Y | Yes</option>
+                        <option value="N" selected="@(ViewBag.PCAMRequired == "N")">N | No</option>
                     </select>
                 </div>
                 <div class="col-4" style="font-size: 12px;" id="tPCAMRequiredField" name="tPCAMRequiredField"></div>
@@ -527,12 +527,13 @@
 
             // Handle tPCAMRequired value based on the pcam required query
 
-            function handlePCAMRequired() {
-                var pcamRequiredValue = '@ViewBag.PCAMRequired';
-                $('#tPCAMRequired').val(pcamRequiredValue);
-            }
+            // function handlePCAMRequired() {
+            //     var pcamRequiredValue = $('#xpcam').val();
+            //     console.log("test pcam", pcamRequiredValue);
+            //     $('#tPCAMRequired').val(pcamRequiredValue).change();
+            // }
 
-            handlePCAMRequired();
+            // handlePCAMRequired();
 
             // handle the value of pcam status based on the value of pcam required
             function handlePCAMStatus() {

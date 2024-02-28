@@ -312,7 +312,8 @@
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Action Taken / Suggestion</div>
 				<div class="col-9">
-					<textarea class="col-9" rows="3" id="tActionTaken form-control form-control-sm" name="tActionTaken">@ViewBag.data.Rows[0]["ActionTaken"].ToString()</textarea>
+					<textarea class="col-9 form-control form-control-sm" value="@ViewBag.data.Rows[0]["ActionTaken"].ToString()" 
+					id="tActionTaken" rows="3">@ViewBag.data.Rows[0]["ActionTaken"].ToString()</textarea>
 				</div>
 			</div>
 		</div>
@@ -320,9 +321,9 @@
 		<div class="container overflow-hidden">
 			<div class="row align-items-center">
 				<div class="col-3" style="font-size: 12px;">Conclusion</div>
-				<input type="text" id="tConclusion" class="d-none" value="@ViewBag.data.Rows[0]["Conclusion"].ToString()" />
 				<div class="col-9">
-					<textarea class="col-9" rows="5">@ViewBag.data.Rows[0]["Conclusion"].ToString()</textarea>
+					<textarea class="col-9 form-control form-control-sm" value="@ViewBag.data.Rows[0]["Conclusion"].ToString()" 
+					id="tConclusion" rows="5">@ViewBag.data.Rows[0]["Conclusion"].ToString()</textarea>
 				</div>
 			</div>
 		</div>

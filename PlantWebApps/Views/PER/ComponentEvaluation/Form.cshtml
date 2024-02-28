@@ -51,7 +51,6 @@
     </div>
 </div>
 
-
 <script>
     $(document).ready(function () {
         // extract the data from the form
@@ -66,6 +65,7 @@
             data.UnitNumber = $("#tUnitNumber").val();
             data.PCAMID = $("#tPCAMID").val();
             data.PCAMRequired = $("#tPCAMRequired").val();
+            console.log("test is", $("#tPCAMRequired").val());
             data.PCAMStatusID = $("#tPCAMStatusID").val();
             data.PCAMStartDate = $("#tPCAMStartDate").val();
             data.PCAMCompletedDate = $("#tPCAMCompletedDate").val();

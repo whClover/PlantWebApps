@@ -278,6 +278,7 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
             {
                 string queryPcamRequired = ViewBag.data.Rows[0]["PCAMRequired"].ToString();
                 ViewBag.PCAMRequired = queryPcamRequired;
+				Console.WriteLine("test" + queryPcamRequired);
             }
             else
             {
