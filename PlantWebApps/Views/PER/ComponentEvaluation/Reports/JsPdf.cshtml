@@ -5,12 +5,14 @@
     @using System.Data;
 }
 
-<div class="d-flex flex-column" style="font-size: 9px;" id="capture">
+<div class="d-flex flex-column" style="font-size: 11px;" id="capture">
     <div class="d-flex flex-row align-items-center justify-content-between">
-        <div class="font-h3">COMPONENT EVALUATION by EXTERNAL REPAIRS BSF</div>
-        <img src="~/images/Thiess.png" style="max-width: 150px;" />
+        <div class="fs-5 fw-bold ps-2">COMPONENT EVALUATION by EXTERNAL REPAIRS BSF</div>
+        <img src="~/images/Thiess.png" style="max-width: 175px;" />
     </div>
-    <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white">
+    <input type="text" class="d-none" value="@ViewBag.data?.Rows[0]?["WONO"]" id="report1" />
+    <input type="text" class="d-none" value="@ViewBag.data?.Rows[0]?["ID"]" id="report2" />
+    <table class="table table-borderless mt-n2" border="0" style="font-family: Arial;border-color:white">
         <tr>
             <td style="width: 40%">
                 <div class="d-flex flex-column">
@@ -25,7 +27,7 @@
                                 @ViewBag.data?.Rows[0]?["WONO"]
                             </td>
                             <td class="font-label" style="width: 31%">
-                                @ViewBag.id
+                                @ViewBag.data?.Rows[0]?["ID"]
                             </td>
                         </tr>
                     </table>
@@ -97,7 +99,7 @@
                         </table>
                         @* details  *@
                         <div class="font-h3 negative-top">Details</div>
-                        <div class="border-grey" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["Complaint"]</div>
+                        <div class="border" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["Complaint"]</div>
                     </div>
                     @* cost reviewed *@
                     <div class="border" style="padding: 5px; margin-top: 15px;">
@@ -236,7 +238,7 @@
                     </div>
                     <div class="border" style="padding: 5px; margin-top: 15px;">
                         <div class="font-h3">Strip Down Finding</div>
-                        <div class="border-grey" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["StripDown"]</div>
+                        <div class="border" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["StripDown"]</div>
                     </div>
                     <div class="border" style="padding: 5px; margin-top: 15px; margin-bottom: 0px;">
                         <div class="font-h3">Maintenance Failure</div>
@@ -293,7 +295,7 @@
                             </tr>
                         </table>
                     </div>
-                    <table class="table mb-0 table-sm table-bordered" style="margin-top: 15px;">
+                    <table class="table mb-0 table-sm table-bordered" style="margin-top: 10px;">
                         <thead class="table-secondary">
                             <tr>
                                 <th>Evaluation Code</th>
@@ -304,9 +306,9 @@
                         <tbody>
                         <tbody>
                             <tr>
-                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["EvalDesc"] : "")</td>
-                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["Route"] : "")</td>
-                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["Costing"] : "")</td>
+                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["EvalDesc"] : "").</td>
+                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["Route"] : "").</td>
+                                <td>@(ViewBag.tEvalCode?.Rows.Count > 0 ? ViewBag.tEvalCode.Rows[0]["Costing"] : "").</td>
                             </tr>
                         </tbody>
                     </table>
@@ -477,7 +479,7 @@
                     <div class="border" style="padding: 5px; margin-top: 15px;">
                         <div class="font-h3">Investigation</div>
                         <div class="d-flex flex-column">
-                            <table class="table px-5 table-bordered" style="margin-top: 15px;">
+                            <table class="table px-5 table-bordered" style="margin-top: 10px;">
                                 <thead class="table-secondary">
                                     <tr>
                                         <th>When</th>
@@ -490,9 +492,9 @@
                                         @foreach (DataRow row in ViewBag.tListInvest.Rows)
                                         {
                                         <tr>
-                                            <td>@row["When"]</td>
-                                            <td>@row["What"]</td>
-                                            <td>@row["Detail"]</td>
+                                            <td style="min-height: 100px">@row["When"]</td>
+                                            <td style="min-height: 100px">@row["What"]</td>
+                                            <td style="min-height: 100px">@row["Detail"]</td>
                                         </tr>
                                         }
                                 </tbody>
@@ -516,7 +518,7 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="col-12 table mb-0 table-sm table-bordered" style="margin-top: 15px;">
+                        <table class="col-12 table mb-0 table-sm table-bordered" style="margin-top: 10px;">
                             <thead class="table-secondary">
                                 <tr>
                                     <th>Plant Superintendent</th>
@@ -527,9 +529,9 @@
                             <tbody>
                             <tbody>
                                 <tr>
-                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PSName"].ToString()</td>
-                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["POSName"].ToString()</td>
-                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PMName"].ToString()</td>
+                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PSName"].ToString().</td>
+                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["POSName"].ToString().</td>
+                                    <td style="min-height: 50px;">@ViewBag.data.Rows[0]["PMName"].ToString().</td>
                                 </tr>
                                 <tr>
                                     <td style="min-height: 50px;">Date : @ViewBag.data.Rows[0]["PSDate"].ToString()</td>
@@ -544,7 +546,7 @@
         </tr>
     </table>
     <hr />
-    <div class="d-flex align-items-center justify-content-between mt-n2">
+    <div class="d-flex align-items-center justify-content-between" style="margin-top: -25px;">
         <div>@DateTime.Now.ToString("dd/MM/yyyy")</div>
         <div>Page 1 of 1</div>
         <div>TCI-PLT-FO-267</div>
@@ -554,24 +556,20 @@
 <style>
     .font-label {
         background-color: lightgray;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .border {
         border: 1px solid black;
     }
 
-    .border-grey {
-        border: 1px solid grey;
-    }
-
     .font-h3 {
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
     }
 
     .negative-top {
-        margin-top: -15px;
+        margin-top: -20px;
     }
 </style>
 
@@ -591,10 +589,10 @@
         const pdfHeight = canvas.height * pdfWidth / canvas.width - 20;
 
         // add html2canvas image to jspdf
-        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+        doc.addImage(imageData, "PNG", 10, 3, pdfWidth, pdfHeight);
 
         // return the pdf
-        doc.save('test.pdf');
+        doc.save("CE_" + ($("#report1").val()) + "_" + ($("#report2").val()) + ".Pdf");
         window.close();
     });
 </script>

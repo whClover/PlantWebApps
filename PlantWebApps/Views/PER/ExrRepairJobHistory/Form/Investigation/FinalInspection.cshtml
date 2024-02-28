@@ -1,964 +1,964 @@
 ﻿@{
-	@using System.Data;
+    @using System.Data;
 }
 
 <script>
-	function confirmDelete(id) {
-		Swal.fire({
-			title: 'Are you sure?',
-			html: `
-							<div style="font-size: 16px; text-align: center;">
-								<div style="margin-bottom: 10px;">
-									Are you sure to delete the following data?
-								</div>
-							</div>
-						`,
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#d33',
-			cancelButtonColor: '#3085d6',
-			confirmButtonText: 'Yes, delete it!'
-		}).then((result) => {
-			if (result.isConfirmed) {
-				performDelete(id);
-			}
-		});
-	}
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `
+                                <div style="font-size: 16px; text-align: center;">
+                                    <div style="margin-bottom: 10px;">
+                                        Are you sure to delete the following data?
+                                    </div>
+                                </div>
+                            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                performDelete(id);
+            }
+        });
+    }
 
-	function performDelete(id) {
-		$.ajax({
-			method: "POST",
-			url: "/ExrRepairJobHistoryInspection/Delete",
-			dataType: 'json',
-			data: { id: id }
-		}).done(function (response) {
-			location.reload();
-		});
-	}
+    function performDelete(id) {
+        $.ajax({
+            method: "POST",
+            url: "/ExrRepairJobHistoryInspection/Delete",
+            dataType: 'json',
+            data: { id: id }
+        }).done(function (response) {
+            location.reload();
+        });
+    }
 </script>
 
 <partial name="Modal/_ModalFinalInvestigation.cshtml" />
 
 <form method="post" action="/ExrRepairJobHistoryInspection" enctype="multipart/form-data">
-<div name="body" class="row justify-content-between" style="font-size: 12px;">
-	<div name="pdf" class="col-7">
-		<div name="header" class="d-flex flex-row align-items-center justify-content-between px-1" style="gap: 10px">
-			<img src="~/images/Thiess.png" style="max-width: 150px;" />
-			<div class="d-flex flex-column fs-6 fw-bold align-items-center">
-				<div>FINAL INSPECTION REPORT</div>
-				<div class="text-nowrap">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
-			</div>
-			<div class="d-flex flex-row align-items-center" style="gap: 5px;">
-				<div class="d-flex flex-row align-items-center" style="gap: 5px;">
-					<div class="text-nowrap">Job ID</div>
-					<input id="tjobid" name="ejobid" type="text" style="max-width: 75px;" value="@ViewBag.data.Rows[0]["JobID"].ToString()" />
-				</div>
-				<a id="btnDisplay" class="btn btn-sm btn-primary" style="font-size: 12px;">Display</a>
-			</div>
-		</div>
-		<div name="pdfBody" class="border border-black d-flex flex-column py-2">
-			<div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
-				@* no and unit no *@
-				<div class="row">
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" id="tNoReg" name="tNoReg" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["ID"].ToString()</div>
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Unit No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["UnitNumber"].ToString()</div>
-						</div>
-					</div>
-				</div>
-				@* wo no and unit model *@
-				<div class="row">
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">WO No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div id="tWono" name="ewono" class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["OffSiteWO"].ToString()</div>
-								<input type="text" id="formWono" name="formWono" class="d-none" value="@ViewBag.data.Rows[0]["OffSiteWO"].ToString()" />
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Unit Model</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["UnitDescription"].ToString()</div>
-						</div>
-					</div>
-				</div>
-				@* componenet desc and repaired by  *@
-				<div class="row">
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Comp Desc</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["Description1"].ToString()</div>
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Repaired By</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["SupplierName"].ToString()</div>
-						</div>
-					</div>
-				</div>
-				@* part no and qoute no *@
-				<div class="row">
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Part No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["TCIPartNo"].ToString()</div>
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Qoute No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["QuoteNo"].ToString()</div>
-						</div>
-					</div>
-				</div>
-				@* job no and dn no *@
-				<div class="row">
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">Job No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["JobNo"].ToString()</div>
-						</div>
-					</div>
-					<div class="row col-6 align-items-center">
-						<div class="col-3 text-nowrap">DN No</div>
-						<div class="col-9 row">
-							<div class="col-3">:</div>
-							<div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["DnNumber"].ToString()</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			@* table *@
-			<div class="container overflow-hidden d-flex flex-column my-2" style="gap: 10px;">
-				<table class="table table-bordered border border-black">
-					<thead>
-						<tr>
-							<td class="text-center" style="width: 10%">No</td>
-							<td class="text-center" style="width: 75%">Description</td>
-							<td class="text-center" style="width: 15%">Check List</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">1</td>
-							<td style="background-color: #E2F0D9">
-								Ensure the Final Inspection Report from TCI Workshop (TCI-PLT-FO-166) is
-								available
-							</td>
-							<td class="text-center">
-								<input id="tCheck1" name="tCheck1" type="checkbox" value="@ViewBag.data.Rows[0]["Check1"].ToString()"
-								@(ViewBag.data.Rows[0]["Check1"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">2</td>
-							<td style="background-color: #E2F0D9">
-								Ensure the detail component is allign with information from JDE (WO, P/N,OP)
-							</td>
-							<td class="text-center">
-								<input id="tCheck2" name="tCheck2" type="checkbox" value="@ViewBag.data.Rows[0]["Check2"].ToString()"
-								@(ViewBag.data.Rows[0]["Check2"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">3</td>
-							<td style="background-color: #E2F0D9">
-								Ensure BSF Logistic Tag is available
-							</td>
-							<td class="text-center">
-								<input id="tCheck3" name="tCheck3" type="checkbox" value="@ViewBag.data.Rows[0]["Check3"].ToString()"
-								@(ViewBag.data.Rows[0]["Check3"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">4</td>
-							<td style="background-color: #E2F0D9">
-								Visual Inspection
-							</td>
-							<td class="text-center"></td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								a. All bolts properly secured and fitted
-							</td>
-							<td class="text-center">
-								<input id="tCheck4a" name="tCheck4a" type="checkbox" value="@ViewBag.data.Rows[0]["Check4a"].ToString()"
-								@(ViewBag.data.Rows[0]["Check4a"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								b. Stand is proper && safe (no damage found on stand)
-							</td>
-							<td class="text-center">
-								<input id="tCheck4b" name="tCheck4b" type="checkbox" value="@ViewBag.data.Rows[0]["Check4b"].ToString()"
-								@(ViewBag.data.Rows[0]["Check4b"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								c. Check cleanliness condition (no oil spill found)
-							</td>
-							<td class="text-center">
-								<input id="tCheck4c" name="tCheck4c" type="checkbox" value="@ViewBag.data.Rows[0]["Check4c"].ToString()"
-								@(ViewBag.data.Rows[0]["Check4c"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								d. Check the cover condition is properly secured for component protection
-							</td>
-							<td class="text-center">
-								<input id="tCheck4d" name="tCheck4d" type="checkbox" value="@ViewBag.data.Rows[0]["Check4d"].ToString()"
-								@(ViewBag.data.Rows[0]["Check4d"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">5</td>
-							<td style="background-color: #E2F0D9">
-								Take a pictures
-							</td>
-							<td class="text-center"></td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								a. Vendor ID Stamp or ID  Plate
-							</td>
-							<td class="text-center">
-								<input id="tCheck5a" name="tCheck5a" type="checkbox" value="@ViewBag.data.Rows[0]["Check5a"].ToString()"
-								@(ViewBag.data.Rows[0]["Check5a"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								b. Overall view of component
-							</td>
-							<td class="text-center">
-								<input id="tCheck5b" name="tCheck5b" type="checkbox" value="@ViewBag.data.Rows[0]["Check5b"].ToString()"
-								@(ViewBag.data.Rows[0]["Check5b"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9"></td>
-							<td style="background-color: #E2F0D9">
-								c. Ensure all pictures have been downloaded to BSF-PER server and
-								rename the file name to each WO
-							</td>
-							<td class="text-center">
-								<input id="tCheck5c" name="tCheck5c" type="checkbox" value="@ViewBag.data.Rows[0]["Check5C"].ToString()"
-								@(ViewBag.data.Rows[0]["Check5C"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">6</td>
-							<td style="background-color: #E2F0D9">
-								Ensure testing report is attached on component, record it by taking picture
-								( for major component only, i.e. : engine, transmission, torque converter,
-								bevel gear, final drive and all hyd. cylinders)
-							</td>
-							<td class="text-center">
-								<input id="tCheck6" name="tCheck6" type="checkbox" value="@ViewBag.data.Rows[0]["Check6"].ToString()"
-								@(ViewBag.data.Rows[0]["Check6"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center" style="background-color: #E2F0D9">7</td>
-							<td style="background-color: #E2F0D9">
-								Sign then record this report after finished inspection
-							</td>
-							<td class="text-center">
-								<input id="tCheck7" name="tCheck7" type="checkbox" value="@ViewBag.data.Rows[0]["Check7"].ToString()"
-								@(ViewBag.data.Rows[0]["Check7"].ToString().ToLower() == "-1" ? "checked" : "")>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="d-flex flex-column mt-n3">
-					<div>Remarks / Findings</div>
-					<textarea id="tremark" name="tremark" rows="5">@ViewBag.data.Rows[0]["Remark"].ToString()</textarea>
-				</div>
-				<div class="d-flex" style="gap: 10px;">
-					<div class="form-check">
-						<input id="ChkAccept" name="ChkAccept" type="checkbox" value="@ViewBag.data.Rows[0]["CheckAccept"].ToString()"
-						@(ViewBag.data.Rows[0]["CheckAccept"].ToString().ToLower() == "-1" ? "checked" : "")>
-						<label class="form-check-label">
-							Accept
-						</label>
-					</div>
-					<div class="form-check">
-						<input id="ChkReject" name="ChkReject" type="checkbox" value="@ViewBag.data.Rows[0]["CheckReject"].ToString()"
-						@(ViewBag.data.Rows[0]["CheckReject"].ToString().ToLower() == "-1" ? "checked" : "")>
-						<label class="form-check-label">
-							Reject
-						</label>
-					</div>
-				</div>
-				<div>NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
-				<div class="row">
-					<div class="col-6">
-						<div>Issued By,</div>
-						<div>QA/QC Engineer</div>
-						<div class="row" style="margin-top: 10px;">
-							<div class="col-4">Signature By</div>
-							<input type="text" id="tIssuedSign" name="eIssuedSign" class="col-6 border border-0" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["IssuedSign"].ToString()" />
-						</div>
-						<div class="row" style="margin-top: 10px;">
-							<div class="col-4">Date</div>
-								<input type="text" id="tIssuedDate" name="eIssuedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["IssuedDate"].ToString()" />
-						</div>
-					</div>
-					<div class="col-6">
-						<div>Acknowledged By,</div>
-						<div>Supervisor/Superintend/Manager</div>
-						<div class="row" style="margin-top: 10px;">
-							<div class="col-4">Signature By</div>
-							<input type="text" id="tAcknowledgedSign" name="eAcknowledgedSign" class="col-6 border border-0" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["AcknowledgedSign"].ToString()" />
-						</div>
-						<div class="row" style="margin-top: 10px;">
-							<div class="col-4">Date</div>
-								<input type="text" id="tAcknowledgedDate" name="eAcknowledgedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["AcknowledgedDate"].ToString()" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="d-flex justify-content-between align-items-center my-2">
-			<div class="d-flex flex-column">
-				<div class="d-flex align-items-center" style="gap: 10px;">
-					<div class="fs-6 fw-bold" style="min-width: 75px;">Register</div>
-					<div>@ViewBag.data.Rows[0]["CreatedDate"].ToString()</div>
-					<div>@ViewBag.data.Rows[0]["CreatedBy"].ToString()</div>
-				</div>
-				<div class="d-flex align-items-center" style="gap: 10px;">
-					<div class="fs-6 fw-bold" style="min-width: 75px;">Last Mod</div>
-					<div>@ViewBag.data.Rows[0]["ModDate"].ToString()</div>
-					<div>@ViewBag.data.Rows[0]["ModBy"].ToString()</div>
-				</div>
-			</div>
-			<div class="d-flex" style="gap: 10px;">
-				<button id="btnPrint" type="button" class="btn btn-sm btn-primary">
-					<i class="fa fa-print"></i> Print
-				</button>
-				<button type="button" id="cSave" class="btn btn-sm btn-primary">Save</button>
-			</div>
-		</div>
-	</div>
-	<div id="TabPicture" name="TabPicture" class="col-5">
-		<div class="d-flex flex-column border border-black p-2">
-			<div class="d-flex justify-content-between align-items-center ">
-				<div class="fs-6 fw-semibold">Attach Picture</div>
-					<div class="d-flex" style="gap: 10px;">
-						<div>
-							<label for="fileupload" class="form-label">Select Image To Be Uploaded</label>
-							<input class="form-control form-control-sm" type="file" id="fileupload" name="fileupload" accept="image/*" multiple>
-						</div>
-						<button class="btn btn-sm btn-primary" type="submit" id="btnUpload" disabled formaction="/ExrRepairJobHistoryInspection/UploadFile">Upload</button>
-						<button type="button" id="btnPrintPict" class="btn btn-sm btn-primary">Print Pdf</button>
-					</div>
-			</div>
-			<table class="table datatable table-bordered table-responsive border border-black my-2">
-				<thead>
-					<tr>
-						<td class="text-center" style="width: 5%"></td>
-						<td class="text-center" style="width: 5%"></td>
-						<td class="text-center" style="width: 20%">ID</td>
-						<td class="text-center" style="width: 65%">Picture Caption</td>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</div>
-	</div>
-</div>
+    <div name="body" class="row justify-content-between" style="font-size: 12px;">
+        <div name="pdf" class="col-7">
+            <div name="header" class="d-flex flex-row align-items-center justify-content-between px-1" style="gap: 10px">
+                <img src="~/images/Thiess.png" style="max-width: 150px;" />
+                <div class="d-flex flex-column fs-6 fw-bold align-items-center">
+                    <div>FINAL INSPECTION REPORT</div>
+                    <div class="text-nowrap">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
+                </div>
+                <div class="d-flex flex-row align-items-center" style="gap: 5px;">
+                    <div class="d-flex flex-row align-items-center" style="gap: 5px;">
+                        <div class="text-nowrap">Job ID</div>
+                        <input id="tjobid" name="ejobid" type="text" style="max-width: 75px;" value="@ViewBag.data.Rows[0]["JobID"].ToString()" />
+                    </div>
+                    <a id="btnDisplay" class="btn btn-sm btn-primary" style="font-size: 12px;">Display</a>
+                </div>
+            </div>
+            <div name="pdfBody" class="border border-black d-flex flex-column py-2">
+                <div class="container overflow-hidden d-flex flex-column" style="gap: 10px;">
+                    @* no and unit no *@
+                    <div class="row">
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" id="tNoReg" name="tNoReg" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["ID"].ToString()</div>
+                            </div>
+                        </div>
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Unit No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["UnitNumber"].ToString()</div>
+                            </div>
+                        </div>
+                    </div>
+                    @* wo no and unit model *@
+                    <div class="row">
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">WO No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div id="tWono" name="ewono" class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["OffSiteWO"].ToString()</div>
+                                <input type="text" id="formWono" name="formWono" class="d-none" value="@ViewBag.data.Rows[0]["OffSiteWO"].ToString()" />
+                            </div>
+                        </div>
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Unit Model</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["UnitDescription"].ToString()</div>
+                            </div>
+                        </div>
+                    </div>
+                    @* componenet desc and repaired by  *@
+                    <div class="row">
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Comp Desc</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["Description1"].ToString()</div>
+                            </div>
+                        </div>
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Repaired By</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["SupplierName"].ToString()</div>
+                            </div>
+                        </div>
+                    </div>
+                    @* part no and qoute no *@
+                    <div class="row">
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Part No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["TCIPartNo"].ToString()</div>
+                            </div>
+                        </div>
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Qoute No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["QuoteNo"].ToString()</div>
+                            </div>
+                        </div>
+                    </div>
+                    @* job no and dn no *@
+                    <div class="row">
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">Job No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["JobNo"].ToString()</div>
+                            </div>
+                        </div>
+                        <div class="row col-6 align-items-center">
+                            <div class="col-3 text-nowrap">DN No</div>
+                            <div class="col-9 row">
+                                <div class="col-3">:</div>
+                                <div class="col-9" style="background-color: #E2F0D9">@ViewBag.data.Rows[0]["DnNumber"].ToString()</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @* table *@
+                <div class="container overflow-hidden d-flex flex-column my-2" style="gap: 10px;">
+                    <table class="table table-bordered border border-black">
+                        <thead>
+                            <tr>
+                                <td class="text-center" style="width: 10%">No</td>
+                                <td class="text-center" style="width: 75%">Description</td>
+                                <td class="text-center" style="width: 15%">Check List</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">1</td>
+                                <td style="background-color: #E2F0D9">
+                                    Ensure the Final Inspection Report from TCI Workshop (TCI-PLT-FO-166) is
+                                    available
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck1" name="tCheck1" type="checkbox" value="@ViewBag.data.Rows[0]["Check1"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check1"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">2</td>
+                                <td style="background-color: #E2F0D9">
+                                    Ensure the detail component is allign with information from JDE (WO, P/N,OP)
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck2" name="tCheck2" type="checkbox" value="@ViewBag.data.Rows[0]["Check2"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check2"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">3</td>
+                                <td style="background-color: #E2F0D9">
+                                    Ensure BSF Logistic Tag is available
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck3" name="tCheck3" type="checkbox" value="@ViewBag.data.Rows[0]["Check3"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check3"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">4</td>
+                                <td style="background-color: #E2F0D9">
+                                    Visual Inspection
+                                </td>
+                                <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    a. All bolts properly secured and fitted
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck4a" name="tCheck4a" type="checkbox" value="@ViewBag.data.Rows[0]["Check4a"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check4a"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    b. Stand is proper && safe (no damage found on stand)
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck4b" name="tCheck4b" type="checkbox" value="@ViewBag.data.Rows[0]["Check4b"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check4b"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    c. Check cleanliness condition (no oil spill found)
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck4c" name="tCheck4c" type="checkbox" value="@ViewBag.data.Rows[0]["Check4c"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check4c"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    d. Check the cover condition is properly secured for component protection
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck4d" name="tCheck4d" type="checkbox" value="@ViewBag.data.Rows[0]["Check4d"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check4d"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">5</td>
+                                <td style="background-color: #E2F0D9">
+                                    Take a pictures
+                                </td>
+                                <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    a. Vendor ID Stamp or ID  Plate
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck5a" name="tCheck5a" type="checkbox" value="@ViewBag.data.Rows[0]["Check5a"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check5a"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    b. Overall view of component
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck5b" name="tCheck5b" type="checkbox" value="@ViewBag.data.Rows[0]["Check5b"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check5b"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9"></td>
+                                <td style="background-color: #E2F0D9">
+                                    c. Ensure all pictures have been downloaded to BSF-PER server and
+                                    rename the file name to each WO
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck5c" name="tCheck5c" type="checkbox" value="@ViewBag.data.Rows[0]["Check5C"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check5C"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">6</td>
+                                <td style="background-color: #E2F0D9">
+                                    Ensure testing report is attached on component, record it by taking picture
+                                    ( for major component only, i.e. : engine, transmission, torque converter,
+                                    bevel gear, final drive and all hyd. cylinders)
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck6" name="tCheck6" type="checkbox" value="@ViewBag.data.Rows[0]["Check6"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check6"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="background-color: #E2F0D9">7</td>
+                                <td style="background-color: #E2F0D9">
+                                    Sign then record this report after finished inspection
+                                </td>
+                                <td class="text-center">
+                                    <input id="tCheck7" name="tCheck7" type="checkbox" value="@ViewBag.data.Rows[0]["Check7"].ToString()"
+                                    @(ViewBag.data.Rows[0]["Check7"].ToString().ToLower() == "-1" ? "checked" : "")>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex flex-column mt-n3">
+                        <div>Remarks / Findings</div>
+                        <textarea id="tremark" name="tremark" rows="5">@ViewBag.data.Rows[0]["Remark"].ToString()</textarea>
+                    </div>
+                    <div class="d-flex" style="gap: 10px;">
+                        <div class="form-check">
+                            <input id="ChkAccept" name="ChkAccept" type="checkbox" value="@ViewBag.data.Rows[0]["CheckAccept"].ToString()"
+                            @(ViewBag.data.Rows[0]["CheckAccept"].ToString().ToLower() == "-1" ? "checked" : "")>
+                            <label class="form-check-label">
+                                Accept
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input id="ChkReject" name="ChkReject" type="checkbox" value="@ViewBag.data.Rows[0]["CheckReject"].ToString()"
+                            @(ViewBag.data.Rows[0]["CheckReject"].ToString().ToLower() == "-1" ? "checked" : "")>
+                            <label class="form-check-label">
+                                Reject
+                            </label>
+                        </div>
+                    </div>
+                    <div>NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div>Issued By,</div>
+                            <div>QA/QC Engineer</div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-4">Signature By</div>
+                                <input type="text" id="tIssuedSign" name="eIssuedSign" class="col-6 border border-0" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["IssuedSign"].ToString()" />
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-4">Date</div>
+                                <input type="text" id="tIssuedDate" name="eIssuedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["IssuedDate"].ToString()" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>Acknowledged By,</div>
+                            <div>Supervisor/Superintend/Manager</div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-4">Signature By</div>
+                                <input type="text" id="tAcknowledgedSign" name="eAcknowledgedSign" class="col-6 border border-0" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["AcknowledgedSign"].ToString()" />
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-4">Date</div>
+                                <input type="text" id="tAcknowledgedDate" name="eAcknowledgedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["AcknowledgedDate"].ToString()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center my-2">
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center" style="gap: 10px;">
+                        <div class="fs-6 fw-bold" style="min-width: 75px;">Register</div>
+                        <div>@ViewBag.data.Rows[0]["CreatedDate"].ToString()</div>
+                        <div>@ViewBag.data.Rows[0]["CreatedBy"].ToString()</div>
+                    </div>
+                    <div class="d-flex align-items-center" style="gap: 10px;">
+                        <div class="fs-6 fw-bold" style="min-width: 75px;">Last Mod</div>
+                        <div>@ViewBag.data.Rows[0]["ModDate"].ToString()</div>
+                        <div>@ViewBag.data.Rows[0]["ModBy"].ToString()</div>
+                    </div>
+                </div>
+                <div class="d-flex" style="gap: 10px;">
+                    <button id="btnPrint" type="button" class="btn btn-sm btn-primary">
+                        <i class="fa fa-print"></i> Print
+                    </button>
+                    <button type="button" id="cSave" class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+        <div id="TabPicture" name="TabPicture" class="col-5">
+            <div class="d-flex flex-column border border-black p-2">
+                <div class="d-flex justify-content-between align-items-center ">
+                    <div class="fs-6 fw-semibold">Attach Picture</div>
+                    <div class="d-flex" style="gap: 10px;">
+                        <div>
+                            <label for="fileupload" class="form-label">Select Image To Be Uploaded</label>
+                            <input class="form-control form-control-sm" type="file" id="fileupload" name="fileupload" accept="image/*" multiple>
+                        </div>
+                        <button class="btn btn-sm btn-primary" type="submit" id="btnUpload" disabled formaction="/ExrRepairJobHistoryInspection/UploadFile">Upload</button>
+                        <button type="button" id="btnPrintPict" class="btn btn-sm btn-primary text-nowrap">Print Pdf</button>
+                    </div>
+                </div>
+                <table class="table datatable table-bordered table-responsive border border-black my-2">
+                    <thead>
+                        <tr>
+                            <td class="text-center" style="width: 5%"></td>
+                            <td class="text-center" style="width: 5%"></td>
+                            <td class="text-center" style="width: 20%">ID</td>
+                            <td class="text-center" style="width: 65%">Picture Caption</td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </form>
 
 @if (TempData.Peek("Msg") != null)
 {
-	@section Scripts
-	  {
-	<script>
-		Swal.fire({
-			title: '@TempData.Peek("Msg")',
-				icon: '@TempData.Peek("Stat")'
-			});
-		</script>
-	}
+    @section Scripts
+ {
+    <script>
+        Swal.fire({
+            title: '@TempData.Peek("Msg")',
+                icon: '@TempData.Peek("Stat")'
+            });
+        </script>
+    }
 }
 
 <style>
-	.flex {
-		display: flex;
-		align-items: center;
-		gap: 5px;
-	}
+    .flex {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
 
-	.vert {
-		flex-direction: column;
-		justify-content: center;
-	}
+    .vert {
+        flex-direction: column;
+        justify-content: center;
+    }
 
-	.canvas-container {
-		flex-direction: column;
-		border: 2px solid #333;
-		padding: 10px;
-	}
+    .canvas-container {
+        flex-direction: column;
+        border: 2px solid #333;
+        padding: 10px;
+    }
 
-	canvas {
-		border: 1px dotted #333;
-		background: #777;
-		cursor: crosshair;
-	}
+    canvas {
+        border: 1px dotted #333;
+        background: #777;
+        cursor: crosshair;
+    }
 
-	.canvas-info {
-		flex-direction: column;
-		font-size: smaller;
-	}
+    .canvas-info {
+        flex-direction: column;
+        font-size: smaller;
+    }
 
-	.canvas-controls {
-		padding: 5px;
-	}
+    .canvas-controls {
+        padding: 5px;
+    }
 
-		.canvas-controls button span {
-			display: inline-block;
-			width: 20px;
-		}
+        .canvas-controls button span {
+            display: inline-block;
+            width: 20px;
+        }
 
-	.rotateR {
-		transform: rotate(90deg);
-	}
+    .rotateR {
+        transform: rotate(90deg);
+    }
 
-	.rotateL {
-		transform: rotate(-90deg);
-	}
+    .rotateL {
+        transform: rotate(-90deg);
+    }
 
-	.icon {
-		width: 12px;
-		height: 12px;
-	}
+    .icon {
+        width: 12px;
+        height: 12px;
+    }
 
-	.cursor {
-	cursor: pointer;
-	}
+    .cursor {
+        cursor: pointer;
+    }
 </style>
 
 <script>
-	$(document).ready(function () {
-		// hide attach picture
-		hideAttachPict()
-		function hideAttachPict() {
-			if ($("#tjobid").val() === "") {
-				$("#TabPicture").hide();
-			} else {
-				$("#TabPicture").show();
-			}
-		}
-
-		// btn display
-		$("#btnDisplay").on('click', function () {
-			var ID = $("#tjobid").val();
-			hideAttachPict();
-			if (ID === "") {
-				Swal.fire("Please fill Job ID", "", "warning");
-				return false;
-			}
-			window.location.href = '/ExrRepairJobHistoryInspection/FinalInspection/' + ID;
-		});
-
-		// upload file functionality
-		var fileUploadInput = $('#fileupload');
-
-		var btnUpload = $('#btnUpload');
-
-		fileUploadInput.on('change', function () {
-			if (fileUploadInput[0].files.length > 0) {
-				btnUpload.prop('disabled', false);
-			} else {
-				btnUpload.prop('disabled', true);
-			}
-		});
-
-		// print functionality
-		function gotoReport() {
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			window.location.href = '/ExrRepairJobHistoryInspection/Report/' + ID;
-		};
-
-		// $("#btnPrint").on("click", function () {
-		// 	gotoReport();
-		// });
-
-		$("#btnPrint").on("click", function () {
-			var url = window.location.href;
-			var ID = url.substring(url.lastIndexOf('/') + 1);
-			var newTabUrl = '/ExrRepairJobHistoryInspection/FinalJsPdf/' + ID;
-			window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
-		});
-
-		// print pict functionality
-		function gotoReportPict() {
-			console.log("report pict clicked")
-			var ID = $("#formWono").val();
-			window.location.href = '/ExrRepairJobHistoryInspection/PrintPict/' + ID;
-		};
-
-		// $("#btnPrintPict").on("click", function () {
-		// 	gotoReportPict();
-		// });
-
-		$("#btnPrintPict").on("click", function () {
-			var ID = $("#formWono").val();
-			var newTabUrl = '/ExrRepairJobHistoryInspection/PictFinalJsPdf/' + ID;
-			window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
-		});
-
-		// checkboxes
-		function checkboxOnChange() {
-			var checkboxes = [
-				"#tCheck1",
-				"#tCheck2",
-				"#tCheck3",
-				"#tCheck4a",
-				"#tCheck4b",
-				"#tCheck4c",
-				"#tCheck4d",
-				"#tCheck5a",
-				"#tCheck5b",
-				"#tCheck5c",
-				"#tCheck6",
-				"#tCheck7",
-				"#ChkAccept",
-				"#ChkReject"
-			];
-
-			checkboxes.forEach(function (checkboxId) {
-				var checkbox = $(checkboxId);
-
-				checkbox.on("change", function () {
-					if (checkbox.prop("checked")) {
-						checkbox.val("-1");
-					} else {
-						checkbox.val("0");
-					}
-				});
-			});
-		}
-
-		checkboxOnChange();
-
-		$("#cSave").click(function () {
-
-			if ($("#tjobid").val() === "") {
-				Swal.fire("Please fill Job ID", "", "warning");
-				return false;
-			}
-
-			if ($("#ChkAccept").val() == "" && $("#ChkReject").val() == "") {
-				Swal.fire("Select Inspect Result (Accept/Reject)", "", "warning");
-				return false;
-			}
-
-			FormSave();
-			Swal.fire("Data Has Been Inserted", "", "success");
-		});
-
-		// save functionality
-		function FormSave() {
-			console.log("masuk")
-			var eID = "NULL";
-			var eJobID = $('#tjobid').val();
-			var eWono = $('#tWono').text();
-			var eNoRegister = "NULL";
-			var eCheck1 = $('#tCheck1').val();
-			var eCheck2 = $('#tCheck2').val();
-			var eCheck3 = $('#tCheck3').val();
-			var eCheck4a = $('#tCheck4a').val();
-			var eCheck4b = $('#tCheck4b').val();
-			var eCheck4c = $('#tCheck4c').val();
-			var eCheck4d = $('#tCheck4d').val();
-			var eCheck5a = $('#tCheck5a').val();
-			var eCheck5b = $('#tCheck5b').val();
-			var eCheck5c = $('#tCheck5c').val();
-			var eCheck6 = $('#tCheck6').val();
-			var eCheck7 = $('#tCheck7').val();
-			var eRemark = $('#tremark').val();
-			var eCheckAccept = $('#ChkAccept').val();
-			var eCheckReject = $('#ChkReject').val();
-			var eIssuedSign = $('#tIssuedSign').val();
-			var eIssuedDate = $('#tIssuedDate').val();
-			var eAcknowledgedSign = $('#tAcknowledgedSign').val();
-			var eAcknowledgedDate = $('#tAcknowledgedDate').val();
-
-			$.ajax({
-				url: '@Url.Action("Save", "ExrRepairJobHistoryInspection")',
-				type: 'POST',
-				dataType: 'json',
-				data: {
-					eID: eID,
-					eJobID: eJobID,
-					eWono: eWono,
-					eNoRegister: eNoRegister,
-					eCheck1: eCheck1,
-					eCheck2: eCheck2,
-					eCheck3: eCheck3,
-					eCheck4a: eCheck4a,
-					eCheck4b: eCheck4b,
-					eCheck4c: eCheck4c,
-					eCheck4d: eCheck4d,
-					eCheck5a: eCheck5a,
-					eCheck5b: eCheck5b,
-					eCheck5c: eCheck5c,
-					eCheck6: eCheck6,
-					eCheck7: eCheck7,
-					eCheckAccept: eCheckAccept,
-					eCheckReject: eCheckReject,
-					eRemark: eRemark,
-					eIssuedSign: eIssuedSign,
-					eIssuedDate: eIssuedDate,
-					eAcknowledgedSign: eAcknowledgedSign,
-					eAcknowledgedDate: eAcknowledgedDate
-				},
-				error: function (xhr, status, error) {
-					console.error(error);
-				}
-			});
-		}
-
-		var imageUrls = [];
-
-		// load picture and image viewer functionality
-		lstPict()
-
-		function lstPict() {
-			var tWono = $('#tWono').text();
-
-			$.ajax({
-				url: '@Url.Action("LstPict", "ExrRepairJobHistoryInspection")',
-				type: 'GET',
-				dataType: 'json',
-				data: { tWono: tWono },
-				success: function (test) {
-
-					for (var i = 0; i < test.length; i++) {
-						var picturePath = test[i].picturePath;
-						imageUrls.push(picturePath); // Add the picturePath to the imageUrls array
-					}
-
-					loadImage();
-					addEventListeners();
-
-					$('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
-					$('.datatable').DataTable({
-						searching: false,
-						lengthChange: false,
-						responsive: true,
-						data: test, // The data received from the AJAX request
-						columns: [
-							{ "data": "delete" },
-							{ "data": "open" },
-							{ "data": "id" },
-							{ "data": "pictureCaption" }
-						]
-					});
-
-					// Sembunyikan loading overlay setelah data dimuat
-					$("#offcanvas").offcanvas("hide");
-					$('#loadingOverlay').hide();
-				},
-				error: function (xhr, status, error) {
-					console.error(error);
-				}
-			});
-		}
-
-		const ZOOMINLEVEL = 1.2;
-		const ZOOMOUTLEVEL = 0.8;
-		const MINZOOMLEVEL = 0.1;
-		const MAXZOOMLEVEL = 15;
-		const CANVASWITH = 375;
-		const CANVASHEIGHT = 250;
-		const PANSTEP = 20;
-		const DEFAULTCURSOR = "crosshair";
-		const MOUSEDOWNCURSOR = "grab";
-		const ZOOMINCURSOR = "zoom-in";
-		const ZOOMOUTCURSOR = "zoom-out";
-		const IMAGESMOOTHINGENABLED = false;
-
-		var currentImageIndex = 0;
-
-		var currentZoomLevel = 1;
-		var isDragging = false;
-		var dragStartPosition = { x: 0, y: 0 };
-
-		var canvas,
-			context,
-			image,
-			currentTransformedCursor,
-			scaledImgWidth,
-			scaledImgHeight,
-			startX,
-			startY,
-			canvasCenterX,
-			canvasCenterY,
-			zoomLevelTxt,
-			mousePos,
-			transformedMousePos,
-			scale;
-
-		function loadImage() {
-			canvas = document.getElementById("canvas");
-			canvas.width = CANVASWITH;
-			canvas.height = CANVASHEIGHT;
-			context = canvas.getContext("2d");
-			context.imageSmoothingEnabled = IMAGESMOOTHINGENABLED;
-
-			zoomLevelTxt = document.getElementById("zoom-level");
-			mousePos = document.getElementById("mouse-pos");
-			transformedMousePos = document.getElementById("transformed-mouse-pos");
-
-			image = new Image();
-
-			image.onload = function () {
-				init();
-				reset();
-			};
-			image.src = imageUrls[currentImageIndex];
-		}
-
-		function init() {
-			scale = Math.min(canvas.width / image.width, canvas.height / image.height);
-			scaledImgWidth = image.width * scale;
-			scaledImgHeight = image.height * scale;
-			startX = (canvas.width - scaledImgWidth) / 2;
-			startY = (canvas.height - scaledImgHeight) / 2;
-			canvasCenterX = canvas.width / 2;
-			canvasCenterY = canvas.height / 2;
-			canvas.style.cursor = DEFAULTCURSOR;
-			context.save();
-		}
-
-		function drawImageToCanvas() {
-			context.save();
-			context.setTransform(1, 0, 0, 1, 0, 0);
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			context.restore();
-			context.drawImage(image, startX, startY, scaledImgWidth, scaledImgHeight);
-		}
-
-		function getTransformedPoint(x, y) {
-			const originalPoint = new DOMPoint(x, y);
-			return context.getTransform().invertSelf().transformPoint(originalPoint);
-		}
-
-		function onMouseDown(event) {
-			isDragging = true;
-			canvas.style.cursor = MOUSEDOWNCURSOR;
-			dragStartPosition = getTransformedPoint(event.offsetX, event.offsetY);
-		}
-
-		function onMouseMove(event) {
-			canvas.style.cursor = DEFAULTCURSOR;
-			currentTransformedCursor = getTransformedPoint(event.offsetX, event.offsetY);
-
-			displayMousePos(event.offsetX, event.offsetY);
-			event.preventDefault();
-
-			if (isDragging) {
-				pan(
-					currentTransformedCursor.x - dragStartPosition.x,
-					currentTransformedCursor.y - dragStartPosition.y
-				);
-			}
-		}
-
-		function onMouseUp() {
-			isDragging = false;
-			canvas.style.cursor = DEFAULTCURSOR;
-		}
-
-		function onWheel(event) {
-			zoom(event.deltaY < 0 ? ZOOMINLEVEL : ZOOMOUTLEVEL);
-			event.preventDefault();
-		}
-
-		function zoom(zoomLevel) {
-			if (currentZoomLevel == MINZOOMLEVEL && zoomLevel <= 1) {
-				return;
-			}
-
-			if (currentZoomLevel == MAXZOOMLEVEL && zoomLevel >= 1) {
-				return;
-			}
-
-			currentZoomLevel = Math.min(
-				Math.max(currentZoomLevel * zoomLevel, MINZOOMLEVEL),
-				MAXZOOMLEVEL
-			);
-			displayZoomLevel();
-
-			canvas.style.cursor = zoomLevel > 1 ? ZOOMINCURSOR : ZOOMOUTCURSOR;
-			context.translate(currentTransformedCursor.x, currentTransformedCursor.y);
-			context.scale(zoomLevel, zoomLevel);
-			context.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
-			drawImageToCanvas();
-		}
-
-		function pan(x, y) {
-			context.translate(x, y);
-			drawImageToCanvas();
-		}
-
-		function rotate(degrees) {
-			context.translate(canvasCenterX, canvasCenterY);
-			context.rotate((Math.PI / 180) * degrees);
-			context.translate(-canvasCenterX, -canvasCenterY);
-			drawImageToCanvas();
-		}
-
-		function mirror() {
-			context.translate(canvasCenterX, canvasCenterY);
-			context.scale(-1, 1);
-			context.translate(-canvasCenterX, -canvasCenterY);
-			drawImageToCanvas();
-		}
-
-		function flip() {
-			context.translate(canvasCenterX, canvasCenterY);
-			context.scale(1, -1);
-			context.translate(-canvasCenterX, -canvasCenterY);
-			drawImageToCanvas();
-		}
-
-		function center() {
-			drawImageToCanvas(true);
-		}
-
-		function reset() {
-			context.restore();
-			context.save();
-			drawImageToCanvas();
-			currentZoomLevel = 1;
-			displayZoomLevel();
-			canvas.style.cursor = DEFAULTCURSOR;
-		}
-
-		function addEventListeners() {
-			canvas.addEventListener("mousedown", onMouseDown);
-			canvas.addEventListener("mousemove", onMouseMove);
-			canvas.addEventListener("mouseup", onMouseUp);
-			canvas.addEventListener("wheel", onWheel);
-
-			var btnPicturePrevious = document.getElementById("btnPicturePrevious");
-			btnPicturePrevious.addEventListener("click", showPreviousImage);
-
-			var btnPictureNext = document.getElementById("btnPictureNext");
-			btnPictureNext.addEventListener("click", showNextImage);
-
-			document.getElementById("reset").addEventListener("click", function () {
-				reset();
-			});
-			document.getElementById("center").addEventListener("click", function () {
-				center();
-			});
-			document.getElementById("zoomIn").addEventListener("click", function (event) {
-				currentTransformedCursor = {
-					x: canvasCenterX,
-					y: canvasCenterY
-				};
-				zoom(ZOOMINLEVEL);
-			});
-			document
-				.getElementById("zoomOut")
-				.addEventListener("click", function (event) {
-					currentTransformedCursor = {
-						x: canvasCenterX,
-						y: canvasCenterY
-					};
-					zoom(ZOOMOUTLEVEL);
-				});
-			document.getElementById("rotateRight").addEventListener("click", function () {
-				rotate(90);
-			});
-			document
-				.getElementById("rotateLeft")
-				.addEventListener("click", function (event) {
-					rotate(-90);
-				});
-			document.getElementById("mirror").addEventListener("click", function (event) {
-				mirror();
-			});
-			document.getElementById("flip").addEventListener("click", function (event) {
-				flip();
-			});
-			document
-				.getElementById("panLeft")
-				.addEventListener("click", function (event) {
-					pan(-PANSTEP, 0);
-				});
-			document
-				.getElementById("panRight")
-				.addEventListener("click", function (event) {
-					pan(PANSTEP, 0);
-				});
-			document.getElementById("panUp").addEventListener("click", function (event) {
-				pan(0, -PANSTEP);
-			});
-			document
-				.getElementById("panDown")
-				.addEventListener("click", function (event) {
-					pan(0, PANSTEP);
-				});
-		}
-
-		function displayMousePos(x, y) {
-			var transX = currentTransformedCursor.x.toFixed(2);
-			var transY = currentTransformedCursor.y.toFixed(2);
-			mousePos.innerText = `Original (${x}, ${y})`;
-			transformedMousePos.innerText = `Transformed (${transX}, ${transY})`;
-		}
-
-		function displayZoomLevel() {
-			zoomLevelTxt.innerText = +currentZoomLevel.toFixed(2);
-		}
-
-		function showPreviousImage() {
-			currentImageIndex--;
-			if (currentImageIndex < 0) {
-				currentImageIndex = imageUrls.length - 1;
-			}
-			loadImage();
-		}
-
-		function showNextImage() {
-			currentImageIndex++;
-			if (currentImageIndex >= imageUrls.length) {
-				currentImageIndex = 0;
-			}
-			loadImage();
-		}
-
-	});
+    $(document).ready(function () {
+        // hide attach picture
+        hideAttachPict()
+        function hideAttachPict() {
+            if ($("#tjobid").val() === "") {
+                $("#TabPicture").hide();
+            } else {
+                $("#TabPicture").show();
+            }
+        }
+
+        // btn display
+        $("#btnDisplay").on('click', function () {
+            var ID = $("#tjobid").val();
+            hideAttachPict();
+            if (ID === "") {
+                Swal.fire("Please fill Job ID", "", "warning");
+                return false;
+            }
+            window.location.href = '/ExrRepairJobHistoryInspection/FinalInspection/' + ID;
+        });
+
+        // upload file functionality
+        var fileUploadInput = $('#fileupload');
+
+        var btnUpload = $('#btnUpload');
+
+        fileUploadInput.on('change', function () {
+            if (fileUploadInput[0].files.length > 0) {
+                btnUpload.prop('disabled', false);
+            } else {
+                btnUpload.prop('disabled', true);
+            }
+        });
+
+        // print functionality
+        function gotoReport() {
+            var url = window.location.href;
+            var ID = url.substring(url.lastIndexOf('/') + 1);
+            window.location.href = '/ExrRepairJobHistoryInspection/Report/' + ID;
+        };
+
+        // $("#btnPrint").on("click", function () {
+        // 	gotoReport();
+        // });
+
+        $("#btnPrint").on("click", function () {
+            var url = window.location.href;
+            var ID = url.substring(url.lastIndexOf('/') + 1);
+            var newTabUrl = '/ExrRepairJobHistoryInspection/FinalJsPdf/' + ID;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+        });
+
+        // print pict functionality
+        function gotoReportPict() {
+            console.log("report pict clicked")
+            var ID = $("#formWono").val();
+            window.location.href = '/ExrRepairJobHistoryInspection/PrintPict/' + ID;
+        };
+
+        // $("#btnPrintPict").on("click", function () {
+        // 	gotoReportPict();
+        // });
+
+        $("#btnPrintPict").on("click", function () {
+            var ID = $("#formWono").val();
+            var newTabUrl = '/ExrRepairJobHistoryInspection/PictFinalJsPdf/' + ID;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+        });
+
+        // checkboxes
+        function checkboxOnChange() {
+            var checkboxes = [
+                "#tCheck1",
+                "#tCheck2",
+                "#tCheck3",
+                "#tCheck4a",
+                "#tCheck4b",
+                "#tCheck4c",
+                "#tCheck4d",
+                "#tCheck5a",
+                "#tCheck5b",
+                "#tCheck5c",
+                "#tCheck6",
+                "#tCheck7",
+                "#ChkAccept",
+                "#ChkReject"
+            ];
+
+            checkboxes.forEach(function (checkboxId) {
+                var checkbox = $(checkboxId);
+
+                checkbox.on("change", function () {
+                    if (checkbox.prop("checked")) {
+                        checkbox.val("-1");
+                    } else {
+                        checkbox.val("0");
+                    }
+                });
+            });
+        }
+
+        checkboxOnChange();
+
+        $("#cSave").click(function () {
+
+            if ($("#tjobid").val() === "") {
+                Swal.fire("Please fill Job ID", "", "warning");
+                return false;
+            }
+
+            if ($("#ChkAccept").val() == "" && $("#ChkReject").val() == "") {
+                Swal.fire("Select Inspect Result (Accept/Reject)", "", "warning");
+                return false;
+            }
+
+            FormSave();
+            Swal.fire("Data Has Been Inserted", "", "success");
+        });
+
+        // save functionality
+        function FormSave() {
+            console.log("masuk")
+            var eID = "NULL";
+            var eJobID = $('#tjobid').val();
+            var eWono = $('#tWono').text();
+            var eNoRegister = "NULL";
+            var eCheck1 = $('#tCheck1').val();
+            var eCheck2 = $('#tCheck2').val();
+            var eCheck3 = $('#tCheck3').val();
+            var eCheck4a = $('#tCheck4a').val();
+            var eCheck4b = $('#tCheck4b').val();
+            var eCheck4c = $('#tCheck4c').val();
+            var eCheck4d = $('#tCheck4d').val();
+            var eCheck5a = $('#tCheck5a').val();
+            var eCheck5b = $('#tCheck5b').val();
+            var eCheck5c = $('#tCheck5c').val();
+            var eCheck6 = $('#tCheck6').val();
+            var eCheck7 = $('#tCheck7').val();
+            var eRemark = $('#tremark').val();
+            var eCheckAccept = $('#ChkAccept').val();
+            var eCheckReject = $('#ChkReject').val();
+            var eIssuedSign = $('#tIssuedSign').val();
+            var eIssuedDate = $('#tIssuedDate').val();
+            var eAcknowledgedSign = $('#tAcknowledgedSign').val();
+            var eAcknowledgedDate = $('#tAcknowledgedDate').val();
+
+            $.ajax({
+                url: '@Url.Action("Save", "ExrRepairJobHistoryInspection")',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    eID: eID,
+                    eJobID: eJobID,
+                    eWono: eWono,
+                    eNoRegister: eNoRegister,
+                    eCheck1: eCheck1,
+                    eCheck2: eCheck2,
+                    eCheck3: eCheck3,
+                    eCheck4a: eCheck4a,
+                    eCheck4b: eCheck4b,
+                    eCheck4c: eCheck4c,
+                    eCheck4d: eCheck4d,
+                    eCheck5a: eCheck5a,
+                    eCheck5b: eCheck5b,
+                    eCheck5c: eCheck5c,
+                    eCheck6: eCheck6,
+                    eCheck7: eCheck7,
+                    eCheckAccept: eCheckAccept,
+                    eCheckReject: eCheckReject,
+                    eRemark: eRemark,
+                    eIssuedSign: eIssuedSign,
+                    eIssuedDate: eIssuedDate,
+                    eAcknowledgedSign: eAcknowledgedSign,
+                    eAcknowledgedDate: eAcknowledgedDate
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        var imageUrls = [];
+
+        // load picture and image viewer functionality
+        lstPict()
+
+        function lstPict() {
+            var tWono = $('#tWono').text();
+
+            $.ajax({
+                url: '@Url.Action("LstPict", "ExrRepairJobHistoryInspection")',
+                type: 'GET',
+                dataType: 'json',
+                data: { tWono: tWono },
+                success: function (test) {
+
+                    for (var i = 0; i < test.length; i++) {
+                        var picturePath = test[i].picturePath;
+                        imageUrls.push(picturePath); // Add the picturePath to the imageUrls array
+                    }
+
+                    loadImage();
+                    addEventListeners();
+
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "delete" },
+                            { "data": "open" },
+                            { "data": "id" },
+                            { "data": "pictureCaption" }
+                        ]
+                    });
+
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        const ZOOMINLEVEL = 1.2;
+        const ZOOMOUTLEVEL = 0.8;
+        const MINZOOMLEVEL = 0.1;
+        const MAXZOOMLEVEL = 15;
+        const CANVASWITH = 375;
+        const CANVASHEIGHT = 250;
+        const PANSTEP = 20;
+        const DEFAULTCURSOR = "crosshair";
+        const MOUSEDOWNCURSOR = "grab";
+        const ZOOMINCURSOR = "zoom-in";
+        const ZOOMOUTCURSOR = "zoom-out";
+        const IMAGESMOOTHINGENABLED = false;
+
+        var currentImageIndex = 0;
+
+        var currentZoomLevel = 1;
+        var isDragging = false;
+        var dragStartPosition = { x: 0, y: 0 };
+
+        var canvas,
+            context,
+            image,
+            currentTransformedCursor,
+            scaledImgWidth,
+            scaledImgHeight,
+            startX,
+            startY,
+            canvasCenterX,
+            canvasCenterY,
+            zoomLevelTxt,
+            mousePos,
+            transformedMousePos,
+            scale;
+
+        function loadImage() {
+            canvas = document.getElementById("canvas");
+            canvas.width = CANVASWITH;
+            canvas.height = CANVASHEIGHT;
+            context = canvas.getContext("2d");
+            context.imageSmoothingEnabled = IMAGESMOOTHINGENABLED;
+
+            zoomLevelTxt = document.getElementById("zoom-level");
+            mousePos = document.getElementById("mouse-pos");
+            transformedMousePos = document.getElementById("transformed-mouse-pos");
+
+            image = new Image();
+
+            image.onload = function () {
+                init();
+                reset();
+            };
+            image.src = imageUrls[currentImageIndex];
+        }
+
+        function init() {
+            scale = Math.min(canvas.width / image.width, canvas.height / image.height);
+            scaledImgWidth = image.width * scale;
+            scaledImgHeight = image.height * scale;
+            startX = (canvas.width - scaledImgWidth) / 2;
+            startY = (canvas.height - scaledImgHeight) / 2;
+            canvasCenterX = canvas.width / 2;
+            canvasCenterY = canvas.height / 2;
+            canvas.style.cursor = DEFAULTCURSOR;
+            context.save();
+        }
+
+        function drawImageToCanvas() {
+            context.save();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.restore();
+            context.drawImage(image, startX, startY, scaledImgWidth, scaledImgHeight);
+        }
+
+        function getTransformedPoint(x, y) {
+            const originalPoint = new DOMPoint(x, y);
+            return context.getTransform().invertSelf().transformPoint(originalPoint);
+        }
+
+        function onMouseDown(event) {
+            isDragging = true;
+            canvas.style.cursor = MOUSEDOWNCURSOR;
+            dragStartPosition = getTransformedPoint(event.offsetX, event.offsetY);
+        }
+
+        function onMouseMove(event) {
+            canvas.style.cursor = DEFAULTCURSOR;
+            currentTransformedCursor = getTransformedPoint(event.offsetX, event.offsetY);
+
+            displayMousePos(event.offsetX, event.offsetY);
+            event.preventDefault();
+
+            if (isDragging) {
+                pan(
+                    currentTransformedCursor.x - dragStartPosition.x,
+                    currentTransformedCursor.y - dragStartPosition.y
+                );
+            }
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            canvas.style.cursor = DEFAULTCURSOR;
+        }
+
+        function onWheel(event) {
+            zoom(event.deltaY < 0 ? ZOOMINLEVEL : ZOOMOUTLEVEL);
+            event.preventDefault();
+        }
+
+        function zoom(zoomLevel) {
+            if (currentZoomLevel == MINZOOMLEVEL && zoomLevel <= 1) {
+                return;
+            }
+
+            if (currentZoomLevel == MAXZOOMLEVEL && zoomLevel >= 1) {
+                return;
+            }
+
+            currentZoomLevel = Math.min(
+                Math.max(currentZoomLevel * zoomLevel, MINZOOMLEVEL),
+                MAXZOOMLEVEL
+            );
+            displayZoomLevel();
+
+            canvas.style.cursor = zoomLevel > 1 ? ZOOMINCURSOR : ZOOMOUTCURSOR;
+            context.translate(currentTransformedCursor.x, currentTransformedCursor.y);
+            context.scale(zoomLevel, zoomLevel);
+            context.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
+            drawImageToCanvas();
+        }
+
+        function pan(x, y) {
+            context.translate(x, y);
+            drawImageToCanvas();
+        }
+
+        function rotate(degrees) {
+            context.translate(canvasCenterX, canvasCenterY);
+            context.rotate((Math.PI / 180) * degrees);
+            context.translate(-canvasCenterX, -canvasCenterY);
+            drawImageToCanvas();
+        }
+
+        function mirror() {
+            context.translate(canvasCenterX, canvasCenterY);
+            context.scale(-1, 1);
+            context.translate(-canvasCenterX, -canvasCenterY);
+            drawImageToCanvas();
+        }
+
+        function flip() {
+            context.translate(canvasCenterX, canvasCenterY);
+            context.scale(1, -1);
+            context.translate(-canvasCenterX, -canvasCenterY);
+            drawImageToCanvas();
+        }
+
+        function center() {
+            drawImageToCanvas(true);
+        }
+
+        function reset() {
+            context.restore();
+            context.save();
+            drawImageToCanvas();
+            currentZoomLevel = 1;
+            displayZoomLevel();
+            canvas.style.cursor = DEFAULTCURSOR;
+        }
+
+        function addEventListeners() {
+            canvas.addEventListener("mousedown", onMouseDown);
+            canvas.addEventListener("mousemove", onMouseMove);
+            canvas.addEventListener("mouseup", onMouseUp);
+            canvas.addEventListener("wheel", onWheel);
+
+            var btnPicturePrevious = document.getElementById("btnPicturePrevious");
+            btnPicturePrevious.addEventListener("click", showPreviousImage);
+
+            var btnPictureNext = document.getElementById("btnPictureNext");
+            btnPictureNext.addEventListener("click", showNextImage);
+
+            document.getElementById("reset").addEventListener("click", function () {
+                reset();
+            });
+            document.getElementById("center").addEventListener("click", function () {
+                center();
+            });
+            document.getElementById("zoomIn").addEventListener("click", function (event) {
+                currentTransformedCursor = {
+                    x: canvasCenterX,
+                    y: canvasCenterY
+                };
+                zoom(ZOOMINLEVEL);
+            });
+            document
+                .getElementById("zoomOut")
+                .addEventListener("click", function (event) {
+                    currentTransformedCursor = {
+                        x: canvasCenterX,
+                        y: canvasCenterY
+                    };
+                    zoom(ZOOMOUTLEVEL);
+                });
+            document.getElementById("rotateRight").addEventListener("click", function () {
+                rotate(90);
+            });
+            document
+                .getElementById("rotateLeft")
+                .addEventListener("click", function (event) {
+                    rotate(-90);
+                });
+            document.getElementById("mirror").addEventListener("click", function (event) {
+                mirror();
+            });
+            document.getElementById("flip").addEventListener("click", function (event) {
+                flip();
+            });
+            document
+                .getElementById("panLeft")
+                .addEventListener("click", function (event) {
+                    pan(-PANSTEP, 0);
+                });
+            document
+                .getElementById("panRight")
+                .addEventListener("click", function (event) {
+                    pan(PANSTEP, 0);
+                });
+            document.getElementById("panUp").addEventListener("click", function (event) {
+                pan(0, -PANSTEP);
+            });
+            document
+                .getElementById("panDown")
+                .addEventListener("click", function (event) {
+                    pan(0, PANSTEP);
+                });
+        }
+
+        function displayMousePos(x, y) {
+            var transX = currentTransformedCursor.x.toFixed(2);
+            var transY = currentTransformedCursor.y.toFixed(2);
+            mousePos.innerText = `Original (${x}, ${y})`;
+            transformedMousePos.innerText = `Transformed (${transX}, ${transY})`;
+        }
+
+        function displayZoomLevel() {
+            zoomLevelTxt.innerText = +currentZoomLevel.toFixed(2);
+        }
+
+        function showPreviousImage() {
+            currentImageIndex--;
+            if (currentImageIndex < 0) {
+                currentImageIndex = imageUrls.length - 1;
+            }
+            loadImage();
+        }
+
+        function showNextImage() {
+            currentImageIndex++;
+            if (currentImageIndex >= imageUrls.length) {
+                currentImageIndex = 0;
+            }
+            loadImage();
+        }
+
+    });
 </script>

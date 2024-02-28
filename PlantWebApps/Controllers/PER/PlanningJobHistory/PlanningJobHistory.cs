@@ -11,7 +11,11 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
         public IActionResult Index()
         {
             LoadOption();
-            return View("~/Views/PER/PlanningJobHistory/index.cshtml");
+
+            var filter = TempData.Peek("planningJobHistoryFilter");
+            var tempData = LoadInitialData(filter);
+
+            return View("~/Views/PER/PlanningJobHistory/index.cshtml", tempData);
         }
         public IActionResult LoadData(string fDocType, string CWOType, string CCompIDType, string fstoretype, string CbRepairAdvice, string tMaintType, string fstatusid,
             string fswo, string fsrepairby, string fsort, string fasc, string fdocno, string TPartID, string fstart, string fend, string feqclass, string freason, string fstore,
@@ -27,6 +31,7 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
             string ascdsc = string.IsNullOrEmpty(fasc) ? "desc" : fasc;
 
             _tempfilter = Utility.VarFilter(filter);
+            TempData["planningJobHistoryFilter"] = _tempfilter;
 
             string dataQuery = $"SELECT TOP 20 * from v_ExrJobDetail {_tempfilter} ORDER BY {sortOrder} {ascdsc}";
             Console.WriteLine("query is" + dataQuery);
@@ -61,6 +66,42 @@ namespace PlantWebApps.Controllers.PER.PlanningJobHistory
                 rows.Add(rowData);
             }
             return new JsonResult(rows);
+        }
+        public List<object> LoadInitialData(object filter)
+        {
+
+            string query = $"SELECT TOP 20 * from v_ExrJobDetail {filter} order by RegisterDate desc";
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    id = Utility.CheckNull(row["ID"]),
+                    requestp1 = Utility.CheckNull(row["RequestP1"]),
+                    offsitewo = Utility.CheckNull(row["OffSiteWO"]),
+                    unitnumber = Utility.CheckNull(row["UnitNumber"]),
+                    unitdescription = Utility.CheckNull(row["UnitDescription"]),
+                    status = Utility.CheckNull(row["Status"]),
+                    compdesc = Utility.CheckNull(row["CompDesc"]),
+                    mainttype = Utility.CheckNull(row["MaintType"]),
+                    comptype = Utility.CheckNull(row["CompType"]),
+                    repairadvice = Utility.CheckNull(row["RepairAdvice"]),
+                    woalloc = Utility.CheckNull(row["WOAlloc"]),
+                    siteallocname = Utility.CheckNull(row["SiteAllocName"]),
+                    tcipartno = Utility.CheckNull(row["TCIPartNo"]),
+                    supabbr = Utility.CheckNull(row["SupervisorAbbr"]),
+                    supname = Utility.CheckNull(row["SupplierName"]),
+                    lastchangedate = Utility.CheckNull(row["LastChangeDate"]),
+                    lastchangeby = Utility.CheckNull(row["LastChangeBy"]),
+                    remarkadvice = Utility.CheckNull(row["RemarkAdvice"]),
+                    locationhold = Utility.CheckNull(row["LocationHold"])
+                };
+                rows.Add(rowData);
+            }
+            return rows;
         }
         private string BuildTempFilter(string fDocType, string CWOType, string CCompIDType, string fstoretype, string CbRepairAdvice,
                                        string tMaintType, string fstatusid, string fswo, string fsrepairby, string fsort, string fdocno,

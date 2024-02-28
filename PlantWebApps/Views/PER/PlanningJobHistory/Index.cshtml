@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<form method="post" enctype="multipart/form-data" asp-controller="OutstandingInternalWo">
+<form id="plannignJobHistoryForm" method="post" enctype="multipart/form-data" asp-controller="OutstandingInternalWo">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -331,9 +331,12 @@
                             </div>
                             <hr />
                             <div class="mb-2">
-                                <div>
+                                <div class="d-flex" style="gap: 10px;">
                                     <button type="submit" id="filterButton" class="btn btn-sm btn-primary">
                                         <i class="fa fa-search"></i> Search
+                                    </button>
+                                    <button type="button" id="resetButton" class="btn btn-sm btn-danger">
+                                        Reset
                                     </button>
                                 </div>
                             </div>
@@ -388,10 +391,17 @@
 
 <script>
     $(document).ready(function () {
-        loadData();
+        var tempData = @Html.Raw(Json.Serialize(Model));
+        loadIntitalData();
+
         $('#filterButton').click(function (e) {
             e.preventDefault();
             loadData();
+        });
+
+        $('#resetButton').click(function (e) {
+            e.preventDefault();
+            resetData();
         });
 
         function loadData() {
@@ -490,5 +500,42 @@
             });
         }
 
+        function loadIntitalData() {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false,
+                responsive: true,
+                pageLength: 20,
+                data: tempData,
+                columns: [
+                    { "data": "id" },
+                    { "data": "requestp1" },
+                    { "data": "offsitewo" },
+                    { "data": "unitnumber" },
+                    { "data": "unitdescription" },
+                    { "data": "status" },
+                    { "data": "compdesc" },
+                    { "data": "mainttype" },
+                    { "data": "comptype" },
+                    { "data": "repairadvice" },
+                    { "data": "woalloc" },
+                    { "data": "siteallocname" },
+                    { "data": "tcipartno" },
+                    { "data": "supabbr" },
+                    { "data": "supname" },
+                    { "data": "lastchangedate" },
+                    { "data": "lastchangeby" },
+                    { "data": "remarkadvice" },
+                    { "data": "locationhold" },
+                ]
+            });
+            $("#offcanvas").offcanvas("hide");
+        }
+
+        function resetData() {
+            $("#plannignJobHistoryForm")[0].reset();
+            $(".select2").val("").trigger("change");
+            loadData();
+        }
     });
 </script>

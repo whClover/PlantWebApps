@@ -5,17 +5,17 @@
     @using System.Data;
 }
 
-<div class="d-flex flex-column" style="gap: 10px" id="capture">
+<div class="d-flex flex-column" style="gap: 10px; font-size: 18px;" id="capture">
     <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white" id="capture">
         <tbody>
             <tr>
                 <td style="width: 25%">
-                    <img src="~/images/Thiess.png" style="max-width: 175px;" />
+                    <img src="~/images/Thiess.png" style="max-width: 250px;" />
                 </td>
                 <td style="width: 50%">
                     <div class="d-flex flex-column align-items-center">
-                        <div style="font-size: 24px" class="fw-bold">OLD CORE INSPECTION REPORT</div>
-                        <div style="font-size: 14px" class="fw-bold">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
+                        <div class="fs-1 fw-bold">OLD CORE INSPECTION REPORT</div>
+                        <div class="fs-4 fw-bold">EXTERNAL / INTERNAL REPAIR & WARRANTY</div>
                     </div>
                 </td>
                 <td style="width: 25%">
@@ -26,7 +26,7 @@
     </table>
 
     <div class="d-flex flex-column align-items-center justify-content-between mt-n1">
-        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; font-size: 14px;">
+        <table class="table table-borderless" border="0" style="font-family: Arial;border-color:white; font-size: 18px;">
             <tr>
                 <td style="width: 50%">
                     <div class="d-flex flex-column">
@@ -105,7 +105,7 @@
                 </td>
             </tr>
         </table>
-        <table class="table table-bordered border border-black" style="border-bottom: none;">
+        <table class="table table-bordered border border-black" style="border-bottom: none; min-height: 650px;">
             <thead>
                 <tr class="fw-bold">
                     <td class="text-center" style="width: 10%">No</td>
@@ -127,7 +127,8 @@
                         a. All bolts properly secured and fitted
                     </td>
                     <td class="text-center">
-                        <input id="tCheck1a" name="tCheck1a" type="checkbox" value="@ViewBag.data.Rows[0]["Check1a"].ToString()"
+                        <input id="tCheck1a" name="tCheck1a" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check1a"].ToString()"
                         @(ViewBag.data.Rows[0]["Check1a"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -137,7 +138,8 @@
                         b. Stand is proper && safe (no damage found on stand)
                     </td>
                     <td class="text-center">
-                        <input id="tCheck1b" name="tCheck1b" type="checkbox" value="@ViewBag.data.Rows[0]["Check1b"].ToString()"
+                        <input id="tCheck1b" name="tCheck1b" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check1b"].ToString()"
                         @(ViewBag.data.Rows[0]["Check1b"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -147,7 +149,8 @@
                         c. Check cleanliness condition (no oil spill found)
                     </td>
                     <td class="text-center">
-                        <input id="tCheck1c" name="tCheck1c" type="checkbox" value="@ViewBag.data.Rows[0]["Check1c"].ToString()"
+                        <input id="tCheck1c" name="tCheck1c" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check1c"].ToString()"
                         @(ViewBag.data.Rows[0]["Check1c"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -157,7 +160,8 @@
                         d. Check the cover condition is properly secured for component protection
                     </td>
                     <td class="text-center">
-                        <input id="tCheck1d" name="tCheck1d" type="checkbox" value="@ViewBag.data.Rows[0]["Check1d"].ToString()"
+                        <input id="tCheck1d" name="tCheck1d" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check1d"].ToString()"
                         @(ViewBag.data.Rows[0]["Check1d"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -174,7 +178,8 @@
                         a. Vendor ID Stamp or ID  Plate
                     </td>
                     <td class="text-center">
-                        <input id="tCheck2a" name="tCheck2a" type="checkbox" value="@ViewBag.data.Rows[0]["Check2a"].ToString()"
+                        <input id="tCheck2a" name="tCheck2a" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check2a"].ToString()"
                         @(ViewBag.data.Rows[0]["Check2a"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -184,7 +189,8 @@
                         b. Overall view of component
                     </td>
                     <td class="text-center">
-                        <input id="tCheck2b" name="tCheck2b" type="checkbox" value="@ViewBag.data.Rows[0]["Check2b"].ToString()"
+                        <input id="tCheck2b" name="tCheck2b" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check2b"].ToString()"
                         @(ViewBag.data.Rows[0]["Check2b"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -195,7 +201,8 @@
                         rename the file name to each WO
                     </td>
                     <td class="text-center">
-                        <input id="tCheck2c" name="tCheck2c" type="checkbox" value="@ViewBag.data.Rows[0]["Check2c"].ToString()"
+                        <input id="tCheck2c" name="tCheck2c" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check2c"].ToString()"
                         @(ViewBag.data.Rows[0]["Check2c"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -205,7 +212,8 @@
                         Sign then record this report after finished inspection
                     </td>
                     <td class="text-center">
-                        <input id="tCheck3" name="tCheck3" type="checkbox" value="@ViewBag.data.Rows[0]["Check3"].ToString()"
+                        <input id="tCheck3" name="tCheck3" type="checkbox" style="width: 20px; height: 20px;" 
+                        value="@ViewBag.data.Rows[0]["Check3"].ToString()"
                         @(ViewBag.data.Rows[0]["Check3"].ToString().ToLower() == "-1" ? "checked" : "")>
                     </td>
                 </tr>
@@ -213,7 +221,7 @@
         </table>
         <div class="d-flex flex-column mt-n3 border border-black" style="width: 100%; border-top: none">
             <div class="border border-black fw-bold" style="border-top: none">Remarks / Findings</div>
-            <div style="min-height: 150px;">
+            <div style="min-height: 450px;">
                 @ViewBag.data.Rows[0]["Remark"].ToString()
             </div>
             <div class="d-flex" style="gap: 10px; border-top: none;">
@@ -232,11 +240,11 @@
                     </label>
                 </div>
             </div>
-            <div class="mt=1">NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
-            <table class="border border-black border-bottom-0 border-start-0 border-end-0 " style="width: 100%">
+            <div class="mt-1">NOTE: If Rejected will be put "ON HOLD" sticker for further action taken</div>
+            <table class="border border-black border-bottom-0 border-start-0 border-end-0 " style="width: 100%; min-height: 250px;">
                 <tbody>
                     <tr>
-                        <td style="width: 50%">
+                        <td class="mt-n2" style="width: 50%; border-right: 1px solid black;">
                             <div class="fw-bold">Issued By,</div>
                             <div>QA/QC Engineer</div>
                             <div class="d-flex align-items-center" style="margin-top: 125px;">
@@ -292,10 +300,10 @@
         const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
         // add html2canvas image to jspdf
-        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+        doc.addImage(imageData, "PNG", 10, 8, pdfWidth, pdfHeight);
 
         // return the pdf
-        doc.save('test.pdf');
+        doc.save('Old Core Inspection.pdf');
         window.close();
     });
 </script>

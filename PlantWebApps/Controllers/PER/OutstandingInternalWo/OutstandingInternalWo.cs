@@ -14,7 +14,11 @@ namespace PlantWebApps.Controllers.PER.OutstandingInternalWo
         public IActionResult Index()
         {
             LoadOption();
-            return View("~/Views/PER/OutstandingInternalWo/Index.cshtml");
+
+            var filter = TempData.Peek("outstandingInternalWoFilter");
+            var tempData = LoadInitialData(filter);
+
+            return View("~/Views/PER/OutstandingInternalWo/Index.cshtml", tempData);
         }
         public IActionResult LoadData(string fParentWO, string fSection, string fwono, string fdocstart, string fdocend)
         {
@@ -23,9 +27,11 @@ namespace PlantWebApps.Controllers.PER.OutstandingInternalWo
             var forder = "Order by RegisterDate Asc";
 
             _tempfilter = Utility.VarFilter(filter);
+            TempData["outstandingInternalWoFilter"] = _tempfilter;
 
-            string dataQuery = $"SELECT * from v_ExrJobDetailIntWoOut {_tempfilter} {forder}";
+            string dataQuery = $"SELECT TOP 50 * from v_ExrJobDetailIntWoOut {_tempfilter} {forder}";
             var data = SQLFunction.execQuery(dataQuery);
+            Console.WriteLine("after" + dataQuery);
 
             Console.WriteLine(dataQuery);
 
@@ -58,6 +64,43 @@ namespace PlantWebApps.Controllers.PER.OutstandingInternalWo
                 rows.Add(rowData);
             }
             return new JsonResult(rows);
+        }
+        public List<object> LoadInitialData(object filter)
+        {
+
+            string query = $"SELECT TOP 50 * from v_ExrJobDetailIntWoOut {filter} Order by RegisterDate Asc";
+            Console.WriteLine("initial" + query);
+            var data = SQLFunction.execQuery(query);
+
+            var rows = new List<object>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                var rowData = new
+                {
+                    button = $@"<button type='button' class='btn btn-link btn-sm' onclick='updateIntWo(""{row["ID"]}"", ""{row["WONo"]}"")'>
+                                    <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" fill=""currentColor"" class=""bi bi-pencil-square"" viewBox=""0 0 16 16"">
+                                      <path d=""M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z""/>
+                                      <path fill-rule=""evenodd"" d=""M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z""/>
+                                    </svg>       
+                                </button>",
+                    id = Utility.CheckNull(row["ID"]),
+                    section = Utility.CheckNull(row["Section"]),
+                    registerdate = Utility.CheckNull(row["RegisterDate"]),
+                    parentwo = Utility.CheckNull(row["ParentWO"]),
+                    offsitewo = Utility.CheckNull(row["OffSiteWO"]),
+                    supplierid = Utility.CheckNull(row["SupplierID"]),
+                    compdesc = Utility.CheckNull(row["CompDesc"]),
+                    compqty = Utility.CheckNull(row["CompQty"]),
+                    intwo = Utility.CheckNull(row["IntWO"]),
+                    wono = Utility.CheckNull(row["WONo"]),
+                    jobdesc = Utility.CheckNull(row["Jobdesc"]),
+                    qty = Utility.CheckNull(row["Qty"]),
+                    jobstatusid = Utility.CheckNull(row["JobStatusID"]),
+                };
+                rows.Add(rowData);
+            }
+            return rows;
         }
         public IActionResult BulkConfirm(string fParentWO, string fSection, string fwono, string fdocstart, string fdocend)
         {

@@ -40,7 +40,7 @@
         <div class="d-flex flex-column col-6 p-3">
             <div class="row">
                 <div class="col-12 no-bottom">
-                    <div class="fs-1 fw-bold text-center my-3" style="color: red;">HOLD ITEM</div>
+                    <div class="fw-bold text-center my-n2" style="color: red; font-size: 75px;">HOLD ITEM</div>
                 </div>
             </div>
             <div class="row">
@@ -54,14 +54,13 @@
                 </div>
                 <div class="col-4 border-left">
                     <div class="fs-5 ">Ex Store</div>
-                    <div class="fs-4 fw-bold ">@item.StoreName</div>
+                    <div class="fs-4 fw-bold" style="min-height: 75px;">@item.StoreName</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-8 border-y">
                     <div class="fs-5 ">Comp. Description</div>
-                    <div class="fs-4 fw-bold ">@item.MaintDesc</div>
-                    <p class="fs-4 fw-bold"></p>
+                    <div class="fs-4 fw-bold" style="min-height: 75px;">@item.MaintDesc</div>
                 </div>
                 <div class="col-4" style="border-right: 5px solid red">
                     <div class="fs-5 ">Start Date</div>
@@ -76,7 +75,7 @@
                 </div>
                 <div class="col-4 border-left">
                     <div class="fs-5 ">Until</div>
-                    <div class="fs-4 fw-bold " style="min-height: 75px;">@item.UnitDescription</div>
+                    <div class="fs-4 fw-bold" style="min-height: 75px;">@item.UnitDescription</div>
                 </div>
             </div>
         </div>
@@ -99,10 +98,10 @@
         const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
         // add html2canvas image to jspdf
-        doc.addImage(imageData, "PNG", 10, 10, pdfWidth, pdfHeight);
+        doc.addImage(imageData, "PNG", 10, 5, pdfWidth, pdfHeight);
 
         // return the pdf
-        doc.save('test.pdf');
+        doc.save('Hold Item.pdf');
         window.close();
 
     });

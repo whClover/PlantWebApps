@@ -63,12 +63,12 @@
         Swal.fire({
             title: 'Are you sure?',
             html: `
-                        <div style="font-size: 16px; text-align: center;">
-                            <div style="margin-bottom: 10px;">
-                                Are you sure to delete the following data?
+                            <div style="font-size: 16px; text-align: center;">
+                                <div style="margin-bottom: 10px;">
+                                    Are you sure to delete the following data?
+                                </div>
                             </div>
-                        </div>
-                    `,
+                        `,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -90,7 +90,7 @@
     }
 </script>
 
-<form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
+<form id="jobDispatchForm" method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -170,9 +170,12 @@
                             </div>
                             <hr />
                             <div class="mb-2">
-                                <div>
+                                <div class="d-flex" style="gap: 10px;">
                                     <button class="btn btn-sm btn-primary" id="filterButton" type="submit">
                                         <i class="fa fa-search"></i> Search
+                                    </button>
+                                    <button type="button" id="resetButton" class="btn btn-sm btn-danger">
+                                        Reset
                                     </button>
                                 </div>
                             </div>
@@ -249,72 +252,112 @@
 </form>
 
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+        var tempData = @Html.Raw(Json.Serialize(Model));
+
+        loadIntitalData();
+
+        $('#filterButton').click(function (e) {
+            e.preventDefault();
             loadData();
-            $('#filterButton').click(function (e) {
-                e.preventDefault();
-                loadData();
+        });
+
+        $('#resetButton').click(function (e) {
+            e.preventDefault();
+            resetData();
+        });
+
+        function loadData() {
+            var fwono = $('#fwono').val();
+            var tanno = $('#tANNO').val();
+            var fsectionid = $('#fSectionID').val();
+            var fdocstart = $('#fdocstart').val();
+            var fdocend = $('#fdocend').val();
+            var fdispatchtypeid = $('#fDispatchTypeID').val();
+
+            // Tampilkan loading overlay
+            $('#loadingOverlay').show();
+
+            $.ajax({
+                url: '@Url.Action("loadData", "JobDispatch")',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    fwono: fwono,
+                    tanno: tanno,
+                    fsectionid: fsectionid,
+                    fdocstart: fdocstart,
+                    fdocend: fdocend,
+                    fdispatchtypeid: fdispatchtypeid
+                },
+                success: function (test) {
+                    //console.log(test);
+                    $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
+                    $('.datatable').DataTable({
+                        searching: false,
+                        lengthChange: false,
+                        responsive: true,
+                        pageLength: 20,
+                        data: test, // The data received from the AJAX request
+                        columns: [
+                            { "data": "delete" },
+                            { "data": "edit" },
+                            { "data": "id" },
+                            { "data": "section" },
+                            { "data": "dispatchType" },
+                            { "data": "attantionName" },
+                            { "data": "attentionTo" },
+                            { "data": "project" },
+                            { "data": "dispatchDate" },
+                            { "data": "handledDate" },
+                            { "data": "receivedDate" },
+                            { "data": "statusId" }
+                        ]
+                    });
+
+                    // Sembunyikan loading overlay setelah data dimuat
+                    $("#offcanvas").offcanvas("hide");
+                    $('#loadingOverlay').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        function loadIntitalData() {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false,
+                responsive: true,
+                pageLength: 20,
+                data: tempData,
+                columns: [
+                    { "data": "delete" },
+                    { "data": "edit" },
+                    { "data": "id" },
+                    { "data": "section" },
+                    { "data": "dispatchType" },
+                    { "data": "attantionName" },
+                    { "data": "attentionTo" },
+                    { "data": "project" },
+                    { "data": "dispatchDate" },
+                    { "data": "handledDate" },
+                    { "data": "receivedDate" },
+                    { "data": "statusId" }
+                ]
             });
 
-            function loadData() {
-                var fwono = $('#fwono').val();
-                var tanno = $('#tANNO').val();
-                var fsectionid = $('#fSectionID').val();
-                var fdocstart = $('#fdocstart').val();
-                var fdocend = $('#fdocend').val();
-                var fdispatchtypeid = $('#fDispatchTypeID').val();
+            $("#offcanvas").offcanvas("hide");
+        }
 
-                // Tampilkan loading overlay
-                $('#loadingOverlay').show();
-
-                $.ajax({
-                    url: '@Url.Action("loadData", "JobDispatch")',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        fwono: fwono,
-                        tanno: tanno,
-                        fsectionid: fsectionid,
-                        fdocstart: fdocstart,
-                        fdocend: fdocend,
-                        fdispatchtypeid: fdispatchtypeid
-                    },
-                    success: function (test) {
-                        //console.log(test);
-                        $('.datatable').DataTable().clear().destroy(); // Clear and destroy the existing DataTable
-                        $('.datatable').DataTable({
-                            searching: false,
-                            lengthChange: false,
-                            responsive: true,
-                            pageLength: 20,
-                            data: test, // The data received from the AJAX request
-                            columns: [
-                                { "data": "delete" },
-                                { "data": "edit" },
-                                { "data": "id" },
-                                { "data": "section" },
-                                { "data": "dispatchType" },
-                                { "data": "attantionName" },
-                                { "data": "attentionTo" },
-                                { "data": "project" },
-                                { "data": "dispatchDate" },
-                                { "data": "handledDate" },
-                                { "data": "receivedDate" },
-                                { "data": "statusId" }
-                            ]
-                        });
-
-                        // Sembunyikan loading overlay setelah data dimuat
-                        $("#offcanvas").offcanvas("hide");
-                        $('#loadingOverlay').hide();
-
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
-        });
+        function resetData() {
+            $("#jobDispatchForm")[0].reset();
+            $(".select2").val("").trigger("change");
+            loadData();
+        }
+    });
 
     $("#btnPrint").on("click", function () {
         var selectedRow = $('.datatable').DataTable().row(0).data();
