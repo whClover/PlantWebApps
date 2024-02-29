@@ -8,43 +8,45 @@
 
 <script>
     function editDetail(id, wono) {
+        var dispatchID = $('#tID').val()
+        console.log("edit detail", dispatchID, wono);
         $.ajax({
             method: "GET",
             url: "/JobDispatch/searchwonodetail",
             data: {
+                dispatchID: dispatchID,
                 id: id,
                 wono: wono
             },
             success: function (response) {
-                console.log("response is", response.massage)
                 if (response.massage == "empty") {
                     Swal.fire("WO Not Exist", "", "error");
                     return
                 } else {
                     var data = JSON.parse(response.json);
 
-                    $('#TStatusID').val(data[0]?.StatusID);
-                    $('#TType').val(data[0]?.DispatchType);
-                    $('#TDispatchID').val(data[0]?.DispatchID);
-                    $('#TID').val(data[0]?.ID);
-                    $('#TSectionID').val(data[0]?.SectionID);
-                    $('#anDetailJobId').val(data[0]?.JobID);
-                    $('#anDetailWono').val(data[0]?.WONO);
-                    $('#anDetailChildWo').val(data[0]?.ChildWO);
-                    $('#TItem').val(data[0]?.Item);
-                    $('#TQty').val(data[0]?.Qty);
-                    $('#TTUOM').val(data[0]?.UOM);
-                    $('#anDetailDescription').text(data[0]?.ItemDesc);
-                    $('#TPONo').text(data[0]?.PRNo);
-                    $('#TPRNo').val(data[0]?.PRNo);
-                    $('#TRemarks').val(data[0]?.Remarks);
-                    $('#TRegisterBy').val(data[0]?.RegisterBy);
-                    $('#TRegisterDate').val(data[0]?.RegisterDate);
-                    $('#TModBy').val(data[0]?.ModBy);
-                    $('#TModDate').val(data[0]?.ModDate);
-                    $('#TDeletedBy').val(data[0]?.ModBy);
-                    $('#TDeletedDate').val(data[0]?.ModDate);
-                    $('#tFormiD').val("EDIT");
+                    $('#xStatusID').val(data.StatusID);
+                    $('#xType').val(data.DispatchType);
+                    $('#xDispatchID').val(data.DispatchID);
+                    $('#xID').val(data.ID);
+                    $('#xSectionID').val(data.SectionID);
+                    $('#anDetailJobId').val(data.JobID);
+                    $('#anDetailWono').val(data.WONo);
+                    $('#anDetailChildWo').val(data.ChildWO);
+                    $('#xItem').val(data.Item);
+                    $('#xQty').val(data.Qty);
+                    $('#xTUOM').val(data.UOM);
+                    $('#anDetailDescription').text(data.ItemDesc);
+                    $('#xPONo').text(data.PRNo);
+                    $('#xPRNo').val(data.PRNo);
+                    $('#xRemarks').val(data.Remarks);
+                    $('#xRegisterBy').val(data.RegisterBy);
+                    $('#xRegisterDate').val(data.RegisterDate);
+                    $('#xModBy').val(data.ModBy);
+                    $('#xModDate').val(data.ModDate);
+                    $('#xDeletedBy').val(data.ModBy);
+                    $('#xDeletedDate').val(data.ModDate);
+                    $('#xFormiD').val("EDIT");
 
                     $('#anDetailModal').modal('show');
                 }
@@ -53,6 +55,11 @@
                 // Handle error response here
             }
         });
+    }
+
+    function addDetail() { 
+        console.log("filling");
+        $('#anDetailModal').modal('show');
     }
 </script>
 
@@ -137,7 +144,7 @@
                                                         var tAttentionNameDisplayName = row["DisplayName"].ToString();
                                                         var tAttentionNameDepartment = row["Department"].ToString();
                                                         var tAttentionNameEmail = row["EmailAddress"].ToString();
-                                                        <option value="@tAttentionNameEmail" selected="@(tAttentionNameDisplayName == ViewBag.data?.Rows[0]?["AttentionName"].ToString())">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
+                                                        <option value="@tAttentionNameDisplayName" selected="@(tAttentionNameDisplayName == ViewBag.data?.Rows[0]?["AttentionName"].ToString())">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
                                                     }
                                                 </select>
                                             </div>
@@ -455,13 +462,37 @@
 <script>
     $(document).ready(function () {
         $(document).on('click', '#selectedDetailRow', function () {
+            var an = $('#tID').val()
+            console.log(an);
+
             var selectedValue = $(this).attr('value');
-            var valuesArray = selectedValue.split(' ');
+            console.log("ori", selectedValue)
+            var valuesArray = selectedValue.split(',');
+            console.log("new", valuesArray)
             $('#anDetailSection').val(valuesArray[0]);
             $('#anDetailWono').val(valuesArray[3]);
             $('#anDetailChildWo').val(valuesArray[4]);
             $('#anDetailJobId').val(valuesArray[2]);
-            $('#anDetailDescription').val(valuesArray[6]);
+            $('#anDetailDescription').val("Comp Desc : " + valuesArray[6] + "\nUnit No : " + valuesArray[7] + " " + valuesArray[12]);
+            $('#xPONo').val("WO NO. :" + " " + valuesArray[3]);
+            $('#xID').val("");
+            $('#xStatusID').val("");
+            $('#xDispatchID').val(an);
+            $('#xType').val("");
+            $('#xJobID').val("");
+            $('#xItem').val("");
+            $('#xQty').val("");
+            $('#xTUOM').val("");
+            $('#xPRNo').val("");
+            $('#xRemarks').val("");
+            $('#xRegisterBy').val("");
+            $('#xRegisterDate').val("");
+            $('#xModBy').val("");
+            $('#xDeletedDate').val("");
+            $('#xModDate').val("");
+            $('#xDeletedBy').val("");
+            $('#xFormiD').val("ADD");
+
         });
 
         $("#btnJspdf").on("click", function () {
@@ -495,13 +526,13 @@
         function getDataEmail(context) {
             var selectedOption = $(context).find(':selected');
             var email = selectedOption.data('email');
-            $('#tDispatchValue').val(email);
-            $('#tDispatchValue').text(email);
+            $('#xDispatchValue').val(email);
+            $('#xDispatchValue').text(email);
         }
 
         getDataEmail('#tDispatchBy');
 
-        $('#tDispatchBy').on('change', function () {
+        $('#xDispatchBy').on('change', function () {
             getDataEmail(this);
         });
 
@@ -562,14 +593,14 @@
 
         // search wono detail
         $('#btnSearchWonoDetail').on('click', function (e) {
-            console.log("clicked");
+            console.log("find wono");
             e.preventDefault();
             var id = tIDInput.value;
             var wono = $('input[name="eWono"]').val();
             // window.location.href = '/JobDispatch/searchwonodetail/' + tIDValue + '/' + eWonoValue;
             $.ajax({
                 method: "GET",
-                url: "/JobDispatch/searchwonodetail",
+                url: "/JobDispatch/FindWonoDetail",
                 data: {
                     id: id,
                     wono: wono

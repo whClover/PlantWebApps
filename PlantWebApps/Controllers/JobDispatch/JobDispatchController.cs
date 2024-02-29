@@ -165,13 +165,12 @@ namespace PlantWebApps.Controllers.JobDispatch
             Console.WriteLine("Viewbag data is" + query);
             ViewBag.data = SQLFunction.execQuery(query);
 
-            string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
+            string queryDispatchType = $"select * from v_DispatchJobDetail where ID = {Utility.Evar(id, 1)} ";
             ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
-            Console.WriteLine("Viewbag typeDispatch is" + queryDispatchType);
 
             return View("~/Views/JobDispatch/Form.cshtml");
         }
-        public JsonResult SearchWonoDetail(string id, string wono)
+        public JsonResult SearchWonoDetail(string dispatchID, string id, string wono)
         {
             loadOption();
 
@@ -180,7 +179,8 @@ namespace PlantWebApps.Controllers.JobDispatch
             string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
             ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
 
-            string dataQuery = $@"SELECT * from tbl_DispatchJobDetail WHERE  WONO = {Utility.Evar(wono, 1)} AND StatusID != 'del'";
+            string dataQuery = $@"SELECT * from tbl_DispatchJobDetail WHERE  WONO = {Utility.Evar(wono, 1)} AND DispatchID = {Utility.Evar(dispatchID, 1)}
+            AND ID = {Utility.Evar(id, 1)} AND StatusID != 'del'";
             Console.WriteLine(dataQuery);
 
             var result = SQLFunction.execQuery(dataQuery);
@@ -232,7 +232,69 @@ namespace PlantWebApps.Controllers.JobDispatch
                 string json = "123";
                 return Json(new { massage = "empty", json });
             }
+        }
+        public JsonResult FindWonoDetail(string id, string wono)
+        {
+            loadOption();
 
+            ViewBag.isEdit = true;
+
+            string queryDispatchType = $"select DispatchType from v_DispatchJob where ID = {Utility.Evar(id, 1)} ";
+            ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);
+
+            string dataQuery = $@"SELECT * from tbl_DispatchJobDetail WHERE  WONO = {Utility.Evar(wono, 1)}
+            AND StatusID != 'del'";
+            Console.WriteLine(dataQuery);
+
+            var result = SQLFunction.execQuery(dataQuery);
+
+            if (result.Rows.Count > 1)
+            {
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                List<string> columnNames = new List<string>();
+                foreach (DataColumn column in result.Columns)
+                {
+                    columnNames.Add(column.ColumnName);
+                }
+
+                foreach (DataRow row in result.Rows)
+                {
+                    Dictionary<string, object> dataDict = new Dictionary<string, object>();
+                    foreach (string columnName in columnNames)
+                    {
+                        dataDict[columnName] = row[columnName];
+                    }
+                    rows.Add(dataDict);
+                }
+
+                string json = JsonConvert.SerializeObject(rows);
+                return Json(new { massage = "more", json });
+            }
+            else if (result.Rows.Count > 0)
+            {
+                List<string> columnNames = new List<string>();
+                foreach (DataColumn column in result.Columns)
+                {
+                    columnNames.Add(column.ColumnName);
+                }
+
+                // Create a dictionary to store the column names and values
+                Dictionary<string, object> dataDict = new Dictionary<string, object>();
+                foreach (DataRow row in result.Rows)
+                {
+                    foreach (string columnName in columnNames)
+                    {
+                        dataDict[columnName] = row[columnName];
+                    }
+                }
+                string json = JsonConvert.SerializeObject(dataDict);
+                return Json(new { massage = "one", json });
+            }
+            else
+            {
+                string json = "123";
+                return Json(new { massage = "empty", json });
+            }
         }
         private void LoadAccess(string ID)
         {
@@ -270,7 +332,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             _tempfilter = Utility.VarFilter(tempfilter);
             Console.WriteLine(tempfilter);
-            string dataQuery = $"Select TOP 50 SectionID,Section,JobID,WONo,ChildWO,ExtWO,CompDesc,MaintType,CompQty from v_WOtoDispatch2 {_tempfilter}";
+            string dataQuery = $"Select TOP 50 * from v_WOtoDispatch2 {_tempfilter}";
             Console.WriteLine(dataQuery);
             var data = SQLFunction.execQuery(dataQuery);
 
@@ -290,8 +352,14 @@ namespace PlantWebApps.Controllers.JobDispatch
                     mainttype = Utility.CheckNull(row["MaintType"]),
                     compqty = Utility.CheckNull(row["CompQty"]),
                     show = $"<a id='selectedDetailRow' class='btn btn-primary btn-sm' " +
-                    $"value='{string.Join(" ", row.ItemArray)}' data-bs-target='#anDetailModal' " +
+                    $"value='{string.Join(",", row.ItemArray)}' data-bs-target='#anDetailModal' " +
                     $"data-bs-toggle='modal'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-eye-fill\" viewBox=\"0 0 16 16\">\r\n  <path d=\"M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0\"/>\r\n  <path d=\"M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7\"/>\r\n</svg></a>",
+                    //show = $@"<button type='button' class='btn btn-primary btn-sm' id='selectedDetailRow onclick='editDetail(""{row["JobID"]}"", ""{row["WONo"]}"")'>
+                    //                    <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" fill=""currentColor"" class=""bi bi-eye-fill"" viewBox=""0 0 16 16"">
+                    //                      <path d=""M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0""/>
+                    //                      <path d=""M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7""/>
+                    //                    </svg>       
+                    //               </button>",
                 };
                 rows.Add(rowData);
             }
@@ -338,7 +406,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                     HandledBy = {eHandledBy}, HandledDate = {eHandledDate}, ModBy = {eRegisterBy}, 
                     ModDate = {eRegisterDate} WHERE ID = {eid}";
                 Console.WriteLine(query);
-                SQLFunction.execQuery(query);
+                //SQLFunction.execQuery(query);
                 Stat = "success";
                 Msg = "Data has been saved";
                 return Redirect("/JobDispatch/Edit/" + eid);
@@ -490,7 +558,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             var eStatusID = (Utility.Evar(Request.Form["TStatusID"].ToString(), 1));
             var eType = (Utility.Evar(Request.Form["TType"].ToString(), 1));
-            var id = Request.Form["TID"];
+            var id = Request.Form["TDispatchID"];
             var eDispatchID = (Utility.Evar(Request.Form["TDispatchID"].ToString(), 1));
             var eSectionID = (Utility.Evar(Request.Form["TSectionID"].ToString(), 1));
             var eWONo = (Utility.Evar(Request.Form["TWONo"].ToString(), 1));

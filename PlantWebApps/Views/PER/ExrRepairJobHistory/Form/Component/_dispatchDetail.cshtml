@@ -17,28 +17,28 @@
             },
             success: function (response) {
                 console.log(response)
-                $('#TID').val(response[0].id);
-                $('#TStatusID').val(response[0].statusID);
-                $('#TDispatchID').val(response[0].dispatchID);
-                $('#TType').val(response[0].dispatchType);
+                $('#xID').val(response[0].id);
+                $('#xStatusID').val(response[0].statusID);
+                $('#xDispatchID').val(response[0].dispatchID);
+                $('#xType').val(response[0].dispatchType);
                 $('#anDetailSection').val(response[0].sectionID);
-                $('#TJobID').val(response[0].jobID);
+                $('#xJobID').val(response[0].jobID);
                 $('#anDetailWono').val(response[0].wono);
                 $('#anDetailChildWo').val(response[0].childwo);
-                $('#TItem').val(response[0].item);
-                $('#TQty').val(response[0].qty);
-                $('#TTUOM').val(response[0].uom);
+                $('#xItem').val(response[0].item);
+                $('#xQty').val(response[0].qty);
+                $('#xTUOM').val(response[0].uom);
                 $('#anDetailDescription').val(response[0].itemDesc);
-                $('#TPONo').val(response[0].prNo);
-                $('#TPRNo').val(response[0].prNo);
-                $('#TRemarks').val(response[0].remarks);
-                $('#TRegisterBy').val(response[0].registerBy);
-                $('#TRegisterDate').val(response[0].registerdate);
-                $('#TModBy').val(response[0].modBy);
-                $('#TModDate').val(response[0].modDate);
-                $('#TDeletedBy').val(response[0].modBy);
-                $('#TDeletedDate').val(response[0].modDate);
-                $('#tFormiD').val("EDIT");
+                $('#xPONo').val(response[0].prNo);
+                $('#xPRNo').val(response[0].prNo);
+                $('#xRemarks').val(response[0].remarks);
+                $('#xRegisterBy').val(response[0].registerBy);
+                $('#xRegisterDate').val(response[0].registerdate);
+                $('#xModBy').val(response[0].modBy);
+                $('#xModDate').val(response[0].modDate);
+                $('#xDeletedBy').val(response[0].modBy);
+                $('#xDeletedDate').val(response[0].modDate);
+                $('#xFormiD').val("EDIT");
 
                 $('#anDetailModal').modal('show');
             }
@@ -115,7 +115,7 @@
 <script>
     $(document).ready(function () {
 
-        var id = $('#tID').val();
+        var id = $('#xID').val();
 
         $('#btnDeleteDispatch').on('click', function () {
             Swal.fire({
@@ -175,28 +175,28 @@
 
         $('#CDispatchAdd').on('click', function () {
 
-            $('#TID').val("");
-            $('#TStatusID').val("");
-            $('#TDispatchID').val("");
-            $('#TType').val("");
+            $('#xID').val("");
+            $('#xStatusID').val("");
+            $('#xDispatchID').val("");
+            $('#xType').val("");
             $('#anDetailSection').val("");
-            $('#TJobID').val("");
+            $('#xJobID').val("");
             $('#anDetailWono').val("");
             $('#anDetailChildWo').val("");
-            $('#TItem').val("");
-            $('#TQty').val("");
-            $('#TTUOM').val("");
+            $('#xItem').val("");
+            $('#xQty').val("");
+            $('#xTUOM').val("");
             $('#anDetailDescription').val("");
-            $('#TPONo').val(""); 
-            $('#TPRNo').val("");
-            $('#TRemarks').val("");
-            $('#TRegisterBy').val("");
-            $('#TRegisterDate').val("");
-            $('#TModBy').val("");
-            $('#TDeletedDate').val("");
-            $('#TModDate').val("");
-            $('#TDeletedBy').val("");
-            $('#tFormiD').val("ADD");
+            $('#xPONo').val(""); 
+            $('#xPRNo').val("");
+            $('#xRemarks').val("");
+            $('#xRegisterBy').val("");
+            $('#xRegisterDate').val("");
+            $('#xModBy').val("");
+            $('#xDeletedDate').val("");
+            $('#xModDate').val("");
+            $('#xDeletedBy').val("");
+            $('#xFormiD').val("ADD");
 
             $('#anDetailModal').modal('show');
         });
