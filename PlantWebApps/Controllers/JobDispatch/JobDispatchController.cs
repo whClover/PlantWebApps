@@ -163,7 +163,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             string query = "select * from v_DispatchJob where ID =" + Utility.Evar(id, 1);
             Console.WriteLine("Viewbag data is" + query);
-            ViewBag.data = SQLFunction.execQuery(query);
+            ViewBag.dispatchdata = SQLFunction.execQuery(query);
 
             string queryDispatchType = $"select * from v_DispatchJobDetail where ID = {Utility.Evar(id, 1)} ";
             ViewBag.typeDispatch = SQLFunction.execQuery(queryDispatchType);

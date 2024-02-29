@@ -93,7 +93,7 @@
                                                     {
                                                         var tDispatchTypeId = row["DispatchTypeID"].ToString();
                                                         var tDispatchTypeType = row["DispatchType"].ToString();
-                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == ViewBag.data?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
+                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
                                                     }
                                                 </select>
                                             </div>
@@ -103,7 +103,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
+                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata.Rows[0]["ShipmentDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -117,8 +117,8 @@
                                                     {
                                                         var tAttentionToId = row["SupplierID"].ToString();
                                                         var tAttemtionToName = row["SupplierName"].ToString();
-                                                        var selectedAttentionTo = ViewBag.data?.Rows[0]?["AttentionTo"].ToString();
-                                                        <option value="@tAttentionToId" selected="@(tAttentionToId == ViewBag.data?.Rows[0]?["AttentionTo"].ToString())">@tAttemtionToName | @tAttentionToId</option>
+                                                        var selectedAttentionTo = ViewBag.dispatchdata?.Rows[0]?["AttentionTo"].ToString();
+                                                        <option value="@tAttentionToId" selected="@(tAttentionToId == ViewBag.dispatchdata?.Rows[0]?["AttentionTo"].ToString())">@tAttemtionToName | @tAttentionToId</option>
                                                     }
                                                 </select>
                                             </div>
@@ -129,7 +129,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Attention Address</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ConsignedTo"] : "")" />
+                                                <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ConsignedTo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@
                                                         var tAttentionNameDisplayName = row["DisplayName"].ToString();
                                                         var tAttentionNameDepartment = row["Department"].ToString();
                                                         var tAttentionNameEmail = row["EmailAddress"].ToString();
-                                                        <option value="@tAttentionNameDisplayName" selected="@(tAttentionNameDisplayName == ViewBag.data?.Rows[0]?["AttentionName"].ToString())">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
+                                                        <option value="@tAttentionNameDisplayName" selected="@(tAttentionNameDisplayName == ViewBag.dispatchdata?.Rows[0]?["AttentionName"].ToString())">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
                                                     }
                                                 </select>
                                             </div>
@@ -154,7 +154,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Attention Email</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AttentionEmail"] : "")" />
+                                                <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["AttentionEmail"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Project</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Project"] : "")" />
+                                                <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["Project"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -175,7 +175,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Job No</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["JobNo"] : "")" />
+                                                <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["JobNo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +183,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Manifest No</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ManifestNo"] : "")" />
+                                                <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ManifestNo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Transport Mode</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TransportMode"] : "")" />
+                                                <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["TransportMode"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@
                                                     {
                                                         var tSectionId = row["JobSourceID"].ToString();
                                                         var tSectionIdJobSource = row["JobSource"].ToString();
-                                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.data?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
+                                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.dispatchdata?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
                                                     }
                                                 </select>
                                             </div>
@@ -223,7 +223,7 @@
                                                         var tDispatchByAccount = row["Account"].ToString();
                                                         var tDispatchByDepartment = row["Department"].ToString();
                                                         var tDispatchByEmailAddress = row["EmailAddress"].ToString();
-                                                        <option data-email="@tDispatchByEmailAddress" value="@tDispatchByDisplayName" selected="@(tDispatchByDisplayName == ViewBag.data?.Rows[0]?["DispatchBy"].ToString())">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
+                                                        <option data-email="@tDispatchByEmailAddress" value="@tDispatchByDisplayName" selected="@(tDispatchByDisplayName == ViewBag.dispatchdata?.Rows[0]?["DispatchBy"].ToString())">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
                                                     }
                                                 </select>
                                             </div>
@@ -246,7 +246,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" id="TDispatchDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DispatchDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" id="TDispatchDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["DispatchDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -262,7 +262,7 @@
                                                         var cHandledByByAccount = row["Account"].ToString();
                                                         var cHandledByDepartment = row["Department"].ToString();
                                                         var cHandledByEmailAddress = row["EmailAddress"].ToString();
-                                                        <option value="@cHandledByEmailAddress" selected="@(cHandledByEmailAddress == ViewBag.data?.Rows[0]?["HandledBy"].ToString())">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
+                                                        <option value="@cHandledByEmailAddress" selected="@(cHandledByEmailAddress == ViewBag.dispatchdata?.Rows[0]?["HandledBy"].ToString())">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
                                                     }
                                                 </select>
                                             </div>
@@ -272,7 +272,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Handled Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" id="THandledDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["HandledDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" id="THandledDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["HandledDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Received By</div>
                                             <div class="col-7 fw-normal">
-                                                <input disabled type="text" class="col-7 form-control form-control-sm" name="tReceivedBy" id="TReceivedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedBy"] : "")" />
+                                                <input disabled type="text" class="col-7 form-control form-control-sm" name="tReceivedBy" id="TReceivedBy" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ReceivedBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -288,7 +288,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Received Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input disabled type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" id="TReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")" />
+                                                <input disabled type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" id="TReceivedDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ReceivedDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -301,7 +301,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">StatusID</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" id="TStatusID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StatusID"] : "New")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" id="TStatusID" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["StatusID"] : "New")" />
                                             </div>
                                         </div>
                                     </div>
@@ -320,7 +320,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">RegisterBy</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tRegisterBy" id="TRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tRegisterBy" id="TRegisterBy" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["RegisterBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -328,7 +328,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tRegisterDate" id="TRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tRegisterDate" id="TRegisterDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["RegisterDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -336,7 +336,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">ModBy</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tModBy" id="TModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tModBy" id="TModBy" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ModBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -344,7 +344,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">ModDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tModDate" id="TModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tModDate" id="TModDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ModDate"] : "")" />
                                             </div>
                                         </div>
                                     </div>

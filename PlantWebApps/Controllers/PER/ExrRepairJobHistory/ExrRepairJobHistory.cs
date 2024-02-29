@@ -1005,6 +1005,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryDispatchDetail = $@"SELECT * from v_DispatchJobDetail WHERE DetailID = {Utility.Evar(anno, 1)} AND StatusID != 'del'";
             Console.WriteLine(queryDispatchDetail);
             var result = SQLFunction.execQuery(queryDispatchDetail);
+            ViewBag.dispatchdata = SQLFunction.execQuery(queryDispatchDetail);
 
             if (result.Rows.Count > 0)
             {
