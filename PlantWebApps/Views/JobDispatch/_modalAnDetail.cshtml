@@ -31,15 +31,18 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Dispatch Type*</div>
                             <div class="col-4">
-                                <select class="col-4 form-control form-control-sm" id="xType" name="TType" required>
-                                    <option value=""></option>
-                                    @foreach (DataRow row in ViewBag.tDispatchType.Rows)
-                                    {
-                                        var tDispatchTypeId = row["DispatchTypeID"].ToString();
-                                        var tDispatchTypeType = row["DispatchType"].ToString();
-                                        <option value="@tDispatchTypeType" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
-                                    }
-                                </select>
+                                @if (ViewBag.dataaccess.Rows.Count > 0)
+                                {
+                                    <select class="col-4 form-control form-control-sm" id="xType" name="TType" required>
+                                        <option value=""></option>
+                                        @foreach (DataRow row in ViewBag.tDispatchType.Rows)
+                                        {
+                                            var tDispatchTypeId = row["DispatchTypeID"].ToString();
+                                            var tDispatchTypeType = row["DispatchType"].ToString();
+                                            <option value="@tDispatchTypeType" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
+                                        }
+                                    </select>
+                                }
                             </div>
                         </div>
                     </div>
@@ -63,14 +66,17 @@
                             <div class="col-3" style="font-size: 12px;">Section ID*</div>
                             <div class="col-4">
                                 @* <input type="text" id="anDetailSection" name="TSectionID" class="col-4 form-control form-control-sm"
-                                       value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)" /> *@
+                                value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)" /> *@
                                 <select id="anDetailSection" name="tSectionId" class="form-control form-control-sm">
                                     <option value=""></option>
-                                    @foreach (DataRow row in ViewBag.tSectionId.Rows)
+                                    @if (ViewBag.dataaccess.Rows.Count > 0)
                                     {
-                                        var tSectionId = row["JobSourceID"].ToString();
-                                        var tSectionIdJobSource = row["JobSource"].ToString();
-                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.dataaccess?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
+                                        foreach (DataRow row in ViewBag.tSectionId.Rows)
+                                        {
+                                            var tSectionId = row["JobSourceID"].ToString();
+                                            var tSectionIdJobSource = row["JobSource"].ToString();
+                                            <option value="@tSectionId" selected="@(tSectionId == ViewBag.dataaccess.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
+                                        }
                                     }
                                 </select>
                             </div>
