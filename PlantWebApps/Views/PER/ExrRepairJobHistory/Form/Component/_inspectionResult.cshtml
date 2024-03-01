@@ -11,11 +11,11 @@
             <div class="row align-items-center">
                 <div class="col-2">Old Core Inspection</div>
                 <input type="text" id="resultOld" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
-                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionY" 
-                       value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")">
+                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionY"
+                       value="">
                 <label class="col-2 pt-1" for="oCoreInspection">Accept</label>
-                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionN" 
-                       value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")">
+                <input class="col-1" name="oCoreInspection" type="radio" id="oCoreInspectionN"
+                       value="">
                 <label class="col-2 pt-1" for="oCoreInspection">Reject</label>
                 <a id="btnOldCore" class="btn btn-primary col-2 ms-2 d-flex align-items-center justify-content-center" style="max-width: 45px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -28,66 +28,72 @@
         <div class="container overflow-hidden">
             <div class="row align-items-center">
                 <div class="col-2">Final Inspection</div>
-                <input type="text" id="resultFinal" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0")" />
-                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionY" 
-                       value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultFinalInspect"] : "0")">
+                <input type="text" id="resultFinal" class="d-none" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultFinalInspect"] : "0")" />
+                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionY"
+                       value="">
                 <label class="col-2 pt-1" for="finalInspection">Accept</label>
-                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionN" 
-                       value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultFinalInspect"] : "0")">
+                <input class="col-1" name="finalInspection" type="radio" id="finalInspectionN"
+                       value="">
                 <label class="col-2 pt-1" for="finalInspection">Reject</label>
-                <a id="btnFinalInspection" class="btn btn-primary col-2 ms-2 d-flex align-items-center justify-content-center" style="max-width: 45px;">
+                <button id="btnFinalInspection" class="btn btn-primary col-2 ms-2 d-flex align-items-center justify-content-center" style="max-width: 45px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
                     </svg>
-                </a>
+                </button>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () { 
+    $(document).ready(function () {
 
         var currentURL = window.location.href;
         var id = currentURL.substring(currentURL.lastIndexOf('/') + 1);
 
-        $("#btnOldCore").attr("href", "/ExrRepairJobHistoryInspection/OldCore/" + id);
-        $("#btnFinalInspection").attr("href", "/ExrRepairJobHistoryInspection/FinalInspection/" + id);
+        $("#btnOldCore").on("click", function () {
+            window.location.href = "/ExrRepairJobHistoryInspection/OldCore/" + id;
+        });
 
-        var oCoreInspection = @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0");
-
-        var oCoreInspectionY = $('#oCoreInspectionY');
-        var oCoreInspectionN = $('#oCoreInspectionN');
+        $("#btnFinalInspection").on("click", function () {
+            window.location.href = "/ExrRepairJobHistoryInspection/FinalInspection/" + id;
+        });
 
         function handleOcoreStand() {
-            if (oCoreInspection === -1) {
-                oCoreInspectionY.prop("checked", true);
-                oCoreInspectionY.val("-1");
-                oCoreInspectionN.val("0");
-            } else if (oCoreInspection === 0) {
-                oCoreInspectionN.prop("checked", true);
-                oCoreInspectionN.val("-1");
-                oCoreInspectionY.val("0");
+            var oCoreInspection = $('#resultOld').val();
+            console.log("old", oCoreInspection);
+            if (oCoreInspection == -1) {
+                $('#oCoreInspectionY').prop("checked", true);
+                $('#oCoreInspectionY').val("-1");
+                $('#oCoreInspectionN').val("0");
+            } else if (oCoreInspection == "") {
+                $('#oCoreInspectionN').val("");
+                $('#oCoreInspectionY').val("");
+                $('#btnOldCore').attr("disabled", true);
+            } else {
+                $('#oCoreInspectionN').prop("checked", true);
+                $('#oCoreInspectionN').val("-1");
+                $('#oCoreInspectionY').val("0");
             }
         }
 
         handleOcoreStand();
 
-        var finalInspection = @(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["resultOldCoreInspect"] : "0");
-
-        var finalInspectionY = $('#finalInspectionY');
-        var finalInspectionN = $('#finalInspectionN');
-
         function handleFinalInspection() {
-            if (finalInspection === -1) {
-                finalInspectionY.prop("checked", true);
-                finalInspectionY.val("-1");
-                finalInspectionN.val("0");
-            } else if (finalInspection === 0) {
-                finalInspectionN.prop("checked", true);
-                finalInspectionN.val("-1");
-                finalInspectionY.val("0");
+            var finalInspection = $('#resultFinal').val();
+            console.log("final", finalInspection);
+            if (finalInspection == -1) {
+                $('#finalInspectionY').prop("checked", true);
+                $('#finalInspectionY').val("-1");
+                $('#finalInspectionN').val("0");
+            } else if (finalInspection == "") {
+                $('#finalInspectionN').val("");
+                $('#finalInspectionY').val("");
+                $('#btnFinalInspection').attr("disabled", true);
+            } else {
+                $('#finalInspectionN').prop("checked", true);
+                $('#finalInspectionN').val("-1");
+                $('#finalInspectionY').val("0");
             }
         }
 

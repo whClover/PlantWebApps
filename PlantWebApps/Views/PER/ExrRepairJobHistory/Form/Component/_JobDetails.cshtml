@@ -4,13 +4,14 @@
 @{
 	@using System.Data;
 
-	var optionsTCompQty = new List<SelectListItem>
+	var optionsTCompType= new List<SelectListItem>
 	{
 		new SelectListItem { Value = "", Text = "" },
-		new SelectListItem { Value = "1", Text = "PEX" },
-		new SelectListItem { Value = "2", Text = "Stock" },
-		new SelectListItem { Value = "3", Text = "Direct Change" },
-		new SelectListItem { Value = "4", Text = "Consignment" }
+		new SelectListItem { Value = "PX", Text = "PEX" },
+		new SelectListItem { Value = "WR", Text = "Warranty" },
+		new SelectListItem { Value = "ST", Text = "Stock" },
+		new SelectListItem { Value = "DC", Text = "Direct Change" },
+		new SelectListItem { Value = "CO", Text = "Consignment" }
 	};
 
 	var optionstRequestP1 = new List<SelectListItem>
@@ -52,18 +53,26 @@
 			<div class="row align-items-center">
 				<div class="col-2">Comp Type</div>
 				<div class="col-3">
-					<input id="tCompTypeID" name="tCompTypeID" type="Text" class="col-3 form-control form-control-sm"
+					<input id="TCompQty" name="TCompQty" type="Text" class="col-3 form-control form-control-sm"
 						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["CompQty"] : "")" />
 				</div>
 				<div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
-				<div class="col-2">Comp QTY</div>
+				<div class="col-2">Comp Type</div>
 				<div class="col-3 fw-normal">
-					<select id="TCompQty" name="TCompQty" class="col-3 form-control form-control-sm select2">
+					@* <select id="TCompQty" name="TCompQty" class="col-3 form-control form-control-sm select2">
 						<option></option>
-						@foreach (var option in optionsTCompQty)
+						@foreach (var option in optionsTCompType)
 						{
 							var value = option.Value;
 							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompQty"].ToString())">@option.Text</option>
+						}
+					</select> *@
+					<select id="tCompTypeID" name="tCompTypeID" class="col-3 form-control form-control-sm select2">
+						<option></option>
+						@foreach (var option in optionsTCompType)
+						{
+							var value = option.Value;
+							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompType"].ToString())">@option.Text</option>
 						}
 					</select>
 				</div>
@@ -179,7 +188,7 @@
 							var suppliername = row["SupplierName"].ToString();
 							var suppliername2 = row["SupplierName2"].ToString();
 							<option data-tsupplier="@suppliername" data-dbvalue="@ViewBag.data?.Rows[0]?["SupplierName"].ToString()"
-								value="@supplierid" selected="@(supplierid == ViewBag.data?.Rows[0]?["RepairByID"].ToString())"
+								value="@supplierid" selected="@(supplierid == ViewBag.data?.Rows[0]?["SupplierID"].ToString())"
 								>@suppliername | @suppliername2 | @supplierid</option>
 						}
 					</select>

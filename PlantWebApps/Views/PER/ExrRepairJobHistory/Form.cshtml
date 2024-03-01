@@ -403,8 +403,10 @@
                             dataType: 'json',
                             data: extractedData
                         }).done(function (response) {
-                            window.location.href = response.redirectToUrl;
-                            Swal.fire("Data Has Benn Saved", "", "success");
+                            Swal.fire("Data Has Been Saved", "", "success");
+                            setTimeout(function () {
+                                window.location.href = response.redirectToUrl;
+                            }, 1000);
                         });
                     } else {
                         Swal.fire("You dont have access to this function", "", "warning");

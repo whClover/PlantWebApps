@@ -37,7 +37,7 @@
                                     {
                                         var tDispatchTypeId = row["DispatchTypeID"].ToString();
                                         var tDispatchTypeType = row["DispatchType"].ToString();
-                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
+                                        <option value="@tDispatchTypeType" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
                                     }
                                 </select>
                             </div>
@@ -70,7 +70,7 @@
                                     {
                                         var tSectionId = row["JobSourceID"].ToString();
                                         var tSectionIdJobSource = row["JobSource"].ToString();
-                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.dispatchdata?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
+                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.dataaccess?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
                                     }
                                 </select>
                             </div>
@@ -126,7 +126,7 @@
                                 Description
                             </div>
                             <div class="col-8">
-                                <textarea row="8" id="anDetailDescription" name="TItemDesc" class="col-8 form-control form-control-sm"
+                                <textarea rows="4" id="anDetailDescription" name="TItemDesc" class="col-8 form-control form-control-sm"
                                           value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ItemDesc"] : null)"></textarea>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">WO / OFF SITE / OP / OR</div>
                             <div class="col-8">
-                                <textarea row="5" class="col-8 form-control form-control-sm" name="TPONo" id="xPONo"
+                                <textarea rows="2" class="col-8 form-control form-control-sm" name="TPONo" id="xPONo"
                                           value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["PONo"] : null)"></textarea>
                             </div>
                         </div>

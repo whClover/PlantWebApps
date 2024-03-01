@@ -955,9 +955,10 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             string queryListStatus = $"SELECT id,itemchange,descchange,moddate,modby,src from v_ExrJobChangeHistory  Where JobID = {id}";
 
             // THE PROBLEM
-            string queryCheckDispatch = $@"SELECT StatusID from tbl_DispatchJobDetail WHERE JobID = {id}";
+            string queryCheckDispatch = $@"SELECT * from tbl_DispatchJobDetail WHERE JobID = {id}";
             Console.WriteLine(queryCheckDispatch);
             var result = SQLFunction.execQuery(queryCheckDispatch);
+            ViewBag.dataaccess = SQLFunction.execQuery(queryCheckDispatch);
 
             if (result.Rows.Count > 0)
             {
@@ -1028,11 +1029,14 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                         UOM = Utility.CheckNull(row["UOM"]),
                         ItemDesc = Utility.CheckNull(row["ItemDesc"]),
                         PRNo = Utility.CheckNull(row["PRNo"]),
+                        PONo = Utility.CheckNull(row["PONo"]),
                         Remarks = Utility.CheckNull(row["Remarks"]),
                         RegisterBy = Utility.CheckNull(row["RegisterBy"]),
                         registerdate = Utility.CheckNull(row["RegisterDate"]),
                         ModBy = Utility.CheckNull(row["ModBy"]),
                         ModDate = Utility.CheckNull(row["ModDate"]),
+                        DeletedBy = Utility.CheckNull(row["DeletedBy"]),
+                        DeletedDate = Utility.CheckNull(row["DeletedDate"]),
                     };
                     rows.Add(rowData);
                 }

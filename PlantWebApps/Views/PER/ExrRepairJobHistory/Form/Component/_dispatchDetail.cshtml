@@ -16,28 +16,29 @@
                 anno: anno
             },
             success: function (response) {
-                console.log(response)
+                console.log("job register dispatch", response);
                 $('#xID').val(response[0].id);
                 $('#xStatusID').val(response[0].statusID);
                 $('#xDispatchID').val(response[0].dispatchID);
-                $('#xType').val(response[0].statusID);
+                $('#xType').val(response[0].dispatchType);
                 $('#anDetailSection').val(response[0].sectionID);
-                $('#xJobID').val(response[0].jobID);
+                $('#anDetailJobId').val(response[0].jobID);
                 $('#anDetailWono').val(response[0].wono);
                 $('#anDetailChildWo').val(response[0].childwo);
                 $('#xItem').val(response[0].item);
                 $('#xQty').val(response[0].qty);
                 $('#xTUOM').val(response[0].uom);
                 $('#anDetailDescription').val(response[0].itemDesc);
-                $('#xPONo').val(response[0].prNo);
+                $('#xPONo').text(response[0].poNo);
+                $('#xPONo').val(response[0].poNo);
                 $('#xPRNo').val(response[0].prNo);
                 $('#xRemarks').val(response[0].remarks);
                 $('#xRegisterBy').val(response[0].registerBy);
                 $('#xRegisterDate').val(response[0].registerdate);
                 $('#xModBy').val(response[0].modBy);
                 $('#xModDate').val(response[0].modDate);
-                $('#xDeletedBy').val(response[0].modBy);
-                $('#xDeletedDate').val(response[0].modDate);
+                $('#xDeletedBy').val(response[0].deletedBy);
+                $('#xDeletedDate').val(response[0].deletedDate);
                 $('#xFormiD').val("EDIT");
 
                 $('#anDetailModal').modal('show');
@@ -179,10 +180,7 @@
             $('#xStatusID').val("");
             $('#xDispatchID').val("");
             $('#xType').val("");
-            $('#anDetailSection').val("");
             $('#xJobID').val("");
-            $('#anDetailWono').val("");
-            $('#anDetailChildWo').val("");
             $('#xItem').val("");
             $('#xQty').val("");
             $('#xTUOM').val("");
