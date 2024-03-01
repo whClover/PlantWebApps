@@ -557,13 +557,13 @@
         function getDataEmail(context) {
             var selectedOption = $(context).find(':selected');
             var email = selectedOption.data('email');
-            $('#xDispatchValue').val(email);
-            $('#xDispatchValue').text(email);
+            $('#tDispatchValue').val(email);
+            $('#tDispatchValue').text(email);
         }
 
         getDataEmail('#tDispatchBy');
 
-        $('#xDispatchBy').on('change', function () {
+        $('#tDispatchBy').on('change', function () {
             getDataEmail(this);
         });
 

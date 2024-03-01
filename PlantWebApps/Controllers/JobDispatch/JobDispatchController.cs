@@ -406,7 +406,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                     HandledBy = {eHandledBy}, HandledDate = {eHandledDate}, ModBy = {eRegisterBy}, 
                     ModDate = {eRegisterDate} WHERE ID = {eid}";
                 Console.WriteLine(query);
-                //SQLFunction.execQuery(query);
+                SQLFunction.execQuery(query);
                 Stat = "success";
                 Msg = "Data has been saved";
                 return Redirect("/JobDispatch/Edit/" + eid);
@@ -423,7 +423,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                 {eRegisterBy}, {eRegisterDate})";
 
                 Console.WriteLine(query);
-                //SQLFunction.execQuery(query);
+                SQLFunction.execQuery(query);
 
                 Stat = "success";
                 Msg = "Data has been saved";
