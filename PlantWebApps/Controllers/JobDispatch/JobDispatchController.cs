@@ -423,7 +423,7 @@ namespace PlantWebApps.Controllers.JobDispatch
                 {eRegisterBy}, {eRegisterDate})";
 
                 Console.WriteLine(query);
-                SQLFunction.execQuery(query);
+                //SQLFunction.execQuery(query);
 
                 Stat = "success";
                 Msg = "Data has been saved";
@@ -614,7 +614,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
                 Console.WriteLine(query);
 
-                //SQLFunction.execQuery(query);
+                SQLFunction.execQuery(query);
                 Stat = "success";
                 Msg = "Data has been updated";
                 return Redirect("/JobDispatch/Edit/" + id);
@@ -627,7 +627,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
                 Console.WriteLine(query);
 
-                //SQLFunction.execQuery(query);
+                SQLFunction.execQuery(query);
                 Stat = "success";
                 Msg = "Data has been inserted";
                 return Redirect("/JobDispatch/Edit/" + id);
@@ -650,7 +650,7 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             return new JsonResult("ok");
         }
-        public IActionResult DeleteDetail(string id)
+        public JsonResult DeleteDetail(string id)
         {
             var query = "";
             var eID = (Utility.Evar(id, 1));
@@ -660,9 +660,8 @@ namespace PlantWebApps.Controllers.JobDispatch
 
             SQLFunction.execQuery(query);
             Console.WriteLine(query);
-            Stat = "success";
-            Msg = "Data Has Been Deleted";
-            return Redirect("/jobdispatch/edit/" + id);
+
+            return new JsonResult("success");
         }
         private void loadOption()
         {
