@@ -238,7 +238,6 @@
                             <thead class="table-light">
                                 <tr>
                                     <th></th>
-                                    <th></th>
                                     <th>ID</th>
                                     <th>Prio</th>
                                     <th>Total AGE WO</th>
@@ -270,6 +269,7 @@
                                     <th>Received Date</th>
                                     <th>PRF ID</th>
                                     <th>QR No</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -303,7 +303,6 @@
                 pageLength: 20,
                 data: tempData,
                 columns: [
-                    { "data": "delete" },
                     { "data": "edit" },
                     { "data": "id" },
                     { "data": "totalAgeWO" },
@@ -331,7 +330,8 @@
                     { "data": "quoteDate" },
                     { "data": "orNo" },
                     { "data": "opDate" },
-                    { "data": "receivedDate" }
+                    { "data": "receivedDate" },
+                    { "data": "delete" },
                 ]
             });
             $("#offcanvas").offcanvas("hide");
@@ -409,7 +409,6 @@
                         pageLength: 20,
                         data: test, // The data received from the AJAX request
                         columns: [
-                            { "data": "delete" },
                             { "data": "edit" },
                             { "data": "id" },
                             { "data": "totalAgeWO" },
@@ -437,7 +436,8 @@
                             { "data": "quoteDate" },
                             { "data": "orNo" },
                             { "data": "opDate" },
-                            { "data": "receivedDate" }
+                            { "data": "receivedDate" },
+                            { "data": "delete" },
                         ]
                     });
                     // Sembunyikan loading overlay setelah data dimuat
