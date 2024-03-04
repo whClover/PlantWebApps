@@ -1,5 +1,14 @@
 ﻿@{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // IssuedDate
+    object IssuedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IssuedDate"] : null;
+    string IssuedDateFormatted = Utility.NullableDatetime(IssuedDateValue);
+
+    // AcknowledgedDate
+    object AcknowledgedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AcknowledgedDate"] : null;
+    string AcknowledgedDateFormatted = Utility.NullableDatetime(AcknowledgedDateValue);
 }
 
 <script>

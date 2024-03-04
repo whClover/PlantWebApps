@@ -3,6 +3,23 @@
 *@
 @{
 	@using System.Data;
+	@using PlantWebApps.Helper;
+
+	// SupplyDate
+	object SupplyDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["SupplyDate"] : null;
+	string SupplyDateValueFormatted = Utility.NullableDatetime(SupplyDateValue);
+
+	// InstallDate
+	object InstallDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["InstallDate"] : null;
+	string InstallDateFormatted = Utility.NullableDatetime(InstallDateValue);
+
+	// RemoveDate
+	object RemoveDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RemoveDate"] : null;
+	string RemoveDateFormatted = Utility.NullableDatetime(RemoveDateValue);
+
+	// EvalDate
+	object EvalDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["EvalDate"] : null;
+	string EvalDateValueFormatted = Utility.NullableDatetime(EvalDateValue);
 }
 
 <div class="col border flex-column">
@@ -285,7 +302,8 @@
 			<div class="row align-items-center">
 				<div class="col-3 datepicker-basic" style="font-size: 12px;">Supply Date</div>
 				<div class="col-3">
-					<input type="Text" id="tSupplyDate" class="col-3 form-control form-control-sm datepicker-basic" value="@ViewBag.data.Rows[0]["SupplyDate"].ToString()" />
+					<input type="Text" id="tSupplyDate" class="col-3 form-control form-control-sm datepicker-basic"
+						   value="@SupplyDateValueFormatted" />
 				</div>
 			</div>
 		</div>
@@ -294,7 +312,8 @@
 			<div class="row align-items-center">
 				<div class="col-3 datepicker-basic" style="font-size: 12px;">Install Date</div>
 				<div class="col-3">
-					<input type="Text" id="tInstallDate" class="col-3 form-control form-control-sm datepicker-basic" value="@ViewBag.data.Rows[0]["InstallDate"].ToString()" />
+					<input type="Text" id="tInstallDate" class="col-3 form-control form-control-sm datepicker-basic"
+						   value="@InstallDateFormatted" />
 				</div>
 			</div>
 		</div>
@@ -303,7 +322,8 @@
 			<div class="row align-items-center">
 				<div class="col-3 datepicker-basic" style="font-size: 12px;">Remove Date</div>
 				<div class="col-3">
-					<input type="Text" id="tRemoveDate" class="col-3 form-control form-control-sm datepicker-basic" value="@ViewBag.data.Rows[0]["RemoveDate"].ToString()" />
+					<input type="Text" id="tRemoveDate" class="col-3 form-control form-control-sm datepicker-basic"
+						   value="@RemoveDateFormatted" />
 				</div>
 			</div>
 		</div>
@@ -345,7 +365,8 @@
 				</div>
 				<div class="col-1" style="font-size: 12px;">Date</div>
 				<div class="col-5">
-					<input type="Text" class="col-5 datepicker-basic form-control form-control-sm" id="tEvalDate" name="tEvalDate" value="@ViewBag.data.Rows[0]["EvalDate"].ToString()" />
+					<input type="Text" class="col-5 datepicker-basic form-control form-control-sm" id="tEvalDate" name="tEvalDate"
+						   value="@EvalDateValueFormatted" />
 				</div>
 			</div>
 		</div>

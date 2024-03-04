@@ -1,5 +1,14 @@
 ﻿@{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // IssuedDate
+    object IssuedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IssuedDate"] : null;
+    string IssuedDateFormatted = Utility.NullableDatetime(IssuedDateValue);
+
+    // AcknowledgedDate
+    object AcknowledgedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AcknowledgedDate"] : null;
+    string AcknowledgedDateFormatted = Utility.NullableDatetime(AcknowledgedDateValue);
 }
 
 <script>
@@ -327,7 +336,8 @@
                             </div>
                             <div class="row" style="margin-top: 10px;">
                                 <div class="col-4">Date</div>
-                                <input type="text" id="tIssuedDate" name="eIssuedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["IssuedDate"].ToString()" />
+                                <input type="text" id="tIssuedDate" name="eIssuedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9"
+                                       value="@IssuedDateFormatted" />
                             </div>
                         </div>
                         <div class="col-6">
@@ -339,7 +349,8 @@
                             </div>
                             <div class="row" style="margin-top: 10px;">
                                 <div class="col-4">Date</div>
-                                <input type="text" id="tAcknowledgedDate" name="eAcknowledgedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9" value="@ViewBag.data.Rows[0]["AcknowledgedDate"].ToString()" />
+                                <input type="text" id="tAcknowledgedDate" name="eAcknowledgedDate" class="col-6 border border-0 datepicker-basic" style="background-color: #E2F0D9"
+                                       value="@AcknowledgedDateFormatted" />
                             </div>
                         </div>
                     </div>

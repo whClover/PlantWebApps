@@ -3,7 +3,33 @@
 *@
 @{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
     bool isEdit = ViewBag.isEdit ?? false;
+
+    // ShipmentDate
+    object ShipmentDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ShipmentDate"] : null;
+    string ShipmentDateFormatted = Utility.NullableDatetime(ShipmentDateValue);
+
+    // DispatchDate
+    object DispatchDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["DispatchDate"] : null;
+    string DispatchDateFormatted = Utility.NullableDatetime(DispatchDateValue);
+
+    // HandledDate
+    object HandledDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["HandledDate"] : null;
+    string HandledDateFormatted = Utility.NullableDatetime(HandledDateValue);
+
+    // ReceivedDate
+    object ReceivedDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ReceivedDate"] : null;
+    string ReceivedDateFormatted = Utility.NullableDatetime(ReceivedDateValue);
+
+    // RegisterDate
+    object RegisterDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["RegisterDate"] : null;
+    string RegisterDateFormatted = Utility.NullableDatetime(RegisterDateValue);
+
+    // ModDate
+    object ModDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ModDate"] : null;
+    string ModDateFormatted = Utility.NullableDatetime(ModDateValue);
 }
 
 <script>
@@ -130,7 +156,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata.Rows[0]["ShipmentDate"] : "")" />
+                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tShipmentDate" value="@ShipmentDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -273,7 +300,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" id="TDispatchDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["DispatchDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tDispatchDate" id="TDispatchDate" value="@DispatchDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -299,7 +327,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Handled Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" id="THandledDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["HandledDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tHandledDate" id="THandledDate" value="@HandledDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -315,7 +344,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Received Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input disabled type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" id="TReceivedDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ReceivedDate"] : "")" />
+                                                <input disabled type="text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tReceivedDate" id="TReceivedDate" value="@ReceivedDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -355,7 +385,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tRegisterDate" id="TRegisterDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["RegisterDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled
+                                                       name="tRegisterDate" id="TRegisterDate" value="@RegisterDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -371,7 +402,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">ModDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled name="tModDate" id="TModDate" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ModDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled
+                                                       name="tModDate" id="TModDate" value="@ModDateFormatted" />
                                             </div>
                                         </div>
                                     </div>

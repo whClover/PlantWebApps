@@ -3,6 +3,19 @@
 *@
 @{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // RegisterDate
+    object RegisterDateValue = ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterDate"] : null;
+    string RegisterDateFormatted = Utility.NullableDatetime(RegisterDateValue);
+
+    // ModDate
+    object ModDateValue = ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null;
+    string ModDateFormatted = Utility.NullableDatetime(ModDateValue);
+
+    // DeletedDate
+    object DeletedDateValue = ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DeletedDate"] : null;
+    string DeletedDateFormatted = Utility.NullableDatetime(DeletedDateValue);
 }
 
 <!-- Modal -->
@@ -172,7 +185,7 @@
                             </div>
                             <div class="col-4">
                                 <input type="text" class="col-4 ms-2 form-control form-control-sm datepicker-basic" name="TRegisterDate" id="xRegisterDate"
-                                       datepicker-basic" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterDate"] : null)" />
+                                       datepicker-basic" value="@RegisterDateFormatted" />
                             </div>
                         </div>
                     </div>
@@ -185,7 +198,7 @@
                             </div>
                             <div class="col-4">
                                 <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm"
-                                       name="TModDate" id="xModDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                                       name="TModDate" id="xModDate" value="@ModDateFormatted" />
                             </div>
                         </div>
                     </div>
@@ -194,11 +207,11 @@
                             <div class="col-3" style="font-size: 12px;">Deleted</div>
                             <div class="col-4">
                                 <input type="text" class="col-4 form-control form-control-sm" name="TDeletedBy" id="xDeletedBy"
-                                       value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModBy"] : null)" />
+                                       value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DeletedBy"] : null)" />
                             </div>
                             <div class="col-4">
-                                <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm" id="xeletedDate"
-                                       name="DeletedDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                                <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm" id="xDeletedDate"
+                                       name="DeletedDate" value="@DeletedDateFormatted" />
                             </div>
                         </div>
                     </div>
