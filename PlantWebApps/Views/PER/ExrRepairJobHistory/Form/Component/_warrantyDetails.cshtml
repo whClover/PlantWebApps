@@ -3,6 +3,7 @@
 *@
 @{
     @using System.Data;
+    @using PlantWebApps.Helper;
 
     object dataTCICost = ViewBag.data?.Rows[0]?["TCICost"];
     string tciCost = dataTCICost != null ? dataTCICost.ToString() : "";
@@ -17,6 +18,10 @@
         new SelectListItem { Value = "4", Text = "Pending Evaluation" },
         new SelectListItem { Value = "4", Text = "Waiting FAR" }
     };
+
+    // DecisionDate
+    object DecisionDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DecisionDate"] : null;
+    string DecisionDateFormatted = Utility.NullableDatetime(DecisionDateValue);
 }
 
 <div class="col border">
@@ -82,7 +87,7 @@
                 <div class="col-1"></div>
                 <div class="col-2  ">Settlement Date</div>
                 <div class="col-3">
-                    <input id="tDecisionDate" name="tDecisionDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DecisionDate"] : "")"
+                    <input id="tDecisionDate" name="tDecisionDate" value="@DecisionDateFormatted"
                         type="Text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>

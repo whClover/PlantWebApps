@@ -3,6 +3,7 @@
 *@
 @{
     @using System.Data;
+    @using PlantWebApps.Helper;
 
     var optionstReceivedBy = new List<SelectListItem>
     {
@@ -11,6 +12,14 @@
         new SelectListItem { Value = "Log Site", Text = "Log Site" },
         new SelectListItem { Value = "PER BSF", Text = "PER BSF" }
     };
+
+    // ReceivedDate
+    object ReceivedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : null;
+    string ReceivedDateFormatted = Utility.NullableDatetime(ReceivedDateValue);
+
+    // TaggingDate
+    object TaggingDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TaggingDate"] : null;
+    string TaggingDateFormatted = Utility.NullableDatetime(TaggingDateValue);
 }
 
 <partial name="Modal/frm_ExrCompIDAddJob.cshtml" />
@@ -165,7 +174,7 @@
                 <div class="fw-bold col-1 text-nowrap" style="font-size: 10px;">Supplier</div>
                 <div class="col-2 text-nowrap">Tagging Date</div>
                 <div class="col-3">
-                    <input id="TDTaggingDate" name="TDTaggingDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["TaggingDate"] : "")"
+                    <input id="TDTaggingDate" name="TDTaggingDate" value="@TaggingDateFormatted"
                            type="text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>

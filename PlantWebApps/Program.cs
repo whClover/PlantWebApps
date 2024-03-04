@@ -23,6 +23,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseRequestLocalization("en-AU");
+
 app.UseRouting();
 
 app.UseAuthorization();

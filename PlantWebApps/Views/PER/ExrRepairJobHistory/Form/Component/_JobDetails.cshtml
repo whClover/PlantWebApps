@@ -3,15 +3,16 @@
 *@
 @{
 	@using System.Data;
+	@using PlantWebApps.Helper;
 
-	var optionsTCompType= new List<SelectListItem>
+	var optionsTComp = new List<SelectListItem>
 	{
 		new SelectListItem { Value = "", Text = "" },
-		new SelectListItem { Value = "PX", Text = "PEX" },
-		new SelectListItem { Value = "WR", Text = "Warranty" },
-		new SelectListItem { Value = "ST", Text = "Stock" },
-		new SelectListItem { Value = "DC", Text = "Direct Change" },
-		new SelectListItem { Value = "CO", Text = "Consignment" }
+		new SelectListItem { Value = "1", Text = "PEX" },
+		new SelectListItem { Value = "2", Text = "Warranty" },
+		new SelectListItem { Value = "3", Text = "Stock" },
+		new SelectListItem { Value = "4", Text = "Direct Change" },
+		new SelectListItem { Value = "5", Text = "Consignment" }
 	};
 
 	var optionstRequestP1 = new List<SelectListItem>
@@ -21,6 +22,10 @@
 		new SelectListItem { Value = "2", Text = "2" },
 		new SelectListItem { Value = "3", Text = "3" }
 	};
+
+	// RoutModDate
+	object RoutModDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutModDate"] : null;
+	string RoutModDateFormatted = Utility.NullableDatetime(RoutModDateValue);
 }
 
 <partial name="Modal/sfrm_WoDouble.cshtml" />
@@ -69,10 +74,10 @@
 					</select> *@
 					<select id="tCompTypeID" name="tCompTypeID" class="col-3 form-control form-control-sm select2">
 						<option></option>
-						@foreach (var option in optionsTCompType)
+						@foreach (var option in optionsTComp)
 						{
 							var value = option.Value;
-							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompType"].ToString())">@option.Text</option>
+							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["CompTypeID"].ToString())">@option.Text</option>
 						}
 					</select>
 				</div>
@@ -160,7 +165,7 @@
 				</div>
 				<div class="col-3">
 					<input id="tRoutModDate" name="tRoutModDate" type="Text" class="col-1 ms-2 form-control form-control-sm datepicker-basic"
-						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RoutModDate"] : "")" />
+						   value="@RoutModDateFormatted" />
 				</div>
 			</div>
 		</div>

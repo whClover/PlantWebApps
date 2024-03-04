@@ -2,6 +2,12 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // AppSentDate
+    object AppSentDateValue = ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AppSentDate"] : null;
+    string AppSentDateFormatted = Utility.NullableDatetime(AppSentDateValue);
 }
 
 <div class="col border">
@@ -21,7 +27,7 @@
                 <div class="col-2  ">App Date</div>
                 <div class="col-9 row" style="gap: 10px;">
                     <div class="col-8" style="max-width: 280px;">
-                        <input id="tAppSentDate" name="tAppSentDate" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AppSentDate"] : "")"
+                        <input id="tAppSentDate" name="tAppSentDate" value="@AppSentDateFormatted"
                             type="Text" class="col-8 form-control form-control-sm datepicker-basic" />
                     </div>
                     <div class="col-3">

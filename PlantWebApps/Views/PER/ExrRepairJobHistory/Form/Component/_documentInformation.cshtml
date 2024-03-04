@@ -2,406 +2,478 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	@using System.Data;
+    @using System.Data;
+    @using PlantWebApps.Helper;
 
-	var optionstDocTypeID = new List<SelectListItem>
-	{
-		new SelectListItem { Value = "", Text = "" },
-		new SelectListItem { Value = "1", Text = "FAR" },
-		new SelectListItem { Value = "2", Text = "CCR" },
-		new SelectListItem { Value = "3", Text = "No Doc" },
-	};
+    var optionstDocTypeID = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "", Text = "" },
+        new SelectListItem { Value = "1", Text = "FAR" },
+        new SelectListItem { Value = "2", Text = "CCR" },
+        new SelectListItem { Value = "3", Text = "No Doc" },
+    };
+
+    // qoute rev date
+    object quoteRevDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteRevDate"] : null;
+    DateTime? quoteRevDate = quoteRevDateValue as DateTime?;
+
+    string quoteRevDateFormatted = quoteRevDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // wcs date
+    object wcsDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["WCSDate"] : null;
+    DateTime? wcsDate = wcsDateValue as DateTime?;
+
+    string wcsDateFormatted = wcsDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // LogANReceivedDate
+    object LogANReceivedDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedDate"] : null;
+    DateTime? LogANReceivedDate = LogANReceivedDateValue as DateTime?;
+
+    string LogANReceivedDateFormatted = LogANReceivedDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // EGEI
+    object EGEIValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EGEI"] : null;
+    DateTime? EGEI = EGEIValue as DateTime?;
+
+    string EGEIFormatted = EGEI?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // EIEK
+    object EIEKValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EIEK"] : null;
+    DateTime? EIEK = EIEKValue as DateTime?;
+
+    string EIEKFormatted = EIEK?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // EKEP
+    object EKEPValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EKEP"] : null;
+    DateTime? EKEP = EKEPValue as DateTime?;
+
+    string EKEPFormatted = EKEP?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // DisputeCompletedDate
+    object DisputeCompletedDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate"] : null;
+    DateTime? DisputeCompletedDate = DisputeCompletedDateValue as DateTime?;
+
+    string DisputeCompletedDateFormatted = DisputeCompletedDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // DisputeCompletedDate2
+    object DisputeCompletedDate2Value = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate2"] : null;
+    DateTime? DisputeCompletedDate2 = DisputeCompletedDate2Value as DateTime?;
+
+    string DisputeCompletedDate2Formatted = DisputeCompletedDate2?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // ORRequestDate
+    object ORRequestDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ORRequestDate"] : null;
+    DateTime? ORRequestDate = ORRequestDateValue as DateTime?;
+
+    string ORRequestDateFormatted = ORRequestDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // ORCompletedDAte
+    object ORCompletedDAteValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ORCompletedDAte"] : null;
+    DateTime? ORCompletedDAte = ORCompletedDAteValue as DateTime?;
+
+    string ORCompletedDAteFormatted = ORCompletedDAte?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // LogANSentDate
+    object LogANSentDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANSentDate"] : null;
+    DateTime? LogANSentDate = LogANSentDateValue as DateTime?;
+
+    string LogANSentDateFormatted = LogANSentDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+    // DocDate
+    object DocDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DocDate"] : null;
+    string DocDateFormatted = Utility.NullableDatetime(DocDateValue);
+
 }
 
 <div class="col border">
-	<div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
-		<p class="fs-5">Document Information</p>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2 ">Qoute No</div>
-				<div class="col-3">
-					<input id="tQuoteNo" name="tQuoteNo" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteNo"] : "")"
-						   class="col-3 form-control form-control-sm" />
-				</div>
-				<div class="col-1"></div>
-				<div class="col-2  ">FAR/CCR Date</div>
-				<div class="col-3">
-					<input id="tDocDate" name="tDocDate" type="text" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DocDate"] : "")"
-						   class="col-3 form-control form-control-sm datepicker-basic" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Job No</div>
-				<div class="col-3">
-					<input id="tJobNo" name="tJobNo" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["JobNo"] : "")"
-						   class="col-3 form-control form-control-sm" />
-				</div>
-				<div class="col-1"></div>
-				<div class="col-2  ">Supplier Serial Number</div>
-				<div class="col-3">
-					<input id="tSerialNumberOEM" name="tSerialNumberOEM" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SerialNumberOEM"] : "")"
-						   type="text" class="col-3 form-control form-control-sm" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Qoute Date</div>
-				<div class="col-3">
-					<input id="tQuoteDate" name="tQuoteDate" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteDate"] : "")"
-						   class="col-3 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-1"></div>
-				<div class="col-2  ">WCS Date</div>
-				<div class="col-3">
-					<input id="tWCSDate" name="tWCSDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["WCSDate"] : "")"
-						   type="text" class="col-3 form-control form-control-sm datepicker-basic" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Qoute Rev.Date</div>
-				<div class="col-3">
-					<input id="tQuoteRevDate" name="tQuoteRevDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteRevDate"] : "")"
-						   type="text" class="col-3 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-1"></div>
-				<div class="col-2  ">Qoute Rev.No</div>
-				<div class="col-3">
-					<input id="tQuoteRevNo" name="tQuoteRevNo" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteRevNo"] : "")"
-						   type="text" class="col-3 form-control form-control-sm" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Doc Type</div>
-				<div class="col-3 fw-normal">
-					<select id="tDocTypeID" name="tDocTypeID" class="col-3 form-control form-control-sm select2">
-						<option></option>
-						@foreach (var option in optionstDocTypeID)
-						{
-							var value = option.Value;
-							<option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["DocTypeID"].ToString())">@option.Text</option>
-						}
-					</select>
-				</div>
-				<div class="col-1"></div>
-				<div class="col-4">
-					<p class="fst-italic text-primary" style="font-size: 1em">Reason Type Is Moved Bellow Supplier</p>
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Log AN Date</div>
-				<div class="col-3">
-					<input id="tDlogAnDate" name="tDlogAnDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedDate"] : "")"
-						   type="text" class="col-3 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-1"></div>
-				<div class="col-2  ">Log AN Number</div>
-				<div class="col-3">
-					<input id="tDlogAnNo" name="tDlogAnNo" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedNo"] : "")"
-						   type="text" class="col-3 form-control form-control-sm" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">PER AN Date</div>
-				<div class="col-2">
-					<input id="tDPerAnDate" name="tDPerAnDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANSentDate"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="tLogANReceivedBy" name="tLogANReceivedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedBy"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm" />
-				</div>
-				<div class="col-2"></div>
-				<div class="col-2">
-					<input id="tLogDate" name="tLogDate"
-						   type="text" class="col-2 form-control form-control-sm" />
-				</div>
-				<div id="tDiffLog" name="tDiffLog" class="col-1">3</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">EG - EI Date</div>
-				<div class="col-2">
-					<input id="tEGEI" name="tEGEI" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EGEI"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="tQuotePrintBy" name="tQuotePrintBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuotePrintBy"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm" />
-				</div>
-				<div class="col-2">EGEI</div>
-				<div class="col-2">
-					<input id="TEGEIQuote" name="TEGEIQuote"
-						   type="text" class="col-2 form-control form-control-sm" />
-				</div>
-				<div id="TEGEIQuoteKPI" name="TEGEIQuoteKPI" class="col-1">2</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">EI - EK Date</div>
-				<div class="col-2">
-					<input id="tEIEK" name="tEIEK" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EIEK"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="tQuoteApprovedBy" name="tQuoteApprovedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["QuoteApprovedBy"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm" />
-				</div>
-				<div class="col-2">EIEK</div>
-				<div class="col-2">
-					<input id="TEGEIEIEK" name="TEGEIEIEK" type="text" class="col-2 form-control form-control-sm" />
-				</div>
-				<div id="TEIEKKPI" name="TEIEKKPI" class="col-1">7</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">EK - EP Date</div>
-				<div class="col-2">
-					<input id="tEKEP" name="tEKEP" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EKEP"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="tQuoteProcessBy" name="tQuoteProcessBy" value=" @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["QuoteProcessBy"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm" />
-				</div>
-				<div class="col-2">EKEP</div>
-				<div class="col-2">
-					<input id="tEKEPDIff" name="tEKEPDIff" type="text" class="col-2 form-control form-control-sm" />
-				</div>
-				<div id="TEKEPKPI" name="TEKEPKPI" class="col-1">2</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Dispute Date</div>
-				<div class="col-2">
-					<input id="TDispCompDate" name="TDispCompDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate"] : "")"
-							type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="tDisputeCompletedBy" name="tDisputeCompletedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm datepicker-basic" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Disp Comp.Date</div>
-				<div class="col-2">
-					<input id="tDComplDispDate" name="tDComplDispDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedDate2"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="tDisputeCompletedBy2" name="tDisputeCompletedBy2" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy2"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Location Hold</div>
-				<div class="col-3">
-					<input id="CLocationHold" name="CLocationHold" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LocationHold"] : "")"
-						   type="text" class="col-3 form-control form-control-sm" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Current Status</div>
-				<div class="col-3">
-					<input id="tStatusID" name="tStatusID" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["Status"] : "")"
-						   type="text" class="col-3 form-control form-control-sm" />
-				</div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">Next Status</div>
-				<div class="col-3 fw-normal">
-					<select id="tNextStatus" name="tNextStatus" class="col-4 form-control form-control-sm select2">
-						<option value=""></option>
-						@foreach (DataRow row in ViewBag.tnextstatus.Rows)
-						{
-							var statusId = row["ExrJobStatusID"].ToString();
-							var jobStatus = row["ExrJobStatus"].ToString();
-							var statusDesc = row["ExrJobStatusDesc"].ToString();
-							<option data-status="@statusDesc" value="@statusId">@jobStatus | @statusDesc</option>
-						}
-					</select>
-				</div>
-				<div class="col-1"></div>
-				<div id="tNextStatusColumn" class="col-2"></div>
-			</div>
-		</div>
-		<div class="container overflow-hidden">
-			<div class="row align-items-center">
-				<div class="col-2  ">OR Req Date</div>
-				<div class="col-2">
-					<input id="tORRequestDate" name="tORRequestDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ORRequestDate"] : "")"
-						   type="text" class="col-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2 text-nowrap">OR Completed</div>
-				<div class="col-2">
-					<input id="tORCompletedDAte" name="tORCompletedDAte" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ORCompletedDAte"] : "")"
-						   type="text" class="col-2 ms-2 form-control form-control-sm datepicker-basic" />
-				</div>
-				<div class="col-2">
-					<input id="TORDiff" name="TORDiff" type="text" class="col-2 form-control form-control-sm" />
-				</div>
-				<div id="TORKpi" name="TORKpi" class="col-1">1</div>
-			</div>
-		</div>
-	</div>
+    <div class="m-3 d-flex flex-column fw-bold" style="gap: 10px;">
+        <p class="fs-5">Document Information</p>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2 ">Qoute No</div>
+                <div class="col-3">
+                    <input id="tQuoteNo" name="tQuoteNo" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteNo"] : "")"
+                           class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2  ">FAR/CCR Date</div>
+                <div class="col-3">
+                    <input id="tDocDate" name="tDocDate" type="text" value="@DocDateFormatted"
+                           class="col-3 form-control form-control-sm datepicker-basic" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Job No</div>
+                <div class="col-3">
+                    <input id="tJobNo" name="tJobNo" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["JobNo"] : "")"
+                           class="col-3 form-control form-control-sm" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2  ">Supplier Serial Number</div>
+                <div class="col-3">
+                    <input id="tSerialNumberOEM" name="tSerialNumberOEM" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SerialNumberOEM"] : "")"
+                           type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Qoute Date</div>
+                <div class="col-3">
+                    <input id="tQuoteDate" name="tQuoteDate" type="text" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteDate"] : "")"
+                           class="col-3 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2  ">WCS Date</div>
+                <div class="col-3">
+                    <input id="tWCSDate" name="tWCSDate" value="@wcsDateFormatted"
+                           type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Qoute Rev.Date</div>
+                <div class="col-3">
+                    <input id="tQuoteRevDate" name="tQuoteRevDate" value="@quoteRevDateFormatted"
+                           type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2  ">Qoute Rev.No</div>
+                <div class="col-3">
+                    <input id="tQuoteRevNo" name="tQuoteRevNo" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuoteRevNo"] : "")"
+                           type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Doc Type</div>
+                <div class="col-3 fw-normal">
+                    <select id="tDocTypeID" name="tDocTypeID" class="col-3 form-control form-control-sm select2">
+                        <option></option>
+                        @foreach (var option in optionstDocTypeID)
+                        {
+                            var value = option.Value;
+                            <option value="@value" selected="@(value == ViewBag.data?.Rows[0]?["DocTypeID"].ToString())">@option.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-4">
+                    <p class="fst-italic text-primary" style="font-size: 1em">Reason Type Is Moved Bellow Supplier</p>
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Log AN Date</div>
+                <div class="col-3">
+                    <input id="tDlogAnDate" name="tDlogAnDate" value="@LogANReceivedDateFormatted"
+                           type="text" class="col-3 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2  ">Log AN Number</div>
+                <div class="col-3">
+                    <input id="tDlogAnNo" name="tDlogAnNo" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedNo"] : "")"
+                           type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">PER AN Date</div>
+                <div class="col-2">
+                    <input id="tDPerAnDate" name="tDPerAnDate" value="@LogANSentDateFormatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="tLogANReceivedBy" name="tLogANReceivedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LogANReceivedBy"] : "")"
+                           type="text" class="col-2 ms-2 form-control form-control-sm" />
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <input id="tLogDate" name="tLogDate"
+                           type="text" class="col-2 form-control form-control-sm" />
+                </div>
+                <div id="tDiffLog" name="tDiffLog" class="col-1">3</div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">EG - EI Date</div>
+                <div class="col-2">
+                    <input id="tEGEI" name="tEGEI" value="@EGEIFormatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="tQuotePrintBy" name="tQuotePrintBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["QuotePrintBy"] : "")"
+                           type="text" class="col-2 ms-2 form-control form-control-sm" />
+                </div>
+                <div class="col-2">EGEI</div>
+                <div class="col-2">
+                    <input id="TEGEIQuote" name="TEGEIQuote"
+                           type="text" class="col-2 form-control form-control-sm" />
+                </div>
+                <div id="TEGEIQuoteKPI" name="TEGEIQuoteKPI" class="col-1">2</div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">EI - EK Date</div>
+                <div class="col-2">
+                    <input id="tEIEK" name="tEIEK" value="@EIEKFormatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="tQuoteApprovedBy" name="tQuoteApprovedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["QuoteApprovedBy"] : "")"
+                           type="text" class="col-2 ms-2 form-control form-control-sm" />
+                </div>
+                <div class="col-2">EIEK</div>
+                <div class="col-2">
+                    <input id="TEGEIEIEK" name="TEGEIEIEK" type="text" class="col-2 form-control form-control-sm" />
+                </div>
+                <div id="TEIEKKPI" name="TEIEKKPI" class="col-1">7</div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">EK - EP Date</div>
+                <div class="col-2">
+                    <input id="tEKEP" name="tEKEP" value="@EKEPFormatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="tQuoteProcessBy" name="tQuoteProcessBy" value=" @(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["QuoteProcessBy"] : "")"
+                           type="text" class="col-2 ms-2 form-control form-control-sm" />
+                </div>
+                <div class="col-2">EKEP</div>
+                <div class="col-2">
+                    <input id="tEKEPDIff" name="tEKEPDIff" type="text" class="col-2 form-control form-control-sm" />
+                </div>
+                <div id="TEKEPKPI" name="TEKEPKPI" class="col-1">2</div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Dispute Date</div>
+                <div class="col-2">
+                    <input id="TDispCompDate" name="TDispCompDate" value="@DisputeCompletedDateFormatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="tDisputeCompletedBy" name="tDisputeCompletedBy" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy"] : "")" "
+                           type="text" class="col-2 ms-2 form-control form-control-sm datepicker-basic" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Disp Comp.Date</div>
+                <div class="col-2">
+                    <input id="tDComplDispDate" name="tDComplDispDate" value="@DisputeCompletedDate2Formatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="tDisputeCompletedBy2" name="tDisputeCompletedBy2" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DisputeCompletedBy2"] : "")"
+                           type="text" class="col-2 ms-2 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Location Hold</div>
+                <div class="col-3">
+                    <input id="CLocationHold" name="CLocationHold" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["LocationHold"] : "")"
+                           type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Current Status</div>
+                <div class="col-3">
+                    <input id="tStatusID" name="tStatusID" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["Status"] : "")"
+                           type="text" class="col-3 form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">Next Status</div>
+                <div class="col-3 fw-normal">
+                    <select id="tNextStatus" name="tNextStatus" class="col-4 form-control form-control-sm select2">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.tnextstatus.Rows)
+                        {
+                            var statusId = row["ExrJobStatusID"].ToString();
+                            var jobStatus = row["ExrJobStatus"].ToString();
+                            var statusDesc = row["ExrJobStatusDesc"].ToString();
+                            <option data-status="@statusDesc" value="@statusId">@jobStatus | @statusDesc</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-1"></div>
+                <div id="tNextStatusColumn" class="col-2"></div>
+            </div>
+        </div>
+        <div class="container overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-2  ">OR Req Date</div>
+                <div class="col-2">
+                    <input id="tORRequestDate" name="tORRequestDate" value="@ORRequestDateFormatted"
+                           type="text" class="col-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2 text-nowrap">OR Completed</div>
+                <div class="col-2">
+                    <input id="tORCompletedDAte" name="tORCompletedDAte" value="@ORCompletedDAteFormatted"
+                           type="text" class="col-2 ms-2 form-control form-control-sm datepicker-basic" />
+                </div>
+                <div class="col-2">
+                    <input id="TORDiff" name="TORDiff" type="text" class="col-2 form-control form-control-sm" />
+                </div>
+                <div id="TORKpi" name="TORKpi" class="col-1">1</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-	// calculate diffrence in date
+    // calculate diffrence in date
 
-	function getCalcLogDate() {
-		if ($("#tDlogAnDate").val() != "" && $("#tDPerAnDate").val() != "") {
-			var dateDlog = new Date($("#tDlogAnDate").val());
-			var datePer = new Date($("#tDPerAnDate").val());
+    function getCalcLogDate() {
+        if ($("#tDlogAnDate").val() != "" && $("#tDPerAnDate").val() != "") {
+            var dateDlog = new Date($("#tDlogAnDate").val());
+            var datePer = new Date($("#tDPerAnDate").val());
 
-			dateDlog.setHours(0, 0, 0, 0);
-			datePer.setHours(0, 0, 0, 0);
+            dateDlog.setHours(0, 0, 0, 0);
+            datePer.setHours(0, 0, 0, 0);
 
-			var oneDayInMillis = 24 * 60 * 60 * 1000;
-			var diffInDays = Math.round((datePer - dateDlog) / oneDayInMillis);
+            var oneDayInMillis = 24 * 60 * 60 * 1000;
+            var diffInDays = Math.round((datePer - dateDlog) / oneDayInMillis);
 
-			$("#tLogDate").val(diffInDays);
-		}
-	}
+            $("#tLogDate").val(diffInDays);
+        }
+    }
 
-	getCalcLogDate();
+    getCalcLogDate();
 
-	$('#tDlogAnDate').change(function () {
-		getCalcLogDate();
-	});
+    $('#tDlogAnDate').change(function () {
+        getCalcLogDate();
+    });
 
-	$('#tDPerAnDate').change(function () {
-		getCalcLogDate();
-	});
+    $('#tDPerAnDate').change(function () {
+        getCalcLogDate();
+    });
 
-	function getCalcTEGEI() {
-		if ($("#tQuoteDate").val() != "" && $("#tEGEI").val() != "") {
-			var dateQoute = new Date($("#tQuoteDate").val());
-			var dateEgei = new Date($("#tEGEI").val());
+    function getCalcTEGEI() {
+        if ($("#tQuoteDate").val() != "" && $("#tEGEI").val() != "") {
+            var dateQoute = new Date($("#tQuoteDate").val());
+            var dateEgei = new Date($("#tEGEI").val());
 
-			dateQoute.setHours(0, 0, 0, 0);
-			dateEgei.setHours(0, 0, 0, 0);
+            dateQoute.setHours(0, 0, 0, 0);
+            dateEgei.setHours(0, 0, 0, 0);
 
-			var oneDayInMillis = 24 * 60 * 60 * 1000;
-			var diffInDays = Math.round((dateEgei - dateQoute) / oneDayInMillis);
+            var oneDayInMillis = 24 * 60 * 60 * 1000;
+            var diffInDays = Math.round((dateEgei - dateQoute) / oneDayInMillis);
 
-			$("#TEGEIQuote").val(diffInDays);
-		}
-	}
+            $("#TEGEIQuote").val(diffInDays);
+        }
+    }
 
-	getCalcTEGEI();
+    getCalcTEGEI();
 
-	$('#tQuoteDate').change(function () {
-		getCalcTEGEI();
-	});
+    $('#tQuoteDate').change(function () {
+        getCalcTEGEI();
+    });
 
-	$('#tEGEI').change(function () {
-		getCalcTEGEI();
-	});
+    $('#tEGEI').change(function () {
+        getCalcTEGEI();
+    });
 
-	function getCalcTEGEIEIEK() {
-		if ($("#tEGEI").val() != "" && $("#tEIEK").val() != "") {
-			var datetEGEI = new Date($("#tEGEI").val());
-			var datetEIEK = new Date($("#tEIEK").val());
+    function getCalcTEGEIEIEK() {
+        if ($("#tEGEI").val() != "" && $("#tEIEK").val() != "") {
+            var datetEGEI = new Date($("#tEGEI").val());
+            var datetEIEK = new Date($("#tEIEK").val());
 
-			datetEGEI.setHours(0, 0, 0, 0);
-			datetEIEK.setHours(0, 0, 0, 0);
+            datetEGEI.setHours(0, 0, 0, 0);
+            datetEIEK.setHours(0, 0, 0, 0);
 
-			var oneDayInMillis = 24 * 60 * 60 * 1000;
-			var diffInDays = Math.round((datetEIEK - datetEGEI) / oneDayInMillis);
+            var oneDayInMillis = 24 * 60 * 60 * 1000;
+            var diffInDays = Math.round((datetEIEK - datetEGEI) / oneDayInMillis);
 
-			$("#TEGEIEIEK").val(diffInDays);
-		}
-	}
+            $("#TEGEIEIEK").val(diffInDays);
+        }
+    }
 
-	getCalcTEGEIEIEK();
+    getCalcTEGEIEIEK();
 
-	$('#tEGEI').change(function () {
-		getCalcTEGEIEIEK();
-	});
+    $('#tEGEI').change(function () {
+        getCalcTEGEIEIEK();
+    });
 
-	function getCalctEKEPDIff() {
-		if ($("#tEIEK").val() != "" && $("#tEKEP").val() != "") {
-			var datetEIEK = new Date($("#tEIEK").val());
-			var datetEKEP = new Date($("#tEKEP").val());
+    function getCalctEKEPDIff() {
+        if ($("#tEIEK").val() != "" && $("#tEKEP").val() != "") {
+            var datetEIEK = new Date($("#tEIEK").val());
+            var datetEKEP = new Date($("#tEKEP").val());
 
-			datetEIEK.setHours(0, 0, 0, 0);
-			datetEKEP.setHours(0, 0, 0, 0);
+            datetEIEK.setHours(0, 0, 0, 0);
+            datetEKEP.setHours(0, 0, 0, 0);
 
-			var oneDayInMillis = 24 * 60 * 60 * 1000;
-			var diffInDays = Math.round((datetEKEP - datetEIEK) / oneDayInMillis);
+            var oneDayInMillis = 24 * 60 * 60 * 1000;
+            var diffInDays = Math.round((datetEKEP - datetEIEK) / oneDayInMillis);
 
-			$("#tEKEPDIff").val(diffInDays);
-		}
-	}
+            $("#tEKEPDIff").val(diffInDays);
+        }
+    }
 
-	getCalctEKEPDIff();
+    getCalctEKEPDIff();
 
-	$('#tEIEK').change(function () {
-		getCalctEKEPDIff();
-		getCalcTEGEIEIEK();
-	});
+    $('#tEIEK').change(function () {
+        getCalctEKEPDIff();
+        getCalcTEGEIEIEK();
+    });
 
-	$('#tEKEP').change(function () {
-		getCalctEKEPDIff();
-	});
+    $('#tEKEP').change(function () {
+        getCalctEKEPDIff();
+    });
 
-	function getCalcTORDiff() {
-		if ($("#tORRequestDate").val() != "" && $("#tORCompletedDAte").val() != "") {
-			var datetORRequestDate = new Date($("#tORRequestDate").val());
-			var datetORCompletedDAte = new Date($("#tORCompletedDAte").val());
+    function getCalcTORDiff() {
+        if ($("#tORRequestDate").val() != "" && $("#tORCompletedDAte").val() != "") {
+            var datetORRequestDate = new Date($("#tORRequestDate").val());
+            var datetORCompletedDAte = new Date($("#tORCompletedDAte").val());
 
-			datetORRequestDate.setHours(0, 0, 0, 0);
-			datetORCompletedDAte.setHours(0, 0, 0, 0);
+            datetORRequestDate.setHours(0, 0, 0, 0);
+            datetORCompletedDAte.setHours(0, 0, 0, 0);
 
-			var oneDayInMillis = 24 * 60 * 60 * 1000;
-			var diffInDays = Math.round((datetORCompletedDAte - datetORRequestDate) / oneDayInMillis);
+            var oneDayInMillis = 24 * 60 * 60 * 1000;
+            var diffInDays = Math.round((datetORCompletedDAte - datetORRequestDate) / oneDayInMillis);
 
-			$("#TORDiff").val(diffInDays);
-		}
-		
-	}
+            $("#TORDiff").val(diffInDays);
+        }
 
-	getCalcTORDiff();
+    }
 
-	$('#tORRequestDate').change(function () {
-		getCalcTORDiff();
-	});
+    getCalcTORDiff();
 
-	$('#tORCompletedDAte').change(function () {
-		getCalcTORDiff();
-	});
+    $('#tORRequestDate').change(function () {
+        getCalcTORDiff();
+    });
 
-	// getting data from column
-	function getNextStatusColumn() {
-		var selectedVal = $("#tNextStatus").find('option:selected').data('status');
-		$('#tNextStatusColumn').text(selectedVal);
-	}
+    $('#tORCompletedDAte').change(function () {
+        getCalcTORDiff();
+    });
 
-	getNextStatusColumn();
-	$('#tNextStatus').change(function () {
-		getNextStatusColumn();
-	});
+    // getting data from column
+    function getNextStatusColumn() {
+        var selectedVal = $("#tNextStatus").find('option:selected').data('status');
+        $('#tNextStatusColumn').text(selectedVal);
+    }
+
+    getNextStatusColumn();
+    $('#tNextStatus').change(function () {
+        getNextStatusColumn();
+    });
 </script>

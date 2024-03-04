@@ -331,7 +331,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xOffSiteWO = Utility.Evar(eOffSiteWO, 1);
             var xCompQty = Utility.Evar(eCompQty, 0);
             var xDocTypeID = Utility.Evar(eDocTypeID, 0);
+
             var xDocDate = Utility.Evar(eDocDate, 2);
+            Console.WriteLine("eDocDate" + eDocDate);
+            Console.WriteLine("xDocDate" + xDocDate);
+
             var xTCIPartNo = Utility.Evar(eTCIPartNo, 1);
             var xEquipClass = Utility.Evar(eEquipClass, 1);
             var xUnitNumber = Utility.Evar(eUnitNumber, 1);
@@ -385,9 +389,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xQuoteProcessBy = Utility.Evar(eQuoteProcessBy, 1);
             var xCostBefore = Utility.Evar(eCostBefore, 0);
             var xCostAfter = Utility.Evar(eCostAfter, 0);
-            var xCurrID = Utility.Evar(eCurrID, 0);
+            var xCurrID = Utility.Evar(eCurrID, 1);
             var xAddCost = Utility.Evar(eAddCost, 1);
+
             var xstatusid = Utility.Evar(estatusid, 1);
+
             var xRepairAdvice = Utility.Evar(eRepairAdvice, 1);
             var xremark = eremark;
             var xetadate = Utility.Evar(eetadate, 2);
@@ -415,8 +421,11 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xST = Utility.Evar(eST, 0);
             var xOt = Utility.Evar(eOt, 0);
             var xsavingcostCatID = Utility.Evar(esavingcostCatID, 0);
+
             var xTCICost = Utility.Evar(eTCICost, 1);
-            var xRTSCost = Utility.Evar(eRTSCost, 1);
+            var xRTSCost = Utility.Evar(eRTSCost, 0);
+
+
             var xWOPrevious = Utility.Evar(eWOPrevious, 1);
             var xOPPrevious = Utility.Evar(eOPPrevious, 1);
             var xIntWOPrevious = Utility.Evar(eIntWOPrevious, 1);
@@ -479,40 +488,48 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             , {xTCICost}, {xRTSCost}, {xWOPrevious}, {xOPPrevious}, {xIntWOPrevious}, {xDecisionDate}, {xEmailDate}, {xHoldUntil}
             , {xdata}, {Utility.ebyname(),1}";
 
-            SQLFunction.execQuery(queryJobRegisterRev1);
+            Console.WriteLine("save 1" + queryJobRegisterRev1);
+
+            //SQLFunction.execQuery(queryJobRegisterRev1);
 
             string queryAdviceUpdate = $@"exec dbo.ExrRepairAdviceUpdate {xjobid}, {xSuggestedStore}, {xRemarkAdvice},
 			{xSiteAlloc}, {xWOAlloc}, {xSchedStartAlloc}, {xSOHAlloc}, {xUnitAlloc}, {xOutReqAlloc}, {xRequestP1},
             {xRepairAdvice}, {Utility.ebyname(),1}";
-            SQLFunction.execQuery(queryAdviceUpdate);
+            //SQLFunction.execQuery(queryAdviceUpdate);
+            Console.WriteLine("save 2" + queryAdviceUpdate);
 
             if (eCurrentStatus == "OH" || eRepairAdvice == "OH")
             {
                 string queryOnHold = $"exec dbo.EXRJobOnHold {xjobid}, 'OH', {xHoldUntil}";
-                SQLFunction.execQuery(queryOnHold);
+                Console.WriteLine("save 1 if" + queryOnHold);
+                //SQLFunction.execQuery(queryOnHold);
             }
 
             string queryJob2Add = @$"exec dbo.EXRJob2Add {xJobID}, {xApp1}, {xApp1By}, {xApp1Date}, {xApp2}, {xApp2By}, {xApp2Date},
-            {xApp3}, {xApp3By}, {xApp3Date}, '{xBuyerName}', {xAppSentDate}, {xAddOrder1}, {xAddOrder2}, {xAddOrder3},
+            {xApp3}, {xApp3By}, {xApp3Date}, {xBuyerName}, {xAppSentDate}, {xAddOrder1}, {xAddOrder2}, {xAddOrder3},
             {xAddOrderORNo1}, {xAddOrderORNo2}, {xAddOrderORNo3}, {xaddOrderDate1}, {xAddOrder2}, {xaddOrderDate3},
             {xaddOrderDNNo1}, {xaddOrderDNNo2}, {xaddOrderDNNo3}, {xdata}, {xdata}, {xdata}, {Utility.ebyname()}";
 
-            SQLFunction.execQuery(queryJob2Add);
+            //SQLFunction.execQuery(queryJob2Add);
+            Console.WriteLine("save 3" + queryJob2Add);
 
-            if (!string.IsNullOrEmpty(eTCIPartID) || !string.IsNullOrEmpty(eID))
+            if (!string.IsNullOrEmpty(eTCIPartID) && !string.IsNullOrEmpty(eID))
             {
                 string queryUpdateCompId = $"UPDATE tbl_ExrComponentID SET JobID={xID} WHERE TCIPartID={xTCIPartID}";
-                SQLFunction.execQuery(queryUpdateCompId);
+                //SQLFunction.execQuery(queryUpdateCompId);
+                Console.WriteLine("save 2 if" + queryUpdateCompId);
             }
 
             string queryPDFID = $"select PRFID from tbl_ExrJobDetail where ID={xID} AND PRFID is Not Null";
+            Console.WriteLine("SAVE 4" + queryPDFID);
             var ePDFID = SQLFunction.execQuery(queryPDFID);
 
             if (ePDFID.Rows.Count > 0)
             {
                 string pdfID = ePDFID.Rows[0]["PRFID"].ToString();
                 string queryUpdatePartRequest = $"UPDATE tbl_PartRequest SET WOBin={xWOJobCost} WHERE PRFID={Utility.Evar(pdfID, 1)}";
-                SQLFunction.execQuery(queryUpdatePartRequest);
+                //SQLFunction.execQuery(queryUpdatePartRequest);
+                Console.WriteLine("save 3 if" + queryUpdatePartRequest);
             }
 
             if (!string.IsNullOrEmpty(eWOFitToUnit) || !string.IsNullOrEmpty(eWOFitToUnitID))
@@ -520,7 +537,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
                 string queryInsertJobDetail = @$"INSERT INTO tbl_ExrjobDetail(OffSiteWO,StatusID,UnitNumber,
                 CompDesc,RegisterDate,RegisterBy) VALUES ({xWOFitToUnit}, 2, {xFitToUnit}, {xCompDesc}, {xRegisterDate},
                 {Utility.ebyname()})";
-                SQLFunction.execQuery(queryInsertJobDetail);
+                Console.WriteLine("save 4 if" + queryInsertJobDetail);
+                //SQLFunction.execQuery(queryInsertJobDetail);
             }
 
             return Json(new { redirectToUrl = "/ExrRepairJobHistory/Edit/" + eID });
