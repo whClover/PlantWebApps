@@ -331,11 +331,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xOffSiteWO = Utility.Evar(eOffSiteWO, 1);
             var xCompQty = Utility.Evar(eCompQty, 0);
             var xDocTypeID = Utility.Evar(eDocTypeID, 0);
-
             var xDocDate = Utility.Evar(eDocDate, 2);
-            Console.WriteLine("eDocDate" + eDocDate);
-            Console.WriteLine("xDocDate" + xDocDate);
-
             var xTCIPartNo = Utility.Evar(eTCIPartNo, 1);
             var xEquipClass = Utility.Evar(eEquipClass, 1);
             var xUnitNumber = Utility.Evar(eUnitNumber, 1);
@@ -391,9 +387,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xCostAfter = Utility.Evar(eCostAfter, 0);
             var xCurrID = Utility.Evar(eCurrID, 1);
             var xAddCost = Utility.Evar(eAddCost, 1);
-
             var xstatusid = Utility.Evar(estatusid, 1);
-
             var xRepairAdvice = Utility.Evar(eRepairAdvice, 1);
             var xremark = eremark;
             var xetadate = Utility.Evar(eetadate, 2);
@@ -421,11 +415,8 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xST = Utility.Evar(eST, 0);
             var xOt = Utility.Evar(eOt, 0);
             var xsavingcostCatID = Utility.Evar(esavingcostCatID, 0);
-
             var xTCICost = Utility.Evar(eTCICost, 1);
             var xRTSCost = Utility.Evar(eRTSCost, 0);
-
-
             var xWOPrevious = Utility.Evar(eWOPrevious, 1);
             var xOPPrevious = Utility.Evar(eOPPrevious, 1);
             var xIntWOPrevious = Utility.Evar(eIntWOPrevious, 1);
@@ -527,7 +518,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             if (ePDFID.Rows.Count > 0)
             {
                 string pdfID = ePDFID.Rows[0]["PRFID"].ToString();
-                string queryUpdatePartRequest = $"UPDATE tbl_PartRequest SET WOBin={xWOJobCost} WHERE PRFID={Utility.Evar(pdfID, 1)}";
+                string queryUpdatePartRequest = $"UPDATE tbl_PartRequest SET WOBin={xWOJobCost} WHERE PRFID={Utility.Evar(pdfID, 0)}";
                 //SQLFunction.execQuery(queryUpdatePartRequest);
                 Console.WriteLine("save 3 if" + queryUpdatePartRequest);
             }
