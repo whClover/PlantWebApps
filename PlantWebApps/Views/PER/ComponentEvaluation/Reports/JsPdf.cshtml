@@ -236,10 +236,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="border" style="padding: 5px; margin-top: 15px;">
-                        <div class="font-h3">Strip Down Finding</div>
-                        <div class="border" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["StripDown"]</div>
-                    </div>
+                    
                     <div class="border" style="padding: 5px; margin-top: 15px; margin-bottom: 0px;">
                         <div class="font-h3">Maintenance Failure</div>
                         @* radio button  *@
@@ -477,6 +474,10 @@
                         </table>
                     </div>
                     <div class="border" style="padding: 5px; margin-top: 15px;">
+                        <div class="font-h3">Strip Down Finding</div>
+                        <div class="border" style="min-height: 50px; padding: 5px; margin-top: 5px;">@ViewBag.data?.Rows[0]?["StripDown"]</div>
+                    </div>
+                    <div class="border" style="padding: 5px; margin-top: 15px;">
                         <div class="font-h3">Investigation</div>
                         <div class="d-flex flex-column">
                             <table class="table px-5 table-bordered" style="margin-top: 10px;">
@@ -546,7 +547,7 @@
         </tr>
     </table>
     <hr />
-    <div class="d-flex align-items-center justify-content-between" style="margin-top: -25px;">
+    <div class="d-flex align-items-center justify-content-between" style="margin-top: 135px;">
         <div>@DateTime.Now.ToString("dd/MM/yyyy")</div>
         <div>Page 1 of 1</div>
         <div>TCI-PLT-FO-267</div>
