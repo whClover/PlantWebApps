@@ -218,7 +218,6 @@
                                 </td>
                             </tr>
                         </table>
-                        <hr />
                         <table class="table table-borderless negative-top" border="0" style="font-family: Arial;border-color:white">
                             <tr>
                                 <td style="width: 22.5%">
@@ -546,13 +545,13 @@
             </td>
         </tr>
     </table>
-    <hr />
-    <div class="d-flex align-items-center justify-content-between" style="margin-top: 135px;">
+</div>
+
+<div class="d-flex align-items-center justify-content-between" id="footer">
         <div>@DateTime.Now.ToString("dd/MM/yyyy")</div>
         <div>Page 1 of 1</div>
         <div>TCI-PLT-FO-267</div>
     </div>
-</div>
 
 <style>
     .font-label {
@@ -585,12 +584,17 @@
         const canvas = await html2canvas($("#capture")[0]);
         const imageData = canvas.toDataURL("image/png");
 
+        // footer
+        const canvasFooter = await html2canvas($("#footer")[0]);
+        const footerData = canvasFooter.toDataURL("image/png");
+
         // Calculate the desired width and height while maintaining the aspect ratio
         const pdfWidth = doc.internal.pageSize.getWidth() - 20; // Lebar PDF dikurangi margin 10mm di setiap sisi
         const pdfHeight = canvas.height * pdfWidth / canvas.width - 20;
 
         // add html2canvas image to jspdf
         doc.addImage(imageData, "PNG", 10, 3, pdfWidth, pdfHeight);
+        doc.addImage(footerData, "PNG", 10, 200, pdfWidth, 5);
 
         // return the pdf
         doc.save("CE_" + ($("#report1").val()) + "_" + ($("#report2").val()) + ".Pdf");
