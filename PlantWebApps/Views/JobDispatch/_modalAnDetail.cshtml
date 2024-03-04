@@ -43,7 +43,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Dispatch Type*</div>
                             <div class="col-4">
-                                @if (ViewBag.dataaccess.Rows.Count > 0)
+                                @if (ViewBag.dataaccess != null && ViewBag.dataaccess.Rows.Count > 0)
                                 {
                                     <select class="col-4 form-control form-control-sm" id="xType" name="TType" required>
                                         <option value=""></option>
@@ -81,7 +81,7 @@
                                 value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)" /> *@
                                 <select id="anDetailSection" name="tSectionId" class="form-control form-control-sm">
                                     <option value=""></option>
-                                    @if (ViewBag.dataaccess.Rows.Count > 0)
+                                    @if (ViewBag.dataaccess != null && ViewBag.dataaccess.Rows.Count > 0)
                                     {
                                         foreach (DataRow row in ViewBag.tSectionId.Rows)
                                         {

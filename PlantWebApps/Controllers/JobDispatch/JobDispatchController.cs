@@ -150,6 +150,7 @@ namespace PlantWebApps.Controllers.JobDispatch
             ViewBag.JobNo = "503002";
             ViewBag.ShipmentDate = DateTime.Now;
             ViewBag.AttentionTo = eRepairBy;
+            ViewBag.dataaccess = null;
             return View("~/Views/JobDispatch/Form.cshtml");
         }
         public IActionResult Edit(string id)
