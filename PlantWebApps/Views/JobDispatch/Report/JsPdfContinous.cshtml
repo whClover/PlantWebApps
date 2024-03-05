@@ -81,22 +81,16 @@
                     {
                         @foreach (DataRow row in ViewBag.detail.Rows)
                         {
-                            var item = row["Item"].ToString();
-                            var qty = row["Qty"].ToString();
-                            var uom = row["UOM"].ToString();
-                            var itemDesc = row["ItemDesc"].ToString();
-                            var pono = row["PONo"].ToString();
-                            var remarks = row["Remarks"].ToString();
-
-                            <td>@item</td>
-                            <td>@qty</td>
-                            <td>@uom</td>
-                            <td>@itemDesc</td>
-                            <td>@pono</td>
-                            <td>@remarks</td>
+                        <tr>
+                            <td class="align-middle">@row["Item"]</td>
+                            <td class="align-middle">@row["Qty"]</td>
+                            <td class="align-middle">@row["UOM"]</td>
+                            <td class="align-middle">@row["ItemDesc"]</td>
+                            <td class="align-middle">@row["PONo"]</td>
+                            <td class="align-middle">@row["Remarks"]</td>
+                        </tr>
                         }
                     }
-                </tr>
             </tbody>
         </table>
     </div>

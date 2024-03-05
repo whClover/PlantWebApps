@@ -726,8 +726,9 @@ namespace PlantWebApps.Controllers.JobDispatch
             ViewBag.report = SQLFunction.execQuery(query);
             Console.WriteLine("query is" + query);
 
-            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 0)}";
+            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE DispatchID ={Utility.Evar(id, 1)}";
             ViewBag.detail = SQLFunction.execQuery(Detailquery);
+            Console.WriteLine("Detail query is" + Detailquery);
 
             return View("~/Views/JobDispatch/Report/JsPdf.cshtml");
         }
@@ -739,8 +740,9 @@ namespace PlantWebApps.Controllers.JobDispatch
             ViewBag.report = SQLFunction.execQuery(query);
             Console.WriteLine("query is" + query);
 
-            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE ID = {Utility.Evar(id, 0)}";
+            string Detailquery = $"SELECT * FROM tbl_DispatchJobDetail WHERE DispatchID ={Utility.Evar(id, 1)}";
             ViewBag.detail = SQLFunction.execQuery(Detailquery);
+            Console.WriteLine("Detail query is" + Detailquery);
 
             return View("~/Views/JobDispatch/Report/JsPdfContinous.cshtml");
         }
