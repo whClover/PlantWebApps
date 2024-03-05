@@ -389,7 +389,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             var xAddCost = Utility.Evar(eAddCost, 1);
             var xstatusid = Utility.Evar(estatusid, 1);
             var xRepairAdvice = Utility.Evar(eRepairAdvice, 1);
-            var xremark = Utility.Evar(eremark, 1);
+            var xremark = eremark;
             var xetadate = Utility.Evar(eetadate, 2);
             var xsupplierid = Utility.Evar(esupplierid, 0);
             var xsupervisorid = Utility.Evar(eSpvID, 0);
@@ -472,7 +472,7 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
             , {xRepairTypeID}, {xReceivedDate}, {xReceivedBy}, {xReceivedByName}, {xQuoteRevDate}, {xQuoteRevNo}, {xReasonTypeID}
             , {xQuoteNo}, {xQuoteDate}, {xJobNo}, {xSerialNumberOEM}, {xEGEI}, {xQuotePrintBy}, {xEIEK}, {xQuoteApprovedBy}
             , {xEKEP}, {xQuoteProcessBy}, {xCostBefore}, {xCostAfter}
-            , {xCurrID}, {xAddCost}, {xstatusid}, {xRepairAdvice}, {xremark}, {xetadate}, {xsupplierid} 
+            , {xCurrID}, {xAddCost}, {xstatusid}, {xRepairAdvice}, '{xremark}', {xetadate}, {xsupplierid} 
             , {xsupervisorid}, {xChildWO}, {xmainttype}, {xIntWO}, {xReqStand}, {xReqPart}, {xWOJobCost}, {xWCSDate}
             , {xWarrantyResult}, {xCostRepair}, {xOemCost}, {xORRequestDate}, {xORCompletedDAte},{xORRRNo}, {xOPRRNo}
             , {xRequestP1}, {xLocationHold}, {xTCICoreFitTo}, {xExtWO}, {xDocAvb}, {xST}, {xOt}, {xsavingcostCatID}
