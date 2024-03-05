@@ -22,8 +22,9 @@
         <div class="fs-3 fw-bold">ADVICE NOTE NO :</div>
         @if (ViewBag.detail != null && ViewBag.detail.Rows.Count > 0)
         {
-            <div class="text-danger ms-2">@ViewBag.detail.Rows[0]["DispatchID"]</div>
-            <input type="Text" id="reportID" class="col-8 d-none" value="@ViewBag.detail?.Rows[0]?["DispatchID"]" />
+            <div class="text-danger ms-2">@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DispatchID"] : "")</div>
+            <input type="Text" id="reportID" class="col-8 d-none"
+                   value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DispatchID"] : "")" />
         }
         <input type="Text" class="col-8 fs-3 d-none" name="reportID" id="reportID" />
     </div>
@@ -32,13 +33,13 @@
         <tbody>
             <tr>
                 <td class="w-25">Date :</td>
-                <td class="w-25">@ViewBag.report?.Rows[0]?["ShipmentDate"]</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["ShipmentDate"] : "")</td>
                 <td class="w-25">Project :</td>
-                <td class="w-25">@ViewBag.report?.Rows[0]?["Project"]</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["Project"] : "")</td>
             </tr>
             <tr>
                 <td class="w-25">Good Consigned to :</td>
-                <td class="w-25">@ViewBag.report?.Rows[0]?["ConsignedTo"]</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["ConsignedTo"] : "")</td>
                 <td class="w-25"></td>
                 <td class="w-25"></td>
             </tr>
@@ -50,13 +51,13 @@
             </tr>
             <tr>
                 <td class="w-25">Mode Of Transport :</td>
-                <td class="w-25">@ViewBag.report?.Rows[0]?["TransportMode"]</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["TransportMode"] : "")</td>
                 <td class="w-25">Carrier :</td>
                 <td class="w-25"></td>
             </tr>
             <tr>
                 <td class="w-25">C/Note Or Manifest No :</td>
-                <td class="w-25">@ViewBag.report?.Rows[0]?["ManifestNo"]</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["ManifestNo"] : "")</td>
                 <td class="w-25">Dispatched From :</td>
                 <td class="w-25"></td>
             </tr>
@@ -76,21 +77,24 @@
             </thead>
             <tbody>
                 <tr>
-                    @foreach (DataRow row in ViewBag.detail.Rows)
+                    @if (ViewBag.detail != null && ViewBag.detail.Rows.Count > 0)
                     {
-                        var item = row["Item"].ToString();
-                        var qty = row["Qty"].ToString();
-                        var uom = row["UOM"].ToString();
-                        var itemDesc = row["ItemDesc"].ToString();
-                        var pono = row["PONo"].ToString();
-                        var remarks = row["Remarks"].ToString();
+                        @foreach (DataRow row in ViewBag.detail.Rows)
+                        {
+                            var item = row["Item"].ToString();
+                            var qty = row["Qty"].ToString();
+                            var uom = row["UOM"].ToString();
+                            var itemDesc = row["ItemDesc"].ToString();
+                            var pono = row["PONo"].ToString();
+                            var remarks = row["Remarks"].ToString();
 
-                        <td>@item</td>
-                        <td>@qty</td>
-                        <td>@uom</td>
-                        <td>@itemDesc</td>
-                        <td>@pono</td>
-                        <td>@remarks</td>
+                            <td>@item</td>
+                            <td>@qty</td>
+                            <td>@uom</td>
+                            <td>@itemDesc</td>
+                            <td>@pono</td>
+                            <td>@remarks</td>
+                        }
                     }
                 </tr>
             </tbody>
@@ -107,11 +111,11 @@
                 <tr>
                     <td style="height: 175px;">
                         <div>Dispatch By:</div>
-                        <div>@ViewBag.report?.Rows[0]?["DispatchBy"]</div>
+                        <div>@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["DispatchBy"] : "")</div>
                     </td>
                     <td style="height: 175px;">
                         <div>Approved By:</div>
-                        <div>@ViewBag.report?.Rows[0]?["HandledBy"]</div>
+                        <div>@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["HandledBy"] : "")</div>
                     </td>
                     <td style="height: 175px;">
                         <div>Checked By:</div>
@@ -195,40 +199,38 @@
 
         // AUTO TABLE
         doc.autoTable
-        (
-            {
-                html: '#body',
-                bodyStyles: { minCellHeight: 60 },
+            (
+                {
+                    html: '#body',
+                    bodyStyles: { minCellHeight: 60 },
 
-                // header
-                willDrawPage: function (data) {
-                    doc.addImage(headerData, "PNG", 10, 6, headerWidth, headerHeight);
-                },
+                    // header
+                    willDrawPage: function (data) {
+                        doc.addImage(headerData, "PNG", 10, 6, headerWidth, headerHeight);
+                    },
 
-                // footer
-                didDrawPage: function (data) {
-                    var pageSize = doc.internal.pageSize; // Get the page size
-                    var footerHeight = 50; // Specify the height of your footer
+                    // footer
+                    didDrawPage: function (data) {
+                        var pageSize = doc.internal.pageSize; // Get the page size
+                        var footerHeight = 50; // Specify the height of your footer
 
-                    // Calculate the position of the footer
-                    var footerY = pageSize.height - footerHeight - 30;
+                        // Calculate the position of the footer
+                        var footerY = pageSize.height - footerHeight - 30;
 
-                    // Add the footer image
-                    doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight + 20);
-                },
+                        // Add the footer image
+                        doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight + 20);
+                    },
 
-                // table styles
-                styles: {
-                    font: 'arial',
-                    fontSize: 14,
-                },
+                    // table styles
+                    styles: {
+                        font: 'arial',
+                        fontSize: 14,
+                    },
 
-            }
-        )
-
+                }
+            )
         // return the pdf
         doc.save("TCI AN " + ($("#reportID").val()) + ".pdf");
-
         window.close();
     });
 </script>

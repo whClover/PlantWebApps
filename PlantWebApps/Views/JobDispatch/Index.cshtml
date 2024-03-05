@@ -360,37 +360,38 @@
     $("#btnPrint").on("click", function () {
         var selectedRow = $('.datatable').DataTable().row(0).data();
         var id = selectedRow.id;
+        console.log("id is", id);
         var newTabUrl = '/JobDispatch/PrintJsPdf/' + id;
         window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
     });
 
-    var tableCell = document.querySelector('#myTable tbody tr td');
-    btnDeleteDetail.addEventListener('click', function (e) {
-        console.log('btnDeleteDetail clicked');
-        e.preventDefault();
-        if (tableCell && tableCell.textContent.trim() !== '') {
-            console.log('Showing confirmation dialog');
-            Swal.fire({
-                title: 'Are you sure to delete this data?',
-                showDenyButton: true,
-                icon: "warning",
-                confirmButtonText: 'Yes',
-                denyButtonText: 'No'
-            }).then((result) => {
-                console.log('User response:', result);
-                if (result.isConfirmed) {
-                    window.location.href = btnDeleteDetail.href;
-                } else if (result.isDenied) {
-                    Swal.fire("Data Not Deleted", "", "success");
-                }
-            });
-        }
-        else {
-            Swal.fire({
-                icon: "error",
-                title: "There Is No Data To Be Deleted",
-            });
-        }
-    });
+    // var tableCell = document.querySelector('#myTable tbody tr td');
+    // btnDeleteDetail.addEventListener('click', function (e) {
+    //     console.log('btnDeleteDetail clicked');
+    //     e.preventDefault();
+    //     if (tableCell && tableCell.textContent.trim() !== '') {
+    //         console.log('Showing confirmation dialog');
+    //         Swal.fire({
+    //             title: 'Are you sure to delete this data?',
+    //             showDenyButton: true,
+    //             icon: "warning",
+    //             confirmButtonText: 'Yes',
+    //             denyButtonText: 'No'
+    //         }).then((result) => {
+    //             console.log('User response:', result);
+    //             if (result.isConfirmed) {
+    //                 window.location.href = btnDeleteDetail.href;
+    //             } else if (result.isDenied) {
+    //                 Swal.fire("Data Not Deleted", "", "success");
+    //             }
+    //         });
+    //     }
+    //     else {
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "There Is No Data To Be Deleted",
+    //         });
+    //     }
+    // });
 
 </script>
