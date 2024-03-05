@@ -295,8 +295,15 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Current Status</div>
                 <div class="col-3">
-                    <input id="tStatusID" name="tStatusID" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["Status"] : "")"
-                           type="text" class="col-3 form-control form-control-sm" />
+                    <select id="tStatusID" name="tStatusID" class="col-4 form-control form-control-sm select2">
+                        <option value=""></option>
+                        @foreach (DataRow row in ViewBag.tnextstatus.Rows)
+                        {
+                            var statusId = row["ExrJobStatusID"].ToString();
+                            var jobStatus = row["ExrJobStatus"].ToString();
+                            <option value="@statusId" selected="@(statusId == ViewBag.detail?.Rows[0]?["StatusID"].ToString())">@jobStatus</option>
+                        }
+                    </select>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@
                 <h5 class="card-title">External Repair Job History Form</h5>
                 <div class="d-flex" style="gap: 10px;">
                     <div>Job ID :</div>
-                    <input type="text" class="border border-0" style="max-width: 100px;" id="tID"
+                    <input type="text" class="border border-0" disabled style="max-width: 100px;" id="tID"
                            value="@(ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["ID"] : "")" />
                 </div>
             </div>
@@ -388,6 +388,7 @@
         }
 
         function saveRequest(extractedData) {
+            console.log("masuk");
             $.ajax({
                 method: "GET",
                 url: "/General/CheckGranted",
@@ -427,13 +428,17 @@
             var test = $("#tID").val()
 
             console.log("id is", test)
-            if ($("#tID").val() == "") {
-                Swal.fire("No ID Information.Cannot Save Approval", "", "warning");
+            if ($("#tOffSiteWO").val() == "") {
+                Swal.fire("Please Fill Parent Wo", "", "warning");
+                return
+            } else if ($("#TChildWo").val() == "") {
+                Swal.fire("please Fill Offsite Wo", "", "warning");
                 return
             } else if ($("#tRepairAdvice").val() == "OH" && $("#tHoldUntil").val() == "") {
                 Swal.fire("please Fill Hold Untill", "", "warning");
                 return
-            } else if ($("#tWOFitToUnit").val() != $("#tWOFitToUnitID").val()) {
+            }
+            else if ($("#tWOFitToUnit").val() != $("#tWOFitToUnitID").val()) {
 
             } else {
                 handleSave();
