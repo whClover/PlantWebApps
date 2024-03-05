@@ -186,7 +186,7 @@
                         const pdfHeight = canvas.height * pdfWidth / canvas.width;
 
                         // add html2canvas image to jspdf
-                        doc.addImage(imageData, "PNG", 10, 2, pdfWidth, pdfHeight);
+                        doc.addImage(imageData, "PNG", 15, 2, pdfWidth, pdfHeight);
 
                         // return the pdf
                         doc.save("After Repair Tag Standard" + " " + ($("#fWono").val()) + ".pdf");
