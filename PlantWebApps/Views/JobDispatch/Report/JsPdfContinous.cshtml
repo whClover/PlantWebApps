@@ -1,0 +1,236 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using System.Data;
+}
+
+<div class="d-flex flex-column fs-4" id="header">
+    <div class="d-flex flex-row justify-content-between align-items-center ">
+        <div class="d-flex flex-column fs-1 fw-semibold">
+            <div>Balikpapan</div>
+            <div>PRO</div>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+            <div class="fs-1 fw-semibold">PT. Thiess Contractor Indonesia</div>
+            <div class="fs-2">Goods Outwards or Material Transfer</div>
+        </div>
+        <img src="~/images/Thiess.png" style="max-width: 250px;" />
+    </div>
+
+    <div class="d-flex flex-row align-self-end align-items-center mt-3">
+        <div class="fs-3 fw-bold">ADVICE NOTE NO :</div>
+        @if (ViewBag.detail != null && ViewBag.detail.Rows.Count > 0)
+        {
+            <div class="text-danger ms-2">@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DispatchID"] : "")</div>
+            <input type="Text" id="reportID" class="col-8 d-none"
+                   value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["DispatchID"] : "")" />
+        }
+        <input type="Text" class="col-8 fs-3 d-none" name="reportID" id="reportID" />
+    </div>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td class="w-25">Date :</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["ShipmentDate"] : "")</td>
+                <td class="w-25">Project :</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["Project"] : "")</td>
+            </tr>
+            <tr>
+                <td class="w-25">Good Consigned to :</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["ConsignedTo"] : "")</td>
+                <td class="w-25"></td>
+                <td class="w-25"></td>
+            </tr>
+            <tr>
+                <td class="w-25">Attention :</td>
+                <td class="w-25"></td>
+                <td class="w-25">Job No :</td>
+                <td class="w-25"></td>
+            </tr>
+            <tr>
+                <td class="w-25">Mode Of Transport :</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["TransportMode"] : "")</td>
+                <td class="w-25">Carrier :</td>
+                <td class="w-25"></td>
+            </tr>
+            <tr>
+                <td class="w-25">C/Note Or Manifest No :</td>
+                <td class="w-25">@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["ManifestNo"] : "")</td>
+                <td class="w-25">Dispatched From :</td>
+                <td class="w-25"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="fw-bold">Item</th>
+                    <th class="fw-bold">Qty</th>
+                    <th class="fw-bold">Unit</th>
+                    <th class="fw-bold">Description</th>
+                    <th class="fw-bold">WO / OFF SITE / OP/ OR</th>
+                    <th class="fw-bold">Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @if (ViewBag.detail != null && ViewBag.detail.Rows.Count > 0)
+                    {
+                        @foreach (DataRow row in ViewBag.detail.Rows)
+                        {
+                            var item = row["Item"].ToString();
+                            var qty = row["Qty"].ToString();
+                            var uom = row["UOM"].ToString();
+                            var itemDesc = row["ItemDesc"].ToString();
+                            var pono = row["PONo"].ToString();
+                            var remarks = row["Remarks"].ToString();
+
+                            <td>@item</td>
+                            <td>@qty</td>
+                            <td>@uom</td>
+                            <td>@itemDesc</td>
+                            <td>@pono</td>
+                            <td>@remarks</td>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<table id="body" class="fs-4"></table>
+
+<div class="d-flex flex-column fs-4" id="footer">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td style="height: 175px;">
+                        <div>Dispatch By:</div>
+                        <div>@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["DispatchBy"] : "")</div>
+                    </td>
+                    <td style="height: 175px;">
+                        <div>Approved By:</div>
+                        <div>@(ViewBag.report?.Rows.Count > 0 ? ViewBag.report?.Rows[0]?["HandledBy"] : "")</div>
+                    </td>
+                    <td style="height: 175px;">
+                        <div>Checked By:</div>
+                        <div></div>
+                    </td>
+                    <td style="height: 175px;">
+                        <div>Carrier By:</div>
+                        <div></div>
+                    </td>
+                    <td style="height: 175px;">
+                        <div>Receipt By:</div>
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                    <td>Date :</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div class="col-2">Distribution</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Original With Goods</div>
+            <div class="col-10"></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Yellow / Kuning</div>
+            <div class="col-10">:<span class="ms-2">Copy sent to consignee-sign and return to originator / kirim ke supplier dan kembali ke pengirim (LOG)</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Red / Merah</div>
+            <div class="col-10">:<span class="ms-2">Copy-file to consignee</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Red / Merah</div>
+            <div class="col-10">:<span class="ms-2">Copy-file to dispatcher</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">Red / Merah</div>
+            <div class="col-10">:<span class="ms-2">Copy-file to security</span></div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row mt-2 justify-content-between">
+        <div>2014-09</div>
+        <div>1 of 1</div>
+        <div>503000-PRO-FO-008</div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(async function () {
+
+        // Load the jspdf and jspdf-autotable libraries
+        window.jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'letter');
+
+        // header
+        const header = await html2canvas($("#header")[0]);
+        const headerData = header.toDataURL("image/png");
+
+        const headerWidth = doc.internal.pageSize.getWidth() - 20;
+        const headerHeight = header.height * headerWidth / header.width;
+
+        // footer
+        const footer = await html2canvas($("#footer")[0]);
+        const footerData = footer.toDataURL("image/png");
+
+        const footerWidth = doc.internal.pageSize.getWidth() - 20;
+        const footerHeight = footer.height * footerWidth / footer.width;
+
+        // AUTO TABLE
+        doc.autoTable
+            (
+                {
+                    html: '#body',
+                    bodyStyles: { minCellHeight: 60 },
+
+                    // header
+                    willDrawPage: function (data) {
+                        doc.addImage(headerData, "PNG", 10, 6, headerWidth, headerHeight);
+                    },
+
+                    // footer
+                    didDrawPage: function (data) {
+                        var pageSize = doc.internal.pageSize; // Get the page size
+                        var footerHeight = 50; // Specify the height of your footer
+
+                        // Calculate the position of the footer
+                        var footerY = pageSize.height - footerHeight - 30;
+
+                        // Add the footer image
+                        doc.addImage(footerData, "PNG", 10, footerY, footerWidth, footerHeight + 20);
+                    },
+
+                    // table styles
+                    styles: {
+                        font: 'arial',
+                        fontSize: 14,
+                    },
+
+                }
+            )
+        // return the pdf
+        doc.save("TCI AN " + ($("#reportID").val()) + ".pdf");
+        window.close();
+    });
+</script>
