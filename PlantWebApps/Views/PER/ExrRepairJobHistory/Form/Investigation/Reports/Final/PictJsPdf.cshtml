@@ -41,17 +41,10 @@
         </tr>
     </thead>
     <tbody>
-        @* @foreach (DataRow row in ViewBag.data.Rows)
+        @foreach (DataRow row in ViewBag.data.Rows)
         {
             <tr height="558px">
                 <td>@row["PictureCaption"]</td>
-                <td></td>
-            </tr>
-        } *@
-        @for (var i = 1; i < 30; i++)
-        {
-            <tr>
-                <td>6316835(2)</td>
                 <td></td>
             </tr>
         }
@@ -60,6 +53,7 @@
 
 <script>
     $(document).ready(async function () {
+        var picturePaths = @Html.Raw(Json.Serialize(ViewData["finalpath"]));
 
         // Load the jspdf and jspdf-autotable libraries
         window.jsPDF = window.jspdf.jsPDF;
@@ -93,7 +87,11 @@
                 // image
                 didDrawCell: (data) => {
                     if (data.section === 'body' && data.column.index === 1) {
-                        var imgUrl = 'https://placekitten.com/200/300';
+                        var index = data.row.index;
+                        var imgUrl = picturePaths[index];
+
+                        console.log("image url", imgUrl);
+
                         doc.addImage(imgUrl, 'JPEG', data.cell.x + 2, data.cell.y + 2, 50, 50)
                     }
                 },
