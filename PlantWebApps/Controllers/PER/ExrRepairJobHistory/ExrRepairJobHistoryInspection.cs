@@ -622,12 +622,59 @@ namespace PlantWebApps.Controllers.PER.ExrRepairJobHistory
         }
 		public IActionResult PictFinalJsPdf(string ID)
 		{
-			DataFinalReportPictBody(ID);
-			return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictJsPdf.cshtml");
+            string query = @$"Select ID,JobID,WoNO,IDReg,PictureCaption,picturepath,inspectType 
+			from tblv_ExrOldCoreInspAttachPic where InspectType='FinalInspect' AND WONO={Utility.Evar(ID, 1)}";
+            Console.WriteLine(query);
+            ViewBag.data = SQLFunction.execQuery(query);
+
+            var data = SQLFunction.execQuery(query);
+            var rows = new List<string>();
+
+            foreach (DataRow row in data.Rows)
+            {
+
+                string basePath = @"..\..\..\wwwroot\img";
+
+                string dataPath = Utility.CheckNull(row["picturepath"]);
+                string dataPath2 = dataPath.Substring(21);
+                string dataPath3 = basePath + dataPath2;
+
+                string pictPath = dataPath3.Replace(@"\", "/");
+
+                rows.Add(pictPath);
+            }
+
+            ViewData["finalpath"] = rows;
+
+            return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Final/PictJsPdf.cshtml");
 		}
         public IActionResult PictOldJsPdf(string ID)
         {
-            DataOldReportPictBody(ID);
+            string query = @$"Select ID,JobID,WoNO,IDReg,PictureCaption,picturepath,inspectType 
+			from tblv_ExrOldCoreInspAttachPic where InspectType='OldCoreInspect' AND WONO={Utility.Evar(ID, 1)}";
+            Console.WriteLine(query);
+
+            ViewBag.data = SQLFunction.execQuery(query);
+
+            var data = SQLFunction.execQuery(query);
+            var rows = new List<string>();
+
+            foreach (DataRow row in data.Rows)
+            {
+
+                string basePath = @"..\..\..\wwwroot\img";
+
+                string dataPath = Utility.CheckNull(row["picturepath"]);
+                string dataPath2 = dataPath.Substring(21);
+                string dataPath3 = basePath + dataPath2;
+
+                string pictPath = dataPath3.Replace(@"\", "/");
+
+                rows.Add(pictPath);
+            }
+
+            ViewData["oldpath"] = rows;
+
             return View("~/Views/PER/ExrRepairJobHistory/Form/Investigation/Reports/Old/PictJsPdf.cshtml");
         }
     }

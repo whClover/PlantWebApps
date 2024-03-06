@@ -1,5 +1,14 @@
 ﻿@{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // IssuedDate
+    object IssuedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["IssuedDate"] : null;
+    string IssuedDateFormatted = Utility.NullableDatetime(IssuedDateValue);
+
+    // AcknowledgedDate
+    object AcknowledgedDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AcknowledgedDate"] : null;
+    string AcknowledgedDateFormatted = Utility.NullableDatetime(AcknowledgedDateValue);
 }
 
 <script>
@@ -401,6 +410,15 @@
 
 <script>
     $(document).ready(function () {
+        // one checkbox at a time
+        $('#ChkAccept').click(function() {
+            $('#ChkReject').not(this).prop('checked', false);
+        });
+
+        $('#ChkReject').click(function() {
+            $('#ChkAccept').not(this).prop('checked', false);
+        });
+
         // hide attach picture
         hideAttachPict()
         function hideAttachPict() {
@@ -431,22 +449,17 @@
 
         // Check the radio buttons based on the value of priceType
         function handleInspectResultOnLoad() {
-            if (eInspectResult === -1) {
+            if (eAccept.val() == -1) {
                 eAccept.prop("checked", true);
-                eAccept.val("-1");
-            } else if (eInspectResult === 0) {
+                eInspectResult.val("-1");
+            } else if (eAccept.val() == 0) {
                 eReject.prop("checked", true);
-                eReject.val("-1");
-            }
-        }
-
-        function handleInspectResultNull() {
-            if (eAccept.prop("checked", false) || eReject.prop("checked", false)) {
+                eInspectResult.val("0");
+            } else if (eAccept.prop("checked", false) && eReject.prop("checked", false)) {
                 eInspectResult.val("9");
             }
         }
 
-        handleInspectResultNull();
         handleInspectResultOnLoad();
 
         eAccept.on("change", function () {
@@ -570,7 +583,7 @@
 
         // save functionality
         function FormSave() {
-            var eID = $('#tNoReg').val();
+            var eID = $('#tNoReg').text();
             var eJobID = $('#tjobid').val();
             var eWono = $('#formWono').val();
             var eCheck1a = $('#tCheck1a').val();

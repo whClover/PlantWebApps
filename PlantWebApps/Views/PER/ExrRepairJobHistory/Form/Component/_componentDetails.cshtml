@@ -3,6 +3,7 @@
 *@
 @{
 	@using System.Data;
+	@using PlantWebApps.Helper;
 
 	object dataCostBefore = ViewBag.data != null && ViewBag.data.Rows.Count > 0 ? ViewBag.data.Rows[0]["CostBefore"] : null;
 	string costBefore = dataCostBefore != null ? dataCostBefore.ToString() : "";
@@ -30,6 +31,18 @@
 		new SelectListItem { Value = "Steel Stand", Text = "Steel Stand" },
 		new SelectListItem { Value = "Wooden Box", Text = "Wooden Box" }
 	};
+
+	// OPDate
+	object OPDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["OPDate"] : null;
+	string OPDateFormatted = Utility.NullableDatetime(OPDateValue);
+
+	// ETADate
+	object ETADateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["ETADate"] : null;
+	string ETADateValueFormatted = Utility.NullableDatetime(ETADateValue);
+
+	// AddOrderDate1
+	object AddOrderDate1Value = ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderDate1"] : null;
+	string AddOrderDate1ValueFormatted = Utility.NullableDatetime(AddOrderDate1Value);
 }
 
 <div class="col border">
@@ -152,7 +165,7 @@
 			<div class="row align-items-center">
 				<div class="col-2">OP Date</div>
 				<div class="col-4">
-					<input id="tOPDate" name="tOPDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["OPDate"] : "")"
+					<input id="tOPDate" name="tOPDate" value="@OPDateFormatted"
 						type="text" class="col-4 form-control form-control-sm datepicker-basic" />
 				</div>
 				<div class="col-2">EIOP</div>
@@ -251,7 +264,7 @@
 			<div class="row align-items-center">
 				<div class="col-2">Etc Date</div>
 				<div class="col-4">
-					<input id="tetadate" name="tetadate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ETADate"] : "")"
+					<input id="tetadate" name="tetadate" value="@ETADateValueFormatted"
 						type="text" class="col-4 form-control form-control-sm datepicker-basic" />
 				</div>
 				<div class="col-2">Support WO</div>
@@ -343,7 +356,7 @@
 				<div class="col-2 fw-bold">Received Date</div>
 				<div class="col-10 row" style="gap: 15px;">
 					<div class="col-3">
-						<input id="taddOrderDate1" name="taddOrderDate1" value="@(ViewBag.AddOrderEtc?.Rows.Count > 0 ? ViewBag.AddOrderEtc?.Rows[0]?["AddOrderDate1"] : "")"
+						<input id="taddOrderDate1" name="taddOrderDate1" value="@AddOrderDate1ValueFormatted"
 							type="text" class="col-3 form-control form-control-sm datepicker-basic" />
 					</div>
 					<div class="col-3">

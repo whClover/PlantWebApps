@@ -364,5 +364,12 @@ namespace PlantWebApps.Helper
                 return stream.ToArray();
             }
         }
+        public static string NullableDatetime(object value)
+        {
+            DateTime? valueDate = value as DateTime?;
+            string valueFormatted = valueDate?.ToString("yyyy-MM-dd") ?? string.Empty;
+
+            return valueFormatted;
+        }
     }
 }
