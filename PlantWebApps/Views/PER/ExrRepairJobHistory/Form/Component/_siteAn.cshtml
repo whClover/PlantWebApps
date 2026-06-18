@@ -2,6 +2,13 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // SitetoLogDate
+    object SitetoLogDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["SitetoLogDate"] : null;
+    string SitetoLogDateFormatted = Utility.NullableDatetime(SitetoLogDateValue);
+
 }
 
 <div class="col border">
@@ -17,7 +24,7 @@
                 <div class="col-1 ms-2" style="max-height: 30px; max-width: 40px;"></div>
                 <div class="col-2">Site AN Date</div>
                 <div class="col-3">
-                    <input id="tSitetoLogDate" name="tSitetoLogDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["SitetoLogDate"] : "")"
+                    <input id="tSitetoLogDate" name="tSitetoLogDate" value="@SitetoLogDateFormatted"
                         type="Text" class="col-3 form-control form-control-sm datepicker-basic" />
                 </div>
             </div>

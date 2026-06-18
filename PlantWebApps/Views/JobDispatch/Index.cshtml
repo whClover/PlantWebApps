@@ -228,7 +228,6 @@
                             <thead class="table-light">
                                 <tr>
                                     <th></th>
-                                    <th></th>
                                     <th>AN No</th>
                                     <th>Section</th>
                                     <th>Dispatch Type</th>
@@ -239,6 +238,7 @@
                                     <th>Handled Date</th>
                                     <th>Received Date</th>
                                     <th>StatusID</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -300,7 +300,6 @@
                         pageLength: 20,
                         data: test, // The data received from the AJAX request
                         columns: [
-                            { "data": "delete" },
                             { "data": "edit" },
                             { "data": "id" },
                             { "data": "section" },
@@ -311,14 +310,13 @@
                             { "data": "dispatchDate" },
                             { "data": "handledDate" },
                             { "data": "receivedDate" },
-                            { "data": "statusId" }
+                            { "data": "statusId" },
+                            { "data": "delete" }
                         ]
                     });
-
                     // Sembunyikan loading overlay setelah data dimuat
                     $("#offcanvas").offcanvas("hide");
                     $('#loadingOverlay').hide();
-
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -334,7 +332,6 @@
                 pageLength: 20,
                 data: tempData,
                 columns: [
-                    { "data": "delete" },
                     { "data": "edit" },
                     { "data": "id" },
                     { "data": "section" },
@@ -345,7 +342,8 @@
                     { "data": "dispatchDate" },
                     { "data": "handledDate" },
                     { "data": "receivedDate" },
-                    { "data": "statusId" }
+                    { "data": "statusId" },
+                    { "data": "delete" },
                 ]
             });
 
@@ -362,37 +360,38 @@
     $("#btnPrint").on("click", function () {
         var selectedRow = $('.datatable').DataTable().row(0).data();
         var id = selectedRow.id;
+        console.log("id is", id);
         var newTabUrl = '/JobDispatch/PrintJsPdf/' + id;
         window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
     });
 
-    var tableCell = document.querySelector('#myTable tbody tr td');
-    btnDeleteDetail.addEventListener('click', function (e) {
-        console.log('btnDeleteDetail clicked');
-        e.preventDefault();
-        if (tableCell && tableCell.textContent.trim() !== '') {
-            console.log('Showing confirmation dialog');
-            Swal.fire({
-                title: 'Are you sure to delete this data?',
-                showDenyButton: true,
-                icon: "warning",
-                confirmButtonText: 'Yes',
-                denyButtonText: 'No'
-            }).then((result) => {
-                console.log('User response:', result);
-                if (result.isConfirmed) {
-                    window.location.href = btnDeleteDetail.href;
-                } else if (result.isDenied) {
-                    Swal.fire("Data Not Deleted", "", "success");
-                }
-            });
-        }
-        else {
-            Swal.fire({
-                icon: "error",
-                title: "There Is No Data To Be Deleted",
-            });
-        }
-    });
+    // var tableCell = document.querySelector('#myTable tbody tr td');
+    // btnDeleteDetail.addEventListener('click', function (e) {
+    //     console.log('btnDeleteDetail clicked');
+    //     e.preventDefault();
+    //     if (tableCell && tableCell.textContent.trim() !== '') {
+    //         console.log('Showing confirmation dialog');
+    //         Swal.fire({
+    //             title: 'Are you sure to delete this data?',
+    //             showDenyButton: true,
+    //             icon: "warning",
+    //             confirmButtonText: 'Yes',
+    //             denyButtonText: 'No'
+    //         }).then((result) => {
+    //             console.log('User response:', result);
+    //             if (result.isConfirmed) {
+    //                 window.location.href = btnDeleteDetail.href;
+    //             } else if (result.isDenied) {
+    //                 Swal.fire("Data Not Deleted", "", "success");
+    //             }
+    //         });
+    //     }
+    //     else {
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "There Is No Data To Be Deleted",
+    //         });
+    //     }
+    // });
 
 </script>

@@ -3,11 +3,24 @@
 *@
 @{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // RegisterDate
+    object RegisterDateValue = ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterDate"] : null;
+    string RegisterDateFormatted = Utility.NullableDatetime(RegisterDateValue);
+
+    // ModDate
+    object ModDateValue = ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null;
+    string ModDateFormatted = Utility.NullableDatetime(ModDateValue);
+
+    // DeletedDate
+    object DeletedDateValue = ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DeletedDate"] : null;
+    string DeletedDateFormatted = Utility.NullableDatetime(DeletedDateValue);
 }
 
 <!-- Modal -->
 <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
-    <div class="modal fade" id="anDetailModal" tabindex="-1" aria-labelledby="anDetailModal" aria-hidden="true" style="font-size: 12px;">
+    <div class="modal fade" id="anDetailModal" tabindex="-1" aria-labelledby="anDetailModal" data-bs-scroll="true" aria-hidden="true" style="font-size: 12px;">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -21,26 +34,27 @@
                                 Status
                             </div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TStatusID" id="TStatusID"
+                                <input type="text" class="col-4 form-control form-control-sm" name="TStatusID" id="xStatusID"
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["StatusID"] : "")" />
                             </div>
-
                         </div>
                     </div>
                     <div class="container overflow-hidden">
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Dispatch Type*</div>
                             <div class="col-4">
-                                <select disabled class="col-4 form-control form-control-sm select2" name="TType" required>
-                                    <option value=""></option>
-                                    @foreach (DataRow row in ViewBag.tDispatchType.Rows)
-                                    {
-                                        var tDispatchTypeId = row["DispatchTypeID"].ToString();
-                                        var tDispatchTypeType = row["DispatchType"].ToString();
-                                        var selectedDispatchType = ViewBag.typeDispatch?.Rows.Count > 0 ? ViewBag.typeDispatch.Rows[0]["DispatchType"].ToString() : null;
-                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
-                                    }
-                                </select>
+                                @if (ViewBag.dataaccess != null && ViewBag.dataaccess.Rows.Count > 0)
+                                {
+                                    <select class="col-4 form-control form-control-sm" id="xType" name="TType" required>
+                                        <option value=""></option>
+                                        @foreach (DataRow row in ViewBag.tDispatchType.Rows)
+                                        {
+                                            var tDispatchTypeId = row["DispatchTypeID"].ToString();
+                                            var tDispatchTypeType = row["DispatchType"].ToString();
+                                            <option value="@tDispatchTypeType" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
+                                        }
+                                    </select>
+                                }
                             </div>
                         </div>
                     </div>
@@ -48,14 +62,14 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Advice Note*</div>
                             <div class="col-4">
-                                <input type="text" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DispatchID"] : null)"
-                                       class="col-4 form-control form-control-sm" name="TDispatchID" id="TDispatchID" />
+                                <input type="text" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ID"] : null)"
+                                       class="col-4 form-control form-control-sm" name="TDispatchID" id="xDispatchID" />
                             </div>
                             <div class="col-1" style="font-size: 12px;">
                                 ID
                             </div>
                             <div class="col-3">
-                                <input type="text" class="col-3 ms-2 form-control form-control-sm" name="TID" value="@ViewBag.id" />
+                                <input type="text" class="col-3 ms-2 form-control form-control-sm" name="TID" id="xID" value="" />
                             </div>
                         </div>
                     </div>
@@ -63,12 +77,24 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Section ID*</div>
                             <div class="col-4">
-                                <input type="text" id="anDetailSection" name="TSectionID" class="col-4 form-control form-control-sm"
-                                       value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)" />
+                                @* <input type="text" id="anDetailSection" name="TSectionID" class="col-4 form-control form-control-sm"
+                                value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)" /> *@
+                                <select id="anDetailSection" name="tSectionId" class="form-control form-control-sm">
+                                    <option value=""></option>
+                                    @if (ViewBag.dataaccess != null && ViewBag.dataaccess.Rows.Count > 0)
+                                    {
+                                        foreach (DataRow row in ViewBag.tSectionId.Rows)
+                                        {
+                                            var tSectionId = row["JobSourceID"].ToString();
+                                            var tSectionIdJobSource = row["JobSource"].ToString();
+                                            <option value="@tSectionId" selected="@(tSectionId == ViewBag.dataaccess.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
+                                        }
+                                    }
+                                </select>
                             </div>
                             <div class="col-1 text-nowrap" style="font-size: 12px;">Job ID</div>
                             <div class="col-3">
-                                <input type="text" id="anDetailJobId" name="TJobID" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["JobID"] : null)"
+                                <input type="text" id="anDetailJobId" name="TJobID" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["SectionID"] : null)"
                                        class="col-3 ms-2 form-control form-control-sm" />
                             </div>
                         </div>
@@ -91,7 +117,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Item No</div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TItem" id="TItem" required
+                                <input type="text" class="col-4 form-control form-control-sm" name="TItem" id="xItem" required
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["Item"] : null)" />
                             </div>
                         </div>
@@ -102,12 +128,12 @@
                                 Qty
                             </div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TQty" id="TQty"
+                                <input type="text" class="col-4 form-control form-control-sm" name="TQty" id="xQty"
                                        required value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["Qty"] : null)" />
                             </div>
                             <div class="col-1 text-nowrap" style="font-size: 12px;">UOM</div>
                             <div class="col-3">
-                                <input type="text" class="col-3 ms-2 form-control form-control-sm" name="TTUOM" id="TTUOM"
+                                <input type="text" class="col-3 ms-2 form-control form-control-sm" name="TTUOM" id="xTUOM"
                                        required value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["UOM"] : null)" />
                             </div>
                         </div>
@@ -118,7 +144,7 @@
                                 Description
                             </div>
                             <div class="col-8">
-                                <textarea row="8" id="anDetailDescription" name="TItemDesc" class="col-8 form-control form-control-sm"
+                                <textarea rows="4" id="anDetailDescription" name="TItemDesc" class="col-8 form-control form-control-sm"
                                           value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ItemDesc"] : null)"></textarea>
                             </div>
                         </div>
@@ -127,8 +153,8 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">WO / OFF SITE / OP / OR</div>
                             <div class="col-8">
-                                <textarea row="5" class="col-8 form-control form-control-sm" name="TPONo" id="TPONo"
-                                          value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["PRNo"] : null)"></textarea>
+                                <textarea rows="2" class="col-8 form-control form-control-sm" name="TPONo" id="xPONo"
+                                          value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["PONo"] : null)"></textarea>
                             </div>
                         </div>
                     </div>
@@ -136,7 +162,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">PR No</div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TPRNo" id="TPRNo"
+                                <input type="text" class="col-4 form-control form-control-sm" name="TPRNo" id="xPRNo"
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["PRNo"] : null)" />
                             </div>
                         </div>
@@ -145,7 +171,7 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Remarks</div>
                             <div class="col-8">
-                                <textarea row="5" class="col-8 form-control form-control-sm" name="TRemarks" id="TRemarks"
+                                <textarea row="5" class="col-8 form-control form-control-sm" name="TRemarks" id="xRemarks"
                                           value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["Remarks"] : null)"></textarea>
                             </div>
                         </div>
@@ -154,12 +180,12 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Register</div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TRegisterBy" id="TRegisterBy"
+                                <input type="text" class="col-4 form-control form-control-sm" name="TRegisterBy" id="xRegisterBy"
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterBy"] : null)" />
                             </div>
                             <div class="col-4">
-                                <input type="text" class="col-4 ms-2 form-control form-control-sm datepicker-basic" name="TRegisterDate" id="TRegisterDate"
-                                       datepicker-basic" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["RegisterDate"] : null)" />
+                                <input type="text" class="col-4 ms-2 form-control form-control-sm datepicker-basic" name="TRegisterDate" id="xRegisterDate"
+                                       datepicker-basic" value="@RegisterDateFormatted" />
                             </div>
                         </div>
                     </div>
@@ -167,12 +193,12 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Modification</div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TModBy" id="TModBy"
+                                <input type="text" class="col-4 form-control form-control-sm" name="TModBy" id="xModBy"
                                        value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModBy"] : "")" />
                             </div>
                             <div class="col-4">
                                 <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm"
-                                       name="TModDate" id="TModDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                                       name="TModDate" id="xModDate" value="@ModDateFormatted" />
                             </div>
                         </div>
                     </div>
@@ -180,12 +206,12 @@
                         <div class="row align-items-center">
                             <div class="col-3" style="font-size: 12px;">Deleted</div>
                             <div class="col-4">
-                                <input type="text" class="col-4 form-control form-control-sm" name="TDeletedBy" id="TDeletedBy"
-                                       value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModBy"] : null)" />
+                                <input type="text" class="col-4 form-control form-control-sm" name="TDeletedBy" id="xDeletedBy"
+                                       value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["DeletedBy"] : null)" />
                             </div>
                             <div class="col-4">
-                                <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm" id="DeletedDate"
-                                       name="DeletedDate" value="@(ViewBag.dataaccess?.Rows.Count > 0 ? ViewBag.dataaccess?.Rows[0]?["ModDate"] : null)" />
+                                <input type="text" class="col-4 ms-2 datepicker-basic form-control form-control-sm" id="xDeletedDate"
+                                       name="DeletedDate" value="@DeletedDateFormatted" />
                             </div>
                         </div>
                     </div>
@@ -197,10 +223,57 @@
                     </div>
                     <div class="d-flex col-12 justify-content-end" style="gap: 10px;">
                         <button type="submit" class="btn btn-primary" id="saveStatusBtn" formaction="/JobDispatch/AddDetail">Save</button>
+                        @* <button type="button" class="btn btn-primary" id="addJobDispatchDetail">Save</button> *@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <input type="text" class="col-4 d-none form-control form-control-sm" name="tFormiD" id="xFormiD"
+           value="ADD" />
 </form>
+
+<script>
+    $(document).ready(function () {
+        console.log("runnginh");
+        $("#addJobDispatchDetail").on("click", function () {
+            console.log("runnginh");
+            var data = {
+                TStatusID: $("#xStatusID").val(),
+                TType: $("xTType").val(),
+                TDispatchID: $("#xDispatchID").val(),
+                TID: $("#xID").val(),
+                TSectionID: $("#xSectionID").val(),
+                TJobID: $("#xJobID").val(),
+                TWONo: $("#xWONo").val(),
+                TChildWO: $("#xChildWO").val(),
+                TItem: $("xItem").val(),
+                TQty: $("xQty").val(),
+                TTUOM: $("xTUOM").val(),
+                TItemDesc: $("xItemDesc").val(),
+                TPONo: $("xPONo").val(),
+                TPRNo: $("xPRNo").val(),
+                TRemarks: $("xRemarks").val(),
+                TRegisterBy: $("xRegisterBy").val(),
+                TRegisterDate: $("#xRegisterDate").val(),
+                TModBy: $("#xModBy").val(),
+                TModDate: $("#xModDate").val(),
+                TDeletedBy: $("#xDeletedBy").val(),
+                TDeletedDate: $("#xDeletedDate").val(),
+                tFormiD: $("#xFormiD").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "/JobDispatch/AddDetail",
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    });
+</script>

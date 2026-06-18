@@ -175,7 +175,7 @@
 
         // Load the jspdf and jspdf-autotable libraries
         window.jsPDF = window.jspdf.jsPDF;
-        var doc = new jsPDF('p', 'mm', 'a4');
+        var doc = new jsPDF('p', 'mm', 'letter');
 
         // header
         const header = await html2canvas($("#header")[0]);

@@ -3,53 +3,120 @@
 *@
 @{
     @using System.Data;
+    @using PlantWebApps.Helper;
+
     bool isEdit = ViewBag.isEdit ?? false;
+
+    // ShipmentDate
+    object ShipmentDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ShipmentDate"] : null;
+    string ShipmentDateFormatted = Utility.NullableDatetime(ShipmentDateValue);
+
+    // DispatchDate
+    object DispatchDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["DispatchDate"] : null;
+    string DispatchDateFormatted = Utility.NullableDatetime(DispatchDateValue);
+
+    // HandledDate
+    object HandledDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["HandledDate"] : null;
+    string HandledDateFormatted = Utility.NullableDatetime(HandledDateValue);
+
+    // ReceivedDate
+    object ReceivedDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ReceivedDate"] : null;
+    string ReceivedDateFormatted = Utility.NullableDatetime(ReceivedDateValue);
+
+    // RegisterDate
+    object RegisterDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["RegisterDate"] : null;
+    string RegisterDateFormatted = Utility.NullableDatetime(RegisterDateValue);
+
+    // ModDate
+    object ModDateValue = ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ModDate"] : null;
+    string ModDateFormatted = Utility.NullableDatetime(ModDateValue);
 }
 
 <script>
     function editDetail(id, wono) {
+        var dispatchID = $('#tID').val()
         $.ajax({
             method: "GET",
             url: "/JobDispatch/searchwonodetail",
             data: {
+                dispatchID: dispatchID,
                 id: id,
                 wono: wono
             },
             success: function (response) {
-                console.log("response is", response.massage)
                 if (response.massage == "empty") {
                     Swal.fire("WO Not Exist", "", "error");
                     return
                 } else {
                     var data = JSON.parse(response.json);
 
-                    $('#TStatusID').val(data[0]?.StatusID);
-                    $('#TType').val(data[0]?.DispatchType);
-                    $('#TDispatchID').val(data[0]?.DispatchID);
-                    $('#TID').val(data[0]?.ID);
-                    $('#TSectionID').val(data[0]?.SectionID);
-                    $('#anDetailJobId').val(data[0]?.JobID);
-                    $('#anDetailWono').val(data[0]?.WONO);
-                    $('#anDetailChildWo').val(data[0]?.ChildWO);
-                    $('#TItem').val(data[0]?.Item);
-                    $('#TQty').val(data[0]?.Qty);
-                    $('#TTUOM').val(data[0]?.UOM);
-                    $('#anDetailDescription').text(data[0]?.ItemDesc);
-                    $('#TPONo').text(data[0]?.PRNo);
-                    $('#TPRNo').val(data[0]?.PRNo);
-                    $('#TRemarks').val(data[0]?.Remarks);
-                    $('#TRegisterBy').val(data[0]?.RegisterBy);
-                    $('#TRegisterDate').val(data[0]?.RegisterDate);
-                    $('#TModBy').val(data[0]?.ModBy);
-                    $('#TModDate').val(data[0]?.ModDate);
-                    $('#TDeletedBy').val(data[0]?.ModBy);
-                    $('#DeletedDate').val(data[0]?.ModDate);
+                    $('#xStatusID').val(data.StatusID);
+                    $('#xDispatchID').val(data.DispatchID);
+                    $('#xID').val(data.ID);
+                    $('#xSectionID').val(data.SectionID);
+                    $('#anDetailJobId').val(data.JobID);
+                    $('#anDetailWono').val(data.WONo);
+                    $('#anDetailChildWo').val(data.ChildWO);
+                    $('#xItem').val(data.Item);
+                    $('#xQty').val(data.Qty);
+                    $('#xTUOM').val(data.UOM);
+                    $('#anDetailDescription').text(data.ItemDesc);
+                    $('#xPONo').text(data.PONo);
+                    $('#xPRNo').val(data.PRNo);
+                    $('#xRemarks').val(data.Remarks);
+                    $('#xRegisterBy').val(data.RegisterBy);
+                    $('#xRegisterDate').val(data.RegisterDate);
+                    $('#xModBy').val(data.ModBy);
+                    $('#xModDate').val(data.ModDate);
+                    $('#xDeletedBy').val(data.ModBy);
+                    $('#xDeletedDate').val(data.ModDate);
+                    $('#xFormiD').val("EDIT");
 
                     $('#anDetailModal').modal('show');
                 }
             },
             error: function (error) {
                 // Handle error response here
+            }
+        });
+    }
+
+    function deleteDetail(id) { 
+        var url = $('#xDispatchID').val();
+        // Show the confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `
+                                <div style="font-size: 16px; text-align: center;">
+                                    <div style="margin-bottom: 10px;">
+                                        Are you sure to delete the following data?
+                                    </div>
+                                </div>
+                            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {$.ajax({
+                    method: "GET",
+                    url: "/JobDispatch/DeleteDetail",
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response == "success") {
+                            Swal.fire('Data Deleted', '', 'success');
+                            location.reload();
+                        } else {
+                            Swal.fire('Data Not Deleted', '', 'success');
+                        }
+                    },
+                    error: function (error) {
+                        // Handle error response here
+                    }
+                });
             }
         });
     }
@@ -67,7 +134,8 @@
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
                             EMAIL
                         </button>
-                        <button type="button" class="btn btn-primary btn-sm" id="btnJspdf">PRINT</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="btnJspdf">PRINT</button> 
+                        <button type="button" class="btn btn-primary btn-sm" id="btnJspdfContinousForm">CONTINOUS FORM</button>
                     </div>
 
                     @* save form *@
@@ -85,8 +153,7 @@
                                                     {
                                                         var tDispatchTypeId = row["DispatchTypeID"].ToString();
                                                         var tDispatchTypeType = row["DispatchType"].ToString();
-                                                        var selectedDispatchType = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["DispatchType"].ToString() : null;
-                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == selectedDispatchType ? "selected" : "")">@tDispatchTypeType</option>
+                                                        <option value="@tDispatchTypeId" selected="@(tDispatchTypeType == ViewBag.dispatchdata?.Rows[0]?["DispatchType"].ToString())">@tDispatchTypeType</option>
                                                     }
                                                 </select>
                                             </div>
@@ -96,33 +163,34 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Shipment Date*</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm" name="tShipmentDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["ShipmentDate"] : "")" />
+                                                <input type="Text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tShipmentDate" value="@ShipmentDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="container overflow-hidden">
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Consigned TO*</div>
-                                            <div class="col-5 fw-normal">
+                                            <div class="col-7 fw-normal">
                                                 <select name="tAttentionTo" class="select2" id="tAttentionTo">
                                                     <option value=""></option>
-                                                    @foreach (DataRow row in ViewBag.tAatentionTo.Rows)
+                                                    @foreach (DataRow row in ViewBag.tAttentionTo.Rows)
                                                     {
                                                         var tAttentionToId = row["SupplierID"].ToString();
                                                         var tAttemtionToName = row["SupplierName"].ToString();
-                                                        var selectedAttentionTo = ViewBag.data?.Rows.Count > 0 ? ViewBag.data.Rows[0]["AttentionTo"].ToString() : null;
-                                                        <option value="@tAttentionToId" selected="@(tAttemtionToName == selectedAttentionTo ? "selected" : "")">@tAttemtionToName | @tAttentionToId</option>
+                                                        var selectedAttentionTo = ViewBag.dispatchdata?.Rows[0]?["AttentionTo"].ToString();
+                                                        <option value="@tAttentionToId" selected="@(tAttentionToId == ViewBag.dispatchdata?.Rows[0]?["AttentionTo"].ToString())">@tAttemtionToName | @tAttentionToId</option>
                                                     }
                                                 </select>
                                             </div>
-                                            <input type="text" class="col-2 ms-2" style="max-width: 30px;" />
+                                            @* <input type="text" class="col-2 ms-2 form-control form-control-sm" style="max-width: 30px;" /> *@
                                         </div>
                                     </div>
                                     <div class="container overflow-hidden">
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Attention Address</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ConsignedTo"] : "")" />
+                                                <input type="text" name="tConsignedTo" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ConsignedTo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -137,7 +205,7 @@
                                                         var tAttentionNameDisplayName = row["DisplayName"].ToString();
                                                         var tAttentionNameDepartment = row["Department"].ToString();
                                                         var tAttentionNameEmail = row["EmailAddress"].ToString();
-                                                        <option value="@tAttentionNameEmail" selected="@(ViewBag.data?.Rows.Count > 0 && tAttentionNameDisplayName == ViewBag.data.Rows[0]["AttentionName"].ToString() ? "selected" : "")">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
+                                                        <option value="@tAttentionNameDisplayName" selected="@(tAttentionNameDisplayName == ViewBag.dispatchdata?.Rows[0]?["AttentionName"].ToString())">@tAttentionNameDisplayName | @tAttentionNameDepartment | @tAttentionNameEmail</option>
                                                     }
                                                 </select>
                                             </div>
@@ -147,7 +215,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Attention Email</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["AttentionEmail"] : "")" />
+                                                <input type="text" name="tAttentionEmail" id="tAttentionEmail" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["AttentionEmail"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +228,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Project</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["Project"] : "")" />
+                                                <input type="text" name="tProject" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["Project"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +236,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Job No</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["JobNo"] : "")" />
+                                                <input type="text" name="tJobNo" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["JobNo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +244,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Manifest No</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ManifestNo"] : "")" />
+                                                <input type="text" name="tManifestNo" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ManifestNo"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +252,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Transport Mode</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["TransportMode"] : "")" />
+                                                <input type="text" name="tTransportMode" class="col-7 form-control form-control-sm" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["TransportMode"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -198,7 +266,7 @@
                                                     {
                                                         var tSectionId = row["JobSourceID"].ToString();
                                                         var tSectionIdJobSource = row["JobSource"].ToString();
-                                                        <option value="@tSectionId" selected="@(ViewBag.data?.Rows.Count > 0 && tSectionId == ViewBag.data.Rows[0]["SectionID"].ToString() ? "selected" : "")">@tSectionIdJobSource</option>
+                                                        <option value="@tSectionId" selected="@(tSectionId == ViewBag.dispatchdata?.Rows[0]?["SectionID"].ToString())">@tSectionIdJobSource</option>
                                                     }
                                                 </select>
                                             </div>
@@ -216,7 +284,7 @@
                                                         var tDispatchByAccount = row["Account"].ToString();
                                                         var tDispatchByDepartment = row["Department"].ToString();
                                                         var tDispatchByEmailAddress = row["EmailAddress"].ToString();
-                                                        <option data-email="@tDispatchByEmailAddress" value="@tDispatchByDisplayName" selected="@(ViewBag.data?.Rows.Count > 0 && tDispatchByDisplayName == ViewBag.data.Rows[0]["DispatchBy"].ToString() ? "selected" : "")">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
+                                                        <option data-email="@tDispatchByEmailAddress" value="@tDispatchByDisplayName" selected="@(tDispatchByDisplayName == ViewBag.dispatchdata?.Rows[0]?["DispatchBy"].ToString())">@tDispatchByDisplayName | @tDispatchByAccount | @tDispatchByDepartment | @tDispatchByEmailAddress</option>
                                                     }
                                                 </select>
                                             </div>
@@ -239,7 +307,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Dispatched Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tDispatchDate" id="TDispatchDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["DispatchDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tDispatchDate" id="TDispatchDate" value="@DispatchDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -255,7 +324,7 @@
                                                         var cHandledByByAccount = row["Account"].ToString();
                                                         var cHandledByDepartment = row["Department"].ToString();
                                                         var cHandledByEmailAddress = row["EmailAddress"].ToString();
-                                                        <option value="@cHandledByEmailAddress" selected="@(ViewBag.data?.Rows.Count > 0 && cHandledByEmailAddress == ViewBag.data.Rows[0]["HandledBy"].ToString() ? "selected" : "")">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
+                                                        <option value="@cHandledByEmailAddress" selected="@(cHandledByEmailAddress == ViewBag.dispatchdata?.Rows[0]?["HandledBy"].ToString())">@cHandledByDisplayName | @cHandledByByAccount | @cHandledByDepartment | @cHandledByEmailAddress</option>
                                                     }
                                                 </select>
                                             </div>
@@ -265,7 +334,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Handled Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tHandledDate" id="THandledDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["HandledDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tHandledDate" id="THandledDate" value="@HandledDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -273,7 +343,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Received By</div>
                                             <div class="col-7 fw-normal">
-                                                <input disabled type="text" class="col-7 form-control form-control-sm" name="tReceivedBy" id="TReceivedBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedBy"] : "")" />
+                                                <input disabled type="text" class="col-7 form-control form-control-sm" name="tReceivedBy" id="TReceivedBy" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ReceivedBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -281,7 +351,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Received Date</div>
                                             <div class="col-7 fw-normal">
-                                                <input disabled type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tReceivedDate" id="TReceivedDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ReceivedDate"] : "")" />
+                                                <input disabled type="text" class="col-7 datepicker-basic form-control form-control-sm"
+                                                       name="tReceivedDate" id="TReceivedDate" value="@ReceivedDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -294,7 +365,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">StatusID</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" id="TStatusID" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["StatusID"] : "New")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" name="tStatusID" id="TStatusID" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["StatusID"] : "New")" />
                                             </div>
                                         </div>
                                     </div>
@@ -302,7 +373,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">Advice Note</div>
                                             <div class="col-4 fw-normal">
-                                                <input type="text" class="col-4 form-control form-control-sm" name="tID" id="tID" value="@ViewBag.id" />
+                                                <input type="text" class="col-4 form-control form-control-sm" name="tID" id="tID" value="@ViewBag.id" 
+                                                    pattern="\d*" oninput="this.reportValidity()" />
                                             </div>
                                             <a class="btn btn-primary col-3 ms-2 " id="cFind" style="max-width: 50px; font-size: 12px;">
                                                 find
@@ -313,7 +385,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">RegisterBy</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tRegisterBy" id="TRegisterBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterBy"] : "")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" disabled 
+                                                    name="tRegisterBy" id="TRegisterBy" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["RegisterBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -321,7 +394,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">RegisterDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tRegisterDate" id="TRegisterDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RegisterDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled
+                                                       name="tRegisterDate" id="TRegisterDate" value="@RegisterDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -329,7 +403,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-5" style="font-size: 12px;">ModBy</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 form-control form-control-sm" name="tModBy" id="TModBy" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModBy"] : "")" />
+                                                <input type="text" class="col-7 form-control form-control-sm" disabled name="tModBy" id="TModBy" value="@(ViewBag.dispatchdata?.Rows.Count > 0 ? ViewBag.dispatchdata?.Rows[0]?["ModBy"] : "")" />
                                             </div>
                                         </div>
                                     </div>
@@ -337,7 +411,8 @@
                                         <div class="row align-items-center">
                                             <div class="col-5 " style="font-size: 12px;">ModDate</div>
                                             <div class="col-7 fw-normal">
-                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" name="tModDate" id="TModDate" value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["ModDate"] : "")" />
+                                                <input type="text" class="col-7 datepicker-basic form-control form-control-sm" disabled
+                                                       name="tModDate" id="TModDate" value="@ModDateFormatted" />
                                             </div>
                                         </div>
                                     </div>
@@ -373,7 +448,7 @@
                 {
                     <form method="post" enctype="multipart/form-data" asp-controller="JobDispatch">
                         <div class="d-flex flex-row align-items-center mb-2 mx-2" style="gap: 10px;">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#anDetailModal">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addJobDetailModal">
                                 ADD
                             </button>
                             <div class="fw-semibold">WONO</div>
@@ -389,7 +464,6 @@
                             <thead class="table-light">
                                 <tr>
                                     <th></th>
-                                    <th></th>
                                     <th>ID</th>
                                     <th>WONO</th>
                                     <th>Child</th>
@@ -402,6 +476,7 @@
                                     <th>Remarks</th>
                                     <th>Status</th>
                                     <th>ID</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -410,13 +485,6 @@
                                     @foreach (DataRow row in ViewBag.dataaccess.Rows)
                                     {
                                         <tr>
-                                            <td>
-                                                <a id="btnDeleteDetail" class="btn btn-link" href="/JobDispatch/DeleteDetail/@row["ID"]">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="RED" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-                                                    </svg>
-                                                </a>
-                                            </td>
                                             <td>
                                                 <button type="button" class="btn btn-link" onclick='editDetail(@row["ID"], @row["wono"])'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -436,6 +504,18 @@
                                             <td class="align-middle">@row["PONo"]</td>
                                             <td class="align-middle">@row["Remarks"]</td>
                                             <td class="align-middle">@row["StatusID"]</td>
+                                            <td>
+                                                @* <a id="btnDeleteDetail" class="btn btn-link" href="/JobDispatch/DeleteDetail/@row["ID"]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="RED" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                                                    </svg>
+                                                </a> *@
+                                                <button type="button" class="btn btn-link" onclick='deleteDetail(@row["ID"])'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="RED" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                                                    </svg>
+                                                </button>
+                                            </td>
                                         </tr>
                                     }
                                 }
@@ -455,19 +535,45 @@
 <script>
     $(document).ready(function () {
         $(document).on('click', '#selectedDetailRow', function () {
+            var an = $('#tID').val()
             var selectedValue = $(this).attr('value');
-            var valuesArray = selectedValue.split(' ');
+            var valuesArray = selectedValue.split(',');
+
             $('#anDetailSection').val(valuesArray[0]);
             $('#anDetailWono').val(valuesArray[3]);
             $('#anDetailChildWo').val(valuesArray[4]);
             $('#anDetailJobId').val(valuesArray[2]);
-            $('#anDetailDescription').val(valuesArray[6]);
+            $('#anDetailDescription').val("Comp Desc : " + valuesArray[6] + "\nUnit No : " + valuesArray[7] + " " + valuesArray[12]);
+            $('#xPONo').val("WO NO. :" + " " + valuesArray[3]);
+            $('#xID').val("");
+            $('#xStatusID').val("");
+            $('#xDispatchID').val(an);
+            $('#xJobID').val("");
+            $('#xItem').val("");
+            $('#xQty').val("");
+            $('#xTUOM').val("");
+            $('#xPRNo').val("");
+            $('#xRemarks').val("");
+            $('#xRegisterBy').val("");
+            $('#xRegisterDate').val("");
+            $('#xModBy').val("");
+            $('#xDeletedDate').val("");
+            $('#xModDate').val("");
+            $('#xDeletedBy').val("");
+            $('#xFormiD').val("ADD");
         });
 
         $("#btnJspdf").on("click", function () {
             var url = window.location.href;
             var id = url.substring(url.lastIndexOf('/') + 1);
             var newTabUrl = '/JobDispatch/PrintJsPdf/' + id;
+            window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
+        });
+
+        $("#btnJspdfContinousForm").on("click", function () {
+            var url = window.location.href;
+            var id = url.substring(url.lastIndexOf('/') + 1);
+            var newTabUrl = '/JobDispatch/PrintJsPdfContinous/' + id;
             window.open(newTabUrl, "popupWindow", "width=1280,height=1024");
         });
 
@@ -513,7 +619,6 @@
 
         $("#cRecipientCategory").on("change", function () {
             var recipientCategory = $(this).find(":selected").val();
-            console.log("recipient category", recipientCategory);
 
             $.ajax({
                 url: '@Url.Action("getRecipientEmailFromDropdown", "JobDispatch")',
@@ -562,14 +667,14 @@
 
         // search wono detail
         $('#btnSearchWonoDetail').on('click', function (e) {
-            console.log("clicked");
+            console.log("find wono");
             e.preventDefault();
             var id = tIDInput.value;
             var wono = $('input[name="eWono"]').val();
             // window.location.href = '/JobDispatch/searchwonodetail/' + tIDValue + '/' + eWonoValue;
             $.ajax({
                 method: "GET",
-                url: "/JobDispatch/searchwonodetail",
+                url: "/JobDispatch/FindWonoDetail",
                 data: {
                     id: id,
                     wono: wono
@@ -595,7 +700,7 @@
                                     responsive: true,
                                     data: test, // The data received from the AJAX request
                                     columns: [
-                                        { "data": "select" },
+                                        { "data": "show" },
                                         { "data": "sectionid" },
                                         { "data": "section" },
                                         { "data": "jobid" },
@@ -615,7 +720,6 @@
                                 console.error(error);
                             }
                         });
-
                         $('#addJobDetailModal').modal('show');
                     }
                 },
@@ -628,7 +732,6 @@
         $('#btnDeleteDetail').on('click', function(e) {
             e.preventDefault();
 
-            // Show the confirmation dialog
             Swal.fire({
               title: 'Are you sure you want to delete this data?',
               showDenyButton: true,
@@ -636,13 +739,9 @@
               confirmButtonText: 'Yes',
               denyButtonText: 'No'
             }).then((result) => {
-              console.log('User response:', result);
-
               if (result.isConfirmed) {
-                // If the user confirms, redirect to the delete URL
                 window.location.href = $(this).attr('href');
               } else if (result.isDenied) {
-                // If the user denies, show a success message
                 Swal.fire('Data Not Deleted', '', 'success');
               }
             });

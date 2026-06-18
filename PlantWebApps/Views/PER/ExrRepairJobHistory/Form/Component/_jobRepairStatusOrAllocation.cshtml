@@ -3,6 +3,15 @@
 *@
 @{
 	@using System.Data;
+	@using PlantWebApps.Helper;
+
+	// TargetDate
+	object TargetDateValue = ViewBag.HoldUntil?.Rows.Count > 0 ? ViewBag.HoldUntil?.Rows[0]?["TargetDate"] : null;
+	string TargetDateFormatted = Utility.NullableDatetime(TargetDateValue);
+
+	// LastChangeDate
+	object LastChangeDateValue = ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LastChangeDate"] : null;
+	string LastChangeDateFormatted = Utility.NullableDatetime(LastChangeDateValue);
 }
 
 <div class="col border">
@@ -47,8 +56,8 @@
 				<div class="col-2">Hold Until</div>
 				<div class="col-4">
 					<input id="tHoldUntil" name="tHoldUntil" type="Text" 
-						class="col-4 form-control form-control-sm datepicker-basic" 
-						value="@(ViewBag.HoldUntil?.Rows.Count > 0 ? ViewBag.HoldUntil?.Rows[0]?["TargetDate"] : "")" />
+						class="col-4 form-control form-control-sm datepicker-basic"
+						   value="@TargetDateFormatted" />
 				</div>
 			</div>
 		</div>
@@ -58,7 +67,7 @@
 				<div class="col-2">Remark</div>
 				<div class="col-9">
 					<input id="tPartDesc1" name="tPartDesc1" class="col-9 form-control form-control-sm border border-0"
-						   value="@(ViewBag.HoldUntil?.Rows.Count > 0 ? ViewBag.HoldUntil?.Rows[0]?["RemarkAdvice"] : "")" disabled />
+						   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["RemarkAdvice"] : "")" disabled />
 				</div>
 			</div>
 		</div>
@@ -68,7 +77,7 @@
 				<div class="row col-10" style="gap: 10px;">
 					<div class="col-4">
 						<input id="tLastChangeDate" name="tLastChangeDate" type="Text" class="col-3 form-control form-control-sm datepicker-basic"
-							   value="@(ViewBag.data?.Rows.Count > 0 ? ViewBag.data?.Rows[0]?["LastChangeDate"] : "")" />
+							   value="@LastChangeDateFormatted" />
 					</div>
 					<div class="col-4">
 						<input id="tLastChangeBy" name="tLastChangeBy" type="Text" class="col-3 form-control form-control-sm "
@@ -78,7 +87,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container overflow-hidden">
+		<div class="container overflow-hidden d-none">
 			<div class="row align-items-center">
 				<div class="col-2">Last Change</div>
 				<div class="row col-10" style="gap: 10px;">
@@ -94,7 +103,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container overflow-hidden">
+		<div class="container overflow-hidden d-none">
 			<div class="row align-items-center">
 				<div class="col-2"></div>
 				<div class="row col-10" style="gap: 10px;">

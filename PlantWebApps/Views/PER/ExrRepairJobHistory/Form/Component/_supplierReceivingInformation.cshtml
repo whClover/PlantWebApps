@@ -2,6 +2,16 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using System.Data;
+    @using PlantWebApps.Helper;
+
+    // EmailDate
+    object EmailDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EmailDate"] : null;
+    string EmailDateFormatted = Utility.NullableDatetime(EmailDateValue);
+
+    // SuppReceiveANDate
+    object SuppReceiveANDateValue = ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SuppReceiveANDate"] : null;
+    string SuppReceiveANDateFormatted = Utility.NullableDatetime(SuppReceiveANDateValue);
 }
 
 <div class="col border">
@@ -26,7 +36,7 @@
             <div class="row align-items-center">
                 <div class="col-2 ">Email Date</div>
                 <div class="col-3">
-                    <input id="tEmailDate" name="tEmailDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["EmailDate"] : "")"
+                    <input id="tEmailDate" name="tEmailDate" value="@EmailDateFormatted"
                         type="text" class="col-3 form-control form-control-sm datepicker-basic"/>
                 </div>
                 <div class="col-1 ms-n1"></div>
@@ -41,7 +51,7 @@
             <div class="row align-items-center">
                 <div class="col-2  ">Received Date</div>
                 <div class="col-3">
-                    <input id="tSuppReceiveANDate" name="tSuppReceiveANDate" value="@(ViewBag.detail?.Rows.Count > 0 ? ViewBag.detail?.Rows[0]?["SuppReceiveANDate"] : "")"
+                    <input id="tSuppReceiveANDate" name="tSuppReceiveANDate" value="@SuppReceiveANDateFormatted"
                            type="text" class="col-3 form-control form-control-sm datepicker-basic"/>
                 </div>
                 <div class="col-1 ms-n1"></div>

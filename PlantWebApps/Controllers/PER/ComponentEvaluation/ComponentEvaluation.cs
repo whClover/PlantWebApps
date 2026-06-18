@@ -658,7 +658,34 @@ namespace PlantWebApps.Controllers.PER.ComponentEvaluation
 			}
 			return View("~/Views/PER/ComponentEvaluation/Reports/JsPdf.cshtml");
 		}
-		private void LoadOption()
+        public IActionResult Cfind(string tUnitNumber)
+        {
+            string query = $"SELECT * FROM v_UnitNumber WHERE UnitNumber = {Utility.Evar(tUnitNumber, 1)}";
+			Console.WriteLine(query);
+            var data = SQLFunction.execQuery(query);
+
+            if (data.Rows.Count > 0)
+            {
+                var rows = new List<object>();
+
+                foreach (DataRow row in data.Rows)
+                {
+                    var rowData = new
+                    {
+                        unitdescription = Utility.CheckNull(row["UnitDescription"]),
+                        location = Utility.CheckNull(row["Location"]),
+                        locationname = Utility.CheckNull(row["LocationName"]),
+                    };
+                    rows.Add(rowData);
+                }
+                return new JsonResult(rows);
+            }
+            else
+            {
+                return new JsonResult("not found");
+            }
+        }
+        private void LoadOption()
         {
             // load fSpvDesc
 			string queryfSpvDesc = "SELECT UserID, UserAbr, UserDesc FROM tbl_EXRUserDetail WHERE (((UserID) Not In (16,17,24,25,28))); ";
